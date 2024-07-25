@@ -27,6 +27,7 @@ public class HomeView implements IHomeView{
 	private JButton categoryCreateButton;
 	private JPanel categoryPanel;
 	private JLabel iconLabel;
+	private JButton button1;
 
 	public HomeView() {
 		windowFrame = new JFrame("Gráfica Bahia");
@@ -38,13 +39,5 @@ public class HomeView implements IHomeView{
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 	}
 
-	private void createUIComponents() {
-
-		ImageIcon imageIcon = new ImageIcon("src/main/resources/BGLogo.png");
-
-		iconLabel.setIcon(imageIcon);
-	}
-
-//give me a much simpler solution, without involving new classes and method redefinitions
 
 }
