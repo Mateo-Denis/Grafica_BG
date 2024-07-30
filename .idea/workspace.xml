@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="logo pushed">
       <change afterPath="$PROJECT_DIR$/src/main/java/utils/Cloth.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
@@ -24,6 +25,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
+=======
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Structure expanded">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +63,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+<<<<<<< Updated upstream
         <option value="Enum" />
+=======
+>>>>>>> Stashed changes
         <option value="Class" />
       </list>
     </option>
@@ -59,6 +74,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< Updated upstream
+=======
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;GonzaloGirotti&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mawity/Grafica_BG.git&quot;,
+    &quot;accountId&quot;: &quot;d80c7381-77d9-49c0-b0ae-bf874ec51208&quot;
+  }
+}</component>
+>>>>>>> Stashed changes
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -70,6 +100,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< Updated upstream
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
@@ -91,16 +122,54 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;CodeWithMe&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GraficaBahia.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.MainWindow.executor": "Run",
+    "Application.mainAnimal.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "false",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "676",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/GITHUB_LocalRepositories/Grafica_BG",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Global Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
+>>>>>>> Stashed changes
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+<<<<<<< Updated upstream
+=======
+      <recent name="D:\GITHUB_LocalRepositories\Grafica_BG" />
+      <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\pruebas\views" />
+      <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views" />
+>>>>>>> Stashed changes
       <recent name="C:\Users\mateo\OneDrive\Escritorio\Proyectos Personales\GraficaBahia\PresupuestosGraficaBahia\src\main\resources" />
       <recent name="C:\Users\mateo\OneDrive\Escritorio\Proyectos Personales\GraficaBahia\PresupuestosGraficaBahia\src\test\resources" />
-      <recent name="C:\Users\mateo\OneDrive\Escritorio\Proyectos Personales\GraficaBahia\PresupuestosGraficaBahia\src\main\java\views\home" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.mainAnimal">
     <configuration name="GraficaBahia" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-20" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -110,6 +179,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MainWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pruebas.MainWindow" />
+      <module name="PresupuestosGraficaBahia.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pruebas.mainwindow.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mainAnimal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pruebas.mainwindow.mainAnimal" />
+      <module name="PresupuestosGraficaBahia.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pruebas.mainwindow.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.mainAnimal" />
+        <item itemvalue="Application.MainWindow" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -132,7 +233,22 @@
       <workItem from="1721846520223" duration="748000" />
       <workItem from="1721847621003" duration="1886000" />
       <workItem from="1721914270063" duration="1771000" />
+<<<<<<< Updated upstream
       <workItem from="1722289261674" duration="6972000" />
+=======
+      <workItem from="1721916317900" duration="1772000" />
+      <workItem from="1722199502041" duration="4299000" />
+      <workItem from="1722204188154" duration="28000" />
+      <workItem from="1722204227402" duration="21000" />
+      <workItem from="1722205266243" duration="99000" />
+      <workItem from="1722205422681" duration="3672000" />
+      <workItem from="1722267772340" duration="2383000" />
+      <workItem from="1722278297721" duration="694000" />
+      <workItem from="1722279616159" duration="4006000" />
+      <workItem from="1722297261807" duration="1725000" />
+      <workItem from="1722305528977" duration="1828000" />
+      <workItem from="1722307593828" duration="2623000" />
+>>>>>>> Stashed changes
     </task>
     <task id="LOCAL-00001" summary="Project creation">
       <option name="closed" value="true" />
@@ -163,6 +279,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project creation" />
