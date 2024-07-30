@@ -4,21 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="logo pushed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d69e5c9b-46ca-45ca-9ff1-d01d1f19ea96.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d69e5c9b-46ca-45ca-9ff1-d01d1f19ea96.xml" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/ProductSearchModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/HomePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/ProductSearchPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchViewClasses/ProductSearchView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchViewClasses/ProductTableModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/ClientCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateViewClasses/ProductCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateViewClasses/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchViewClasses/ProductSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +38,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="PresupuestosGraficaBahia" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -50,8 +48,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -89,7 +87,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "false",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "454",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "328",
     "git-widget-placeholder": "experimental",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
@@ -99,15 +97,38 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
+    "project.structure.side.proportion": "0.45172414",
     "settings.editor.selected.configurable": "CodeWithMe",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products\ProductCreateViewClasses" />
+      <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products\ProductSearchViewClasses" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.Main" />
+      <module name="PresupuestosGraficaBahia.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -128,11 +149,29 @@
       <workItem from="1722311933833" duration="2106000" />
       <workItem from="1722314334190" duration="7000" />
       <workItem from="1722314379807" duration="1379000" />
-      <workItem from="1722316587193" duration="2013000" />
+      <workItem from="1722316587193" duration="2273000" />
+      <workItem from="1722354329986" duration="3121000" />
+      <workItem from="1722363000095" duration="5394000" />
+      <workItem from="1722368573592" duration="1215000" />
     </task>
+    <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
+      <option name="closed" value="true" />
+      <created>1722318895056</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722318895056</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Creacion de views&#10;&#10;Creacion de views y modelo mvp" />
+    <MESSAGE value="logo pushed" />
+    <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
   </component>
 </project>

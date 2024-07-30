@@ -1,4 +1,4 @@
-package views.products;
+package views.products.ProductCreateViewClasses;
 
 import javax.swing.*;
 
