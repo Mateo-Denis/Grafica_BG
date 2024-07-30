@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="views.products.ProductSearchView">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="views.budget.BudgetSearchView">
   <grid id="27dc6" binding="containerPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -8,33 +8,35 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="537e1" binding="productSearchContainer" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="f789d" binding="budgetSearchContainer" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="none" title="Ingrese el nombre del producto:"/>
+        <border type="none"/>
         <children>
-          <grid id="5f574" binding="searchFieldContainer" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="9ecf9" binding="searchFieldContainer" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
-            <border type="none"/>
+            <border type="none" title="Ingrese nombre del cliente / número de presupuesto:"/>
             <children>
-              <component id="19848" class="javax.swing.JTextField" binding="SearchField">
+              <component id="686a9" class="javax.swing.JTextField" binding="searchField">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <text value=""/>
+                </properties>
               </component>
             </children>
           </grid>
-          <grid id="5aaa1" binding="searchButtonsContainer" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="7f66e" binding="searchButtonsContainer" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -42,7 +44,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="def4f" class="javax.swing.JButton" binding="searchButton">
+              <component id="eef08" class="javax.swing.JButton" binding="searchButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -50,12 +52,12 @@
                   <text value="Buscar"/>
                 </properties>
               </component>
-              <hspacer id="856b0">
+              <hspacer id="b9929">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
-              <vspacer id="5181f">
+              <vspacer id="49d21">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -64,7 +66,7 @@
           </grid>
         </children>
       </grid>
-      <grid id="bf20e" binding="productResultContainer" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="ce9ee" binding="budgetResultContainer" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -72,29 +74,22 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="44cd4" binding="productResultScrollPanel">
+          <scrollpane id="b295a" binding="budgetResultScrollPanel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="8867a" class="javax.swing.JTable" binding="productResultTable">
+              <component id="ba211" class="javax.swing.JTable" binding="budgetResultTable">
                 <constraints/>
-                <properties>
-                  <autoCreateRowSorter value="false"/>
-                  <cellSelectionEnabled value="false"/>
-                  <columnSelectionAllowed value="false"/>
-                </properties>
-                <clientProperties>
-                  <JTable.autoStartsEdit class="java.lang.Boolean" value="false"/>
-                </clientProperties>
+                <properties/>
               </component>
             </children>
           </scrollpane>
         </children>
       </grid>
-      <grid id="27c16" binding="productListButtonsContainer" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="c914f" binding="budgetListButtonsContainer" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -102,19 +97,24 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="707c" class="javax.swing.JButton" binding="productListOpenButton">
+          <component id="c4393" class="javax.swing.JButton" binding="budgetListOpenButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Lista de precios"/>
+              <text value="Lista de presupuestos"/>
             </properties>
           </component>
-          <hspacer id="5f41f">
+          <hspacer id="efa1c">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
+          <vspacer id="f337e">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>
