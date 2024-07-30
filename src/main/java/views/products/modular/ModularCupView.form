@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="views.products.modular.ModularCupView">
+  <grid id="27dc6" binding="containerPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="3eabd" class="javax.swing.JRadioButton" binding="ceramicRadioButton">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Cerámica"/>
+        </properties>
+      </component>
+      <component id="cfb2b" class="javax.swing.JRadioButton" binding="plasticRadioButton">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Plástico"/>
+        </properties>
+      </component>
+      <component id="d8bed" class="javax.swing.JRadioButton" binding="whiteRadioButton">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Blanca"/>
+        </properties>
+      </component>
+      <component id="4bf11" class="javax.swing.JRadioButton" binding="sublimatedRadioButton">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Sublimada"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="color">
+      <member id="4bf11"/>
+      <member id="d8bed"/>
+    </group>
+    <group name="material">
+      <member id="3eabd"/>
+      <member id="cfb2b"/>
+    </group>
+  </buttonGroups>
+</form>

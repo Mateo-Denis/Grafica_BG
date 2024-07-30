@@ -1,13 +1,6 @@
 package views.home;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class HomeView implements IHomeView{
 
@@ -27,7 +20,7 @@ public class HomeView implements IHomeView{
 	private JButton categoryCreateButton;
 	private JPanel categoryPanel;
 	private JLabel iconLabel;
-	private JButton button1;
+	private JButton settingsButton;
 
 	public HomeView() {
 		windowFrame = new JFrame("Gráfica Bahia");
