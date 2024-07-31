@@ -17,7 +17,7 @@ public class ClientCreateView  extends JDialog implements IClientCreateView {
 	private JTextField phoneTextField;
 	private JRadioButton clientRadioButton;
 	private JRadioButton particularRadioButton;
-	private ClientCreatePresenter presenter;
+	private ClientCreatePresenter clientCreatePresenter;
 
 	public ClientCreateView() {
 		windowFrame = new JFrame("Crear Cliente");
@@ -30,14 +30,41 @@ public class ClientCreateView  extends JDialog implements IClientCreateView {
 	}
 
 	@Override
-	public String getClient() {
+	public String getClientTextField() {
 		return clientTextField.getText();
 	}
-
 	@Override
-	public String getAddress() {
+	public String getAddressTextField() {
 		return addressTextField.getText();
 	}
+	@Override
+	public String getCityTextField() {
+		return cityTextField.getText();
+	}
+	@Override
+	public String getPhoneTextField() {
+		return phoneTextField.getText();
+	}
+	@Override
+	public boolean isClientRadioButtonSelected() {
+		return clientRadioButton.isSelected();
+	}
+
+	public void start(){
+		initListeners();
+	}
+
+	public void setPresenter(ClientCreatePresenter clientCreatePresenter) {
+		this.clientCreatePresenter = clientCreatePresenter;
+	}
+
+	private void initListeners() {
+		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+	}
+
+
+
+
 
 	@Override
 	public void showSuccessMessage() {

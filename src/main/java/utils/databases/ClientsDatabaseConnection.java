@@ -3,7 +3,7 @@ package utils.databases;
 import javax.swing.*;
 import java.sql.*;
 
-public class ClientsDatabaseConnection extends JDialog {
+public class ClientsDatabaseConnection {
     private static final String URL = "jdbc:sqlite:D:/GITHUB_LocalRepositories/Grafica_BG/PRUEBAS.db";
 
     public static Connection connect() throws SQLException {
@@ -27,21 +27,19 @@ public class ClientsDatabaseConnection extends JDialog {
         }
     }
 
-    private void insertClient(String nombre, String direccion, String localidad, String telefono, String tipoCliente) {
+    public void insertClient(String name, String address, String city, String phone, String clientType) throws SQLException{
         String sql = "INSERT INTO Clientes(Nombre, Dirección, Localidad, Teléfono, TipoCliente) VALUES(?, ?, ?, ?, ?)";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nombre);
-            pstmt.setString(2, direccion);
-            pstmt.setString(3, localidad);
-            pstmt.setString(4, telefono);
-            pstmt.setString(5, tipoCliente);
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Cliente creado con éxito!");
-            dispose();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al crear el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e.getMessage());
-        }
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, name);
+        pstmt.setString(2, address);
+        pstmt.setString(3, city);
+        pstmt.setString(4, phone);
+        pstmt.setString(5, clientType);
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        conn.close();
     }
 }
