@@ -4,26 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="logo pushed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Cloth.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="created modular views for products">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +114,7 @@
       <workItem from="1721846520223" duration="748000" />
       <workItem from="1721847621003" duration="1886000" />
       <workItem from="1721914270063" duration="1771000" />
-      <workItem from="1722289261674" duration="6972000" />
+      <workItem from="1722289261674" duration="9695000" />
     </task>
     <task id="LOCAL-00001" summary="Project creation">
       <option name="closed" value="true" />
@@ -158,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721918495256</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="created modular views for products">
+      <option name="closed" value="true" />
+      <created>1722304300237</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722304300237</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +158,7 @@
     <MESSAGE value="Project creation" />
     <MESSAGE value="Structure expanded" />
     <MESSAGE value="logo pushed" />
-    <option name="LAST_COMMIT_MESSAGE" value="logo pushed" />
+    <MESSAGE value="created modular views for products" />
+    <option name="LAST_COMMIT_MESSAGE" value="created modular views for products" />
   </component>
 </project>
