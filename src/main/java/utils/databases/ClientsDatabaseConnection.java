@@ -1,26 +1,19 @@
 package utils.databases;
 
-import javax.swing.*;
 import java.sql.*;
 
-public class ClientsDatabaseConnection {
-    private static final String URL = "jdbc:sqlite:D:/GITHUB_LocalRepositories/Grafica_BG/PRUEBAS.db";
-
-    public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(URL);
-    }
-
-    public static void createClientsTable() {
-        String clientSQL = "CREATE TABLE IF NOT EXISTS Clientes (" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "Nombre TEXT NOT NULL," +
-                "Dirección TEXT NOT NULL," +
-                "Localidad TEXT NOT NULL," +
-                "Teléfono TEXT NOT NULL," +
-                "TipoCliente TEXT NOT NULL CHECK (TipoCliente IN('Cliente', 'Particular'))" +
-                ")";
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
+public class ClientsDatabaseConnection extends DatabaseConnection{
+    protected void createTable(Connection connection) {
+        String clientSQL =  "CREATE TABLE IF NOT EXISTS Clientes (" +
+                            "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "Nombre TEXT NOT NULL," +
+                            "Dirección TEXT NOT NULL," +
+                            "Localidad TEXT NOT NULL," +
+                            "Teléfono TEXT NOT NULL," +
+                            "TipoCliente TEXT NOT NULL CHECK (TipoCliente IN('Cliente', 'Particular'))" +
+                            ")";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.setQueryTimeout(QUERY_TIMEOUT);
             stmt.execute(clientSQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

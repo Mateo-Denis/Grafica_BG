@@ -3,6 +3,8 @@ package presenters;
 import models.IClientModel;
 import views.client.*;
 
+import static utils.MessageTypes.*;
+
 public class ClientCreatePresenter{
     private final IClientCreateView clientCreateView;
     private final IClientModel clientModel;
@@ -18,18 +20,26 @@ public class ClientCreatePresenter{
     }
 
     public void initListeners() {
-        clientModel.addClientCreationSuccessListener(clientCreateView::showSuccessMessage);
+        clientModel.addClientCreationSuccessListener(() -> clientCreateView.showMessage(CLIENT_CREATION_SUCCESS));
+        clientModel.addClientCreationFailureListener(() -> clientCreateView.showMessage(CLIENT_CREATION_FAILURE));
+    }
+
+    public void onCreateClientButtonClicked() {
+        clientCreateView.showView();
     }
 
 
 
     public void onCreateButtonClicked() {
+        clientCreateView.setWorkingStatus();
+
         clientModel.createClient(clientCreateView.getClientTextField(),
                 clientCreateView.getAddressTextField(),
                 clientCreateView.getCityTextField(),
                 clientCreateView.getPhoneTextField(),
                 clientCreateView.isClientRadioButtonSelected());
-        clientCreateView.showSuccessMessage();
+
+        clientCreateView.setWaitingStatus();
     }
 
 }

@@ -2,9 +2,9 @@ package views.client;
 
 import javax.swing.*;
 import presenters.ClientCreatePresenter;
+import views.ToggleableView;
 
-public class ClientCreateView  extends JDialog implements IClientCreateView {
-	private JFrame windowFrame;
+public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
 	private JLabel clientLabel;
 	private JButton createButton;
@@ -21,14 +21,11 @@ public class ClientCreateView  extends JDialog implements IClientCreateView {
 
 	public ClientCreateView() {
 		windowFrame = new JFrame("Crear Cliente");
-		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		windowFrame.setContentPane(containerPanel);
 		windowFrame.pack();
 		windowFrame.setLocationRelativeTo(null);
-		windowFrame.setVisible(true);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 	}
-
 	@Override
 	public String getClientTextField() {
 		return clientTextField.getText();
@@ -50,34 +47,19 @@ public class ClientCreateView  extends JDialog implements IClientCreateView {
 		return clientRadioButton.isSelected();
 	}
 
-	public void start(){
-		initListeners();
-	}
+
 
 	public void setPresenter(ClientCreatePresenter clientCreatePresenter) {
 		this.clientCreatePresenter = clientCreatePresenter;
 	}
 
-	private void initListeners() {
+	protected void initListeners() {
 		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+
+
 	}
-
-
-
-
-
-	@Override
-	public void showSuccessMessage() {
-		JOptionPane.showMessageDialog(this, "Cliente creado con éxito!");
-		dispose();
+	protected void wrapContainer() {
+		containerPanelWrapper = containerPanel;
 	}
-
-	@Override
-	public void showErrorMessage(String message) {
-		JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
-	}
-
-
-
 
 }

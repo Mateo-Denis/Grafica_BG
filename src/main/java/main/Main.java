@@ -1,20 +1,31 @@
 package main;
 
-import presenters.HomePresenter;
+import models.ClientModel;
+import models.IClientModel;
+import presenters.ClientCreatePresenter;
+import utils.databases.ClientsDatabaseConnection;
+import views.client.ClientCreateView;
 import views.home.IHomeView;
 import views.home.HomeView;
-
-import javax.swing.*;
 
 public class Main {
 	public static void main(String[] args) {
 
-		//IHomeView HomeView = new HomeView();
-		//30-7-2024 SE MODIFICA ESTO:
-		HomeView home = new HomeView();
-		new HomePresenter(home);
-		home.setVisible(true);
-		//FIN DEL AGREGADO
 
+		ClientsDatabaseConnection clientsDB = new ClientsDatabaseConnection();
+		clientsDB.loadDatabase();
+
+		IClientModel clientModel = new ClientModel(clientsDB);
+
+		ClientCreateView clientCreateView = new ClientCreateView();
+
+		ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel);
+		clientCreatePresenter.start();
+
+
+		clientCreateView.start();
+
+
+		IHomeView home = new HomeView(clientCreatePresenter);
 	}
 }
