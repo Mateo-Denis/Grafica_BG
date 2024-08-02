@@ -13,8 +13,8 @@ public enum MessageTypes {
 	RATING_SAVE_SUCCESS("Rating saved successfully"
 			, "The rating was successfully saved into the database"
 			, JOptionPane.INFORMATION_MESSAGE),
-	RATING_SAVE_FAILURE("Error while saving rating"
-			, "An error occurred while saving the rating into the database"
+	CLIENT_SEARCH_FAILURE("Error al buscar el cliente"
+			, "Ha ocurrido un error al intentar crear el cliente."
 			, JOptionPane.ERROR_MESSAGE),
 	EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
 			, "Cannot save a rating for an empty page. Please search for a page first."

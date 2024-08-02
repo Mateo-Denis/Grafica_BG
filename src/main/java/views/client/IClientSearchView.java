@@ -1,6 +1,6 @@
 package views.client;
 
-import views.IToggableView;
+import views.IToggleableView;
 
-public interface IClientSearchView extends IToggableView {
+public interface IClientSearchView extends IToggleableView {
 }

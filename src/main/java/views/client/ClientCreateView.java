@@ -1,7 +1,9 @@
 package views.client;
 
 import javax.swing.*;
-import presenters.ClientCreatePresenter;
+
+import presenters.StandardPresenter;
+import presenters.client.ClientCreatePresenter;
 import views.ToggleableView;
 
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
@@ -48,16 +50,25 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	}
 
 
-
-	public void setPresenter(ClientCreatePresenter clientCreatePresenter) {
-		this.clientCreatePresenter = clientCreatePresenter;
+	@Override
+	public void setPresenter(StandardPresenter clientCreatePresenter) {
+		this.clientCreatePresenter = (ClientCreatePresenter) clientCreatePresenter;
 	}
 
 	protected void initListeners() {
 		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
-
-
 	}
+
+	@Override
+	public void clearView() {
+		clientTextField.setText("");
+		addressTextField.setText("");
+		cityTextField.setText("");
+		phoneTextField.setText("");
+		clientRadioButton.setSelected(true);
+		particularRadioButton.setSelected(false);
+	}
+
 	protected void wrapContainer() {
 		containerPanelWrapper = containerPanel;
 	}

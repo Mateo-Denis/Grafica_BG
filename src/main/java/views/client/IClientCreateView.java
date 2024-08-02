@@ -1,16 +1,13 @@
 package views.client;
 
-import presenters.ClientCreatePresenter;
-import utils.MessageTypes;
-import views.IToggableView;
+import presenters.StandardPresenter;
+import presenters.client.ClientCreatePresenter;
+import views.IToggleableView;
 
-public interface IClientCreateView extends IToggableView {
+public interface IClientCreateView extends IToggleableView {
     String getClientTextField();
     String getAddressTextField();
     String getCityTextField();
     String getPhoneTextField();
     boolean isClientRadioButtonSelected();
-
-	void setPresenter(ClientCreatePresenter clientCreatePresenter);
-
 }

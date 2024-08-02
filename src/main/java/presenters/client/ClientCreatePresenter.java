@@ -1,11 +1,12 @@
-package presenters;
+package presenters.client;
 
 import models.IClientModel;
+import presenters.StandardPresenter;
 import views.client.*;
 
 import static utils.MessageTypes.*;
 
-public class ClientCreatePresenter{
+public class ClientCreatePresenter extends StandardPresenter {
     private final IClientCreateView clientCreateView;
     private final IClientModel clientModel;
 

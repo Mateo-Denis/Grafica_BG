@@ -4,6 +4,7 @@ import utils.MessageTypes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public abstract class ToggleableView {
 	protected JFrame windowFrame;
@@ -11,9 +12,17 @@ public abstract class ToggleableView {
 	public void start(){
 		initListeners();
 		wrapContainer();
+		windowFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				clearView();
+			}
+		});
 	}
 	protected abstract void wrapContainer();
 	protected abstract void initListeners();
+	public abstract void clearView();
+
 	public void showView() {
 		windowFrame.setVisible(true);
 	}
@@ -31,14 +40,4 @@ public abstract class ToggleableView {
 				, messageType.getTitle()
 				, messageType.getMessageType());
 	}
-
-
-
-
-
-
-
-
-
-
 }
