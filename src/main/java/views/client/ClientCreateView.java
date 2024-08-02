@@ -29,23 +29,23 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 	}
 	@Override
-	public String getClientTextField() {
+	public String getClientText() {
 		return clientTextField.getText();
 	}
 	@Override
-	public String getAddressTextField() {
+	public String getAddressText() {
 		return addressTextField.getText();
 	}
 	@Override
-	public String getCityTextField() {
+	public String getCityText() {
 		return cityTextField.getText();
 	}
 	@Override
-	public String getPhoneTextField() {
+	public String getPhoneText() {
 		return phoneTextField.getText();
 	}
 	@Override
-	public boolean isClientRadioButtonSelected() {
+	public boolean isClientSelected() {
 		return clientRadioButton.isSelected();
 	}
 

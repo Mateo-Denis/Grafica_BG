@@ -2,8 +2,10 @@ package models;
 
 import models.listeners.ClientCreationFailureListener;
 import models.listeners.ClientCreationSuccessListener;
+import utils.Client;
 import utils.databases.ClientsDatabaseConnection;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +34,14 @@ public class ClientModel implements IClientModel{
 		} catch (Exception e) {
 			notifyClientCreationFailure();
 		}
+	}
+
+	public ArrayList<Client> getClients(String clientName, String clientAddress) {
+
+		dbConnection.getClients(clientName);
+
+
+		return null;
 	}
 	@Override
 	public void addClientCreationSuccessListener(ClientCreationSuccessListener listener) {

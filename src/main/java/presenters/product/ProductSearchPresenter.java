@@ -1,5 +1,5 @@
 //CLASE CREADA HOY 30-7-2024
-package presenters;
+package presenters.product;
 
 import models.ProductSearchModel;
 import utils.databases.ProductsDatabaseConnection;

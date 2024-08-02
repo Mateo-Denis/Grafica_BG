@@ -1,6 +1,7 @@
 package views.home;
 
 import presenters.client.ClientCreatePresenter;
+import presenters.client.ClientSearchPresenter;
 
 import javax.swing.*;
 //30-7-2024 --> SE AGREGA EL IMPORT "java.awt.event.ActionListener":
@@ -25,9 +26,11 @@ public class HomeView extends JFrame implements IHomeView {
 	private JPanel categoryPanel;
 	private JLabel iconLabel;
 	private JButton settingsButton;
-	private ClientCreatePresenter clientCreatePresenter;
+	private final ClientCreatePresenter clientCreatePresenter;
+	private final ClientSearchPresenter clientSearchPresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter) {
+
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		windowFrame.setContentPane(containerPanel);
@@ -37,12 +40,14 @@ public class HomeView extends JFrame implements IHomeView {
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
 		this.clientCreatePresenter = clientCreatePresenter;
-		initListeners();
+		this.clientSearchPresenter = clientSearchPresenter;
 
+		initListeners();
 	}
 
 	protected void initListeners() {
 		clientCreateButton.addActionListener(e -> clientCreatePresenter.onCreateClientButtonClicked());
+		clientSearchButton.addActionListener(e -> clientSearchPresenter.onSearchClientButtonClicked());
 
 
 	}

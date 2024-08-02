@@ -9,4 +9,6 @@ public interface IClientModel {
 	void addClientCreationSuccessListener(ClientCreationSuccessListener listener);
 
 	void addClientCreationFailureListener(ClientCreationFailureListener listener);
+
+	String getClients(String searchedName, String searchedAddress);
 }

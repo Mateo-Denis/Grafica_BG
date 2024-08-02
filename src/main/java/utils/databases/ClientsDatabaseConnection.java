@@ -35,4 +35,23 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
         pstmt.close();
         conn.close();
     }
+
+    public String getClients(String clientName) throws SQLException {
+        String sql = "SELECT * FROM Clientes WHERE Nombre = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, clientName);
+        ResultSet rs = pstmt.executeQuery();
+
+        String result = "";
+        while (rs.next()) {
+            result += rs.getString("Nombre") + "\n";
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return result;
+    }
 }

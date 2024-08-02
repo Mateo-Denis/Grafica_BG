@@ -34,11 +34,11 @@ public class ClientCreatePresenter extends StandardPresenter {
     public void onCreateButtonClicked() {
         clientCreateView.setWorkingStatus();
 
-        clientModel.createClient(clientCreateView.getClientTextField(),
-                clientCreateView.getAddressTextField(),
-                clientCreateView.getCityTextField(),
-                clientCreateView.getPhoneTextField(),
-                clientCreateView.isClientRadioButtonSelected());
+        clientModel.createClient(clientCreateView.getClientText(),
+                clientCreateView.getAddressText(),
+                clientCreateView.getCityText(),
+                clientCreateView.getPhoneText(),
+                clientCreateView.isClientSelected());
 
         clientCreateView.setWaitingStatus();
     }
