@@ -5,20 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ClientSearchFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ClientSearchSuccessListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/ClientCreationFailureListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ClientCreationFailureListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/ClientCreationSuccessListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ClientCreationSuccessListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/FailedOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/FailedOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/SuccessfulOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/SuccessfulOperation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/DatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
     </list>
@@ -85,7 +90,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.GraficaBahia.executor": "Run",
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -103,7 +108,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "settings.editor.selected.configurable": "database.data.views",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -158,6 +163,8 @@
       <workItem from="1722439275744" duration="13304000" />
       <workItem from="1722553834438" duration="15901000" />
       <workItem from="1722610617377" duration="16292000" />
+      <workItem from="1722795697100" duration="625000" />
+      <workItem from="1722796637406" duration="8387000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -213,5 +220,25 @@
     <MESSAGE value="logo pushed" />
     <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
     <option name="LAST_COMMIT_MESSAGE" value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java</url>
+          <line>27</line>
+          <properties class="presenters.client.ClientSearchPresenter" method="initListeners">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.sqlite.jdbc4.JDBC4ResultSet" memberName="row" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

@@ -1,4 +1,4 @@
-package models.listeners;
+package models.listeners.successful;
 
 public interface SuccessfulOperation {
 	void onSuccess();

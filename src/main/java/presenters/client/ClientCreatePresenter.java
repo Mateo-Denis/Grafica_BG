@@ -12,12 +12,8 @@ public class ClientCreatePresenter extends StandardPresenter {
 
     public ClientCreatePresenter(IClientCreateView clientCreateView, IClientModel clientModel) {
         this.clientCreateView = clientCreateView;
+        view = clientCreateView;
         this.clientModel = clientModel;
-    }
-
-    public void start(){
-        clientCreateView.setPresenter(this);
-        initListeners();
     }
 
     public void initListeners() {
@@ -25,7 +21,7 @@ public class ClientCreatePresenter extends StandardPresenter {
         clientModel.addClientCreationFailureListener(() -> clientCreateView.showMessage(CLIENT_CREATION_FAILURE));
     }
 
-    public void onCreateClientButtonClicked() {
+    public void onMainCreateClientButtonClicked() {
         clientCreateView.showView();
     }
 

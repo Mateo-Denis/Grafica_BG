@@ -46,7 +46,7 @@ public class HomeView extends JFrame implements IHomeView {
 	}
 
 	protected void initListeners() {
-		clientCreateButton.addActionListener(e -> clientCreatePresenter.onCreateClientButtonClicked());
+		clientCreateButton.addActionListener(e -> clientCreatePresenter.onMainCreateClientButtonClicked());
 		clientSearchButton.addActionListener(e -> clientSearchPresenter.onSearchClientButtonClicked());
 
 

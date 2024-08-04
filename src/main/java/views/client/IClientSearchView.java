@@ -3,7 +3,10 @@ package views.client;
 import views.IToggleableView;
 
 public interface IClientSearchView extends IToggleableView {
-	String getSearchText();
+	String getnameSearchText();
 
-	String getSelectedAddress();
+	String getSelectedCity();
+
+	void setTableValueAt(int row, int col, String value);
+
 }

@@ -25,6 +25,21 @@ public abstract class DatabaseConnection {
 		}
 	}
 
+	public void deleteTable(String tableName) {
+		try (Connection connection = connect()) {
+			if (connection != null) {
+				DatabaseMetaData meta = connection.getMetaData();
+				System.out.println("The driver name is " + meta.getDriverName());
+
+				String sql = "DROP TABLE IF EXISTS " + tableName;
+				connection.createStatement().executeUpdate(sql);
+
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
 	protected abstract void createTable(Connection connection);
 
 }

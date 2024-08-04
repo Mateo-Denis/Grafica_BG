@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ClientSearchView extends ToggleableView implements IClientSearchView  {
     private JPanel containerPanel;
-    private JTextField searchField;
+    private JTextField nameSearchField;
     private JTable clientResultTable;
     private JPanel clientResultContainer;
     private JScrollPane clientResultScrollPanel;
@@ -17,13 +17,11 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JButton searchButton;
     private JPanel clientListButtonsContainer;
     private JButton clientListOpenButton;
-    private JComboBox<String> addressComboBox;
+    private JComboBox<String> cityComboBox;
     private JLabel addressLabel;
-    private DefaultTableModel tablemodel;
-    private ClientSearchPresenter clientSearchPresenter;
+	private ClientSearchPresenter clientSearchPresenter;
 
     public ClientSearchView() {
-        //Esta línea define el modelo que tendra la tabla en cuanto a los nombres de sus columnas. PD: Definir nombres de las columnas, estas son de ejemplo.
         windowFrame = new JFrame("Buscar Cliente");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
@@ -33,11 +31,11 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     @Override
     public void start() {
         super.start();
-        tablemodel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 0);
-        clientResultTable.setModel(tablemodel);
+		DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
+        clientResultTable.setModel(tableModel);
 
-        addressComboBox.addItem("Cualquier localidad");
-        addressComboBox.setSelectedItem("Cualquier localidad");
+        cityComboBox.addItem("Cualquier localidad");
+        cityComboBox.setSelectedItem("Cualquier localidad");
     }
 
     @Override
@@ -63,24 +61,19 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
                 clientResultTable.setValueAt("", row, col);
             }
         }
-        searchField.setText("");
+        nameSearchField.setText("");
     }
 
-    public String getSearchText() {
-        return searchField.getText();
+    public String getnameSearchText() {
+        return nameSearchField.getText();
     }
 
-    public String getSelectedAddress() {
-        return (String) addressComboBox.getSelectedItem();
+    public String getSelectedCity() {
+        return (String) cityComboBox.getSelectedItem();
     }
 
-    public void addRow(Object[] rowData) {
-        tablemodel.addRow(rowData);
+    public void setTableValueAt(int row, int col, String value) {
+        clientResultTable.setValueAt(value, row, col);
     }
-    /*
-    *//* metodo utilizado para añadir un listener al JTextField. Es utilizado por el presentador *//*
-    public void addTextFieldListener(ActionListener listener) {
-        searchField.addActionListener(listener);
-    }
-    */
+
 }

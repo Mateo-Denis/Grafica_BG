@@ -25,9 +25,11 @@ public class Main {
 		ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel);
 		ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
 		clientCreatePresenter.start();
-
+		clientSearchPresenter.start();
 
 		clientCreateView.start();
+		clientSearchView.start();
+
 
 
 		IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter);
