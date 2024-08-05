@@ -13,8 +13,8 @@ public enum MessageTypes {
 	CLIENT_SEARCH_FAILURE("Error al buscar el cliente"
 			, "Ha ocurrido un error al intentar buscar el cliente."
 			, JOptionPane.ERROR_MESSAGE),
-	EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
-			, "Cannot save a rating for an empty page. Please search for a page first."
+	CITY_FETCH_FAILURE("Error al consultar las ciudades"
+			, "Ha ocurrido un error al consultar las ciudades en la base de datos."
 			, JOptionPane.ERROR_MESSAGE),
 	EMPTY_PAGE_SAVE_ATTEMPT("Error while saving page"
 			, "Cannot save an empty page. Please search for a page first."

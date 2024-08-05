@@ -4,25 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ClientSearchFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ClientSearchSuccessListener.java" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Client search functional - Database reset">
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/CitiesFetchingFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/CitiesFetchingSuccessListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/ClientCreationFailureListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ClientCreationFailureListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/ClientCreationSuccessListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ClientCreationSuccessListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/FailedOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/FailedOperation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/SuccessfulOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/SuccessfulOperation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/DatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/DatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
@@ -53,8 +47,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -90,7 +84,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.GraficaBahia.executor": "Run",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -108,10 +102,18 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "database.data.views",
+    "settings.editor.selected.configurable": "database.data.views.appearance",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
   }
 }]]></component>
+  <component name="Push.Settings">
+    <option name="SHOW_DETAILS_PANEL" value="false" />
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products\ProductCreateViewClasses" />
@@ -164,7 +166,9 @@
       <workItem from="1722553834438" duration="15901000" />
       <workItem from="1722610617377" duration="16292000" />
       <workItem from="1722795697100" duration="625000" />
-      <workItem from="1722796637406" duration="8387000" />
+      <workItem from="1722796637406" duration="8768000" />
+      <workItem from="1722824496605" duration="4000" />
+      <workItem from="1722824559118" duration="5602000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -174,13 +178,13 @@
       <option name="project" value="LOCAL" />
       <updated>1722318895056</updated>
     </task>
-    <task id="LOCAL-00002" summary="Structure expanded">
+    <task id="LOCAL-00002" summary="Client search functional - Database reset">
       <option name="closed" value="true" />
-      <created>1721436042265</created>
+      <created>1722808848970</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1721436042266</updated>
+      <updated>1722808848970</updated>
     </task>
     <task id="LOCAL-00003" summary="logo pushed">
       <option name="closed" value="true" />
@@ -198,7 +202,7 @@
       <option name="project" value="LOCAL" />
       <updated>1722304300237</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -219,22 +223,10 @@
     <MESSAGE value="Creacion de views&#10;&#10;Creacion de views y modelo mvp" />
     <MESSAGE value="logo pushed" />
     <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
+    <MESSAGE value="Client search functional - Database reset" />
+    <option name="LAST_COMMIT_MESSAGE" value="Client search functional - Database reset" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java</url>
-          <line>27</line>
-          <properties class="presenters.client.ClientSearchPresenter" method="initListeners">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.sqlite.jdbc4.JDBC4ResultSet" memberName="row" />

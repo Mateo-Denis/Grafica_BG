@@ -7,8 +7,7 @@ import views.client.IClientSearchView;
 
 import java.util.ArrayList;
 
-import static utils.MessageTypes.CLIENT_SEARCH_FAILURE;
-
+import static utils.MessageTypes.*;
 public class ClientSearchPresenter extends StandardPresenter {
 	private final IClientSearchView clientSearchView;
 	private final IClientModel clientModel;
@@ -18,9 +17,13 @@ public class ClientSearchPresenter extends StandardPresenter {
 		view = clientSearchView;
 		this.clientModel = clientModel;
 	}
+	@Override
+	public void start() {
+		super.start();
+		clientModel.queryCities();
+	}
 
-
-	public void onSearchClientButtonClicked() {
+	public void onHomeSearchClientButtonClicked() {
 		clientSearchView.showView();
 	}
 
@@ -40,18 +43,37 @@ public class ClientSearchPresenter extends StandardPresenter {
 		});
 
 		clientModel.addClientSearchFailureListener(() -> clientSearchView.showMessage(CLIENT_SEARCH_FAILURE));
+
+		clientModel.addCitiesFetchingSuccessListener(() -> {
+			ArrayList<String> cities = clientModel.getQueriedCities();
+			for (String city : cities) {
+				clientSearchView.addCityToComboBox(city);
+			}
+		});
+
+		clientModel.addCitiesFetchingFailureListener(() -> clientSearchView.showMessage(CITY_FETCH_FAILURE));
+
+		clientModel.addClientCreationSuccessListener(() -> {
+			String lastCityAdded = clientModel.getLastCityAdded();
+			if(!clientSearchView.isCityInComboBox(lastCityAdded)){
+				clientSearchView.addCityToComboBox(lastCityAdded);
+			}
+		});
 	}
+
 
 	public void onSearchButtonClicked() {
 
 		clientSearchView.setWorkingStatus();
 
 		String searchedName = clientSearchView.getnameSearchText();
-		String searchedAddress = clientSearchView.getSelectedCity();
+		String searchedCity = clientSearchView.getSelectedCity();
 
-		if (searchedAddress.equals("Cualquier localidad")) { searchedAddress = ""; }
+		clientSearchView.clearTable();
 
-		clientModel.queryClients(searchedName, searchedAddress);
+		if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
+
+		clientModel.queryClients(searchedName, searchedCity);
 
 		clientSearchView.setWaitingStatus();
 

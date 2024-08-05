@@ -21,7 +21,7 @@ public class ClientCreatePresenter extends StandardPresenter {
         clientModel.addClientCreationFailureListener(() -> clientCreateView.showMessage(CLIENT_CREATION_FAILURE));
     }
 
-    public void onMainCreateClientButtonClicked() {
+    public void onHomeCreateClientButtonClicked() {
         clientCreateView.showView();
     }
 

@@ -56,12 +56,16 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
 
     @Override
     public void clearView() {
+        clearTable();
+        nameSearchField.setText("");
+        cityComboBox.setSelectedItem("Cualquier localidad");
+    }
+    public void clearTable(){
         for (int row = 0; row < clientResultTable.getRowCount(); row++) {
             for (int col = 0; col < clientResultTable.getColumnCount(); col++) {
                 clientResultTable.setValueAt("", row, col);
             }
         }
-        nameSearchField.setText("");
     }
 
     public String getnameSearchText() {
@@ -72,8 +76,25 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         return (String) cityComboBox.getSelectedItem();
     }
 
+
+    public void addCityToComboBox(String city) {
+        cityComboBox.addItem(city);
+    }
+
     public void setTableValueAt(int row, int col, String value) {
         clientResultTable.setValueAt(value, row, col);
+    }
+    public void setSelectedCity(String city) {
+        cityComboBox.setSelectedItem(city);
+    }
+
+    public boolean isCityInComboBox(String city) {
+        for (int i = 0; i < cityComboBox.getItemCount(); i++) {
+            if (cityComboBox.getItemAt(i).equals(city)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

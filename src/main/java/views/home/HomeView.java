@@ -5,7 +5,7 @@ import presenters.client.ClientSearchPresenter;
 
 import javax.swing.*;
 //30-7-2024 --> SE AGREGA EL IMPORT "java.awt.event.ActionListener":
-import java.awt.event.ActionListener;
+
 
 public class HomeView extends JFrame implements IHomeView {
 
@@ -46,14 +46,9 @@ public class HomeView extends JFrame implements IHomeView {
 	}
 
 	protected void initListeners() {
-		clientCreateButton.addActionListener(e -> clientCreatePresenter.onMainCreateClientButtonClicked());
-		clientSearchButton.addActionListener(e -> clientSearchPresenter.onSearchClientButtonClicked());
+		clientCreateButton.addActionListener(e -> clientCreatePresenter.onHomeCreateClientButtonClicked());
+		clientSearchButton.addActionListener(e -> clientSearchPresenter.onHomeSearchClientButtonClicked());
 
 
-	}
-
-	//METODO CREADO HOY 30-7-2024:
-	public void setProductsButtonListener(ActionListener listener) {
-		productSearchButton.addActionListener(listener);
 	}
 }

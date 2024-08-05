@@ -21,7 +21,7 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
+}
 
     public void insertClient(String name, String address, String city, String phone, String clientType) throws SQLException{
         String sql = "INSERT INTO Clientes(Nombre, Direccion, Localidad, Telefono, TipoCliente) VALUES(?, ?, ?, ?, ?)";
@@ -39,12 +39,37 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
+    public ArrayList<String> getCities() throws SQLException {
+        String sql = "SELECT DISTINCT Localidad FROM Clientes";
+        Connection conn = connect();
+        Statement stmt = conn.createStatement();
+        ResultSet resultSet = stmt.executeQuery(sql);
+
+        ArrayList<String> cities = new ArrayList<>();
+        while (resultSet.next()) {
+            cities.add(resultSet.getString("Localidad"));
+        }
+        resultSet.close();
+        stmt.close();
+        conn.close();
+
+        return cities;
+    }
+
     public ArrayList<Client> getClientsFromNameAndCity(String clientName, String clientCity) throws SQLException {
-        String sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Direccion LIKE ?)";
+        String sql;
+        if(clientCity.isEmpty()) {
+            sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Localidad LIKE ?)";
+            clientCity = "%" + clientCity + "%";
+        }else {
+            sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Localidad = ?)";
+        }
+        
+
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, "%" + clientName + "%");
-        pstmt.setString(2, "%" + clientCity + "%");
+        pstmt.setString(2, clientCity);
         ResultSet resultSet = pstmt.executeQuery();
 
         ArrayList<Client> clientes = new ArrayList<>();
