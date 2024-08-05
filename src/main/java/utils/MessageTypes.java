@@ -15,6 +15,7 @@ public enum MessageTypes {
 			, JOptionPane.ERROR_MESSAGE),
 	CITY_FETCH_FAILURE("Error al consultar las ciudades"
 			, "Ha ocurrido un error al consultar las ciudades en la base de datos."
+			, JOptionPane.ERROR_MESSAGE),
 	PRODUCT_CREATION_SUCCESS("Producto creado con éxito"
 			, "El producto fue agregado a la base de datos correctamente."
 			, JOptionPane.INFORMATION_MESSAGE),

@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Client search functional - Database reset">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/CitiesFetchingFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/CitiesFetchingSuccessListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d69e5c9b-46ca-45ca-9ff1-d01d1f19ea96/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,36 +72,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GraficaBahia.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "328",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/GITHUB_LocalRepositories/Grafica_BG",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "database.data.views.appearance",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;328&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GITHUB_LocalRepositories/Grafica_BG&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.45172414&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views.appearance&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="Push.Settings">
     <option name="SHOW_DETAILS_PANEL" value="false" />
   </component>
@@ -224,7 +215,7 @@
     <MESSAGE value="logo pushed" />
     <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
     <MESSAGE value="Client search functional - Database reset" />
-    <option name="LAST_COMMIT_MESSAGE" value="Client search functional - Database reset" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

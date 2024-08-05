@@ -64,7 +64,7 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
         }else {
             sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Localidad = ?)";
         }
-        
+
 
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
