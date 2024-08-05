@@ -75,11 +75,4 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public void setDoubleTableValueAt(int row, int col, double value) {
         productResultTable.setValueAt(value, row, col);
     }
-
-
-
-
-
-
-
 }

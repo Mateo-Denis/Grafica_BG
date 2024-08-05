@@ -2,7 +2,7 @@ package views.products.modular;
 
 import javax.swing.*;
 
-public class ModularSweaterView {
+public class ModularSweaterView extends JComponent implements IModularCategoryView {
 	private JPanel containerPanel;
 	private JRadioButton roundNeckRadioButton;
 	private JRadioButton hoodieRadioButton;
@@ -11,4 +11,9 @@ public class ModularSweaterView {
 	private JRadioButton sportRadioButton;
 	private JRadioButton kettenRadioButton;
 	private JRadioButton cottonRadioButton;
+
+	@Override
+	public JPanel getContainerPanel() {
+		return containerPanel;
+	}
 }

@@ -2,9 +2,12 @@ package views.budget;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionListener;
 
-public class BudgetSearchView {
+import presenters.StandardPresenter;
+import presenters.budget.BudgetSearchPresenter;
+import views.ToggleableView;
+
+public class BudgetSearchView extends ToggleableView{
     private JPanel containerPanel;
     private JPanel budgetSearchContainer;
     private JTextField searchField;
@@ -16,36 +19,43 @@ public class BudgetSearchView {
     private JScrollPane budgetResultScrollPanel;
     private JPanel budgetListButtonsContainer;
     private JButton budgetListOpenButton;
+    private JButton modifyButton;
+    private JButton pdfButton;
+    private BudgetSearchPresenter budgetSearchPresenter;
 
     public BudgetSearchView(){
-        //Esta línea define el modelo que tendra la tabla en cuanto a los nombres de sus columnas. PD: Definir nombres de las columnas, estas son de ejemplo.
-        DefaultTableModel tablemodel = new DefaultTableModel(new Object[]{"ID", "Cliente", "Fecha", "Total"}, 0);
-
-        //Esta línea asigna el modelo a la tabla
-        budgetResultTable.setModel(tablemodel);
+        windowFrame = new JFrame("Buscar Presupuestos");
+        windowFrame.setContentPane(containerPanel);
+        windowFrame.pack();
+        windowFrame.setLocationRelativeTo(null);
+        windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
     }
 
-    /*
-     *//* metodo utilizado para recuperar el JPanel global. Lo utiliza el Main principal para setear el contentpane *//*
-    public JPanel getContainerPanel() {
-        return containerPanel;
+    @Override
+    public void start() {
+        super.start();
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular"}, 200);
+        budgetResultTable.setModel(tableModel);
     }
 
-    *//* metodo utilizado para recuperar el texto introducido en el JTextField. Es utilizado por el presentador *//*
-    public String getInputText() {
-        return SearchField.getText();
+    @Override
+    protected void wrapContainer() {
+
     }
 
-    *//* metodo utilizado para añadir una fila a la tabla. Es utilizado por el presentador *//*
-    public void addRow(Object[] rowData) {
-        tablemodel.addRow(rowData);
+    @Override
+    protected void initListeners() {
+
     }
 
-    *//* metodo utilizado para añadir un listener al JTextField. Es utilizado por el presentador *//*
-    public void addTextFieldListener(ActionListener listener) {
-        SearchField.addActionListener(listener);
+    @Override
+    public void clearView() {
+
     }
 
-    */
+/*    @Override
+    public void setPresenter(StandardPresenter budgetSearchPresenter) {
+        this.budgetSearchPresenter = (BudgetSearchPresenter) budgetSearchPresenter;
+    }*/
 
 }

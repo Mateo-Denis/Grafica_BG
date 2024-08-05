@@ -8,4 +8,9 @@ public class ModularFlagView extends JComponent implements IModularCategoryView 
 	private JLabel clothLabel;
 	private JComboBox sizeComboBox;
 	private JLabel sizeLabel;
+
+	@Override
+	public JPanel getContainerPanel() {
+		return containerPanel;
+	}
 }

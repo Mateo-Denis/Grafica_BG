@@ -1,14 +1,14 @@
 package models;
 
 import models.listeners.failed.ProductCreationFailureListener;
-import models.listeners.failed.ProductSubCategoriesQueryFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductSearchSuccessListener;
-import models.listeners.successful.ProductSubCategoriesQuerySuccessListeners;
 import utils.Product;
 import utils.databases.ProductsDatabaseConnection;
+import views.products.modular.*;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,8 +20,10 @@ public class ProductModel implements IProductModel {
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
     private final List<ProductSearchFailureListener> productSearchFailureListeners;
+/*
     private final List<ProductSubCategoriesQueryFailureListener> productSubCategoriesQueryFailureListeners;
     private final List<ProductSubCategoriesQuerySuccessListeners> productSubCategoriesQuerySuccessListeners;
+*/
 
     private ArrayList<Product> products;
     private ArrayList<String> subCategories;
@@ -36,8 +38,8 @@ public class ProductModel implements IProductModel {
         this.productSearchSuccessListeners = new LinkedList<>();
         this.productSearchFailureListeners = new LinkedList<>();
 
-        this.productSubCategoriesQueryFailureListeners = new LinkedList<>();
-        this.productSubCategoriesQuerySuccessListeners = new LinkedList<>();
+/*        this.productSubCategoriesQueryFailureListeners = new LinkedList<>();
+        this.productSubCategoriesQuerySuccessListeners = new LinkedList<>();*/
     }
 
     public void createProduct(String productName, String productDescription, double productPrice, String productCategory, String productSubCategory) {
@@ -54,9 +56,9 @@ public class ProductModel implements IProductModel {
         return products;
     }
 
-    public ArrayList<String> getQueriedSubCategories() {
+/*    public ArrayList<String> getQueriedSubCategories() {
         return subCategories;
-    }
+    }*/
 
     @Override
     public void addProductCreationSuccessListener(ProductCreationSuccessListener listener) {
@@ -78,7 +80,7 @@ public class ProductModel implements IProductModel {
         productSearchFailureListeners.add(listener);
     }
 
-    @Override
+/*    @Override
     public void addSubCategoriesQueryFailureListener(ProductSubCategoriesQueryFailureListener listener) {
         productSubCategoriesQueryFailureListeners.add(listener);
     }
@@ -86,7 +88,7 @@ public class ProductModel implements IProductModel {
     @Override
     public void addSubCategoriesQuerySuccessListener(ProductSubCategoriesQuerySuccessListeners listener) {
         productSubCategoriesQuerySuccessListeners.add(listener);
-    }
+    }*/
 
     @Override
     public void queryProducts(String searchedName) {
@@ -98,14 +100,14 @@ public class ProductModel implements IProductModel {
         }
     }
 
-    public void querySubCategories(String category) {
+/*    public void querySubCategories(String category) {
         try {
             dbConnection.getSubCategories(category);
             notifySubCategoriesQuerySuccess();
         } catch (SQLException e) {
             notifySubCategoriesQueryFailure();
         }
-    }
+    }*/
 
     private void notifyProductCreationSuccess() {
         for (ProductCreationSuccessListener listener : productCreationSuccessListeners) {
@@ -131,7 +133,7 @@ public class ProductModel implements IProductModel {
         }
     }
 
-    private void notifySubCategoriesQueryFailure(){
+/*    private void notifySubCategoriesQueryFailure(){
         for(ProductSubCategoriesQueryFailureListener listener : productSubCategoriesQueryFailureListeners){
             listener.onFailure();
         }
@@ -141,8 +143,16 @@ public class ProductModel implements IProductModel {
         for(ProductSubCategoriesQuerySuccessListeners listener : productSubCategoriesQuerySuccessListeners){
             listener.onSuccess();
         }
+    }*/
+
+    public IModularCategoryView getCorrespondingModularView(String category) {
+        if (category.equals("Remeras")) {
+            return new ModularTShirtView();
+        } else if(category.equals("Tazas")) {
+            return new ModularCupView();
+        } else if(category.equals("Banderas")) {
+            return new ModularFlagView();
+        }
+        return null;
     }
-
-
-
 }

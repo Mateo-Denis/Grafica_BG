@@ -20,13 +20,13 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JComboBox<String> categoryComboBox;
     private JComboBox<String> subCategoryComboBox;
     private JLabel categoryLabel;
-    private JLabel SubCategoryLabel;
     private JTextField productDescriptionField;
     private JLabel descriptionLabel;
     private JTextField productPriceField;
     private JLabel priceLabel;
     private JPanel createButtonContainer;
     private JButton createButton;
+    private JPanel modularContainer;
     private ProductCreatePresenter productCreatePresenter;
 
     public ProductCreateView() {
@@ -94,26 +94,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         return (String) categoryComboBox.getSelectedItem();
     }
 
-/*    public void updateSubCategoryComboBox(String category) {
-        subCategoryComboBox.removeAllItems();
-        
-        if(category.equals("Remeras")) {
-            subCategoryComboBox.addItem("Manga corta");
-            subCategoryComboBox.addItem("Manga larga");
-        } else if(category.equals("Pantalones")) {
-            subCategoryComboBox.addItem("Cortos");
-            subCategoryComboBox.addItem("Largos");
-        } else if(category.equals("Zapatos")) {
-            subCategoryComboBox.addItem("Deportivos");
-            subCategoryComboBox.addItem("Casuales");
-        }
-    }*/
-
-    public void addSubCategory(String subCategory) {
-        subCategoryComboBox.addItem(subCategory);
-    }
-
-    public void clearSubCategories() {
-        subCategoryComboBox.removeAllItems();
+    public void showCategoryOptions(JPanel categoryOptions) {
+        modularContainer = categoryOptions;
+        modularContainer.revalidate();
+        modularContainer.repaint();
     }
 }

@@ -4,6 +4,8 @@ import static utils.MessageTypes.*;
 import models.IProductModel;
 import presenters.StandardPresenter;
 import views.products.*;
+
+import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 
@@ -21,13 +23,13 @@ public class ProductCreatePresenter extends StandardPresenter{
         productModel.addProductCreationSuccessListener(() -> productCreateView.showMessage(PRODUCT_CREATION_SUCCESS));
         productModel.addProductCreationFailureListener(() -> productCreateView.showMessage(PRODUCT_CREATION_FAILURE));
 
-        productModel.addSubCategoriesQuerySuccessListener(() -> {
+/*        productModel.addSubCategoriesQuerySuccessListener(() -> {
             ArrayList<String> subCategoryList = productModel.getQueriedSubCategories();
             productCreateView.clearSubCategories();
             for (String subCategory : subCategoryList) {
                 productCreateView.addSubCategory(subCategory);
             }
-        });
+        });*/
     }
 
     public void onMainCreateProductButtonClicked() {
@@ -49,6 +51,7 @@ public class ProductCreatePresenter extends StandardPresenter{
 
     public void onCategoryItemSelected() {
         String category = productCreateView.getProductCategory();
-        productModel.querySubCategories(category);
+        JPanel modularPanel = productModel.getCorrespondingModularView(category).getContainerPanel();
+        productCreateView.showCategoryOptions(modularPanel);
     }
 }

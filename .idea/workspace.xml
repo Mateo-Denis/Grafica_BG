@@ -5,10 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Product search functional">
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" afterDir="false" />
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,14 +70,12 @@
     &quot;assignee&quot;: &quot;GonzaloGirotti&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="selectedUrlAndAccountId">
-      <UrlAndAccount>
-        <option name="accountId" value="21b785c3-fe57-48c0-a103-40a340de9ced" />
-        <option name="url" value="https://github.com/Mateo-Denis/Grafica_BG.git" />
-      </UrlAndAccount>
-    </option>
-  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Mateo-Denis/Grafica_BG.git",
+    "accountId": "d80c7381-77d9-49c0-b0ae-bf874ec51208"
+  }
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -73,31 +90,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;306&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/GITHUB_LocalRepositories/Grafica_BG&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.45172414&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.GraficaBahia.executor": "Run",
+    "Application.Main.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "306",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/GITHUB_LocalRepositories/Grafica_BG",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.45172414",
+    "settings.editor.selected.configurable": "database.data.views",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products" />
@@ -158,6 +175,7 @@
       <workItem from="1722825639767" duration="25000" />
       <workItem from="1722870025306" duration="3845000" />
       <workItem from="1722880028573" duration="3020000" />
+      <workItem from="1722886309074" duration="3406000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />

@@ -2,15 +2,15 @@ package views.products;
 
 import views.IToggleableView;
 
+import javax.swing.*;
+
 public interface IProductCreateView extends IToggleableView {
     String getProductName();
     String getProductDescription();
     String getProductCategory();
-    String getProductSubCategory();
     double getProductPrice();
-    void updateSubCategoryComboBox(String category);
-
-    void addSubCategory(String subCategory);
-
-    void clearSubCategories();
+    void showCategoryOptions(JPanel categoryOptions);
+    String getProductSubCategory();
+    //void addSubCategory(String subCategory);
+    //void clearSubCategories();
 }
