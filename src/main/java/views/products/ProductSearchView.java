@@ -1,10 +1,9 @@
 
-package views.products.ProductSearchViewClasses;
+package views.products;
 
 import presenters.StandardPresenter;
 import presenters.product.ProductSearchPresenter;
 import views.ToggleableView;
-import views.products.IProductSearchView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

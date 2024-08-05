@@ -9,7 +9,7 @@ import utils.Product;
 import java.util.ArrayList;
 
 public interface IProductModel {
-    void createProduct(String productName, String productDescription, double productPrice);
+    void createProduct(String productName, String productDescription, double productPrice, String productCategory, String productSubCategory);
 
     void addProductCreationSuccessListener(ProductCreationSuccessListener listener);
     void addProductCreationFailureListener(ProductCreationFailureListener listener);

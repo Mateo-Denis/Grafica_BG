@@ -23,13 +23,15 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void insertProduct(String nombre, String descripcion, double precio) throws SQLException {
-        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio) VALUES(?, ?, ?)";
+    public void insertProduct(String nombre, String descripcion, double precio, String categoria, String subCategoria) throws SQLException {
+        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio, Categoria, SubCategoria) VALUES(?, ?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
             pstmt.setString(2, descripcion);
             pstmt.setDouble(3, precio);
+            pstmt.setString(4, categoria);
+            pstmt.setString(5, subCategoria);
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Producto creado con éxito!");
         } catch (SQLException e) {
@@ -63,7 +65,9 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                 Product product = new Product(
                         resultSet.getString("Nombre"),
                         resultSet.getString("Descripcion"),
-                        resultSet.getDouble("Precio")
+                        resultSet.getDouble("Precio"),
+                        resultSet.getString("Categoria"),
+                        resultSet.getString("SubCategoria")
                 );
                 products.add(product);
             }

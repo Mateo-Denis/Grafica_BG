@@ -3,6 +3,7 @@ package views.home;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductSearchPresenter;
+import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -29,8 +30,9 @@ public class HomeView extends JFrame implements IHomeView {
 	private final ClientCreatePresenter clientCreatePresenter;
 	private final ClientSearchPresenter clientSearchPresenter;
 	private final ProductSearchPresenter productSearchPresenter;
+	private final ProductCreatePresenter productCreatePresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter) {
 
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -43,6 +45,7 @@ public class HomeView extends JFrame implements IHomeView {
 		this.clientCreatePresenter = clientCreatePresenter;
 		this.clientSearchPresenter = clientSearchPresenter;
 		this.productSearchPresenter = productSearchPresenter;
+		this.productCreatePresenter = productCreatePresenter;
 
 		initListeners();
 	}
@@ -51,7 +54,6 @@ public class HomeView extends JFrame implements IHomeView {
 		clientCreateButton.addActionListener(e -> clientCreatePresenter.onMainCreateClientButtonClicked());
 		clientSearchButton.addActionListener(e -> clientSearchPresenter.onSearchClientButtonClicked());
 		productSearchButton.addActionListener(e -> productSearchPresenter.onSearchProductButtonClicked());
-
-
+		productCreateButton.addActionListener(e -> productCreatePresenter.onMainCreateProductButtonClicked());
 	}
 }

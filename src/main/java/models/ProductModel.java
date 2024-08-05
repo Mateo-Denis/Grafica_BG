@@ -32,9 +32,9 @@ public class ProductModel implements IProductModel {
         this.productSearchFailureListeners = new LinkedList<>();
     }
 
-    public void createProduct(String productName, String productDescription, double productPrice) {
+    public void createProduct(String productName, String productDescription, double productPrice, String productCategory, String productSubCategory) {
         try {
-            dbConnection.insertProduct(productName, productDescription, productPrice);
+            dbConnection.insertProduct(productName, productDescription, productPrice, productCategory, productSubCategory);
             notifyProductCreationSuccess();
         } catch (Exception e) {
             notifyProductCreationFailure();
