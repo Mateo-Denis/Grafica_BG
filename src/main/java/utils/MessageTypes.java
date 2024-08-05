@@ -13,6 +13,15 @@ public enum MessageTypes {
 	CLIENT_SEARCH_FAILURE("Error al buscar el cliente"
 			, "Ha ocurrido un error al intentar buscar el cliente."
 			, JOptionPane.ERROR_MESSAGE),
+	PRODUCT_CREATION_SUCCESS("Producto creado con éxito"
+			, "El producto fue agregado a la base de datos correctamente."
+			, JOptionPane.INFORMATION_MESSAGE),
+	PRODUCT_CREATION_FAILURE("Error al crear el producto"
+			, "Ha ocurrido un error al intentar crear el producto."
+			, JOptionPane.ERROR_MESSAGE),
+	PRODUCT_SEARCH_FAILURE("Error al buscar el producto"
+			, "Ha ocurrido un error al intentar buscar el producto."
+			, JOptionPane.ERROR_MESSAGE),
 	EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
 			, "Cannot save a rating for an empty page. Please search for a page first."
 			, JOptionPane.ERROR_MESSAGE),
