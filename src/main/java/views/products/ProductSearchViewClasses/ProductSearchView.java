@@ -1,49 +1,86 @@
+
 package views.products.ProductSearchViewClasses;
 
-import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.util.List;
-import models.ProductSearchModel;
-import views.products.ProductSearchViewClasses.ProductTableModel;
+import presenters.StandardPresenter;
+import presenters.product.ProductSearchPresenter;
+import views.ToggleableView;
+import views.products.IProductSearchView;
 
-public class ProductSearchView extends JFrame {
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+public class ProductSearchView extends ToggleableView implements IProductSearchView {
+
     private JPanel containerPanel;
     private JPanel productSearchContainer;
     private JPanel searchFieldContainer;
-    private JTextField searchField;
     private JPanel searchButtonsContainer;
-    private JButton searchButton;
+    private JPanel searchResultContainer;
     private JPanel productListButtonsContainer;
-    private JButton productListOpenButton;
-    private JPanel productResultContainer;
-    private JTable productResultTable;
+    private JTextField searchField;
+    private JButton searchButton;
     private JScrollPane productResultScrollPanel;
-    private ProductTableModel tableModel;
+    private JTable productResultTable;
+    private JButton productListOpenButton;
+    private ProductSearchPresenter productSearchPresenter;
 
     public ProductSearchView() {
-        JFrame windowFrame = new JFrame("Buscar Productos");
-        windowFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        windowFrame = new JFrame("Buscar Productos");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
-        windowFrame.setVisible(true);
-        tableModel = new ProductTableModel();
+        windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio"}, 200);
         productResultTable.setModel(tableModel);
     }
 
-    public String getSearchText() {
+    @Override
+    public void setPresenter(StandardPresenter productSearchPresenter) {
+        this.productSearchPresenter = (ProductSearchPresenter) productSearchPresenter;
+    }
+
+    @Override
+    protected void wrapContainer() {
+        containerPanelWrapper = containerPanel;
+    }
+
+    @Override
+    protected void initListeners() {
+        searchButton.addActionListener(e -> productSearchPresenter.onSearchButtonClicked());
+        productListOpenButton.addActionListener(e -> productSearchPresenter.onSearchProductButtonClicked());
+    }
+
+    @Override
+    public void clearView() {
+        for (int row = 0; row < productResultTable.getRowCount(); row++) {
+            for (int col = 0; col < productResultTable.getColumnCount(); col++) {
+                productResultTable.setValueAt("", row, col);
+            }
+        }
+    }
+
+    @Override
+    public String getNameSearchText() {
         return searchField.getText();
     }
 
-    public void setSearchListener(ActionListener listener) {
-        searchButton.addActionListener(listener);
+    public void setStringTableValueAt(int row, int col, String value) {
+        productResultTable.setValueAt(value, row, col);
     }
 
-    public void updateTable(List<ProductSearchModel> products) {
-        tableModel.setProducts(products);
+    public void setDoubleTableValueAt(int row, int col, double value) {
+        productResultTable.setValueAt(value, row, col);
     }
 
-    public JPanel getContainerPanel() {
-        return containerPanel;
-    }
+
+
+
+
+
+
 }

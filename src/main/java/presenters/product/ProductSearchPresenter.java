@@ -1,29 +1,55 @@
-//CLASE CREADA HOY 30-7-2024
 package presenters.product;
 
-import models.ProductSearchModel;
-import utils.databases.ProductsDatabaseConnection;
-import views.products.ProductSearchViewClasses.ProductSearchView;
+import models.IProductModel;
+import presenters.StandardPresenter;
+import views.products.IProductSearchView;
+import utils.Product;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
+import java.util.ArrayList;
 
-public class    ProductSearchPresenter {
-    private ProductSearchView view;
-    private ProductsDatabaseConnection databaseconn;
+import static utils.MessageTypes.CLIENT_SEARCH_FAILURE;
+import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 
-    public ProductSearchPresenter(ProductSearchView view, ProductsDatabaseConnection databaseconn) {
-        this.view = view;
-        this.databaseconn = databaseconn;
-        this.view.setSearchListener(new SearchButtonListener());
+public class ProductSearchPresenter extends StandardPresenter {
+    private final IProductSearchView productSearchView;
+    private final IProductModel productModel;
+
+    public ProductSearchPresenter(IProductSearchView productSearchView, IProductModel productModel) {
+        this.productSearchView = productSearchView;
+        view = productSearchView;
+        this.productModel = productModel;
     }
 
-    class SearchButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            List<ProductSearchModel> products = databaseconn.getProducts(view.getSearchText());
-            view.updateTable(products);
-        }
+
+
+    @Override
+    protected void initListeners() {
+        productModel.addProductSearchSuccessListener(() -> {
+            ArrayList<Product> products = productModel.getLastProductsQuery();
+            int rowCount = 0;
+            for (Product product : products) {
+                productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
+                productSearchView.setStringTableValueAt(rowCount, 1, product.getDescription());
+                productSearchView.setDoubleTableValueAt(rowCount, 2, product.getPrice());
+                rowCount++;
+            }
+        });
+
+        productModel.addProductSearchFailureListener(() -> productSearchView.showMessage(PRODUCT_SEARCH_FAILURE));
+
+    }
+
+    public void onSearchButtonClicked() {
+        productSearchView.setWorkingStatus();
+
+        String searchedName = productSearchView.getNameSearchText();
+
+        productModel.queryProducts(searchedName);
+
+        productSearchView.setWaitingStatus();
+    }
+
+    public void onSearchProductButtonClicked() {
+        productSearchView.showView();
     }
 }

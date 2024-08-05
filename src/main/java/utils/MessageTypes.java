@@ -15,6 +15,17 @@ public enum MessageTypes {
 			, JOptionPane.ERROR_MESSAGE),
 	CITY_FETCH_FAILURE("Error al consultar las ciudades"
 			, "Ha ocurrido un error al consultar las ciudades en la base de datos."
+	PRODUCT_CREATION_SUCCESS("Producto creado con éxito"
+			, "El producto fue agregado a la base de datos correctamente."
+			, JOptionPane.INFORMATION_MESSAGE),
+	PRODUCT_CREATION_FAILURE("Error al crear el producto"
+			, "Ha ocurrido un error al intentar crear el producto."
+			, JOptionPane.ERROR_MESSAGE),
+	PRODUCT_SEARCH_FAILURE("Error al buscar el producto"
+			, "Ha ocurrido un error al intentar buscar el producto."
+			, JOptionPane.ERROR_MESSAGE),
+	EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
+			, "Cannot save a rating for an empty page. Please search for a page first."
 			, JOptionPane.ERROR_MESSAGE),
 	EMPTY_PAGE_SAVE_ATTEMPT("Error while saving page"
 			, "Cannot save an empty page. Please search for a page first."

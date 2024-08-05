@@ -1,21 +1,47 @@
-//30-7-2024 --> DIVISIÓN DE CLASES DE BASES DE DATOS EN: "ProductsDatabaseConnection" y "ClientsDatabaseConnection"
-//30-7-2024 --> AGRUPACIÓN DE LAS CLASES EN EL DIRECTORIO: "utils/databases"
 package utils.databases;
 
 import javax.swing.*;
 import java.sql.*;
-//30-7-2024 --> SE AGREGA EL IMPORT "java.util.ArrayList":
 import java.util.ArrayList;
-//30-7-2024 --> SE AGREGA EL IMPORT "java.util.List":
-import java.util.List;
-//30-7-2024 --> SE AGREGA EL IMPORT "models.ProductSearchModel":
-import models.ProductSearchModel;
+import utils.Product;
 
-public class ProductsDatabaseConnection extends JDialog {
+public class ProductsDatabaseConnection extends DatabaseConnection {
+
+    @Override
+    protected void createTable(Connection connection) {
+        String productSQL = "CREATE TABLE IF NOT EXISTS Productos (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Nombre TEXT NOT NULL," +
+                "Descripción TEXT," +
+                "Precio REAL NOT NULL" +
+                ")";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.setQueryTimeout(QUERY_TIMEOUT);
+            stmt.execute(productSQL);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertProduct(String nombre, String descripcion, double precio) throws SQLException {
+        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio) VALUES(?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, descripcion);
+            pstmt.setDouble(3, precio);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Producto creado con éxito!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al crear el producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getMessage());
+        }
+    }
 
     private static final String URL = "jdbc:sqlite:D:/GITHUB_LocalRepositories/Grafica_BG/PRUEBAS.db";
 
-    public static Connection connect() throws SQLException {
+    @Override
+    public Connection connect() throws SQLException {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -24,56 +50,25 @@ public class ProductsDatabaseConnection extends JDialog {
         return DriverManager.getConnection(URL);
     }
 
-    public static void createProductsTable() {
-        String productSQL = "CREATE TABLE IF NOT EXISTS Productos (" +
-                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "Nombre TEXT NOT NULL," +
-                "Descripción TEXT," +
-                "Precio REAL NOT NULL" +
-                ")";
-        try (Connection conn = connect();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(productSQL);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void insertProduct(String nombre, String descripcion, double precio) {
-        String sql = "INSERT INTO Productos(Nombre, Descripción, Precio) VALUES(?, ?, ?)";
+    public ArrayList<Product> getProducts(String searchText) throws SQLException {
+        String sql = "SELECT * FROM Productos WHERE (Nombre LIKE ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nombre);
-            pstmt.setString(2, descripcion);
-            pstmt.setDouble(3, precio);
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Producto creado con éxito!");
-            dispose();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al crear el producto.", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    //30-7-2024 --> SE AGREGA EL METODO getProducts(...):
-    public List<ProductSearchModel> getProducts(String searchText) {
-        String sql = "SELECT * FROM Productos WHERE Nombre LIKE ?";
-        List<ProductSearchModel> products = new ArrayList<>();
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setString(1, "%" + searchText + "%");
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet resultSet = pstmt.executeQuery();
 
-            while (rs.next()) {
-                products.add(new ProductSearchModel(rs.getInt("ID"), rs.getString("Nombre"), rs.getString("Descripción"), rs.getDouble("Precio")));
+            ArrayList<Product> products = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Product product = new Product(
+                        resultSet.getString("Nombre"),
+                        resultSet.getString("Descripcion"),
+                        resultSet.getDouble("Precio")
+                );
+                products.add(product);
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            return products;
         }
-
-        return products;
     }
 }
 

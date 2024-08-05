@@ -1,14 +1,12 @@
-//CLASE CREADA HOY 30-7-2024
+package utils;
 
-package models;
-
-public class ProductSearchModel {
+public class Product {
     private int ID;
     private String name;
     private String description;
     private double price;
 
-    public ProductSearchModel(int ID, String name, String description, double price) {
+    public Product(String name, String description, double price) {
         this.ID = ID;
         this.name = name;
         this.description = description;
