@@ -1,6 +1,8 @@
 package models;
 
+import models.listeners.failed.CitiesFetchingFailureListener;
 import models.listeners.failed.ClientCreationFailureListener;
+import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
 import models.listeners.failed.ClientSearchFailureListener;
 import models.listeners.successful.ClientSearchSuccessListener;
@@ -20,7 +22,12 @@ public class ClientModel implements IClientModel{
 	private final List<ClientSearchSuccessListener> clientSearchSuccessListeners;
 	private final List<ClientSearchFailureListener> clientSearchFailureListeners;
 
+	private final List<CitiesFetchingSuccessListener> citiesFetchingSuccessListeners;
+	private final List<CitiesFetchingFailureListener> citiesFetchingFailureListeners;
+
 	private ArrayList<Client> clients;
+	private ArrayList<String> cities;
+	private String lastCityAdded;
 
 	public ClientModel(ClientsDatabaseConnection dbConnection) {
 		this.dbConnection = dbConnection;
@@ -31,6 +38,9 @@ public class ClientModel implements IClientModel{
 
 		this.clientSearchSuccessListeners = new LinkedList<>();
 		this.clientSearchFailureListeners = new LinkedList<>();
+
+		this.citiesFetchingSuccessListeners = new LinkedList<>();
+		this.citiesFetchingFailureListeners = new LinkedList<>();
 	}
 
 	@Override
@@ -41,6 +51,7 @@ public class ClientModel implements IClientModel{
 			}else {
 				dbConnection.insertClient(clientName, clientAddress, clientCity, clientPhone, "Particular");
 			}
+			lastCityAdded = clientCity;
 			notifyClientCreationSuccess();
 		} catch (Exception e) {
 			notifyClientCreationFailure();
@@ -60,6 +71,25 @@ public class ClientModel implements IClientModel{
 	public ArrayList<Client> getLastClientsQuery() {
 		return clients;
 	}
+
+	@Override
+	public void queryCities() {
+		try {
+			cities = dbConnection.getCities();
+			notifyCitiesFetchingSuccess();
+		} catch (SQLException e) {
+			notifyCitiesFetchingFailure();
+		}
+	}
+	public ArrayList<String> getQueriedCities() {
+		return cities;
+	}
+
+	public String getLastCityAdded() {
+		return lastCityAdded;
+	}
+
+
 	@Override
 	public void addClientCreationSuccessListener(ClientCreationSuccessListener listener) {
 		clientCreationSuccessListeners.add(listener);
@@ -77,6 +107,17 @@ public class ClientModel implements IClientModel{
 	public void addClientSearchFailureListener(ClientSearchFailureListener listener) {
 		clientSearchFailureListeners.add(listener);
 	}
+
+	@Override
+	public void addCitiesFetchingSuccessListener(CitiesFetchingSuccessListener listener) {
+		citiesFetchingSuccessListeners.add(listener);
+	}
+
+	@Override
+	public void addCitiesFetchingFailureListener(CitiesFetchingFailureListener listener) {
+		citiesFetchingFailureListeners.add(listener);
+	}
+
 
 
 	private void notifyClientCreationSuccess() {
@@ -97,6 +138,16 @@ public class ClientModel implements IClientModel{
 	}
 	private void notifyClientSearchFailure() {
 		for (ClientSearchFailureListener listener : clientSearchFailureListeners) {
+			listener.onFailure();
+		}
+	}
+	private void notifyCitiesFetchingSuccess() {
+		for (CitiesFetchingSuccessListener listener : citiesFetchingSuccessListeners) {
+			listener.onSuccess();
+		}
+	}
+	private void notifyCitiesFetchingFailure() {
+		for (CitiesFetchingFailureListener listener : citiesFetchingFailureListeners) {
 			listener.onFailure();
 		}
 	}

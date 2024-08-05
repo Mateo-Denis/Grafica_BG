@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="bbdd_Grafica_test" uuid="d69e5c9b-46ca-45ca-9ff1-d01d1f19ea96">
+    <data-source source="LOCAL" name="PRUEBAS.db" uuid="1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>db_testing</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/PRUEBAS.db</jdbc-url>
       <jdbc-additional-properties>
