@@ -5,23 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Product search functional">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ProductSubCategoriesQuerySuccessListeners.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
-    </list>
-    <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ProductSubCategoriesQueryFailureListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
     </list>
+    <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,33 +58,6 @@
         <option name="url" value="https://github.com/Mateo-Denis/Grafica_BG.git" />
       </UrlAndAccount>
     </option>
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java">
-      <ranges>
-        <range start1="96" end1="97" start2="96" end2="97" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-        <range start1="109" end1="109" start2="109" end2="113" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-        <range start1="110" end1="110" start2="114" end2="118" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java">
-      <ranges>
-        <range start1="41" end1="53" start2="41" end2="41" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-        <range start1="76" end1="76" start2="64" end2="66" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/models/ProductModel.java">
-      <ranges>
-        <range start1="3" end1="3" start2="3" end2="4" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-        <range start1="6" end1="6" start2="7" end2="8" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-        <range start1="20" end1="20" start2="22" end2="24" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-        <range start1="22" end1="22" start2="26" end2="27" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-        <range start1="32" end1="32" start2="37" end2="40" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-        <range start1="47" end1="47" start2="55" end2="59" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-        <range start1="77" end1="77" start2="89" end2="98" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
-        <range start1="101" end1="101" start2="122" end2="134" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
-      </ranges>
-    </file>
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />

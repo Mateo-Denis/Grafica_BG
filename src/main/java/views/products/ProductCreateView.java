@@ -17,8 +17,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel productSpecsContainer;
     private JTextField productNameField;
     private JLabel productLabel;
-    private JComboBox categoryComboBox;
-    private JComboBox subCategoryComboBox;
+    private JComboBox<String> categoryComboBox;
+    private JComboBox<String> subCategoryComboBox;
     private JLabel categoryLabel;
     private JLabel SubCategoryLabel;
     private JTextField productDescriptionField;

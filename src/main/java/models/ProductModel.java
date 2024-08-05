@@ -79,6 +79,16 @@ public class ProductModel implements IProductModel {
     }
 
     @Override
+    public void addSubCategoriesQueryFailureListener(ProductSubCategoriesQueryFailureListener listener) {
+        productSubCategoriesQueryFailureListeners.add(listener);
+    }
+
+    @Override
+    public void addSubCategoriesQuerySuccessListener(ProductSubCategoriesQuerySuccessListeners listener) {
+        productSubCategoriesQuerySuccessListeners.add(listener);
+    }
+
+    @Override
     public void queryProducts(String searchedName) {
         try {
             products = dbConnection.getProducts(searchedName);
@@ -93,7 +103,7 @@ public class ProductModel implements IProductModel {
             dbConnection.getSubCategories(category);
             notifySubCategoriesQuerySuccess();
         } catch (SQLException e) {
-            notif();
+            notifySubCategoriesQueryFailure();
         }
     }
 

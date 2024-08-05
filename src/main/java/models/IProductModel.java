@@ -5,6 +5,7 @@ import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.failed.ProductSubCategoriesQueryFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
+import models.listeners.successful.ProductSubCategoriesQuerySuccessListeners;
 import utils.Product;
 
 import java.util.ArrayList;
@@ -16,7 +17,10 @@ public interface IProductModel {
     void addProductCreationFailureListener(ProductCreationFailureListener listener);
     void addProductSearchSuccessListener(ProductSearchSuccessListener listener);
     void addProductSearchFailureListener(ProductSearchFailureListener listener);
-    void addSubCategoriesQuerySuccessListener(ProductSubCategoriesQueryFailureListener listener);
+    void addSubCategoriesQueryFailureListener(ProductSubCategoriesQueryFailureListener listener);
+
+    void addSubCategoriesQuerySuccessListener(ProductSubCategoriesQuerySuccessListeners listener);
+
     void queryProducts(String searchedName);
     void querySubCategories(String category);
     ArrayList<Product> getLastProductsQuery();
