@@ -94,7 +94,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         return (String) categoryComboBox.getSelectedItem();
     }
 
-    public void updateSubCategoryComboBox(String category) {
+/*    public void updateSubCategoryComboBox(String category) {
         subCategoryComboBox.removeAllItems();
         
         if(category.equals("Remeras")) {
@@ -107,5 +107,13 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
             subCategoryComboBox.addItem("Deportivos");
             subCategoryComboBox.addItem("Casuales");
         }
+    }*/
+
+    public void addSubCategory(String subCategory) {
+        subCategoryComboBox.addItem(subCategory);
+    }
+
+    public void clearSubCategories() {
+        subCategoryComboBox.removeAllItems();
     }
 }

@@ -1,9 +1,11 @@
 package models;
 
 import models.listeners.failed.ProductCreationFailureListener;
+import models.listeners.failed.ProductSubCategoriesQueryFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductSearchSuccessListener;
+import models.listeners.successful.ProductSubCategoriesQuerySuccessListeners;
 import utils.Product;
 import utils.databases.ProductsDatabaseConnection;
 
@@ -18,8 +20,11 @@ public class ProductModel implements IProductModel {
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
     private final List<ProductSearchFailureListener> productSearchFailureListeners;
+    private final List<ProductSubCategoriesQueryFailureListener> productSubCategoriesQueryFailureListeners;
+    private final List<ProductSubCategoriesQuerySuccessListeners> productSubCategoriesQuerySuccessListeners;
 
     private ArrayList<Product> products;
+    private ArrayList<String> subCategories;
 
     public ProductModel(ProductsDatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -30,6 +35,9 @@ public class ProductModel implements IProductModel {
 
         this.productSearchSuccessListeners = new LinkedList<>();
         this.productSearchFailureListeners = new LinkedList<>();
+
+        this.productSubCategoriesQueryFailureListeners = new LinkedList<>();
+        this.productSubCategoriesQuerySuccessListeners = new LinkedList<>();
     }
 
     public void createProduct(String productName, String productDescription, double productPrice, String productCategory, String productSubCategory) {
@@ -44,6 +52,10 @@ public class ProductModel implements IProductModel {
     @Override
     public ArrayList<Product> getLastProductsQuery() {
         return products;
+    }
+
+    public ArrayList<String> getQueriedSubCategories() {
+        return subCategories;
     }
 
     @Override
@@ -76,6 +88,15 @@ public class ProductModel implements IProductModel {
         }
     }
 
+    public void querySubCategories(String category) {
+        try {
+            dbConnection.getSubCategories(category);
+            notifySubCategoriesQuerySuccess();
+        } catch (SQLException e) {
+            notif();
+        }
+    }
+
     private void notifyProductCreationSuccess() {
         for (ProductCreationSuccessListener listener : productCreationSuccessListeners) {
             listener.onSuccess();
@@ -97,6 +118,18 @@ public class ProductModel implements IProductModel {
     private void notifyProductSearchFailure() {
         for (ProductSearchFailureListener listener : productSearchFailureListeners) {
             listener.onFailure();
+        }
+    }
+
+    private void notifySubCategoriesQueryFailure(){
+        for(ProductSubCategoriesQueryFailureListener listener : productSubCategoriesQueryFailureListeners){
+            listener.onFailure();
+        }
+    }
+
+    private void notifySubCategoriesQuerySuccess(){
+        for(ProductSubCategoriesQuerySuccessListeners listener : productSubCategoriesQuerySuccessListeners){
+            listener.onSuccess();
         }
     }
 

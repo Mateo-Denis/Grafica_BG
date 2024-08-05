@@ -40,18 +40,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    private static final String URL = "jdbc:sqlite:D:/GITHUB_LocalRepositories/Grafica_BG/PRUEBAS.db";
-
-    @Override
-    public Connection connect() throws SQLException {
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("SQLite JDBC driver not found.", e);
-        }
-        return DriverManager.getConnection(URL);
-    }
-
     public ArrayList<Product> getProducts(String searchText) throws SQLException {
         String sql = "SELECT * FROM Productos WHERE (Nombre LIKE ?)";
         try (Connection conn = connect();
@@ -74,5 +62,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             return products;
         }
     }
+
+
 }
 

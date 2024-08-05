@@ -5,23 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Product search functional">
-      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ProductPriceInputVerifier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ProductSubCategoriesQuerySuccessListeners.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+    </list>
+    <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ProductSubCategoriesQueryFailureListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateViewClasses/ProductCreateView.form" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateViewClasses/ProductCreateView.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchViewClasses/ProductSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchViewClasses/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,12 +62,41 @@
     &quot;assignee&quot;: &quot;GonzaloGirotti&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Mateo-Denis/Grafica_BG.git&quot;,
-    &quot;accountId&quot;: &quot;d80c7381-77d9-49c0-b0ae-bf874ec51208&quot;
-  }
-}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="21b785c3-fe57-48c0-a103-40a340de9ced" />
+        <option name="url" value="https://github.com/Mateo-Denis/Grafica_BG.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java">
+      <ranges>
+        <range start1="96" end1="97" start2="96" end2="97" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+        <range start1="109" end1="109" start2="109" end2="113" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+        <range start1="110" end1="110" start2="114" end2="118" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java">
+      <ranges>
+        <range start1="41" end1="53" start2="41" end2="41" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+        <range start1="76" end1="76" start2="64" end2="66" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/models/ProductModel.java">
+      <ranges>
+        <range start1="3" end1="3" start2="3" end2="4" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+        <range start1="6" end1="6" start2="7" end2="8" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+        <range start1="20" end1="20" start2="22" end2="24" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+        <range start1="22" end1="22" start2="26" end2="27" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+        <range start1="32" end1="32" start2="37" end2="40" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+        <range start1="47" end1="47" start2="55" end2="59" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+        <range start1="77" end1="77" start2="89" end2="98" changelist="d9e26353-dd52-4155-93f2-9f2c40a1bac2" />
+        <range start1="101" end1="101" start2="122" end2="134" changelist="903ee0ff-b1f1-477d-a887-8360a61e7659" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -83,31 +111,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GraficaBahia.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "306",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/GITHUB_LocalRepositories/Grafica_BG",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "database.data.views",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;306&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GITHUB_LocalRepositories/Grafica_BG&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.45172414&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products" />
