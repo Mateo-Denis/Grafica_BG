@@ -14,4 +14,5 @@ public interface IClientSearchView extends IToggleableView {
 	void clearTable();
 
 	boolean isCityInComboBox(String lastCityAdded);
+
 }

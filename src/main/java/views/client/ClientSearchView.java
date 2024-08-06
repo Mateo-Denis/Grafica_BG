@@ -96,5 +96,4 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         }
         return false;
     }
-
 }

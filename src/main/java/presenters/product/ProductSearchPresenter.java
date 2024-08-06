@@ -5,11 +5,13 @@ import presenters.StandardPresenter;
 import views.products.IProductSearchView;
 import utils.Product;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 
-public class ProductSearchPresenter extends StandardPresenter {
+public class ProductSearchPresenter extends StandardPresenter{
     private final IProductSearchView productSearchView;
     private final IProductModel productModel;
 
@@ -18,7 +20,6 @@ public class ProductSearchPresenter extends StandardPresenter {
         view = productSearchView;
         this.productModel = productModel;
     }
-
 
 
     @Override

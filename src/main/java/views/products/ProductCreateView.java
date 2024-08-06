@@ -7,10 +7,7 @@ import views.ToggleableView;
 import presenters.StandardPresenter;
 import presenters.product.ProductCreatePresenter;
 
-import views.ToggleableView;
-
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.List;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     private JPanel containerPanel;
@@ -18,7 +15,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JTextField productNameField;
     private JLabel productLabel;
     private JComboBox<String> categoryComboBox;
-    private JComboBox<String> subCategoryComboBox;
     private JLabel categoryLabel;
     private JTextField productDescriptionField;
     private JLabel descriptionLabel;
@@ -27,6 +23,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel createButtonContainer;
     private JButton createButton;
     private JPanel modularContainer;
+    private JLabel subCategoryLabel;
+    private JComboBox<String> subCategoryComboBox;
+    private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
 
     public ProductCreateView() {
@@ -60,6 +59,16 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         return (String) subCategoryComboBox.getSelectedItem();
     }
 
+/*    @Override
+    public void addSubCategory(String subCategory) {
+
+    }*/
+
+/*    @Override
+    public void clearSubCategories() {
+
+    }*/
+
     @Override
     public double getProductPrice() {
         return Double.parseDouble(productPriceField.getText());
@@ -71,7 +80,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         productDescriptionField.setText("");
         productPriceField.setText("");
         categoryComboBox.setSelectedIndex(-1);
-        subCategoryComboBox.setSelectedIndex(-1);
+        //subCategoryComboBox.setSelectedIndex(-1);
     }
 
     @Override
@@ -82,7 +91,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     protected void initListeners() {
         createButton.addActionListener(e -> productCreatePresenter.onCreateButtonClicked());
-        categoryComboBox.addItemListener(e -> productCreatePresenter.onCategoryItemSelected());
+        //categoryComboBox.addItemListener(e -> productCreatePresenter.onCategoryItemSelected());
     }
 
     @Override
@@ -99,4 +108,16 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         modularContainer.revalidate();
         modularContainer.repaint();
     }
+
+    public void setCategorias(List<String> categorias) {
+        for (String categoria : categorias) {
+            categoryComboBox.addItem(categoria);
+        }
+    }
+
+    public JComboBox<String> getComboBoxCategorias() {
+        return categoryComboBox;
+    }
+
+
 }

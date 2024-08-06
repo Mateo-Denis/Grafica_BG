@@ -4,8 +4,15 @@ import presenters.StandardPresenter;
 import models.IBudgetModel;
 import views.budget.IBudgetSearchView;
 import utils.Budget;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import static utils.MessageTypes.BUDGET_SEARCH_FAILURE;
+
+//IMPORT DE SHAREDMODEL PARA EL UPDATE DE COMBOBOX
+import utils.Product;
+
+import static utils.MessageTypes.*;
 
 public class BudgetSearchPresenter extends StandardPresenter {
     private final IBudgetSearchView budgetSearchView;

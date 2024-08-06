@@ -5,9 +5,7 @@ import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
-import views.products.modular.IModularCategoryView;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public interface IProductModel {
@@ -21,7 +19,7 @@ public interface IProductModel {
     void addSubCategoriesQuerySuccessListener(ProductSubCategoriesQuerySuccessListeners listener);*/
     void queryProducts(String searchedName);
  /*   void querySubCategories(String category);*/
-    IModularCategoryView getCorrespondingModularView(String category);
+    //IModularCategoryView getCorrespondingModularView(String category);
     ArrayList<Product> getLastProductsQuery();
 /*    ArrayList<String> getQueriedSubCategories();*/
 }

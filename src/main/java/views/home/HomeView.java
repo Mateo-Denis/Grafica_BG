@@ -33,9 +33,9 @@ public class HomeView extends JFrame implements IHomeView {
 	private final ProductSearchPresenter productSearchPresenter;
 	private final ProductCreatePresenter productCreatePresenter;
 	private final BudgetSearchPresenter budgetSearchPresenter;
-	//private final BudgetCreatePresenter budgetCreatePresenter;
+	private final BudgetCreatePresenter budgetCreatePresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter) {
 
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -49,7 +49,7 @@ public class HomeView extends JFrame implements IHomeView {
 		this.clientSearchPresenter = clientSearchPresenter;
 		this.productSearchPresenter = productSearchPresenter;
 		this.productCreatePresenter = productCreatePresenter;
-		//this.budgetCreatePresenter = budgetCreatePresenter;
+		this.budgetCreatePresenter = budgetCreatePresenter;
 		this.budgetSearchPresenter = budgetSearchPresenter;
 
 		initListeners();
@@ -63,7 +63,7 @@ public class HomeView extends JFrame implements IHomeView {
 		clientCreateButton.addActionListener(e -> clientCreatePresenter.onHomeCreateClientButtonClicked());
 		clientSearchButton.addActionListener(e -> clientSearchPresenter.onHomeSearchClientButtonClicked());
 
-		//budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
+		budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
 		budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 	}
 }

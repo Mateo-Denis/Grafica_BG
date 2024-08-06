@@ -2,19 +2,24 @@ package presenters.product;
 
 import static utils.MessageTypes.*;
 import models.IProductModel;
+import models.ICategoryModel;
 import presenters.StandardPresenter;
 import views.products.*;
-
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ProductCreatePresenter extends StandardPresenter{
+public class ProductCreatePresenter extends StandardPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
+    private final ICategoryModel categoryModel;
 
-    public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel) {
+    public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel) {
         this.productCreateView = productCreateView;
         view = productCreateView;
         this.productModel = productModel;
+        this.categoryModel = categoryModel;
+        cargarCategorias();
     }
 
     public void initListeners() {
@@ -43,13 +48,18 @@ public class ProductCreatePresenter extends StandardPresenter{
                 productCreateView.getProductPrice(),
                 productCreateView.getProductCategory(),
                 productCreateView.getProductSubCategory());
-
-        productCreateView.setWaitingStatus();
+                productCreateView.setWaitingStatus();
     }
 
-    public void onCategoryItemSelected() {
+/*    public void onCategoryItemSelected() {
         String category = productCreateView.getProductCategory();
-        JPanel modularPanel = productModel.getCorrespondingModularView(category).getContainerPanel();
+        //JPanel modularPanel = productModel.getCorrespondingModularView(category).getContainerPanel();
         productCreateView.showCategoryOptions(modularPanel);
+    }*/
+
+    private void cargarCategorias() {
+        List<String> categorias = categoryModel.obtenerNombresCategorias();
+        productCreateView.setCategorias(categorias);
     }
+
 }

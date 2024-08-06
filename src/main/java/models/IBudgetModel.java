@@ -1,9 +1,11 @@
 package models;
 
+import models.listeners.failed.CitiesFetchingFailureListener;
 import models.listeners.successful.BudgetCreationSuccessListener;
 import models.listeners.successful.BudgetSearchSuccessListener;
 import models.listeners.failed.BudgetSearchFailureListener;
 import models.listeners.failed.BudgetCreationFailureListener;
+import models.listeners.successful.CitiesFetchingSuccessListener;
 import utils.Budget;
 
 import java.util.ArrayList;

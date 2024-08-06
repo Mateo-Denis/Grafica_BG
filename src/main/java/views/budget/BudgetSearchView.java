@@ -6,6 +6,9 @@ import javax.swing.table.DefaultTableModel;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
+import views.products.ProductCreateView;
+import views.products.ProductSearchView;
+
 
 public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
     private JPanel containerPanel;
@@ -80,5 +83,4 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
             }
         }
     }
-
 }

@@ -7,6 +7,7 @@ import models.listeners.successful.BudgetSearchSuccessListener;
 import utils.Budget;
 import utils.databases.BudgetsDatabaseConnection;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

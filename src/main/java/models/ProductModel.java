@@ -6,9 +6,7 @@ import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
 import utils.databases.ProductsDatabaseConnection;
-import views.products.modular.*;
 
-import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -145,7 +143,7 @@ public class ProductModel implements IProductModel {
         }
     }*/
 
-    public IModularCategoryView getCorrespondingModularView(String category) {
+/*    public IModularCategoryView getCorrespondingModularView(String category) {
         if (category.equals("Remeras")) {
             return new ModularTShirtView();
         } else if(category.equals("Tazas")) {
@@ -154,5 +152,10 @@ public class ProductModel implements IProductModel {
             return new ModularFlagView();
         }
         return null;
-    }
+    }*/
+
+
+
+
+
 }

@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-08-06.01:07:22</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-08-06.19:27:38</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1590,143 +1590,185 @@
     <argument id="554" parent="190">
       <Position>1</Position>
     </argument>
-    <table id="555" parent="191" name="Clientes"/>
-    <table id="556" parent="191" name="Presupuestos"/>
-    <table id="557" parent="191" name="Productos"/>
-    <table id="558" parent="191" name="sqlite_master">
+    <table id="555" parent="191" name="Categorias"/>
+    <table id="556" parent="191" name="Clientes"/>
+    <table id="557" parent="191" name="Presupuestos"/>
+    <table id="558" parent="191" name="Productos"/>
+    <table id="559" parent="191" name="SubCategorias"/>
+    <table id="560" parent="191" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="559" parent="191" name="sqlite_sequence">
+    <table id="561" parent="191" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <check id="560" parent="555">
-      <Predicate>TipoCliente IN(&apos;Cliente&apos;, &apos;Particular&apos;)</Predicate>
-    </check>
-    <column id="561" parent="555" name="ID">
+    <column id="562" parent="555" name="ID">
       <AutoIncrement>1</AutoIncrement>
       <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="562" parent="555" name="Nombre">
+    <column id="563" parent="555" name="Nombre">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="563" parent="555" name="Direccion">
+    <key id="564" parent="555">
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <check id="565" parent="556">
+      <Predicate>TipoCliente IN(&apos;Cliente&apos;, &apos;Particular&apos;)</Predicate>
+    </check>
+    <column id="566" parent="556" name="ID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="567" parent="556" name="Nombre">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="568" parent="556" name="Direccion">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="564" parent="555" name="Localidad">
+    <column id="569" parent="556" name="Localidad">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="565" parent="555" name="Telefono">
+    <column id="570" parent="556" name="Telefono">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="566" parent="555" name="TipoCliente">
+    <column id="571" parent="556" name="TipoCliente">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <key id="567" parent="555">
+    <key id="572" parent="556">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <check id="568" parent="556">
+    <check id="573" parent="557">
       <Predicate>&quot;Tipo Cliente&quot; IN (&apos;Cliente&apos;, &apos;Particular&apos;)</Predicate>
     </check>
-    <column id="569" parent="556" name="ID">
+    <column id="574" parent="557" name="ID">
       <AutoIncrement>1</AutoIncrement>
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="570" parent="556" name="Nombre Cliente">
+    <column id="575" parent="557" name="Nombre Cliente">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="571" parent="556" name="Fecha">
+    <column id="576" parent="557" name="Fecha">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="572" parent="556" name="Tipo Cliente">
+    <column id="577" parent="557" name="Tipo Cliente">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="573" parent="556" name="Numero de presupuesto">
+    <column id="578" parent="557" name="Numero de presupuesto">
       <DasType>INTEGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <key id="574" parent="556">
+    <key id="579" parent="557">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="575" parent="557" name="ID">
+    <column id="580" parent="558" name="ID">
       <AutoIncrement>1</AutoIncrement>
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="576" parent="557" name="Nombre">
+    <column id="581" parent="558" name="Nombre">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="577" parent="557" name="Descripcion">
+    <column id="582" parent="558" name="Descripcion">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="578" parent="557" name="Precio">
+    <column id="583" parent="558" name="Precio">
       <DasType>REAL|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="579" parent="557" name="Categoria">
+    <column id="584" parent="558" name="Categoria">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;Categoria Predeterminada&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="580" parent="557" name="SubCategoria">
+    <column id="585" parent="558" name="SubCategoria">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;SubCategoria Predeterminada&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <key id="581" parent="557">
+    <key id="586" parent="558">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="582" parent="558" name="type">
+    <column id="587" parent="559" name="ID">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="588" parent="559" name="CategoriaID">
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="589" parent="559" name="Nombre">
+      <DasType>TEXT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="590" parent="559">
+      <ColNames>CategoriaID</ColNames>
+      <RefColNames>ID</RefColNames>
+      <RefTableName>Categorias</RefTableName>
+    </foreign-key>
+    <key id="591" parent="559">
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="592" parent="560" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="583" parent="558" name="name">
+    <column id="593" parent="560" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="584" parent="558" name="tbl_name">
+    <column id="594" parent="560" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="585" parent="558" name="rootpage">
+    <column id="595" parent="560" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="586" parent="558" name="sql">
+    <column id="596" parent="560" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="587" parent="559" name="name">
+    <column id="597" parent="561" name="name">
       <Position>1</Position>
     </column>
-    <column id="588" parent="559" name="seq">
+    <column id="598" parent="561" name="seq">
       <Position>2</Position>
     </column>
   </database-model>
