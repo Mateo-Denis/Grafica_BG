@@ -51,7 +51,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     protected void initListeners() {
         searchButton.addActionListener(e -> productSearchPresenter.onSearchButtonClicked());
-        productListOpenButton.addActionListener(e -> productSearchPresenter.onSearchProductButtonClicked());
+        productListOpenButton.addActionListener(e -> productSearchPresenter.onHomeSearchProductButtonClicked());
     }
 
     @Override

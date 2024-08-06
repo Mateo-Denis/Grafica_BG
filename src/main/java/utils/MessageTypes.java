@@ -25,6 +25,9 @@ public enum MessageTypes {
 	PRODUCT_SEARCH_FAILURE("Error al buscar el producto"
 			, "Ha ocurrido un error al intentar buscar el producto."
 			, JOptionPane.ERROR_MESSAGE),
+	BUDGET_SEARCH_FAILURE("Error al buscar el presupuesto"
+			, "Ha ocurrido un error al intentar buscar el presupuesto."
+			, JOptionPane.ERROR_MESSAGE),
 	EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
 			, "Cannot save a rating for an empty page. Please search for a page first."
 			, JOptionPane.ERROR_MESSAGE),

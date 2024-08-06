@@ -7,7 +7,6 @@ import utils.Product;
 
 import java.util.ArrayList;
 
-import static utils.MessageTypes.CLIENT_SEARCH_FAILURE;
 import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 
 public class ProductSearchPresenter extends StandardPresenter {
@@ -49,7 +48,7 @@ public class ProductSearchPresenter extends StandardPresenter {
         productSearchView.setWaitingStatus();
     }
 
-    public void onSearchProductButtonClicked() {
+    public void onHomeSearchProductButtonClicked() {
         productSearchView.showView();
     }
 }

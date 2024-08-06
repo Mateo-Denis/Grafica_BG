@@ -4,11 +4,10 @@ import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductCreatePresenter;
+import presenters.budget.BudgetSearchPresenter;
+import presenters.budget.BudgetCreatePresenter;
 
 import javax.swing.*;
-//30-7-2024 --> SE AGREGA EL IMPORT "java.awt.event.ActionListener":
-
-import java.awt.event.ActionListener;
 
 public class HomeView extends JFrame implements IHomeView {
 
@@ -33,8 +32,10 @@ public class HomeView extends JFrame implements IHomeView {
 	private final ClientSearchPresenter clientSearchPresenter;
 	private final ProductSearchPresenter productSearchPresenter;
 	private final ProductCreatePresenter productCreatePresenter;
+	private final BudgetSearchPresenter budgetSearchPresenter;
+	//private final BudgetCreatePresenter budgetCreatePresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter) {
 
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,18 +49,21 @@ public class HomeView extends JFrame implements IHomeView {
 		this.clientSearchPresenter = clientSearchPresenter;
 		this.productSearchPresenter = productSearchPresenter;
 		this.productCreatePresenter = productCreatePresenter;
+		//this.budgetCreatePresenter = budgetCreatePresenter;
+		this.budgetSearchPresenter = budgetSearchPresenter;
 
 		initListeners();
 	}
 
 	protected void initListeners() {
 
-		productSearchButton.addActionListener(e -> productSearchPresenter.onSearchProductButtonClicked());
-		productCreateButton.addActionListener(e -> productCreatePresenter.onMainCreateProductButtonClicked());
+		productSearchButton.addActionListener(e -> productSearchPresenter.onHomeSearchProductButtonClicked());
+		productCreateButton.addActionListener(e -> productCreatePresenter.onHomeCreateProductButtonClicked());
 
 		clientCreateButton.addActionListener(e -> clientCreatePresenter.onHomeCreateClientButtonClicked());
 		clientSearchButton.addActionListener(e -> clientSearchPresenter.onHomeSearchClientButtonClicked());
 
-		productSearchButton.addActionListener(e -> productSearchPresenter.onSearchProductButtonClicked());
+		//budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
+		budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 	}
 }

@@ -81,4 +81,5 @@ public class ClientSearchPresenter extends StandardPresenter {
 
 	public void onClientListOpenButtonClicked() {
 	}
+
 }

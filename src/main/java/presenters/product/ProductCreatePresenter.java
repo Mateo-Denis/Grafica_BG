@@ -6,8 +6,6 @@ import presenters.StandardPresenter;
 import views.products.*;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
-import java.util.ArrayList;
 
 public class ProductCreatePresenter extends StandardPresenter{
     private final IProductCreateView productCreateView;
@@ -32,7 +30,7 @@ public class ProductCreatePresenter extends StandardPresenter{
         });*/
     }
 
-    public void onMainCreateProductButtonClicked() {
+    public void onHomeCreateProductButtonClicked() {
         productCreateView.showView();
     }
 

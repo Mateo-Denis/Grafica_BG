@@ -5,29 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Product search functional">
-      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/BudgetCreationFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/BudgetSearchFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/BudgetCreationSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/BudgetSearchSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Budget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/IsNumeric.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ProductSubCategoriesQueryFailureListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ProductSubCategoriesQuerySuccessListeners.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" afterDir="false" />
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,12 +73,12 @@
     &quot;assignee&quot;: &quot;GonzaloGirotti&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Mateo-Denis/Grafica_BG.git",
-    "accountId": "d80c7381-77d9-49c0-b0ae-bf874ec51208"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mateo-Denis/Grafica_BG.git&quot;,
+    &quot;accountId&quot;: &quot;d80c7381-77d9-49c0-b0ae-bf874ec51208&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -111,7 +114,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "database.data.views",
+    "settings.editor.selected.configurable": "database.query.execution",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -176,6 +179,7 @@
       <workItem from="1722870025306" duration="3845000" />
       <workItem from="1722880028573" duration="3020000" />
       <workItem from="1722886309074" duration="3406000" />
+      <workItem from="1722894135169" duration="9350000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />

@@ -46,7 +46,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, "%" + searchText + "%");
             ResultSet resultSet = pstmt.executeQuery();
-
             ArrayList<Product> products = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -59,6 +58,10 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                 );
                 products.add(product);
             }
+
+            resultSet.close();
+            pstmt.close();
+            conn.close();
             return products;
         }
     }

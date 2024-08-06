@@ -499,7 +499,7 @@
     </routine>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-08-05.19:52:57</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-08-06.00:08:17</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1637,7 +1637,7 @@
       <Primary>1</Primary>
     </key>
     <check id="568" parent="556">
-      <Predicate>&apos;Tipo Cliente&apos; IN (&apos;Cliente&apos;,&apos;Particular&apos;)</Predicate>
+      <Predicate>&quot;Tipo Cliente&quot; IN (&apos;Cliente&apos;, &apos;Particular&apos;)</Predicate>
     </check>
     <column id="569" parent="556" name="ID">
       <AutoIncrement>1</AutoIncrement>
@@ -1659,69 +1659,74 @@
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <key id="573" parent="556">
+    <column id="573" parent="556" name="Numero de presupuesto">
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <key id="574" parent="556">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="574" parent="557" name="ID">
+    <column id="575" parent="557" name="ID">
       <AutoIncrement>1</AutoIncrement>
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="575" parent="557" name="Nombre">
+    <column id="576" parent="557" name="Nombre">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="576" parent="557" name="Descripcion">
+    <column id="577" parent="557" name="Descripcion">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="577" parent="557" name="Precio">
+    <column id="578" parent="557" name="Precio">
       <DasType>REAL|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="578" parent="557" name="Categoria">
+    <column id="579" parent="557" name="Categoria">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;Categoria Predeterminada&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="579" parent="557" name="SubCategoria">
+    <column id="580" parent="557" name="SubCategoria">
       <DasType>text|0s</DasType>
       <DefaultExpression>&apos;SubCategoria Predeterminada&apos;</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <key id="580" parent="557">
+    <key id="581" parent="557">
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="581" parent="558" name="type">
+    <column id="582" parent="558" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="582" parent="558" name="name">
+    <column id="583" parent="558" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="583" parent="558" name="tbl_name">
+    <column id="584" parent="558" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="584" parent="558" name="rootpage">
+    <column id="585" parent="558" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="585" parent="558" name="sql">
+    <column id="586" parent="558" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="586" parent="559" name="name">
+    <column id="587" parent="559" name="name">
       <Position>1</Position>
     </column>
-    <column id="587" parent="559" name="seq">
+    <column id="588" parent="559" name="seq">
       <Position>2</Position>
     </column>
   </database-model>

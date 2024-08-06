@@ -5,9 +5,10 @@ import javax.swing.table.DefaultTableModel;
 
 import presenters.StandardPresenter;
 import presenters.budget.BudgetSearchPresenter;
+import presenters.product.ProductSearchPresenter;
 import views.ToggleableView;
 
-public class BudgetSearchView extends ToggleableView{
+public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
     private JPanel containerPanel;
     private JPanel budgetSearchContainer;
     private JTextField searchField;
@@ -34,28 +35,49 @@ public class BudgetSearchView extends ToggleableView{
     @Override
     public void start() {
         super.start();
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular"}, 200);
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
         budgetResultTable.setModel(tableModel);
     }
 
     @Override
     protected void wrapContainer() {
-
+        containerPanelWrapper = containerPanel;
     }
 
     @Override
     protected void initListeners() {
-
+        searchButton.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
+        //budgetListOpenButton.addActionListener(e -> budgetSearchPresenter.onSearchListButtonClicked());
+        //modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
+        //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
     }
 
     @Override
     public void clearView() {
-
+        clearTable();
+        searchField.setText("");
     }
 
-/*    @Override
+    @Override
     public void setPresenter(StandardPresenter budgetSearchPresenter) {
         this.budgetSearchPresenter = (BudgetSearchPresenter) budgetSearchPresenter;
-    }*/
+    }
+
+    @Override
+    public String getSearchText() {
+        return searchField.getText();
+    }
+
+    public void setStringTableValueAt(int row, int col, String value) {
+        budgetResultTable.setValueAt(value, row, col);
+    }
+
+    public void clearTable() {
+        for (int row = 0; row < budgetResultTable.getRowCount(); row++) {
+            for (int col = 0; col < budgetResultTable.getColumnCount(); col++) {
+                budgetResultTable.setValueAt("", row, col);
+            }
+        }
+    }
 
 }
