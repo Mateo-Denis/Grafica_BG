@@ -4,33 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Product search functional">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/BudgetCreationFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/BudgetSearchFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/BudgetCreationSuccessListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/BudgetSearchSuccessListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Budget.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/IsNumeric.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="Budget search function">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ProductSubCategoriesQueryFailureListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ProductSubCategoriesQuerySuccessListeners.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,12 +77,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.GraficaBahia.executor": "Run",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "306",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "405",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
@@ -114,7 +96,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.45172414",
-    "settings.editor.selected.configurable": "database.query.execution",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -180,6 +162,7 @@
       <workItem from="1722880028573" duration="3020000" />
       <workItem from="1722886309074" duration="3406000" />
       <workItem from="1722894135169" duration="9350000" />
+      <workItem from="1722906322814" duration="4077000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -197,13 +180,13 @@
       <option name="project" value="LOCAL" />
       <updated>1722825577884</updated>
     </task>
-    <task id="LOCAL-00003" summary="logo pushed">
+    <task id="LOCAL-00003" summary="Budget search function">
       <option name="closed" value="true" />
-      <created>1721918495256</created>
+      <created>1722906381815</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1721918495256</updated>
+      <updated>1722906381815</updated>
     </task>
     <task id="LOCAL-00004" summary="created modular views for products">
       <option name="closed" value="true" />
@@ -213,7 +196,7 @@
       <option name="project" value="LOCAL" />
       <updated>1722304300237</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,7 +218,8 @@
     <MESSAGE value="logo pushed" />
     <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
     <MESSAGE value="Product search functional" />
-    <option name="LAST_COMMIT_MESSAGE" value="Product search functional" />
+    <MESSAGE value="Budget search function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Budget search function" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 
 import presenters.StandardPresenter;
 import presenters.budget.BudgetSearchPresenter;
-import presenters.product.ProductSearchPresenter;
 import views.ToggleableView;
 
 public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
@@ -22,6 +21,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     private JButton budgetListOpenButton;
     private JButton modifyButton;
     private JButton pdfButton;
+    private JButton cleanTableButton;
     private BudgetSearchPresenter budgetSearchPresenter;
 
     public BudgetSearchView(){
@@ -47,6 +47,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     protected void initListeners() {
         searchButton.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
+        cleanTableButton.addActionListener(e -> budgetSearchPresenter.onCleanTableButtonClicked());
         //budgetListOpenButton.addActionListener(e -> budgetSearchPresenter.onSearchListButtonClicked());
         //modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
         //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());

@@ -37,9 +37,13 @@ public class BudgetSearchPresenter extends StandardPresenter {
     public void onSearchButtonClicked() {
         budgetSearchView.setWorkingStatus();
         String budgetSearch = budgetSearchView.getSearchText();
-        budgetModel.queryBudgets(budgetSearch);
         budgetSearchView.clearTable();
+        budgetModel.queryBudgets(budgetSearch);
         budgetSearchView.setWaitingStatus();
+    }
+
+    public void onCleanTableButtonClicked(){
+        budgetSearchView.clearTable();
     }
 
     public void onHomeSearchBudgetButtonClicked() {
