@@ -2,7 +2,7 @@ package views.products.modular;
 
 import javax.swing.*;
 
-public class ModularFlagView extends JComponent implements IModularCategoryView {
+public class ModularFlagView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
 	private JComboBox clothComboBox;
 	private JLabel clothLabel;

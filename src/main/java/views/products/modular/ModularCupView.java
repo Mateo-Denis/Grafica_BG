@@ -2,7 +2,7 @@ package views.products.modular;
 
 import javax.swing.*;
 
-public class ModularCupView extends JComponent implements IModularCategoryView  {
+public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private JPanel containerPanel;
 	private JRadioButton ceramicRadioButton;
 	private JRadioButton plasticRadioButton;
@@ -13,4 +13,6 @@ public class ModularCupView extends JComponent implements IModularCategoryView  
 	public JPanel getContainerPanel() {
 		return containerPanel;
 	}
+
+
 }

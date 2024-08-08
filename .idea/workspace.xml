@@ -4,43 +4,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="BudgetCreateView .form file creation">
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/ISharedModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/SharedModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/CategoryCreationFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/CategorySearchFailureListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/CategoryCreationSuccessListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/CategorySearchSuccessListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ProductCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ProductSubCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SubCategoriesDatabaseConnection.java" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="MODIFICACIONES&#10;&#10;1) ComboBox sincronizados:&#10;Categorías --&gt; ProductCreateView&#10;Categorías --&gt; BudgetCreateView&#10;Categorías --&gt; SubCategoryCreateView&#10;&#10;2) Funcionalidad crear subcategoria asociada a una categoria">
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/ISubCategoryModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/SubCategoryModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/SubCategoryCreationFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/SubCategorySearchFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/SubCategoryCreationSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/SubCategorySearchSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/subCategory/SubCategoryCreatePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/TextUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/subCategories/ISubCategoryCreateView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/subCategories/SubCategoryCreateView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/subCategories/SubCategoryCreateView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SubCategoriesDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SubCategoriesDatabaseConnection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.java" afterDir="false" />
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,8 +79,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -110,6 +117,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.testingMain.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.CodyAccountHistoryMigration&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.CodyConvertUrlToCodebaseName&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.CodyHistoryLlmMigration&quot;: &quot;true&quot;,
@@ -123,7 +131,7 @@
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gongi/OneDrive/Escritorio/GRAFICA_BG_JOB/GRAFICA_BG_utilidades/wikiMateo/wikimatthew&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gongi/OneDrive/Escritorio/CrearProductosModularTest&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -143,7 +151,7 @@
       <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products\ProductSearchViewClasses" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="PresupuestosGraficaBahia.main" />
@@ -157,9 +165,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="testingMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testing.testingMain" />
+      <module name="PresupuestosGraficaBahia.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.testingMain" />
       </list>
     </recent_temporary>
   </component>
@@ -202,7 +224,13 @@
       <workItem from="1722910523351" duration="57000" />
       <workItem from="1722953119572" duration="6215000" />
       <workItem from="1722959516895" duration="4062000" />
-      <workItem from="1722968102567" duration="5836000" />
+      <workItem from="1722968102567" duration="6115000" />
+      <workItem from="1722984973721" duration="4890000" />
+      <workItem from="1722993009462" duration="1841000" />
+      <workItem from="1723040211787" duration="8154000" />
+      <workItem from="1723068606824" duration="4957000" />
+      <workItem from="1723073964707" duration="2619000" />
+      <workItem from="1723083193321" duration="123000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -236,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722910569362</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="*SQL: Creacion de las tablas &quot;Categorias&quot;&#10;y &quot;SubCategorias&quot;&#10; &#10;Funcionalidad agregada: El combobox de &quot;ProductCreateView&quot; de las categorias se actualiza segun lo que haya en la tabla de la Base de datos. Resta hacer lo mismo para las subCategorias y los demas combobox de las distintas vistas.&#10;&#10;Vistas terminadas: BudgetCreateView y BudgetSearchView">
+      <option name="closed" value="true" />
+      <created>1722974267886</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1722974267886</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,7 +296,8 @@
     <MESSAGE value="Product search functional" />
     <MESSAGE value="Budget search function" />
     <MESSAGE value="BudgetCreateView .form file creation" />
-    <option name="LAST_COMMIT_MESSAGE" value="BudgetCreateView .form file creation" />
+    <MESSAGE value="*SQL: Creacion de las tablas &quot;Categorias&quot;&#10;y &quot;SubCategorias&quot;&#10; &#10;Funcionalidad agregada: El combobox de &quot;ProductCreateView&quot; de las categorias se actualiza segun lo que haya en la tabla de la Base de datos. Resta hacer lo mismo para las subCategorias y los demas combobox de las distintas vistas.&#10;&#10;Vistas terminadas: BudgetCreateView y BudgetSearchView" />
+    <option name="LAST_COMMIT_MESSAGE" value="*SQL: Creacion de las tablas &quot;Categorias&quot;&#10;y &quot;SubCategorias&quot;&#10; &#10;Funcionalidad agregada: El combobox de &quot;ProductCreateView&quot; de las categorias se actualiza segun lo que haya en la tabla de la Base de datos. Resta hacer lo mismo para las subCategorias y los demas combobox de las distintas vistas.&#10;&#10;Vistas terminadas: BudgetCreateView y BudgetSearchView" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

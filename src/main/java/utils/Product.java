@@ -6,15 +6,13 @@ public class Product {
     private String description;
     private double price;
     private String category;
-    private String subCategory;
 
-    public Product(String name, String description, double price, String category, String subCategory) {
+    public Product(String name, String description, double price, String category) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
-        this.subCategory = subCategory;
     }
 
     public int getID() {
@@ -31,5 +29,9 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

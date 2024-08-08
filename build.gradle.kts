@@ -16,6 +16,7 @@ dependencies {
     implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.slf4j:slf4j-simple:1.7.36")
     testImplementation(kotlin("test"))
+    implementation("org.reflections:reflections:0.10.2")
 }
 
 tasks.test {

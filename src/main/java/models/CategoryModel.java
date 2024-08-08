@@ -95,7 +95,7 @@ public class CategoryModel implements ICategoryModel {
         }
     }
 
-    public List<String> obtenerNombresCategorias() {
+    public List<String> getCategoriesName() {
         try {
             return dbConnection.getCategories();
         } catch (SQLException e) {

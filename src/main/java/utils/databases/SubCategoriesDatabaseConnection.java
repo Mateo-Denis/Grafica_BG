@@ -25,11 +25,12 @@ public class SubCategoriesDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void insertSubCategory(String nombre) throws SQLException {
-        String sql = "INSERT INTO SubCategorias(Nombre) VALUES(?)";
+    public void insertSubCategory(int categoriaID, String nombre) throws SQLException {
+        String sql = "INSERT INTO SubCategorias(CategoriaID, Nombre) VALUES(?,?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nombre);
+            pstmt.setInt(1, categoriaID);
+            pstmt.setString(2, nombre);
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "SubCategoria creada con éxito!");
         } catch (SQLException e) {
@@ -51,6 +52,26 @@ public class SubCategoriesDatabaseConnection extends DatabaseConnection {
             e.printStackTrace();
         }
         return subCategorias;
+    }
+
+    public int obtenerIdCategoria(String nombreCategoria) {
+        String query = "SELECT ID FROM Categorias WHERE Nombre = ?";
+        int id = -1;
+
+        try (Connection conn = connect();
+             PreparedStatement statement = conn.prepareStatement(query)) {
+
+            statement.setString(1, nombreCategoria);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
     }
 
 

@@ -2,7 +2,7 @@ package views.products.modular;
 
 import javax.swing.*;
 
-public class ModularTShirtView extends JComponent implements IModularCategoryView {
+public class ModularRemerasView extends JPanel implements IModularCategoryView {
 	private JRadioButton tshirtRadioButton;
 	private JRadioButton chombaRadioButton;
 	private JComboBox materialComboBox;

@@ -3,7 +3,6 @@ package presenters.client;
 import models.IClientModel;
 import presenters.StandardPresenter;
 import views.client.*;
-
 import static utils.MessageTypes.*;
 
 public class ClientCreatePresenter extends StandardPresenter {

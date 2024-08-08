@@ -3,7 +3,6 @@ package views.budget;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetCreatePresenter;
 import views.ToggleableView;
-
 import javax.swing.*;
 import java.util.List;
 
@@ -113,5 +112,17 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     @Override
     public void setPresenter(StandardPresenter budgetCreatePresenter) {
         this.budgetCreatePresenter = (BudgetCreatePresenter) budgetCreatePresenter;
+    }
+
+    @Override
+    public void setCategorias(List<String> categorias) {
+        for (String categoria : categorias) {
+            productCategoryComboBox.addItem(categoria);
+        }
+    }
+
+    @Override
+    public JComboBox<String> getComboBoxCategorias() {
+        return productCategoryComboBox;
     }
 }

@@ -2,7 +2,7 @@ package views.products.modular;
 
 import javax.swing.*;
 
-public class ModularJacketView extends JComponent implements IModularCategoryView {
+public class ModularJacketView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
 	private JRadioButton adultRadioButton;
 	private JRadioButton kidRadioButton;

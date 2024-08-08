@@ -13,7 +13,8 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Nombre TEXT NOT NULL," +
                 "Descripción TEXT," +
-                "Precio REAL NOT NULL" +
+                "Precio REAL NOT NULL," +
+                "Categoria TEXT NOT NULL" +
                 ")";
         try (Statement stmt = connection.createStatement()) {
             stmt.setQueryTimeout(QUERY_TIMEOUT);
@@ -23,15 +24,14 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void insertProduct(String nombre, String descripcion, double precio, String categoria, String subCategoria) throws SQLException {
-        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio, Categoria, SubCategoria) VALUES(?, ?, ?, ?, ?)";
+    public void insertProduct(String nombre, String descripcion, double precio, String categoria) throws SQLException {
+        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio, Categoria) VALUES(?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
             pstmt.setString(2, descripcion);
             pstmt.setDouble(3, precio);
             pstmt.setString(4, categoria);
-            pstmt.setString(5, subCategoria);
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Producto creado con éxito!");
         } catch (SQLException e) {
@@ -53,8 +53,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                         resultSet.getString("Nombre"),
                         resultSet.getString("Descripcion"),
                         resultSet.getDouble("Precio"),
-                        resultSet.getString("Categoria"),
-                        resultSet.getString("SubCategoria")
+                        resultSet.getString("Categoria")
                 );
                 products.add(product);
             }

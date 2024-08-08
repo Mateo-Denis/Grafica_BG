@@ -25,6 +25,15 @@ public enum MessageTypes {
     PRODUCT_SEARCH_FAILURE("Error al buscar el producto"
             , "Ha ocurrido un error al intentar buscar el producto."
             , JOptionPane.ERROR_MESSAGE),
+    SUBCATEGORY_CREATION_SUCCESS("SubCategoria creada con éxito"
+            , "La subcategoria fue agregada a la base de datos correctamente."
+            , JOptionPane.INFORMATION_MESSAGE),
+    SUBCATEGORY_CREATION_FAILURE("Error al crear la subcategoria"
+            , "Ha ocurrido un error al intentar crear la subcategoria."
+            , JOptionPane.ERROR_MESSAGE),
+    SUBCATEGORY_SEARCH_FAILURE("Error al buscar la subcategoria"
+            , "Ha ocurrido un error al intentar buscar la subcategoria."
+            , JOptionPane.ERROR_MESSAGE),
     BUDGET_SEARCH_FAILURE("Error al buscar el presupuesto"
             , "Ha ocurrido un error al intentar buscar el presupuesto."
             , JOptionPane.ERROR_MESSAGE),
