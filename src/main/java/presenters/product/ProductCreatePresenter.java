@@ -1,6 +1,7 @@
 package presenters.product;
 
 import static utils.MessageTypes.*;
+
 import models.IProductModel;
 import models.ICategoryModel;
 import presenters.StandardPresenter;
@@ -24,6 +25,11 @@ public class ProductCreatePresenter extends StandardPresenter {
         this.productModel = productModel;
         this.categoryModel = categoryModel;
         cargarCategorias();
+        this.productCreateView.comboBoxListenerSet(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                productCreateView.setCorrespondingModularView(productCreateView.getProductCategory());
+            }
+        });
     }
 
     public void initListeners() {
@@ -43,17 +49,11 @@ public class ProductCreatePresenter extends StandardPresenter {
                 productCreateView.getProductDescription(),
                 productCreateView.getProductPrice(),
                 productCreateView.getProductCategory());
-                productCreateView.setWaitingStatus();
-    }
-
-    public void onCategoryItemSelected() {
-        String category = productCreateView.getProductCategory();
-        productCreateView.setCorrespondingModularView(category);
+        productCreateView.setWaitingStatus();
     }
 
     private void cargarCategorias() {
         List<String> categorias = categoryModel.getCategoriesName();
         productCreateView.setCategorias(categorias);
     }
-
 }

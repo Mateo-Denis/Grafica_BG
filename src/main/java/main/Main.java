@@ -1,5 +1,12 @@
 package main;
 
+
+import PdfFormater.PdfConverter;
+import PdfFormater.Row;
+import java.io.FileNotFoundException;
+import static PdfFormater.SamplePDFCreation.createWeirdAahPDF;
+
+
 import models.ClientModel;
 import models.IClientModel;
 import models.ProductModel;
@@ -34,6 +41,9 @@ import views.home.HomeView;
 
 public class Main {
     public static void main(String[] args) {
+
+
+        createWeirdAahPDF();
 
         CategoriesDatabaseConnection categoriesDB = new CategoriesDatabaseConnection();
         categoriesDB.loadDatabase();
