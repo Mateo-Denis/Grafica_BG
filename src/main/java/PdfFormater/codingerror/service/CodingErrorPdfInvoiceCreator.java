@@ -79,7 +79,7 @@ public class CodingErrorPdfInvoiceCreator {
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getQuantity()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getDimensions()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getPriceperpeice()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+            //threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()/*total*/))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
         }
 

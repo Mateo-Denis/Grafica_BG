@@ -1,6 +1,11 @@
 package PdfFormater;
 
+import lombok.Getter;
+import lombok.Setter;
+
 //Someone pls find a better place for this class
+@Getter
+@Setter
 public class Row {
     private String description;
     private int quantity;
@@ -16,23 +21,4 @@ public class Row {
         this.total = total;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public float getDimensions() {
-        return dimensions;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public float getTotal() {
-        return total;
-    }
 }
