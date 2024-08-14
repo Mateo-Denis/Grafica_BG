@@ -4,24 +4,25 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
 import utils.ProductPriceInputVerifier;
+import utils.databases.CategoriesDatabaseConnection;
+import utils.databases.ProductsDatabaseConnection;
 import views.ToggleableView;
-import views.products.modular.*;
 import presenters.StandardPresenter;
 import presenters.product.ProductCreatePresenter;
 
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-//TESTEO PRODUCT MODULAR:
+
 import models.CategoryModel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Map;
 import utils.TextUtils;
+import views.products.modular.IModularCategoryView;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     private JPanel containerPanel;
@@ -42,11 +43,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private ProductCreatePresenter productCreatePresenter;
     private CategoryModel categoryModel;
     private TextUtils textUtils = new TextUtils();
-
-
-
-    //TESTEO PRODUCT MODULAR:
     private JPanel modularView = new JPanel();
+    private CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
+    private ProductsDatabaseConnection productDatabaseConnection = new ProductsDatabaseConnection();
 
     public ProductCreateView() {
         windowFrame = new JFrame("Crear Producto");
@@ -65,10 +64,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-
         modularView.setVisible(false);
         modularContainer.add(modularView);
-
     }
 
     //TESTEO MODULAR VIEW:
@@ -188,4 +185,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     public void comboBoxListenerSet(ItemListener listener) {
         categoryComboBox.addItemListener(listener);
     }
+
+
 }

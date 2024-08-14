@@ -5,13 +5,14 @@ import static utils.MessageTypes.*;
 import models.IProductModel;
 import models.ICategoryModel;
 import presenters.StandardPresenter;
-import views.products.*;
 
-import javax.swing.*;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import views.products.IProductCreateView;
+import views.products.modular.IModularCategoryView;
+import models.CategoryModel;
 
 
 public class ProductCreatePresenter extends StandardPresenter {
@@ -43,13 +44,22 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public void onCreateButtonClicked() {
         productCreateView.setWorkingStatus();
+        String categoryName = productCreateView.getProductCategory();
+        ArrayList<String> attributesValues = getModularAttributes((IModularCategoryView) productCreateView.getModularView());
+        ArrayList<String> attributesNames = categoryModel.getCategoryAttributesNames(categoryName);
 
-        productModel.createProduct(
+        int productID = productModel.createProduct(
                 productCreateView.getProductName(),
                 productCreateView.getProductDescription(),
                 productCreateView.getProductPrice(),
-                productCreateView.getProductCategory());
+                categoryName);
+
+        categoryModel.addProductAttributes(productID, attributesNames, attributesValues);
         productCreateView.setWaitingStatus();
+    }
+
+    private ArrayList<String> getModularAttributes(IModularCategoryView modularContainer) {
+        return modularContainer.getModularAttributes();
     }
 
     private void cargarCategorias() {

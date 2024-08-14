@@ -16,6 +16,9 @@ public enum MessageTypes {
     CITY_FETCH_FAILURE("Error al consultar las ciudades"
             , "Ha ocurrido un error al consultar las ciudades en la base de datos."
             , JOptionPane.ERROR_MESSAGE),
+    CLIENT_CREATION_EMPTY_FIELDS("Debe llenar los campos obligatorios"
+            , "Por favor, llene los campos obligatorios para poder crear un cliente."
+            , JOptionPane.ERROR_MESSAGE),
     PRODUCT_CREATION_SUCCESS("Producto creado con éxito"
             , "El producto fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),
@@ -24,6 +27,9 @@ public enum MessageTypes {
             , JOptionPane.ERROR_MESSAGE),
     PRODUCT_SEARCH_FAILURE("Error al buscar el producto"
             , "Ha ocurrido un error al intentar buscar el producto."
+            , JOptionPane.ERROR_MESSAGE),
+    PRODUCT_LIST_GENERATION_FAILURE("Error al generar la lista de productos"
+            , "Ha ocurrido un error al intentar generar la lista de productos."
             , JOptionPane.ERROR_MESSAGE),
     SUBCATEGORY_CREATION_SUCCESS("SubCategoria creada con éxito"
             , "La subcategoria fue agregada a la base de datos correctamente."

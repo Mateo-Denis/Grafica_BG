@@ -6,6 +6,7 @@ import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
 import models.listeners.failed.ClientSearchFailureListener;
 import models.listeners.successful.ClientSearchSuccessListener;
+import models.listeners.failed.ClientCreationEmptyFieldListener;
 import utils.Client;
 import utils.databases.ClientsDatabaseConnection;
 
@@ -21,6 +22,8 @@ public class ClientModel implements IClientModel{
 	private final List<ClientCreationFailureListener> clientCreationFailureListeners;
 	private final List<ClientSearchSuccessListener> clientSearchSuccessListeners;
 	private final List<ClientSearchFailureListener> clientSearchFailureListeners;
+	private final List<ClientCreationEmptyFieldListener> clientCreationEmptyFieldListeners;
+
 
 	private final List<CitiesFetchingSuccessListener> citiesFetchingSuccessListeners;
 	private final List<CitiesFetchingFailureListener> citiesFetchingFailureListeners;
@@ -35,6 +38,7 @@ public class ClientModel implements IClientModel{
 
 		this.clientCreationSuccessListeners = new LinkedList<>();
 		this.clientCreationFailureListeners = new LinkedList<>();
+		this.clientCreationEmptyFieldListeners = new LinkedList<>();
 
 		this.clientSearchSuccessListeners = new LinkedList<>();
 		this.clientSearchFailureListeners = new LinkedList<>();
@@ -89,7 +93,6 @@ public class ClientModel implements IClientModel{
 		return lastCityAdded;
 	}
 
-
 	@Override
 	public void addClientCreationSuccessListener(ClientCreationSuccessListener listener) {
 		clientCreationSuccessListeners.add(listener);
@@ -117,8 +120,6 @@ public class ClientModel implements IClientModel{
 	public void addCitiesFetchingFailureListener(CitiesFetchingFailureListener listener) {
 		citiesFetchingFailureListeners.add(listener);
 	}
-
-
 
 	private void notifyClientCreationSuccess() {
 		for (ClientCreationSuccessListener listener : clientCreationSuccessListeners) {
@@ -151,4 +152,18 @@ public class ClientModel implements IClientModel{
 			listener.onFailure();
 		}
 	}
+
+
+	//TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
+	@Override
+	public void addClientCreationEmptyFieldListener(ClientCreationEmptyFieldListener listener) {
+		clientCreationEmptyFieldListeners.add(listener);
+	}
+
+    public void notifyClientCreationEmptyField() {
+        for (ClientCreationEmptyFieldListener listener : clientCreationEmptyFieldListeners) {
+            listener.onFailure();
+        }
+    }
+
 }

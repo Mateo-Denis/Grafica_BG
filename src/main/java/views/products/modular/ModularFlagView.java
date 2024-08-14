@@ -1,6 +1,7 @@
 package views.products.modular;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
@@ -12,5 +13,10 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 	@Override
 	public JPanel getContainerPanel() {
 		return containerPanel;
+	}
+
+	@Override
+	public ArrayList<String> getModularAttributes() {
+		return null;
 	}
 }

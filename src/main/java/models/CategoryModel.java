@@ -4,7 +4,7 @@ import models.listeners.failed.CategoryCreationFailureListener;
 import models.listeners.failed.CategorySearchFailureListener;
 import models.listeners.successful.CategoryCreationSuccessListener;
 import models.listeners.successful.CategorySearchSuccessListener;
-import utils.ProductCategory;
+import utils.databases.AttributesDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
 
 import java.sql.SQLException;
@@ -14,14 +14,17 @@ import java.util.List;
 
 public class CategoryModel implements ICategoryModel {
 
-    private final CategoriesDatabaseConnection dbConnection;
+    private final CategoriesDatabaseConnection categoriesDBConnection;
+    private final AttributesDatabaseConnection attributesDBConnection;
     private final List<CategoryCreationSuccessListener> categoryCreationSuccessListener;
     private final List<CategoryCreationFailureListener> categoryCreationFailureListener;
     private final List<CategorySearchSuccessListener> categorySearchSuccessListener;
     private final List<CategorySearchFailureListener> categorySearchFailureListener;
 
-    public CategoryModel(CategoriesDatabaseConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public CategoryModel(CategoriesDatabaseConnection categoriesDBConnection, AttributesDatabaseConnection attributesDBConnection) {
+        this.categoriesDBConnection = categoriesDBConnection;
+        this.attributesDBConnection = attributesDBConnection;
+
 
         this.categoryCreationSuccessListener = new LinkedList<>();
         this.categoryCreationFailureListener = new LinkedList<>();
@@ -33,7 +36,7 @@ public class CategoryModel implements ICategoryModel {
     @Override
     public void createCategory(String categoryName) {
         try {
-            dbConnection.insertCategory(categoryName);
+            categoriesDBConnection.insertCategory(categoryName);
             notifyCategoryCreationSuccess();
         } catch (Exception e) {
             notifyCategoryCreationFailure();
@@ -63,7 +66,7 @@ public class CategoryModel implements ICategoryModel {
 /*    @Override
     public void queryCategories(String searchedName) {
         try {
-            categories = dbConnection.getCategories(searchedName);
+            categories = categoriesDBConnection.getCategories(searchedName);
             notifyCategorySearchSuccess();
         } catch (Exception e) {
             notifyCategorySearchFailure();
@@ -97,10 +100,36 @@ public class CategoryModel implements ICategoryModel {
 
     public List<String> getCategoriesName() {
         try {
-            return dbConnection.getCategories();
+            return categoriesDBConnection.getCategories();
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public ArrayList<String> getCategoryAttributesNames(String categoryID) {
+        try {
+            int id = categoriesDBConnection.getCategoryID(categoryID);
+            return categoriesDBConnection.getCategoryAttributesNames(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void addProductAttributes(int productID, ArrayList<String> attributesNames, ArrayList<String> attributesValues) {
+        if (attributesNames.size() == attributesValues.size()) {
+            String attributeName;
+            int attributeID;
+            for (int i = 0; i < attributesNames.size(); i++) {
+                attributeName = attributesNames.get(i);
+                attributeID = attributesDBConnection.getAttributeID(attributeName);
+                attributesDBConnection.insertProductAttributeRow(productID, attributeID, attributesValues.get(i));
+            }
+        } else {
+            System.out.println("The lists are not of the same size.");
         }
     }
 }

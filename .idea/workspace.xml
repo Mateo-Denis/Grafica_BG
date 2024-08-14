@@ -4,27 +4,72 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="BudgetCreateView .form file creation">
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/IPdfConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/PdfConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/Row.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/SamplePDFCreation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/AddressDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/HeaderDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/MyFooter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/ProductTableHeader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/service/CodingErrorPdfInvoiceCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/util/ConstantUtil.java" afterDir="false" />
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="PdfCreator fix 9-8-2024">
+      <change afterPath="$PROJECT_DIR$/2024-08-12_666.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-13_666.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-14_666.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/IProductListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/ProductListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ClientCreationEmptyFieldListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/failed/ProductListOpeningFailureListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/listeners/successful/ProductListOpeningSuccessListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductListPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Attribute.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/AttributesDatabaseConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/util_SQL_sentences.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/client/list/IClientListView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/list/IProductListView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ISubCategoryModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/SubCategoryModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/subCategory/SubCategoryCreatePresenter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ProductCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ProductSubCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SubCategoriesDatabaseConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductSearchView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/subCategories/ISubCategoryCreateView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/subCategories/SubCategoryCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/subCategories/SubCategoryCreateView.java" beforeDir="false" />
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,8 +106,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -95,37 +140,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.GraficaBahia.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.testingMain.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.CodyAccountHistoryMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyConvertUrlToCodebaseName&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyHistoryLlmMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.CodyProjectSettingsMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;false&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;288&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gongi/OneDrive/Escritorio/manualMerge/grafica_backuptest/src/main/java/PdfFormater&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.45172414&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.GraficaBahia.executor": "Run",
+    "Application.Main.executor": "Debug",
+    "Application.testingMain.executor": "Debug",
+    "RunOnceActivity.CodyAccountHistoryMigration": "true",
+    "RunOnceActivity.CodyConvertUrlToCodebaseName": "true",
+    "RunOnceActivity.CodyHistoryLlmMigration": "true",
+    "RunOnceActivity.CodyProjectSettingsMigration": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "288",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gongi/Downloads/cosas nuevas",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.45172414",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\gongi\OneDrive\Escritorio\manualMerge\grafica_backuptest\src\main\java\PdfFormater" />
@@ -220,7 +267,26 @@
       <workItem from="1723245383627" duration="28000" />
       <workItem from="1723245477828" duration="27000" />
       <workItem from="1723245555545" duration="3994000" />
-      <workItem from="1723249698926" duration="19000" />
+      <workItem from="1723249698926" duration="123000" />
+      <workItem from="1723468023968" duration="375000" />
+      <workItem from="1723471518970" duration="23000" />
+      <workItem from="1723471554828" duration="17000" />
+      <workItem from="1723471700615" duration="491000" />
+      <workItem from="1723472595752" duration="7936000" />
+      <workItem from="1723515687617" duration="1373000" />
+      <workItem from="1723517260139" duration="427000" />
+      <workItem from="1723517781852" duration="25000" />
+      <workItem from="1723517841748" duration="6000" />
+      <workItem from="1723517884477" duration="3408000" />
+      <workItem from="1723522151916" duration="1134000" />
+      <workItem from="1723558912584" duration="8408000" />
+      <workItem from="1723575386188" duration="5150000" />
+      <workItem from="1723586406728" duration="7736000" />
+      <workItem from="1723594229543" duration="352000" />
+      <workItem from="1723599586425" duration="3893000" />
+      <workItem from="1723603517598" duration="172000" />
+      <workItem from="1723603808053" duration="116000" />
+      <workItem from="1723603960108" duration="2809000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -254,7 +320,15 @@
       <option name="project" value="LOCAL" />
       <updated>1722910569362</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="PdfCreator fix 9-8-2024">
+      <option name="closed" value="true" />
+      <created>1723249810052</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1723249810052</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,13 +352,16 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <MESSAGE value="Creacion de views&#10;&#10;Creacion de views y modelo mvp" />
     <MESSAGE value="logo pushed" />
     <MESSAGE value="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView" />
     <MESSAGE value="Product search functional" />
     <MESSAGE value="Budget search function" />
     <MESSAGE value="BudgetCreateView .form file creation" />
-    <option name="LAST_COMMIT_MESSAGE" value="BudgetCreateView .form file creation" />
+    <MESSAGE value="PdfCreator fix 9-8-2024" />
+    <option name="LAST_COMMIT_MESSAGE" value="PdfCreator fix 9-8-2024" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

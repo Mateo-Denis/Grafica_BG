@@ -6,7 +6,6 @@ import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductCreatePresenter;
 import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.BudgetCreatePresenter;
-import presenters.subCategory.SubCategoryCreatePresenter;
 
 import javax.swing.*;
 
@@ -35,9 +34,8 @@ public class HomeView extends JFrame implements IHomeView {
 	private final ProductCreatePresenter productCreatePresenter;
 	private final BudgetSearchPresenter budgetSearchPresenter;
 	private final BudgetCreatePresenter budgetCreatePresenter;
-	private final SubCategoryCreatePresenter subCategoryCreatePresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter, SubCategoryCreatePresenter subCategoryCreatePresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter) {
 
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -53,7 +51,6 @@ public class HomeView extends JFrame implements IHomeView {
 		this.productCreatePresenter = productCreatePresenter;
 		this.budgetCreatePresenter = budgetCreatePresenter;
 		this.budgetSearchPresenter = budgetSearchPresenter;
-		this.subCategoryCreatePresenter = subCategoryCreatePresenter;
 
 		initListeners();
 	}
@@ -68,8 +65,5 @@ public class HomeView extends JFrame implements IHomeView {
 
 		budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
 		budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
-
-
-        categoryCreateButton.addActionListener(e -> subCategoryCreatePresenter.onHomeCreateSubCategoryButtonClicked());
 	}
 }

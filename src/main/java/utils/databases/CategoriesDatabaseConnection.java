@@ -3,7 +3,6 @@ package utils.databases;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
-import utils.ProductCategory;
 
 public class CategoriesDatabaseConnection extends DatabaseConnection {
 
@@ -34,18 +33,81 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
         }
     }
 
-	public ArrayList<String> getCategories() throws SQLException {
-		ArrayList<String> categorias = new ArrayList<>();
-		String sql = "SELECT Nombre FROM Categorias";
-		try (Connection conn = connect();
-			 PreparedStatement statement = conn.prepareStatement(sql);
-			 ResultSet resultSet = statement.executeQuery()) {
-			while (resultSet.next()) {
-				categorias.add(resultSet.getString("Nombre"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return categorias;
-	}
+    public ArrayList<String> getCategories() throws SQLException {
+        ArrayList<String> categorias = new ArrayList<>();
+        String sql = "SELECT Nombre FROM Categorias";
+        try (Connection conn = connect();
+             PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                categorias.add(resultSet.getString("Nombre"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
+    public String getCategoryName(int categoryID) {
+        String sql = "SELECT Nombre FROM Categorias WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, categoryID);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("Nombre");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getCategoryID(String categoryName) throws SQLException {
+        return getIdByNameFromTable(categoryName, "Categorias");
+    }
+
+    private int getIdByNameFromTable(String name, String table) {
+        int id = 0;
+        String sql = "SELECT ID FROM " + table + " WHERE Nombre = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement statement = conn.prepareStatement(sql);){
+
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                id = resultSet.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public ArrayList<String> getCategoryAttributesNames(int categoryID) throws SQLException {
+        ArrayList<String> attributes = new ArrayList<>();
+        String sql = "SELECT Nombre FROM Atributos WHERE ID_CATEGORIA = ? ORDER BY ID";
+
+        Connection conn = connect();
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, categoryID);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            attributes.add(resultSet.getString("Nombre"));
+        }
+
+
+        resultSet.close();
+        statement.close();
+        conn.close();
+
+        return attributes;
+    }
+
+
 }

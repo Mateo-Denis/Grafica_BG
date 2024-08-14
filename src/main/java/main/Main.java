@@ -1,9 +1,6 @@
 package main;
 
 
-import PdfFormater.PdfConverter;
-import PdfFormater.Row;
-import java.io.FileNotFoundException;
 import static PdfFormater.SamplePDFCreation.createWeirdAahPDF;
 
 
@@ -15,27 +12,27 @@ import models.BudgetModel;
 import models.IBudgetModel;
 import models.CategoryModel;
 import models.ICategoryModel;
-import models.SubCategoryModel;
-import models.ISubCategoryModel;
+import models.IProductListModel;
+import models.ProductListModel;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductSearchPresenter;
+import presenters.product.ProductListPresenter;
 import presenters.budget.BudgetCreatePresenter;
 import presenters.budget.BudgetSearchPresenter;
-import presenters.subCategory.SubCategoryCreatePresenter;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
-import utils.databases.SubCategoriesDatabaseConnection;
+import utils.databases.AttributesDatabaseConnection;
 import views.client.ClientCreateView;
 import views.client.ClientSearchView;
 import views.products.ProductCreateView;
 import views.products.ProductSearchView;
+import views.products.list.ProductListView;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
-import views.subCategories.SubCategoryCreateView;
 import views.home.IHomeView;
 import views.home.HomeView;
 
@@ -53,47 +50,50 @@ public class Main {
         productsDB.loadDatabase();
         BudgetsDatabaseConnection budgetsDB = new BudgetsDatabaseConnection();
         budgetsDB.loadDatabase();
-        SubCategoriesDatabaseConnection subCategoriesDB = new SubCategoriesDatabaseConnection();
-        subCategoriesDB.loadDatabase();
+        AttributesDatabaseConnection attributesDB = new AttributesDatabaseConnection();
+        attributesDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
-        IProductModel productModel = new ProductModel(productsDB);
+        IProductModel productModel = new ProductModel(productsDB, attributesDB);
         IBudgetModel budgetModel = new BudgetModel(budgetsDB);
-        ICategoryModel categoryModel = new CategoryModel(categoriesDB);
-        ISubCategoryModel subCategoryModel = new SubCategoryModel(subCategoriesDB);
+        ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
+        IProductListModel productListModel = new ProductListModel(productsDB);
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientSearchView clientSearchView = new ClientSearchView();
         ProductCreateView productCreateView = new ProductCreateView();
-        ProductSearchView productSearchView = new ProductSearchView();
+        ProductListView productListView = new ProductListView();
         BudgetCreateView budgetCreateView = new BudgetCreateView();
         BudgetSearchView budgetSearchView = new BudgetSearchView();
-        SubCategoryCreateView subCategoryCreateView = new SubCategoryCreateView();
 
         ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel);
         ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
         ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel);
+        ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);
+
+
+        ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
+
+
         ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(productSearchView, productModel);
         BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(budgetCreateView, budgetModel, categoryModel);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetModel);
-        SubCategoryCreatePresenter subCategoryCreatePresenter = new SubCategoryCreatePresenter(subCategoryCreateView, subCategoryModel, categoryModel, subCategoriesDB);
         clientCreatePresenter.start();
         clientSearchPresenter.start();
         productCreatePresenter.start();
+        productListPresenter.start();
         productSearchPresenter.start();
         budgetCreatePresenter.start();
         budgetSearchPresenter.start();
-        subCategoryCreatePresenter.start();
 
         clientCreateView.start();
         clientSearchView.start();
         productCreateView.start();
         productSearchView.start();
+        productListView.start();
         budgetCreateView.start();
         budgetSearchView.start();
-        subCategoryCreateView.start();
 
-
-        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter, productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, subCategoryCreatePresenter);
+        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter, productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter);
     }
 }

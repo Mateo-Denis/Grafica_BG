@@ -20,13 +20,18 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JComboBox<String> cityComboBox;
     private JLabel addressLabel;
 	private ClientSearchPresenter clientSearchPresenter;
+    //private ClientListPresenter clientListPresenter;
 
-    public ClientSearchView() {
+    public ClientSearchView(/*ClientListPresenter clientListPresenter*/) {
         windowFrame = new JFrame("Buscar Cliente");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+
+        //this.clientListPresenter = clientListPresenter;
+
+        initListeners();
     }
     @Override
     public void start() {
@@ -51,7 +56,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     @Override
     protected void initListeners() {
         searchButton.addActionListener(e -> clientSearchPresenter.onSearchButtonClicked());
-        clientListOpenButton.addActionListener(e -> clientSearchPresenter.onClientListOpenButtonClicked());
+        //clientListOpenButton.addActionListener(e -> clientListPresenter.onClientViewOpenListButtonClicked());
     }
 
     @Override
@@ -95,5 +100,24 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
             }
         }
         return false;
+    }
+
+    public int getSelectedTableRow() {
+        return clientResultTable.getSelectedRow();
+    }
+
+    public String getSelectedClientName() {
+        String clientName = "";
+        try {
+            clientName = (String) clientResultTable.getValueAt(getSelectedTableRow(), 0);
+            return clientName;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "No client selected", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    public void deselectAllRows() {
+        clientResultTable.clearSelection();
     }
 }

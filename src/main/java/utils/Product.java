@@ -5,18 +5,13 @@ public class Product {
     private String name;
     private String description;
     private double price;
-    private String category;
+    private String categoryName;
 
-    public Product(String name, String description, double price, String category) {
-        this.ID = ID;
+    public Product(String name, String description, double price, String categoryName) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
-    }
-
-    public int getID() {
-        return ID;
+        this.categoryName = categoryName;
     }
 
     public String getName() {
@@ -31,7 +26,7 @@ public class Product {
         return price;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 }

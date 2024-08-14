@@ -6,6 +6,8 @@ import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
 import views.ToggleableView;
 
+import java.awt.event.ItemListener;
+
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
 	private JLabel clientLabel;
@@ -57,6 +59,9 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 
 	protected void initListeners() {
 		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+
+		//TESTING EMPTY FIELDS
+		createButton.addItemListener(e -> clientCreatePresenter.onEmptyFields(clientTextField, cityTextField));
 	}
 
 	@Override
@@ -72,5 +77,14 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	protected void wrapContainer() {
 		containerPanelWrapper = containerPanel;
 	}
+
+	public JTextField getClientTextField() {
+        return clientTextField;
+    }
+
+
+    public JTextField getCityTextField() {
+        return cityTextField;
+    }
 
 }

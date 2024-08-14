@@ -1,0 +1,2 @@
+-Reiniciar el autoIncrement de la tabla:
+    DELETE FROM sqlite_sequence WHERE name='nombre_de_la_tabla';

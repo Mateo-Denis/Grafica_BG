@@ -15,4 +15,10 @@ public interface IClientSearchView extends IToggleableView {
 
 	boolean isCityInComboBox(String lastCityAdded);
 
+	int getSelectedTableRow();
+
+    void deselectAllRows();
+
+	String getSelectedClientName();
+
 }

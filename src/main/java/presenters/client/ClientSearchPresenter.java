@@ -1,6 +1,7 @@
 package presenters.client;
 
 import models.IClientModel;
+import models.listeners.failed.ClientCreationEmptyFieldListener;
 import presenters.StandardPresenter;
 import utils.Client;
 import views.client.IClientSearchView;
@@ -43,6 +44,7 @@ public class ClientSearchPresenter extends StandardPresenter {
 		});
 
 		clientModel.addClientSearchFailureListener(() -> clientSearchView.showMessage(CLIENT_SEARCH_FAILURE));
+		clientModel.addClientCreationEmptyFieldListener((ClientCreationEmptyFieldListener) () -> clientSearchView.showMessage(CLIENT_CREATION_EMPTY_FIELDS));
 
 		clientModel.addCitiesFetchingSuccessListener(() -> {
 			ArrayList<String> cities = clientModel.getQueriedCities();

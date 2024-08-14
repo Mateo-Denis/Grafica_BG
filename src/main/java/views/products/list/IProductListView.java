@@ -1,17 +1,17 @@
-package views.products;
+package views.products.list;
 
 import views.IToggleableView;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
-public interface IProductSearchView extends IToggleableView {
-    String getNameSearchText();
+public interface IProductListView extends IToggleableView {
     void setStringTableValueAt(int row, int col, String value);
     void setDoubleTableValueAt(int row, int col, double value);
     void setIntTableValueAt(int row, int col, int value);
     void clearView();
-    String getSelectedProductName();
-    //ArrayList<String> getVisibleProductNames();
+    void setProductTableModel();
     int getSelectedTableRow();
+    String getSelectedProductName();
     void deselectAllRows();
+    JFrame getJFrame();
 }

@@ -1,6 +1,7 @@
 package models;
 
 import models.listeners.failed.CitiesFetchingFailureListener;
+import models.listeners.failed.ClientCreationEmptyFieldListener;
 import models.listeners.failed.ClientCreationFailureListener;
 import models.listeners.failed.ClientSearchFailureListener;
 import models.listeners.successful.CitiesFetchingSuccessListener;
@@ -30,4 +31,8 @@ public interface IClientModel {
 	ArrayList<String> getQueriedCities();
 
 	String getLastCityAdded();
+
+	//TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
+	void notifyClientCreationEmptyField();
+	void addClientCreationEmptyFieldListener(ClientCreationEmptyFieldListener listener);
 }
