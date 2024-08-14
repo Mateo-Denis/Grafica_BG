@@ -8,6 +8,7 @@ import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.BudgetCreatePresenter;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class HomeView extends JFrame implements IHomeView {
 
@@ -44,6 +45,15 @@ public class HomeView extends JFrame implements IHomeView {
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setVisible(true);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		// Calculate the x and y position
+		int x = 50;  // 50 pixels from the left side of the screen
+		int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
+
+		// Set the location of the frame
+		windowFrame.setLocation(x, y);
 
 		this.clientCreatePresenter = clientCreatePresenter;
 		this.clientSearchPresenter = clientSearchPresenter;

@@ -29,6 +29,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.pack();
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+		windowFrame.setSize(400, 300);
 	}
 	@Override
 	public String getClientText() {

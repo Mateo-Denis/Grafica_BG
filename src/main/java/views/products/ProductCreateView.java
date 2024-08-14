@@ -55,7 +55,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new ProductPriceInputVerifier());
-
+        windowFrame.setSize(400, 300);
 
         modularContainer.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
