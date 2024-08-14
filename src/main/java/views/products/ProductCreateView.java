@@ -3,7 +3,7 @@ package views.products;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
-import utils.ProductPriceInputVerifier;
+import utils.NumberInputVerifier;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 import views.ToggleableView;
@@ -22,7 +22,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Map;
 import utils.TextUtils;
-import views.products.modular.IModularCategoryView;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     private JPanel containerPanel;
@@ -54,8 +53,13 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
+<<<<<<< Updated upstream
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new ProductPriceInputVerifier());
         windowFrame.setSize(400, 300);
+=======
+        ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+
+>>>>>>> Stashed changes
 
         modularContainer.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

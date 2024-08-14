@@ -10,6 +10,8 @@ public interface IClientCreateView extends IToggleableView {
     String getCityText();
     String getPhoneText();
     boolean isClientSelected();
+    void addCityToComboBox(String city);
+    String getComboBoxSelectedCity();
 
     //test empty fields
     JTextField getClientTextField();

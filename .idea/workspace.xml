@@ -4,10 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="PdfCreator fix 9-8-2024">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2024-08-14_314.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/2024-08-14_314.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
+=======
+    <list default="true" id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2024-08-14_666.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/2024-08-14_666.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ProductPriceInputVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/NumberInputVerifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <list id="903ee0ff-b1f1-477d-a887-8360a61e7659" name="Changes by ggirotti-principal" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -93,12 +118,16 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "288",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "268",
     "extract.method.default.visibility": "private",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+<<<<<<< Updated upstream
     "last_opened_file_path": "C:/Users/mateo/OneDrive/Escritorio/Proyectos Personales/GraficaBahia/PresupuestosGraficaBahia",
+=======
+    "last_opened_file_path": "C:/Users/gongi/OneDrive/Escritorio/mateio",
+>>>>>>> Stashed changes
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -224,8 +253,21 @@
       <workItem from="1723603517598" duration="172000" />
       <workItem from="1723603808053" duration="116000" />
       <workItem from="1723603960108" duration="2809000" />
+<<<<<<< Updated upstream
       <workItem from="1723646900222" duration="7922000" />
       <workItem from="1723656226283" duration="307000" />
+=======
+      <workItem from="1723607070083" duration="125000" />
+      <workItem from="1723607214052" duration="49000" />
+      <workItem from="1723607273704" duration="99000" />
+      <workItem from="1723639587856" duration="286000" />
+      <workItem from="1723639887530" duration="11517000" />
+      <workItem from="1723651566550" duration="2841000" />
+      <workItem from="1723655008757" duration="101000" />
+      <workItem from="1723655163163" duration="341000" />
+      <workItem from="1723655522437" duration="16000" />
+      <workItem from="1723658585107" duration="140000" />
+>>>>>>> Stashed changes
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -267,7 +309,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723249810052</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Last commit 14-8-24 before meeting graficabg women">
+      <option name="closed" value="true" />
+      <created>1723607150342</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723607150342</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,7 +350,8 @@
     <MESSAGE value="Budget search function" />
     <MESSAGE value="BudgetCreateView .form file creation" />
     <MESSAGE value="PdfCreator fix 9-8-2024" />
-    <option name="LAST_COMMIT_MESSAGE" value="PdfCreator fix 9-8-2024" />
+    <MESSAGE value="Last commit 14-8-24 before meeting graficabg women" />
+    <option name="LAST_COMMIT_MESSAGE" value="Last commit 14-8-24 before meeting graficabg women" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

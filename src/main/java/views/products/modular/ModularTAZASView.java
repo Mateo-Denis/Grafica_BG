@@ -17,7 +17,7 @@ public class ModularTAZASView extends JPanel implements IModularCategoryView  {
 
 	@Override
 	public ArrayList<String> getModularAttributes() {
-		return null;
+		return new ArrayList<String>();
 	}
 
 

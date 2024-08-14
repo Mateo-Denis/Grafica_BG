@@ -6,6 +6,8 @@ import views.client.*;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
+
 import static utils.MessageTypes.*;
 
 public class ClientCreatePresenter extends StandardPresenter {
@@ -22,6 +24,14 @@ public class ClientCreatePresenter extends StandardPresenter {
     public void initListeners() {
         clientModel.addClientCreationSuccessListener(() -> clientCreateView.showMessage(CLIENT_CREATION_SUCCESS));
         clientModel.addClientCreationFailureListener(() -> clientCreateView.showMessage(CLIENT_CREATION_FAILURE));
+
+
+        clientModel.addCitiesFetchingSuccessListener(() -> {
+            ArrayList<String> cities = clientModel.getQueriedCities();
+            for (String city : cities) {
+                clientCreateView.addCityToComboBox(city);
+            }
+        });
 
 
         //TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
@@ -45,6 +55,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
         public void onCreateButtonClicked () {
             clientCreateView.setWorkingStatus();
+
             //test
             boolean anyEmpty = onEmptyFields(clientCreateView.getClientTextField(), clientCreateView.getCityTextField());
             if(anyEmpty)

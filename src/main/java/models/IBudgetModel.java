@@ -7,6 +7,8 @@ import models.listeners.failed.BudgetSearchFailureListener;
 import models.listeners.failed.BudgetCreationFailureListener;
 import models.listeners.successful.CitiesFetchingSuccessListener;
 import utils.Budget;
+import utils.Client;
+import utils.Product;
 
 import java.util.ArrayList;
 
@@ -19,4 +21,9 @@ public interface IBudgetModel {
     void addBudgetSearchFailureListener(BudgetSearchFailureListener listener);
     void queryBudgets(String budgetSearch);
     ArrayList<Budget> getLastBudgetsQuery();
+    ArrayList<String> getProductNamesByCategory(String category);
+    ArrayList<Product> getProducts();
+    ArrayList<String> getCitiesName();
+    ArrayList<Client> getClients(String name, String city);
+    //Client getClient(int selectedRow);
 }

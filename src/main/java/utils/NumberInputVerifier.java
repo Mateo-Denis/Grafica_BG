@@ -2,10 +2,9 @@
 
 package utils;
 
-import javax.swing.*;
 import javax.swing.text.*;
 
-public class ProductPriceInputVerifier extends DocumentFilter {
+public class NumberInputVerifier extends DocumentFilter {
 
     // Expresión regular que permite dígitos y un punto decimal
     private static final String NUMERIC_REGEX = "\\d*\\.?\\d*";

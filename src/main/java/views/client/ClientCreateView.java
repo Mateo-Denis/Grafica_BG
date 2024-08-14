@@ -6,7 +6,7 @@ import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
 import views.ToggleableView;
 
-import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
@@ -21,6 +21,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	private JTextField phoneTextField;
 	private JRadioButton clientRadioButton;
 	private JRadioButton particularRadioButton;
+	private JComboBox cityComboBox;
 	private ClientCreatePresenter clientCreatePresenter;
 
 	public ClientCreateView() {
@@ -42,6 +43,9 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	@Override
 	public String getCityText() {
 		return cityTextField.getText();
+	}
+	public String getComboBoxSelectedCity() {
+		return (String) cityComboBox.getSelectedItem();
 	}
 	@Override
 	public String getPhoneText() {
@@ -83,6 +87,9 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
         return clientTextField;
     }
 
+	public void addCityToComboBox(String city) {
+		cityComboBox.addItem(city);
+	}
 
     public JTextField getCityTextField() {
         return cityTextField;

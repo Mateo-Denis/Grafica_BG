@@ -6,6 +6,7 @@ import models.IProductModel;
 import models.ICategoryModel;
 import presenters.StandardPresenter;
 
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,16 @@ public class ProductCreatePresenter extends StandardPresenter {
     public void onCreateButtonClicked() {
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategory();
-        ArrayList<String> attributesValues = getModularAttributes((IModularCategoryView) productCreateView.getModularView());
+        //ArrayList<String> attributesValues = getModularAttributes((IModularCategoryView) productCreateView.getModularView());
+        ArrayList<String> attributesValues = new ArrayList<>();
+        Component modularView = productCreateView.getModularView();
+        if (modularView instanceof IModularCategoryView) {
+            attributesValues = getModularAttributes((IModularCategoryView) modularView);
+        } else {
+            // Handle the error, e.g., log it or throw an exception
+            throw new ClassCastException("Expected IModularCategoryView but found " + modularView.getClass().getName());
+        }
+
         ArrayList<String> attributesNames = categoryModel.getCategoryAttributesNames(categoryName);
 
         int productID = productModel.createProduct(
