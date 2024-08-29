@@ -33,8 +33,10 @@ public interface IBudgetCreateView extends IToggleableView {
     void setClientDoubleTableValueAt(int row, int col, Double value);
     int getClientTableSelectedRow();
     JTable getClientResultTable();
+    JTable getPreviewTable();
     String getClientStringTableValueAt(int row, int col);
     int getClientIntTableValueAt(int row, int col);
+    String getProductStringTableValueAt(int row, int col);
     Double getClientDoubleTableValueAt(int row, int col);
     JButton getClientAddButton();
     void setPreviewStringTableValueAt(int row, int col, String value);
@@ -42,4 +44,8 @@ public interface IBudgetCreateView extends IToggleableView {
     void setPreviewIntTableValueAt(int row, int col, int value);
     int getPreviewIntTableValueAt(int row, int col);
     String getPreviewStringTableValueAt(int row, int col);
+    int getProductTableSelectedRow();
+    JTextField getProductsTextField();
+    JButton getProductSearchButton();
+    void setClientOnPreviewTable(String clientName, String clientType);
 }

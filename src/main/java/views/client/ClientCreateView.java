@@ -1,27 +1,33 @@
 package views.client;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 
 import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
+import utils.NumberInputVerifier;
 import views.ToggleableView;
-
-import java.util.ArrayList;
 
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
-	private JLabel clientLabel;
+	private JPanel clientContainer;
 	private JButton createButton;
 	private JTextField clientTextField;
-	private JLabel addressLabel;
+	private JLabel clientLabel;
+	private JPanel addressContainer;
 	private JTextField addressTextField;
+	private JPanel cityContainer;
 	private JLabel cityLabel;
 	private JTextField cityTextField;
+	private JPanel phoneContainer;
 	private JLabel phoneLabel;
 	private JTextField phoneTextField;
 	private JRadioButton clientRadioButton;
 	private JRadioButton particularRadioButton;
-	private JComboBox cityComboBox;
+	private JPanel buttonsContainer;
+	private JPanel radioButtonsContainer;
+	private JPanel cityFieldsContainer;
+	private JComboBox<String> cityComboBox;
 	private ClientCreatePresenter clientCreatePresenter;
 
 	public ClientCreateView() {
@@ -31,6 +37,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 		windowFrame.setSize(400, 300);
+		((AbstractDocument) phoneTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 	}
 	@Override
 	public String getClientText() {
@@ -64,9 +71,8 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 
 	protected void initListeners() {
 		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
-
-		//TESTING EMPTY FIELDS
-		createButton.addItemListener(e -> clientCreatePresenter.onEmptyFields(clientTextField, cityTextField));
+		createButton.addItemListener(e -> clientCreatePresenter.onEmptyFields(clientTextField, cityTextField, cityComboBox));
+		cityComboBox.addActionListener(e -> clientCreatePresenter.onCityComboBoxSelected());
 	}
 
 	@Override
@@ -94,5 +100,9 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
     public JTextField getCityTextField() {
         return cityTextField;
     }
+
+	public JComboBox<String> getCityComboBox() {
+		return cityComboBox;
+	}
 
 }

@@ -160,7 +160,22 @@ public class ClientModel implements IClientModel{
 		clientCreationEmptyFieldListeners.add(listener);
 	}
 
-    public void notifyClientCreationEmptyField() {
+	@Override
+	public void deleteOneClient(int clientID) {
+        dbConnection.deleteOneClient(clientID);
+    }
+
+	@Override
+	public void deleteMultipleClients(List<Integer> clientIDs) {
+		dbConnection.deleteMultipleClients(clientIDs);
+	}
+
+	@Override
+	public int getClientID(String clientName) {
+		return dbConnection.getClientID(clientName);
+	}
+
+	public void notifyClientCreationEmptyField() {
         for (ClientCreationEmptyFieldListener listener : clientCreationEmptyFieldListeners) {
             listener.onFailure();
         }

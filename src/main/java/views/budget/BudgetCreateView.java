@@ -45,12 +45,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JTable budgetPreviewingTable;
     private JPanel budgetCreationButtonsContainer;
     private JButton budgetPreviewButton;
-    private JLabel selectedProductsLabel;
     private JButton budgetCreateButton;
     private JPanel tableContainer;
-    private JPanel buttonsContainer;
-    private JButton deleteSelectedProductButton;
-    private JButton eliminarTodosButton;
     private JLabel previewTableLabe;
     private JTable productResultTable;
     private JPanel productTableContainer;
@@ -60,6 +56,10 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JLabel measuresLabel;
     private JButton addClientButton;
     private JPanel selectClientButtonContainer;
+    private JTextField productTextField;
+    private JPanel productTextFieldContainer;
+    private JButton productSearchButton;
+    private JPanel productSearchButtonContainer;
     private BudgetCreatePresenter budgetCreatePresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
@@ -83,6 +83,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     protected void initListeners() {
         budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onCreateButtonClicked());
         addProductButton.addActionListener(e -> budgetCreatePresenter.onAddProductButtonClicked());
+        budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onCreateButtonClicked());
     }
 
     @Override
@@ -91,7 +92,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         cityComboBox.setSelectedIndex(-1);
         amountTextField.setText("");
         observationsTextField.setText("");
-        productComboBox.setSelectedIndex(-1);
         this.clearPreviewTable();
     }
 
@@ -283,8 +283,21 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return clientResultTable.getSelectedRow();
     }
 
+    public int getProductTableSelectedRow() {
+        return productResultTable.getSelectedRow();
+    }
+
     public JTable getClientResultTable() {
         return clientResultTable;
+    }
+
+    @Override
+    public JTable getPreviewTable() {
+        return budgetPreviewingTable;
+    }
+
+    public String getProductStringTableValueAt(int row, int col) {
+        return (String) productResultTable.getValueAt(row, col);
     }
 
     public String getClientStringTableValueAt(int row, int col){
@@ -312,5 +325,19 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     @Override
     public int getPreviewIntTableValueAt(int row, int col) {
         return (int) budgetPreviewingTable.getValueAt(row, col);
+    }
+
+    public JTextField getProductsTextField() {
+        return productTextField;
+    }
+
+    public JButton getProductSearchButton() {
+        return productSearchButton;
+    }
+
+    @Override
+    public void setClientOnPreviewTable(String clientName, String clientType) {
+        budgetPreviewingTable.setValueAt(clientName, 0, 0);
+        budgetPreviewingTable.setValueAt(clientType, 0, 3);
     }
 }

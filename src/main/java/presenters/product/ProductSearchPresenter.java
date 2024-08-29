@@ -28,10 +28,11 @@ public class ProductSearchPresenter extends StandardPresenter {
             ArrayList<Product> products = productModel.getLastProductsQuery();
             int rowCount = 0;
             for (Product product : products) {
+                String categoryName = productModel.getCategoryName(product.getCategoryID());
                 productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
                 productSearchView.setStringTableValueAt(rowCount, 1, product.getDescription());
                 productSearchView.setDoubleTableValueAt(rowCount, 2, product.getPrice());
-                productSearchView.setStringTableValueAt(rowCount, 3, product.getCategoryName());
+                productSearchView.setStringTableValueAt(rowCount, 3, categoryName);
                 rowCount++;
             }
         });
@@ -56,10 +57,19 @@ public class ProductSearchPresenter extends StandardPresenter {
         productSearchView.showView();
     }
 
-    public void onDeleteOneProductButtonClicked() {
-        List<Integer> oneProductID = getOneProductID();
-        if (!(oneProductID.isEmpty())) {
-            productModel.deleteProduct(getOneProductID());
+    public void onDeleteProductButtonClicked() {
+        int[] selectedRows = productSearchView.getProductResultTable().getSelectedRows();
+        if(selectedRows.length == 1) {
+            deleteOneProduct();
+        } else if(selectedRows.length > 1) {
+            deleteMultipleProducts();
+        }
+    }
+
+    public void deleteOneProduct() {
+        int oneProductID = getSelectedProductID(); //TOMA EL ID DEL PRODUCTO SELECCIONADO
+        if (oneProductID != -1 && oneProductID != 0) {
+            productModel.deleteOneProduct(oneProductID);
             productSearchView.setWorkingStatus();
             productSearchView.clearView();
             String searchedName = productSearchView.getNameSearchText();
@@ -69,19 +79,33 @@ public class ProductSearchPresenter extends StandardPresenter {
         }
     }
 
-/*    public void onDeleteAllProductsButtonClicked() {
-        ArrayList<String> visibleProductNames = productSearchView.getVisibleProductNames();
-        productModel.deleteAllVisibleProducts(visibleProductNames);
+    public void deleteMultipleProducts() {
+        ArrayList<Integer> productIDs = new ArrayList<>();
+        ArrayList<String> selectedProductNames = productSearchView.getMultipleSelectedProductNames();
+        int[] selectedRows = productSearchView.getProductResultTable().getSelectedRows();
+        for (int i = 0; i < selectedRows.length; i++) {
+            String selectedProductName = selectedProductNames.get(i);
+            int productID = productModel.getProductID(selectedProductName);
+            productIDs.add(productID);
+        }
 
+
+
+        productModel.deleteMultipleProducts(productIDs);
         productSearchView.setWorkingStatus();
         productSearchView.clearView();
+        String searchedName = productSearchView.getNameSearchText();
+        productModel.queryProducts(searchedName);
+        productSearchView.deselectAllRows();
         productSearchView.setWaitingStatus();
-    }*/
+    }
 
-    public List<Integer> getOneProductID() {
-        String selectedProductName = productSearchView.getSelectedProductName();
-        List<Integer> oneProductID = new ArrayList<>();
-        oneProductID.add(productModel.getProductID(selectedProductName));
-        return oneProductID;
+    public int getSelectedProductID() {
+        int selectedRow = productSearchView.getProductResultTable().getSelectedRow();
+        if(selectedRow != -1) {
+            String selectedProductName = productSearchView.getSelectedProductName();
+            return productModel.getProductID(selectedProductName);
+        }
+        return -1;
     }
 }

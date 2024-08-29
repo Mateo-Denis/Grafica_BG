@@ -15,7 +15,6 @@ public class ProductListView extends ToggleableView implements IProductListView 
     private JScrollPane productScrollPanel;
     private JPanel titleContainer;
     private JLabel titleLabel;
-    private JButton deleteOneProductButton;
     private ProductListPresenter productListPresenter;
     private DefaultTableModel tableModel;
 
@@ -45,7 +44,7 @@ public class ProductListView extends ToggleableView implements IProductListView 
 
     @Override
     protected void initListeners() {
-        deleteOneProductButton.addActionListener(e -> productListPresenter.onDeleteOneProductButtonClicked());
+
     }
 
     @Override
@@ -79,17 +78,6 @@ public class ProductListView extends ToggleableView implements IProductListView 
 
     public int getSelectedTableRow() {
         return productTable.getSelectedRow();
-    }
-
-    public String getSelectedProductName() {
-        String productName = "";
-        try {
-            productName = (String) productTable.getValueAt(getSelectedTableRow(), 1);
-            return productName;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "No product selected", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
     }
 
     public void deselectAllRows() {

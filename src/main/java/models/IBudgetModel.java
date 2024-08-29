@@ -11,6 +11,7 @@ import utils.Client;
 import utils.Product;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface IBudgetModel {
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
@@ -22,8 +23,12 @@ public interface IBudgetModel {
     void queryBudgets(String budgetSearch);
     ArrayList<Budget> getLastBudgetsQuery();
     ArrayList<String> getProductNamesByCategory(String category);
-    ArrayList<Product> getProducts();
+    ArrayList<Product> getProducts(String productName);
     ArrayList<String> getCitiesName();
     ArrayList<Client> getClients(String name, String city);
-    //Client getClient(int selectedRow);
+    int getBudgetID(String budgetName);
+    void deleteOneBudget(int budgetID);
+    void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
+    void saveProducts(String budgetName, Map<Integer,String> products);
+    Map<Integer,String> getSavedProducts(String budgetName);
 }

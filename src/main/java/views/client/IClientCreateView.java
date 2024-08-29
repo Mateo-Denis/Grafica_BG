@@ -12,8 +12,7 @@ public interface IClientCreateView extends IToggleableView {
     boolean isClientSelected();
     void addCityToComboBox(String city);
     String getComboBoxSelectedCity();
-
-    //test empty fields
     JTextField getClientTextField();
     JTextField getCityTextField();
+    JComboBox<String> getCityComboBox();
 }

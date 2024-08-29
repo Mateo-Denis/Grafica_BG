@@ -16,9 +16,12 @@ public enum MessageTypes {
     CITY_FETCH_FAILURE("Error al consultar las ciudades"
             , "Ha ocurrido un error al consultar las ciudades en la base de datos."
             , JOptionPane.ERROR_MESSAGE),
-    CLIENT_CREATION_EMPTY_FIELDS("Debe llenar los campos obligatorios"
+    ANY_CREATION_EMPTY_FIELDS("Debe llenar los campos obligatorios"
             , "Por favor, llene los campos obligatorios para poder crear un cliente."
             , JOptionPane.ERROR_MESSAGE),
+    BUDGET_CREATION_EMPTY_COLUMN("Faltan datos para el presupuesto."
+    , "Por favor, llene los campos obligatorios para poder crear un presupuesto."
+    , JOptionPane.ERROR_MESSAGE),
     PRODUCT_CREATION_SUCCESS("Producto creado con éxito"
             , "El producto fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),

@@ -74,4 +74,16 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
             System.out.println(e.getMessage());
         }
     }
+
+    public void insertAttributeRow(String attribute, int categoryID) {
+        String sql = "INSERT INTO Atributos(Nombre, ID_CATEGORIA) VALUES(?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, attribute);
+            pstmt.setInt(2, categoryID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

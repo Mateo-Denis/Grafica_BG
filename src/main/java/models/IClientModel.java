@@ -10,6 +10,7 @@ import models.listeners.successful.ClientSearchSuccessListener;
 import utils.Client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IClientModel {
 	void createClient(String clientName, String clientAddress, String clientCity, String clientPhone, boolean clientType);
@@ -22,6 +23,7 @@ public interface IClientModel {
 	void addClientSearchFailureListener(ClientSearchFailureListener listener);
 
 	void queryClients(String searchedName, String searchedAddress);
+
 	ArrayList<Client> getLastClientsQuery();
 
 	void addCitiesFetchingSuccessListener(CitiesFetchingSuccessListener listener);
@@ -32,7 +34,11 @@ public interface IClientModel {
 
 	String getLastCityAdded();
 
-	//TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
-	void notifyClientCreationEmptyField();
 	void addClientCreationEmptyFieldListener(ClientCreationEmptyFieldListener listener);
+
+	void deleteOneClient(int clientID);
+
+	void deleteMultipleClients(List<Integer> clientIDs);
+
+	int getClientID(String clientName);
 }

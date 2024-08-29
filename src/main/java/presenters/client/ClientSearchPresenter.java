@@ -44,7 +44,7 @@ public class ClientSearchPresenter extends StandardPresenter {
 		});
 
 		clientModel.addClientSearchFailureListener(() -> clientSearchView.showMessage(CLIENT_SEARCH_FAILURE));
-		clientModel.addClientCreationEmptyFieldListener((ClientCreationEmptyFieldListener) () -> clientSearchView.showMessage(CLIENT_CREATION_EMPTY_FIELDS));
+		clientModel.addClientCreationEmptyFieldListener((ClientCreationEmptyFieldListener) () -> clientSearchView.showMessage(ANY_CREATION_EMPTY_FIELDS));
 
 		clientModel.addCitiesFetchingSuccessListener(() -> {
 			ArrayList<String> cities = clientModel.getQueriedCities();
@@ -81,7 +81,57 @@ public class ClientSearchPresenter extends StandardPresenter {
 
 	}
 
-	public void onClientListOpenButtonClicked() {
+	public void onDeleteClientButtonClicked() {
+		int[] selectedRows = clientSearchView.getClientResultTable().getSelectedRows();
+		if(selectedRows.length == 1) {
+			deleteOneClient();
+		} else if(selectedRows.length > 1) {
+			deleteMultipleClients();
+		}
 	}
 
+	public void deleteOneClient() {
+		int oneClientID = getOneClientID();
+		if (oneClientID != -1 && oneClientID != 0) {
+			clientModel.deleteOneClient(oneClientID);
+			clientSearchView.setWorkingStatus();
+			clientSearchView.clearTable();
+			String searchedName = clientSearchView.getnameSearchText();
+			String searchedCity = clientSearchView.getSelectedCity();
+			if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
+			clientModel.queryClients(searchedName, searchedCity);
+			clientSearchView.deselectAllRows();
+			clientSearchView.setWaitingStatus();
+		}
+	}
+
+	public void deleteMultipleClients() {
+		ArrayList<Integer> clientIDs = new ArrayList<>();
+		ArrayList<String> selectedClientNames = clientSearchView.getMultipleSelectedClientNames();
+		int[] selectedRows = clientSearchView.getClientResultTable().getSelectedRows();
+		for(int i = 0; i < selectedRows.length; i++) {
+			String selectedClientName = selectedClientNames.get(i);
+			int clientID = clientModel.getClientID(selectedClientName);
+			clientIDs.add(clientID);
+		}
+
+			clientModel.deleteMultipleClients(clientIDs);
+			clientSearchView.setWorkingStatus();
+			clientSearchView.clearView();
+			String searchedName = clientSearchView.getnameSearchText();
+			String searchedCity = clientSearchView.getSelectedCity();
+			if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
+			clientModel.queryClients(searchedName, searchedCity);
+			clientSearchView.deselectAllRows();
+			clientSearchView.setWaitingStatus();
+		}
+
+	public int getOneClientID() {
+		int selectedRow = clientSearchView.getClientResultTable().getSelectedRow();
+		if(selectedRow != -1) {
+			String selectedClientName = (String) clientSearchView.getSelectedClientName();
+			return clientModel.getClientID(selectedClientName);
+		}
+		return -1;
+	}
 }

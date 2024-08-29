@@ -2,6 +2,9 @@ package views.client;
 
 import views.IToggleableView;
 
+import javax.swing.*;
+import java.util.ArrayList;
+
 public interface IClientSearchView extends IToggleableView {
 	String getnameSearchText();
 
@@ -20,5 +23,11 @@ public interface IClientSearchView extends IToggleableView {
     void deselectAllRows();
 
 	String getSelectedClientName();
+
+	ArrayList<String> getMultipleSelectedClientNames();
+
+	JTable getClientResultTable();
+
+	void clearView();
 
 }

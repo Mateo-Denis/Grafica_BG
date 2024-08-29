@@ -59,8 +59,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
     }
 
     public ArrayList<Product> getProducts(String searchText) throws SQLException {
-        int categoryID = -1;
-        String categoryName = "";
+
         String sql = "SELECT * FROM Productos WHERE (Nombre LIKE ?)";
 
         try (Connection conn = connect();
@@ -69,14 +68,11 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             ResultSet resultSet = pstmt.executeQuery();
             ArrayList<Product> products = new ArrayList<>();
             while (resultSet.next()) {
-                categoryID = getCategoryID(resultSet.getString("Nombre"));
-                categoryName = categoriesDatabaseConnection.getCategoryName(categoryID);
-
                 Product product = new Product(
                         resultSet.getString("Nombre"),
                         resultSet.getString("Descripcion"),
                         resultSet.getDouble("Precio"),
-                        categoryName
+                        resultSet.getInt("Categoria_ID")
                 );
                 products.add(product);
             }
@@ -105,13 +101,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void deleteProductFromDB(List<Integer> productIDs) throws SQLException {
-        int IDsCount = 0;
-        for (int ID : productIDs) {
-            IDsCount++;
-        }
-        if (IDsCount == 1) {
-            int productID = productIDs.get(0);
+    public void deleteOneProductFromDB(int productID) throws SQLException {
             String sql = "DELETE FROM Productos WHERE ID = ?";
             try (Connection conn = connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -122,20 +112,21 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                 JOptionPane.showMessageDialog(null, "Error al eliminar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e.getMessage());
             }
-        } else {
-            for (int ID : productIDs) {
-                String sql = "DELETE FROM Productos WHERE ID = ?";
-                try (Connection conn = connect();
-                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setInt(1, ID);
-                    pstmt.executeUpdate();
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar algun producto.", "Error", JOptionPane.ERROR_MESSAGE);
-                    System.out.println(e.getMessage());
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Productos eliminados con éxito!");
         }
+
+    public void deleteMultipleProductsFromDB(List<Integer> productIDs) throws SQLException {
+        for (int ID : productIDs) {
+            String sql = "DELETE FROM Productos WHERE ID = ?";
+            try (Connection conn = connect();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, ID);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar uno o mas productos!", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println(e.getMessage());
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Productos eliminados con éxito!");
     }
 
     public int getProductID(String product) throws SQLException {
@@ -165,17 +156,41 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
 
             while (rs.next()) {
                 int categoryID= rs.getInt("Categoria_ID");
-                String categoryName = categoriesDatabaseConnection.getCategoryName(categoryID);
-
                 String productName = rs.getString("Nombre");
                 String productDescription = rs.getString("Descripcion");
                 double productPrice = rs.getDouble("Precio");
 
-                products.add(new Product(productName, productDescription, productPrice, categoryName));
+                products.add(new Product(productName, productDescription, productPrice, categoryID));
             }
         }
 
         return products;
+    }
+
+    public String getCategoryName(int categoryID) {
+        return categoriesDatabaseConnection.getCategoryName(categoryID);
+    }
+
+    public Product getOneProduct(int productID) throws SQLException {
+        String sql = "SELECT * FROM Productos WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, productID);
+            ResultSet resultSet = pstmt.executeQuery();
+            Product product = null;
+            while (resultSet.next()) {
+                product = new Product(
+                        resultSet.getString("Nombre"),
+                        resultSet.getString("Descripcion"),
+                        resultSet.getDouble("Precio"),
+                        resultSet.getInt("Categoria_ID")
+                );
+            }
+            resultSet.close();
+            pstmt.close();
+            conn.close();
+            return product;
+        }
     }
 }
 

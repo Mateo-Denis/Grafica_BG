@@ -64,8 +64,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     protected void initListeners() {
         searchButton.addActionListener(e -> productSearchPresenter.onSearchButtonClicked());
-        deleteOneProductButton.addActionListener(e -> productSearchPresenter.onDeleteOneProductButtonClicked());
-        //deleteAllProductsButton.addActionListener(e -> productSearchPresenter.onDeleteAllProductsButtonClicked());
+        deleteOneProductButton.addActionListener(e -> productSearchPresenter.onDeleteProductButtonClicked());
         productListOpenButton.addActionListener(e -> productListPresenter.onSearchViewOpenListButtonClicked());
     }
 
@@ -102,12 +101,17 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
     public String getSelectedProductName() {
         String productName = "";
+        int row = getSelectedTableRow();
         try {
             productName = (String) productResultTable.getValueAt(getSelectedTableRow(), 0);
             return productName;
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "No product selected", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+        deselectAllRows();
+        System.out.println("LLAMADA A METODO getSelectedProductName");
+
         return null;
     }
 
@@ -115,19 +119,17 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         productResultTable.clearSelection();
     }
 
-/*    public ArrayList<String> getVisibleProductNames() {
+    public JTable getProductResultTable() {
+        return productResultTable;
+    }
+
+    public ArrayList<String> getMultipleSelectedProductNames() {
         ArrayList<String> productNames = new ArrayList<>();
-        int filledRows = 0;
-
-        for (int i = 0; i < productResultTable.getRowCount(); i++) {
-            if (productResultTable.getValueAt(i, 0) != null) {
-                filledRows++;
-            }
-        }
-
-        for (int i = 0; i < filledRows; i++) {
-            productNames.add((String) productResultTable.getValueAt(i, 0));
+        int[] selectedRows = productResultTable.getSelectedRows();
+        for (int selectedRow : selectedRows) {
+            String productName = (String) productResultTable.getValueAt(selectedRow, 0);
+            productNames.add(productName);
         }
         return productNames;
-    }*/
+    }
 }

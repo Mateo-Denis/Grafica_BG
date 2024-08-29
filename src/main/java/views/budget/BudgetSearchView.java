@@ -4,10 +4,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import presenters.StandardPresenter;
+import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
-import views.products.ProductCreateView;
-import views.products.ProductSearchView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
@@ -25,14 +27,20 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     private JButton modifyButton;
     private JButton pdfButton;
     private JButton cleanTableButton;
+    private JButton deleteButton;
     private BudgetSearchPresenter budgetSearchPresenter;
+    private BudgetListPresenter budgetListPresenter;
 
-    public BudgetSearchView(){
+    public BudgetSearchView(BudgetListPresenter budgetListPresenter) {
         windowFrame = new JFrame("Buscar Presupuestos");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+
+        this.budgetListPresenter = budgetListPresenter;
+
+        initListeners();
     }
 
     @Override
@@ -51,9 +59,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     protected void initListeners() {
         searchButton.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
         cleanTableButton.addActionListener(e -> budgetSearchPresenter.onCleanTableButtonClicked());
-        //budgetListOpenButton.addActionListener(e -> budgetSearchPresenter.onSearchListButtonClicked());
+        budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
         //modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
         //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
+        deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
+        modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
     }
 
     @Override
@@ -82,5 +92,58 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
                 budgetResultTable.setValueAt("", row, col);
             }
         }
+    }
+
+    @Override
+    public String getSelectedBudgetName() {
+        String budgetName = "";
+        try {
+            budgetName = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 0);
+            return budgetName;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getMultipleSelectedBudgetNames() {
+        ArrayList<String> budgetNames = new ArrayList<>();
+        int[] selectedRows = budgetResultTable.getSelectedRows();
+        for (int row : selectedRows) {
+            String budgetName = (String) budgetResultTable.getValueAt(row, 0);
+            budgetNames.add(budgetName);
+        }
+        return budgetNames;
+    }
+
+    @Override
+    public int getSelectedTableRow() {
+        return budgetResultTable.getSelectedRow();
+    }
+
+    @Override
+    public JTable getBudgetResultTable() {
+        return budgetResultTable;
+    }
+
+    @Override
+    public void deselectAllRows() {
+        budgetResultTable.clearSelection();
+    }
+
+    @Override
+    public String getStringValueAt(int row, int col) {
+        return (String) budgetResultTable.getValueAt(row, col);
+    }
+
+    @Override
+    public int getIntValueAt(int row, int col) {
+        return (int) budgetResultTable.getValueAt(row, col);
+    }
+
+    @Override
+    public double getDoubleValueAt(int row, int col) {
+        return (double) budgetResultTable.getValueAt(row, col);
     }
 }

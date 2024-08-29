@@ -5,8 +5,8 @@ import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
-import utils.Category;
 import utils.databases.AttributesDatabaseConnection;
+import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 
 import java.sql.SQLException;
@@ -18,6 +18,7 @@ public class ProductModel implements IProductModel {
 
     private final AttributesDatabaseConnection attributesDBConnection;
     private final ProductsDatabaseConnection productsDBConnection;
+    private final CategoriesDatabaseConnection categoriesDBConnection;
     private final List<ProductCreationSuccessListener> productCreationSuccessListeners;
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
@@ -25,9 +26,10 @@ public class ProductModel implements IProductModel {
 
     private ArrayList<Product> products;
 
-    public ProductModel(ProductsDatabaseConnection dbConnection, AttributesDatabaseConnection attributesDBConnection) {
+    public ProductModel(ProductsDatabaseConnection dbConnection, AttributesDatabaseConnection attributesDBConnection, CategoriesDatabaseConnection categoriesDBConnection) {
         this.productsDBConnection = dbConnection;
         this.attributesDBConnection = attributesDBConnection;
+        this.categoriesDBConnection = categoriesDBConnection;
         products = new ArrayList<>();
 
         this.productCreationSuccessListeners = new LinkedList<>();
@@ -37,9 +39,8 @@ public class ProductModel implements IProductModel {
         this.productSearchFailureListeners = new LinkedList<>();
     }
 
-    public int createProduct(String productName, String productDescription, double productPrice, String productCategory) {
+    public int createProduct(String productName, String productDescription, double productPrice, int categoryID) {
         try {
-            int categoryID = getCategoryID(productCategory);
             int productID = productsDBConnection.insertProduct(productName, productDescription, productPrice, categoryID);
             notifyProductCreationSuccess();
             return productID;
@@ -49,12 +50,16 @@ public class ProductModel implements IProductModel {
         return -1;
     }
 
-    private int getCategoryID(String productCategory) {
+    public int getCategoryID(String productCategory) {
         try {
             return productsDBConnection.getCategoryID(productCategory);
         } catch (SQLException e) {
             return -1;
         }
+    }
+
+    public String getCategoryName(int categoryID) {
+        return categoriesDBConnection.getCategoryName(categoryID);
     }
 
     @Override
@@ -74,9 +79,18 @@ public class ProductModel implements IProductModel {
     }
 
     @Override
-    public void deleteProduct(List<Integer> oneProductID) {
+    public void deleteOneProduct(int oneProductID) {
         try {
-            productsDBConnection.deleteProductFromDB(oneProductID);
+            productsDBConnection.deleteOneProductFromDB(oneProductID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteMultipleProducts(List<Integer> productIDs) {
+        try {
+            productsDBConnection.deleteMultipleProductsFromDB(productIDs);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +103,7 @@ public class ProductModel implements IProductModel {
             visibleProductIDs.add(getProductID(productName));
         }
         try {
-            productsDBConnection.deleteProductFromDB(visibleProductIDs);
+            productsDBConnection.deleteOneProductFromDB(visibleProductIDs);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

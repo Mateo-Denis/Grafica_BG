@@ -1,11 +1,13 @@
 package views.client;
 
 import presenters.StandardPresenter;
+import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 
 public class ClientSearchView extends ToggleableView implements IClientSearchView  {
     private JPanel containerPanel;
@@ -15,24 +17,26 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JScrollPane clientResultScrollPanel;
     private JPanel clientSearchContainer;
     private JButton searchButton;
-    private JPanel clientListButtonsContainer;
+    private JPanel bottomButtonsContainer;
     private JButton clientListOpenButton;
     private JComboBox<String> cityComboBox;
     private JLabel addressLabel;
-	private ClientSearchPresenter clientSearchPresenter;
-    //private ClientListPresenter clientListPresenter;
+    private JButton deleteButton;
+    private ClientSearchPresenter clientSearchPresenter;
+    private ClientListPresenter clientListPresenter;
 
-    public ClientSearchView(/*ClientListPresenter clientListPresenter*/) {
+    public ClientSearchView(ClientListPresenter clientListPresenter) {
         windowFrame = new JFrame("Buscar Cliente");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
-        //this.clientListPresenter = clientListPresenter;
+        this.clientListPresenter = clientListPresenter;
 
         initListeners();
     }
+
     @Override
     public void start() {
         super.start();
@@ -56,7 +60,8 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     @Override
     protected void initListeners() {
         searchButton.addActionListener(e -> clientSearchPresenter.onSearchButtonClicked());
-        //clientListOpenButton.addActionListener(e -> clientListPresenter.onClientViewOpenListButtonClicked());
+        deleteButton.addActionListener(e -> clientSearchPresenter.onDeleteClientButtonClicked());
+        clientListOpenButton.addActionListener(e -> clientListPresenter.onSearchViewOpenListButtonClicked());
     }
 
     @Override
@@ -117,7 +122,22 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         return null;
     }
 
+    @Override
+    public ArrayList<String> getMultipleSelectedClientNames() {
+        ArrayList<String> clientNames = new ArrayList<>();
+        int[] selectedRows = clientResultTable.getSelectedRows();
+        for (int row : selectedRows) {
+            String clientName = (String) clientResultTable.getValueAt(row, 0);
+            clientNames.add(clientName);
+        }
+        return clientNames;
+    }
+
     public void deselectAllRows() {
         clientResultTable.clearSelection();
+    }
+
+    public JTable getClientResultTable() {
+        return clientResultTable;
     }
 }

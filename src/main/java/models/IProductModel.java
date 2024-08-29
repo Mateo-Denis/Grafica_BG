@@ -5,13 +5,12 @@ import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
-import utils.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface IProductModel {
-    int createProduct(String productName, String productDescription, double productPrice, String productCategory);
+    int createProduct(String productName, String productDescription, double productPrice, int categoryID);
 
     void addProductCreationSuccessListener(ProductCreationSuccessListener listener);
     void addProductCreationFailureListener(ProductCreationFailureListener listener);
@@ -20,6 +19,9 @@ public interface IProductModel {
     void queryProducts(String searchedName);
     ArrayList<Product> getLastProductsQuery();
     int getProductID(String productName);
-    void deleteProduct(List<Integer> productID);
+    void deleteOneProduct(int productID);
+    void deleteMultipleProducts(List<Integer> productIDs);
     //void deleteAllVisibleProducts(ArrayList<String> visibleProductNames);
+    String getCategoryName(int categoryID);
+    int getCategoryID(String categoryName);
 }

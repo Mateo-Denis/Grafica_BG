@@ -4,12 +4,98 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="">
+    <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
+      <change afterPath="$PROJECT_DIR$/2024-08-21_314.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-22_314.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-23_314.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-28_314.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/2024-08-29_314.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/path_to_your_database.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ModularViews/ModularViniloView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/BudgetListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/ClientListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/IClientListModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetListPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/categories/CategoryCreatePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/categories/ModularCategoriesPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientListPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/list/BudgetListView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/list/BudgetListView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/list/IBudgetListView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/modify/BudgetModifyView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/modify/BudgetModifyView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/budget/modify/IBudgetModifyView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/categories/CategoryCreateView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/categories/ICategoryCreateView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/BudgetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/CategoryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ClientModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IBudgetModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ICategoryModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IClientModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductListModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductListModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductListModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductListModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/client/ClientSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductListPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductListPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductSearchPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/testingMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/TextUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/TextUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/AttributesDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/AttributesDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/BudgetsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/CategoriesDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ClientsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/ToggleableView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/ToggleableView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/BudgetSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/budget/IBudgetSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/ClientSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/IClientSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/list/ClientListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/client/list/IClientListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/client/list/IClientListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductSearchView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/list/IProductListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/list/IProductListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/list/ProductListView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularRemerasView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularTAZASView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +115,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="PresupuestosGraficaBahia" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -62,15 +143,15 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Mateo-Denis/Grafica_BG.git&quot;,
-    &quot;accountId&quot;: &quot;d80c7381-77d9-49c0-b0ae-bf874ec51208&quot;
+    &quot;accountId&quot;: &quot;9aa99b11-6018-4ebe-b232-691d672c1a61&quot;
   }
 }</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 7
-    }</component>
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2j7Cieegg1rNIgzAejCKbwDjgzr" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -82,14 +163,20 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Debug",
+    "Application.testingMain.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "false",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "false",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "399",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/gonzalog/Documentos/GitHub/Grafica_BG",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -103,7 +190,7 @@
       <recent name="D:\GITHUB_LocalRepositories\Grafica_BG\src\main\java\views\products\ProductSearchViewClasses" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.testingMain">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="PresupuestosGraficaBahia.main" />
@@ -132,23 +219,23 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.testingMain" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.387" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.387" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.419" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.419" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d9e26353-dd52-4155-93f2-9f2c40a1bac2" name="Changes" comment="logo pushed" />
+      <changelist id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="" />
       <created>1722311931305</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -219,6 +306,19 @@
       <workItem from="1723655163163" duration="341000" />
       <workItem from="1723655522437" duration="16000" />
       <workItem from="1723658585107" duration="140000" />
+      <workItem from="1724263792895" duration="34000" />
+      <workItem from="1724263874435" duration="1029000" />
+      <workItem from="1724264912014" duration="6874000" />
+      <workItem from="1724280327036" duration="16834000" />
+      <workItem from="1724343189319" duration="3429000" />
+      <workItem from="1724418906106" duration="434000" />
+      <workItem from="1724427545464" duration="6120000" />
+      <workItem from="1724850060729" duration="247000" />
+      <workItem from="1724850341157" duration="671000" />
+      <workItem from="1724851021156" duration="9790000" />
+      <workItem from="1724931402529" duration="4961000" />
+      <workItem from="1724936898022" duration="1981000" />
+      <workItem from="1724938930328" duration="10070000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -285,6 +385,17 @@
                   <entry key="Show.Git.Branches" value="true" />
                 </map>
               </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
             </State>
           </value>
         </entry>
@@ -310,10 +421,9 @@
         <PinnedItemInfo parentTag="org.sqlite.jdbc4.JDBC4ResultSet" memberName="row" />
       </pinned-members>
     </pin-to-top-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="row" />
-      </configuration>
-    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

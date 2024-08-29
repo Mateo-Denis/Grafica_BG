@@ -5,11 +5,14 @@ import static utils.MessageTypes.*;
 import models.IProductModel;
 import models.ICategoryModel;
 import presenters.StandardPresenter;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import views.products.IProductCreateView;
 import views.products.modular.IModularCategoryView;
@@ -29,9 +32,10 @@ public class ProductCreatePresenter extends StandardPresenter {
         cargarCategorias();
         this.productCreateView.comboBoxListenerSet(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                productCreateView.setCorrespondingModularView(productCreateView.getProductCategory());
+                productCreateView.showSelectedView(productCreateView.getProductCategory());
             }
         });
+
     }
 
     public void initListeners() {
@@ -46,34 +50,57 @@ public class ProductCreatePresenter extends StandardPresenter {
     public void onCreateButtonClicked() {
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategory();
-        //ArrayList<String> attributesValues = getModularAttributes((IModularCategoryView) productCreateView.getModularView());
-        ArrayList<String> attributesValues = new ArrayList<>();
-        Component modularView = productCreateView.getModularView();
+        int categoryID = categoryModel.getCategoryID(categoryName);
+        IModularCategoryView modularView = productCreateView.getCorrespondingModularView(categoryName);
+        Map<String,String> allAttributes = modularView.getModularAttributes();
+
+
+ /*       Component modularView = productCreateView.getModularView();
         if (modularView instanceof IModularCategoryView) {
             attributesValues = getModularAttributes((IModularCategoryView) modularView);
         } else {
             // Handle the error, e.g., log it or throw an exception
             throw new ClassCastException("Expected IModularCategoryView but found " + modularView.getClass().getName());
+        }*/
+
+        ArrayList<String> attributesNames = new ArrayList<>();
+        for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
+            attributesNames.add(entry.getKey());
         }
 
-        ArrayList<String> attributesNames = categoryModel.getCategoryAttributesNames(categoryName);
+        ArrayList<String> attributesValues = new ArrayList<>();
+        for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
+            attributesValues.add(entry.getValue());
+        }
 
         int productID = productModel.createProduct(
                 productCreateView.getProductName(),
                 productCreateView.getProductDescription(),
                 productCreateView.getProductPrice(),
-                categoryName);
+                categoryID);
 
+        categoryModel.addAttributes(categoryName, attributesNames);
         categoryModel.addProductAttributes(productID, attributesNames, attributesValues);
         productCreateView.setWaitingStatus();
     }
 
-    private ArrayList<String> getModularAttributes(IModularCategoryView modularContainer) {
+/*    private ArrayList<String> getModularAttributes(IModularCategoryView modularContainer) {
         return modularContainer.getModularAttributes();
-    }
+    }*/
+
 
     private void cargarCategorias() {
         List<String> categorias = categoryModel.getCategoriesName();
         productCreateView.setCategorias(categorias);
+    }
+
+    private IModularCategoryView getCorrespondingModularView(String category) {
+        IModularCategoryView modularView = null;
+        modularView = (IModularCategoryView) productCreateView.getCorrespondingModularView(category);
+        return modularView;
+    }
+
+    public void onAdultRadioButtonClicked() {
+        System.out.println("Adult selected");
     }
 }

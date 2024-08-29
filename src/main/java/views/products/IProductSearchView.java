@@ -1,8 +1,8 @@
 package views.products;
 
 import views.IToggleableView;
-
 import java.util.ArrayList;
+import javax.swing.*;
 
 public interface IProductSearchView extends IToggleableView {
     String getNameSearchText();
@@ -11,7 +11,8 @@ public interface IProductSearchView extends IToggleableView {
     void setIntTableValueAt(int row, int col, int value);
     void clearView();
     String getSelectedProductName();
-    //ArrayList<String> getVisibleProductNames();
+    ArrayList<String> getMultipleSelectedProductNames();
     int getSelectedTableRow();
     void deselectAllRows();
+    JTable getProductResultTable();
 }

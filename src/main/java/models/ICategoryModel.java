@@ -18,4 +18,6 @@ public interface ICategoryModel {
     List<String> getCategoriesName();
     ArrayList<String> getCategoryAttributesNames(String productCategory);
     void addProductAttributes(int productID, ArrayList<String> attributesNames, ArrayList<String> attributesValues);
+    void addAttributes(String categoryName, ArrayList<String> attributesNames);
+    int getCategoryID(String categoryName);
 }

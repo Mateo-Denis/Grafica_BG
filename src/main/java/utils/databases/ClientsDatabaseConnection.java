@@ -2,28 +2,30 @@ package utils.databases;
 
 import utils.Client;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ClientsDatabaseConnection extends DatabaseConnection{
+public class ClientsDatabaseConnection extends DatabaseConnection {
     protected void createTable(Connection connection) {
-        String clientSQL =  "CREATE TABLE IF NOT EXISTS Clientes (" +
-                            "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "Nombre TEXT NOT NULL," +
-                            "Direccion TEXT NOT NULL," +
-                            "Localidad TEXT NOT NULL," +
-                            "Telefono TEXT NOT NULL," +
-                            "TipoCliente TEXT NOT NULL CHECK (TipoCliente IN('Cliente', 'Particular'))" +
-                            ")";
+        String clientSQL = "CREATE TABLE IF NOT EXISTS Clientes (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Nombre TEXT NOT NULL," +
+                "Direccion TEXT NOT NULL," +
+                "Localidad TEXT NOT NULL," +
+                "Telefono TEXT NOT NULL," +
+                "TipoCliente TEXT NOT NULL CHECK (TipoCliente IN('Cliente', 'Particular'))" +
+                ")";
         try (Statement stmt = connection.createStatement()) {
             stmt.setQueryTimeout(QUERY_TIMEOUT);
             stmt.execute(clientSQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-}
+    }
 
-    public void insertClient(String name, String address, String city, String phone, String clientType) throws SQLException{
+    public void insertClient(String name, String address, String city, String phone, String clientType) throws SQLException {
         String sql = "INSERT INTO Clientes(Nombre, Direccion, Localidad, Telefono, TipoCliente) VALUES(?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,10 +60,10 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
 
     public ArrayList<Client> getClientsFromNameAndCity(String clientName, String clientCity) throws SQLException {
         String sql;
-        if(clientCity.isEmpty()) {
+        if (clientCity.isEmpty()) {
             sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Localidad LIKE ?)";
             clientCity = "%" + clientCity + "%";
-        }else {
+        } else {
             sql = "SELECT * FROM Clientes WHERE (Nombre LIKE ?) AND (Localidad = ?)";
         }
 
@@ -76,7 +78,7 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
 
         while (resultSet.next()) {
             Client cliente;
-            if(resultSet.getString("TipoCliente").equals("Cliente")) {
+            if (resultSet.getString("TipoCliente").equals("Cliente")) {
                 cliente = new Client(
                         resultSet.getString("Nombre"),
                         resultSet.getString("Direccion"),
@@ -84,7 +86,7 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
                         resultSet.getString("Telefono"),
                         true
                 );
-            }else {
+            } else {
                 cliente = new Client(
                         resultSet.getString("Nombre"),
                         resultSet.getString("Direccion"),
@@ -100,5 +102,70 @@ public class ClientsDatabaseConnection extends DatabaseConnection{
         conn.close();
 
         return clientes;
+    }
+
+    public ArrayList<Client> getAllClients() {
+        String sql = "SELECT * FROM Clientes";
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            ArrayList<Client> clients = new ArrayList<>();
+            while (resultSet.next()) {
+                Client client = new Client(
+                        resultSet.getString("Nombre"),
+                        resultSet.getString("Direccion"),
+                        resultSet.getString("Localidad"),
+                        resultSet.getString("Telefono"),
+                        resultSet.getString("TipoCliente").equals("Cliente")
+                );
+                clients.add(client);
+            }
+            return clients;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public int getClientID(String clientName) {
+        String sql = "SELECT ID FROM Clientes WHERE Nombre = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, clientName);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                return resultSet.getInt("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void deleteOneClient(int clientID) {
+        String sql = "DELETE FROM Clientes WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientID);
+            pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "¡Cliente eliminado con éxito!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "¡Error al eliminar el cliente!");
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMultipleClients(List<Integer> clientIDs) {
+        String sql = "DELETE FROM Clientes WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (int clientID : clientIDs) {
+                pstmt.setInt(1, clientID);
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "¡Error al eliminar uno o más clientes!");
+            e.printStackTrace();
+        }
+        JOptionPane.showMessageDialog(null, "Clientes eliminados con éxito!");
     }
 }

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public abstract class ToggleableView {
+public abstract class ToggleableView extends JFrame {
 	protected JFrame windowFrame;
 	protected JPanel containerPanelWrapper;
 	public void start(){

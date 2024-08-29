@@ -9,19 +9,21 @@ import utils.databases.ProductsDatabaseConnection;
 import views.ToggleableView;
 import presenters.StandardPresenter;
 import presenters.product.ProductCreatePresenter;
+import presenters.categories.ModularCategoriesPresenter;
 
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-
+//TEST
+import testing.testingMain;
 import models.CategoryModel;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.Map;
 import utils.TextUtils;
+import views.products.modular.IModularCategoryView;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     private JPanel containerPanel;
@@ -31,7 +33,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JComboBox<String> categoryComboBox;
     private JLabel categoryLabel;
     private JTextField productDescriptionField;
-    private JLabel descriptionLabel;
     private JTextField productPriceField;
     private JLabel priceLabel;
     private JPanel createButtonContainer;
@@ -45,6 +46,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel modularView = new JPanel();
     private CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
     private ProductsDatabaseConnection productDatabaseConnection = new ProductsDatabaseConnection();
+    private Map<String, JPanel> viewMap;
+    private Map<String, IModularCategoryView> modularMap;
+    private ModularCategoriesPresenter modularCategoriesPresenter;
 
     public ProductCreateView() {
         windowFrame = new JFrame("Crear Producto");
@@ -56,30 +60,35 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setSize(400, 300);
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
-        modularContainer.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        modularView.setVisible(false);
-        modularContainer.add(modularView);
+        modularContainer.setLayout(new BorderLayout());
+       //viewMap = getCategoryPanelsMap();
+        modularMap = getCategoryPanelsMap();
     }
 
-    //TESTEO MODULAR VIEW:
-    public void setCorrespondingModularView(String category) {
-        JPanel correspondingModularView = getCorrespondingModularView(category);
+
+    public void showSelectedView(String category) {
+        // Limpiar el panel del contenedor
         modularContainer.removeAll();
-        modularContainer.add(correspondingModularView);
+
+        // Mostrar la vista correspondiente
+        //JPanel selectedView = getCorrespondingModularView(category);
+        IModularCategoryView selectedView = getCorrespondingModularView(category);
+        if (selectedView != null) {
+            modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
+            selectedView.getContainerPanel().setVisible(true);
+        }
+
+        // Actualizar el layout del panel
         modularContainer.revalidate();
         modularContainer.repaint();
     }
 
-    //TESTEO MODULAR VIEW:
-    public JPanel getCorrespondingModularView(String category) {
-        JPanel correspondingModularView = new JPanel();
-        Map<String, JPanel> panelesCategorias = getCategoryPanelsMap();
+
+
+    public IModularCategoryView getCorrespondingModularView(String category) {
+        IModularCategoryView correspondingModularView = null;
+        Map<String, IModularCategoryView> panelesCategorias = getCategoryPanelsMap();
+
         for (String categoria : panelesCategorias.keySet()) {
             if (categoria.equals(category)) {
                 correspondingModularView = panelesCategorias.get(categoria);
@@ -89,18 +98,16 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         return correspondingModularView;
     }
 
-    //TESTEO PRODUCT MODULAR:
-
-    public Map<String, JPanel> getCategoryPanelsMap() {
-
+    public Map<String, IModularCategoryView> getCategoryPanelsMap() {
         String directoryPath = "src/main/java/views/products/modular";
         List<String> nombresDeModulars = textUtils.getFileNamesInDirectory(directoryPath);
         nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
+        for(String nombre : nombresDeModulars){
+            System.out.println(nombre);
+        }
         List<String> subStringModulars = new ArrayList<>();
-        List<JPanel> categoryJPanels = TextUtils.loadAllViewPanels("views.products.modular");
-
-        // Mapa que asocia los nombres de categorías con sus JPanels
-        Map<String, JPanel> categoryPanelsMap = new HashMap<>();
+        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular");
+        Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
 
         //Se extraen los substrings de los nombres de los modulars. EJ: ModularCapView -> Cap
         for (String stringModular : nombresDeModulars) {
@@ -109,7 +116,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         }
 
         for (int i = 0; i < subStringModulars.size(); i++) {
-            categoryPanelsMap.put(subStringModulars.get(i), categoryJPanels.get(i));
+            categoryPanelsMap.put(subStringModulars.get(i), categoryViews.get(i));
         }
 
         return categoryPanelsMap;
@@ -139,7 +146,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     public void clearView() {
         productNameField.setText("");
-        productDescriptionField.setText("");
         productPriceField.setText("");
         categoryComboBox.setSelectedIndex(-1);
         modularContainer.removeAll();
@@ -176,7 +182,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         return modularView;
     }
 
-    public JPanel getContainerPanel(){
+    public JPanel getContainerPanel() {
         return containerPanel;
     }
 
@@ -185,5 +191,10 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         categoryComboBox.addItemListener(listener);
     }
 
+    @Override
+    public void componentsListenerSet(ItemListener listener) {
+        IModularCategoryView modularView = getCorrespondingModularView((String) categoryComboBox.getSelectedItem());
+        modularCategoriesPresenter.initListeners();
+    }
 
 }

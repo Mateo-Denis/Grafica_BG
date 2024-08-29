@@ -27,6 +27,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
 
         clientModel.addCitiesFetchingSuccessListener(() -> {
+            clientCreateView.addCityToComboBox("Cualquier localidad");
             ArrayList<String> cities = clientModel.getQueriedCities();
             for (String city : cities) {
                 clientCreateView.addCityToComboBox(city);
@@ -35,7 +36,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
 
         //TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
-        clientModel.addClientCreationEmptyFieldListener(() -> clientCreateView.showMessage(CLIENT_CREATION_EMPTY_FIELDS));
+        clientModel.addClientCreationEmptyFieldListener(() -> clientCreateView.showMessage(ANY_CREATION_EMPTY_FIELDS));
     }
 
     public void onHomeCreateClientButtonClicked() {
@@ -45,9 +46,9 @@ public class ClientCreatePresenter extends StandardPresenter {
 
 
     //TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
-    public boolean onEmptyFields(JTextField nameField, JTextField cityField) {
+    public boolean onEmptyFields(JTextField nameField, JTextField cityField, JComboBox cityComboBox) {
         boolean anyEmpty = false;
-        if (nameField.getText().trim().isEmpty() || cityField.getText().trim().isEmpty()) {
+        if (nameField.getText().trim().isEmpty() || (cityField.getText().trim().isEmpty() && cityComboBox.getSelectedItem().equals("Cualquier localidad"))) {
             anyEmpty = true;
         }
         return anyEmpty;
@@ -55,29 +56,44 @@ public class ClientCreatePresenter extends StandardPresenter {
 
         public void onCreateButtonClicked () {
             clientCreateView.setWorkingStatus();
+            String city = "";
 
             //test
-            boolean anyEmpty = onEmptyFields(clientCreateView.getClientTextField(), clientCreateView.getCityTextField());
+            boolean anyEmpty = onEmptyFields(clientCreateView.getClientTextField(), clientCreateView.getCityTextField(), clientCreateView.getCityComboBox());
+
             if(anyEmpty)
             {
-                clientCreateView.showMessage(CLIENT_CREATION_EMPTY_FIELDS);
+                clientCreateView.showMessage(ANY_CREATION_EMPTY_FIELDS);
             } else {
+
+                if(clientCreateView.getComboBoxSelectedCity().equals("Cualquier localidad"))
+                {
+                    city = clientCreateView.getCityText();
+                }
+                else
+                {
+                    city = clientCreateView.getComboBoxSelectedCity();
+                }
+
+
+
                 clientModel.createClient(clientCreateView.getClientText(),
                         clientCreateView.getAddressText(),
-                        clientCreateView.getCityText(),
+                        city,
                         clientCreateView.getPhoneText(),
                         clientCreateView.isClientSelected());
 
             }
             clientCreateView.setWaitingStatus();
-            //test
-/*            clientModel.createClient(clientCreateView.getClientText(),
-                    clientCreateView.getAddressText(),
-                    clientCreateView.getCityText(),
-                    clientCreateView.getPhoneText(),
-                    clientCreateView.isClientSelected());
-            clientCreateView.setWaitingStatus();
-*/
+        }
+
+        public void onCityComboBoxSelected () {
+            if (clientCreateView.getComboBoxSelectedCity().equals("Cualquier localidad")) {
+                clientCreateView.getCityTextField().setEnabled(true);
+            } else {
+                clientCreateView.getCityTextField().setText("");
+                clientCreateView.getCityTextField().setEnabled(false);
+            }
         }
 
     }

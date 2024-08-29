@@ -11,7 +11,6 @@ public interface IProductListView extends IToggleableView {
     void clearView();
     void setProductTableModel();
     int getSelectedTableRow();
-    String getSelectedProductName();
     void deselectAllRows();
     JFrame getJFrame();
 }

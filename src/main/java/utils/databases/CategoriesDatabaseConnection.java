@@ -61,7 +61,7 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     public int getCategoryID(String categoryName) throws SQLException {
