@@ -48,4 +48,7 @@ public interface IBudgetCreateView extends IToggleableView {
     JTextField getProductsTextField();
     JButton getProductSearchButton();
     void setClientOnPreviewTable(String clientName, String clientType);
+    JTextField getAmountTextField();
+    JTextField getMeasuresTextField();
+    JTextField getObservationsTextField();
 }

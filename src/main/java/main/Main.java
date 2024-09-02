@@ -3,7 +3,7 @@ package main;
 
 import static PdfFormater.SamplePDFCreation.createWeirdAahPDF;
 
-
+import icm.sphynx.ui.metro.tools.MetroUIComponent;
 import models.ClientModel;
 import models.IClientModel;
 import models.ProductModel;
@@ -45,9 +45,18 @@ import views.budget.list.BudgetListView;
 import views.categories.CategoryCreateView;
 import views.home.IHomeView;
 import views.home.HomeView;
+import icm.sphynx.ui.metro.tools.MetroUIComponent;
+import icm.sphynx.*;
 
 public class Main {
     public static void main(String[] args) {
+
+
+        /*ESTILOSSSSSSSSS*/
+        MyStyles.install(MyStyles.METRO_UI, MyStyles.COLOR_PURPLE_DARK);
+        /*ESTILOSSSSSSSSS*/
+
+
 
 
         createWeirdAahPDF();

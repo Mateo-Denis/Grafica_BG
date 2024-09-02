@@ -175,9 +175,9 @@ public class BudgetModel implements IBudgetModel {
     }
 
     @Override
-    public int getBudgetID(String budgetName) {
+    public int getBudgetID(int budgetNumber, String budgetName) {
         try {
-            return budgetsDBConnection.getBudgetID(budgetName);
+            return budgetsDBConnection.getBudgetID(budgetName, budgetNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -202,17 +202,17 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    public void saveProducts(String budgetName, Map<Integer,String> products) {
+    public void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products) {
         try {
-            budgetsDBConnection.saveProducts(budgetName, products);
+            budgetsDBConnection.saveProducts(budgetNumber, budgetName, products);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Map<Integer,String> getSavedProducts(String budgetName) {
+    public Map<Integer,String> getSavedProducts(int budgetNumber, String budgetName) {
         try {
-            return budgetsDBConnection.getSavedProducts(budgetName);
+            return budgetsDBConnection.getSavedProducts(budgetName, budgetNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }

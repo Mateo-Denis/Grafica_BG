@@ -107,18 +107,17 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         return new ArrayList<>();
     }
 
-    public int getBudgetID(String budgetName) throws SQLException {
-        String sql = "SELECT ID FROM Presupuestos WHERE Nombre_Cliente = ?";
+    public int getBudgetID(String budgetName, int budgetNumber) throws SQLException {
+        String sql = "SELECT ID, Numero_presupuesto FROM Presupuestos WHERE Nombre_Cliente = ? AND Numero_presupuesto = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, budgetName);
+        pstmt.setInt(2, budgetNumber);
         ResultSet resultSet = pstmt.executeQuery();
         int budgetID = 0;
-
         while (resultSet.next()) {
             budgetID = resultSet.getInt("ID");
         }
-
         pstmt.close();
         conn.close();
         return budgetID;
@@ -146,12 +145,12 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public void saveProducts(String budgetName, Map<Integer,String> products) throws SQLException {
+    public void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products) throws SQLException {
         String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD) VALUES(?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         for (Map.Entry<Integer, String> entry : products.entrySet()) { //POR CADA TUPLA EL EL MAPA, EL INT ES LA CANTIDAD DEL PRODUCTO Y EL STRING EL NOMBRE
-            int budgetID = getBudgetID(budgetName); //OBTIENE EL ID DEL PRESUPUESTO
+            int budgetID = getBudgetID(budgetName, budgetNumber); //OBTIENE EL ID DEL PRESUPUESTO
             int productID = productsDBConnection.getProductID(entry.getValue());//OBTIENE EL ID DEL PRODUCTO AGARRANDO LA PARTE STRING DEL MAPA Y PASANDOLA
             int productAmount = entry.getKey(); //LA CANTIDAD DEL PRODUCTO ES LA PARTE INT DEL MAPA              //COMO PARAMETRO A LA FUNCION GETPRODUCTID
             pstmt.setInt(1, budgetID);
@@ -163,12 +162,12 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public Map<Integer,String> getSavedProducts(String budgetName) throws SQLException {
+    public Map<Integer,String> getSavedProducts(String budgetName, int budgetNumber) throws SQLException {
         Map<Integer,String> products = new HashMap<>();
         String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        int budgetID = getBudgetID(budgetName);
+        int budgetID = getBudgetID(budgetName, budgetNumber);
         pstmt.setInt(1, budgetID);
         ResultSet resultSet = pstmt.executeQuery();
         while (resultSet.next()) {

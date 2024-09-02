@@ -5,9 +5,15 @@ import presenters.budget.BudgetCreatePresenter;
 import utils.NumberInputVerifier;
 import utils.Product;
 import views.ToggleableView;
+import javax.swing.table.DefaultTableCellRenderer;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.text.AbstractDocument;
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,13 +71,13 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private DefaultTableModel productsTableModel;
     private DefaultTableModel previewTableModel;
 
-    public BudgetCreateView(){
+    public BudgetCreateView() {
         windowFrame = new JFrame("Crear Presupuesto");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        ((AbstractDocument) measuresTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
     }
 
     @Override
@@ -222,13 +228,16 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productResultTable.setModel(productsTableModel);
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
         budgetPreviewingTable.setModel(previewTableModel);
+        budgetPreviewingTable.setRowHeight(300);
+        budgetPreviewingTable.getColumnModel().getColumn(1).setPreferredWidth(400);
+
     }
 
     public JButton getAddProductButton() {
         return addProductButton;
     }
 
-    public void addProductToPreviewTable(Product product, int row){
+    public void addProductToPreviewTable(Product product, int row) {
         budgetPreviewingTable.setValueAt(product.getName(), row, 1);
     }
 
@@ -242,7 +251,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return rowCount;
     }
 
-    public JButton getClientsSearchButton(){
+    public JButton getClientsSearchButton() {
         return clientSearchButton;
     }
 
@@ -300,7 +309,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return (String) productResultTable.getValueAt(row, col);
     }
 
-    public String getClientStringTableValueAt(int row, int col){
+    public String getClientStringTableValueAt(int row, int col) {
         return (String) clientResultTable.getValueAt(row, col);
     }
 
@@ -318,7 +327,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return previewTableModel.getColumnCount();
     }
 
-    public String getPreviewStringTableValueAt(int row, int col){
+    public String getPreviewStringTableValueAt(int row, int col) {
         return (String) budgetPreviewingTable.getValueAt(row, col);
     }
 
@@ -340,4 +349,20 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetPreviewingTable.setValueAt(clientName, 0, 0);
         budgetPreviewingTable.setValueAt(clientType, 0, 3);
     }
+
+    @Override
+    public JTextField getAmountTextField() {
+        return amountTextField;
+    }
+
+    @Override
+    public JTextField getMeasuresTextField() {
+        return measuresTextField;
+    }
+
+    @Override
+    public JTextField getObservationsTextField() {
+        return observationsTextField;
+    }
 }
+

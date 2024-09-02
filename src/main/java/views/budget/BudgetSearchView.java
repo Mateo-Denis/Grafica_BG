@@ -107,6 +107,19 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     }
 
     @Override
+    public int getSelectedBudgetNumber() {
+        int budgetNumber = 0;
+        try {
+            String budgetNumberStr = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 3);
+            budgetNumber = Integer.parseInt(budgetNumberStr);
+            return budgetNumber;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
+    }
+
+    @Override
     public ArrayList<String> getMultipleSelectedBudgetNames() {
         ArrayList<String> budgetNames = new ArrayList<>();
         int[] selectedRows = budgetResultTable.getSelectedRows();
@@ -115,6 +128,16 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
             budgetNames.add(budgetName);
         }
         return budgetNames;
+    }
+
+    public ArrayList<Integer> getMultipleSelectedBudgetNumbers() {
+        ArrayList<Integer> budgetNumbers = new ArrayList<>();
+        int[] selectedRows = budgetResultTable.getSelectedRows();
+        for (int row : selectedRows) {
+            int budgetNumber = (int) budgetResultTable.getValueAt(row, 3);
+            budgetNumbers.add(budgetNumber);
+        }
+        return budgetNumbers;
     }
 
     @Override

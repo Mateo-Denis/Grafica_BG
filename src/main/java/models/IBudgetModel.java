@@ -1,11 +1,9 @@
 package models;
 
-import models.listeners.failed.CitiesFetchingFailureListener;
 import models.listeners.successful.BudgetCreationSuccessListener;
 import models.listeners.successful.BudgetSearchSuccessListener;
 import models.listeners.failed.BudgetSearchFailureListener;
 import models.listeners.failed.BudgetCreationFailureListener;
-import models.listeners.successful.CitiesFetchingSuccessListener;
 import utils.Budget;
 import utils.Client;
 import utils.Product;
@@ -26,9 +24,9 @@ public interface IBudgetModel {
     ArrayList<Product> getProducts(String productName);
     ArrayList<String> getCitiesName();
     ArrayList<Client> getClients(String name, String city);
-    int getBudgetID(String budgetName);
+    int getBudgetID(int budgetNumber, String budgetName);
     void deleteOneBudget(int budgetID);
     void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
-    void saveProducts(String budgetName, Map<Integer,String> products);
-    Map<Integer,String> getSavedProducts(String budgetName);
+    void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products);
+    Map<Integer,String> getSavedProducts(int budgetNumber,String budgetName);
 }

@@ -12,7 +12,9 @@ public interface IBudgetSearchView extends IToggleableView {
     void setStringTableValueAt(int row, int col, String value);
     void clearTable();
     String getSelectedBudgetName();
+    int getSelectedBudgetNumber();
     ArrayList<String> getMultipleSelectedBudgetNames();
+    ArrayList<Integer> getMultipleSelectedBudgetNumbers();
     int getSelectedTableRow();
     JTable getBudgetResultTable();
     void deselectAllRows();

@@ -7,6 +7,7 @@ import presenters.product.ProductListPresenter;
 import presenters.product.ProductSearchPresenter;
 import views.ToggleableView;
 
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;

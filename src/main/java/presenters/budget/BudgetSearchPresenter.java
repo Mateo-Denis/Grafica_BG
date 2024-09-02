@@ -83,11 +83,13 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void deleteMultipleBudgets() {
         ArrayList<Integer> budgetIDs = new ArrayList<>();
+        ArrayList<Integer> selectedBudgetNumbers = budgetSearchView.getMultipleSelectedBudgetNumbers();
         ArrayList<String> selectedBudgetNames = budgetSearchView.getMultipleSelectedBudgetNames();
         int selectedRows[] = budgetSearchView.getBudgetResultTable().getSelectedRows();
         for (int i = 0; i < selectedRows.length; i++) {
             String budgetName = selectedBudgetNames.get(i);
-            int budgetID = budgetModel.getBudgetID(budgetName);
+            int budgetNumber = selectedBudgetNumbers.get(i);
+            int budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
             budgetIDs.add(budgetID);
         }
         budgetModel.deleteMultipleBudgets(budgetIDs);
@@ -102,8 +104,9 @@ public class BudgetSearchPresenter extends StandardPresenter {
     public int getOneBudgetID() {
         int selectedRow = budgetSearchView.getBudgetResultTable().getSelectedRow();
         if (selectedRow != -1) {
-            String selectedName = (String) budgetSearchView.getSelectedBudgetName();
-            return budgetModel.getBudgetID(selectedName);
+            String selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
+            int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
+            return budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
         }
         return -1;
     }
@@ -114,12 +117,13 @@ public class BudgetSearchPresenter extends StandardPresenter {
         ArrayList<String> productNames = new ArrayList<>();
 
         if (selectedRow != -1) {
-            String selectedName = (String) budgetSearchView.getSelectedBudgetName();
-            savedProducts = budgetModel.getSavedProducts(selectedName);
+            String selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
+            int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
+            savedProducts = budgetModel.getSavedProducts(selectedBudgetNumber, selectedBudgetName);
             for(Map.Entry<Integer,String> entry : savedProducts.entrySet()) {
                 productNames.add(entry.getValue());
             }
-            int selectedID = budgetModel.getBudgetID(selectedName);
+            int selectedID = budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
             setModifyView(budgetCreateView, selectedRow, productNames);
         }
     }
@@ -143,7 +147,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
         createView.showView();
     }
 
-    public Map<Integer,String> getBudgetProducts(String budgetName) {
-        return budgetModel.getSavedProducts(budgetName);
+    public Map<Integer,String> getBudgetProducts(int budgetNumber, String budgetName) {
+        return budgetModel.getSavedProducts(budgetNumber, budgetName);
     }
 }

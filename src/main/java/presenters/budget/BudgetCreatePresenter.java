@@ -4,19 +4,12 @@ package presenters.budget;
 import presenters.StandardPresenter;
 import models.IBudgetModel;
 import models.ICategoryModel;
-import utils.Budget;
 import utils.Client;
 import utils.Product;
-import utils.databases.BudgetsDatabaseConnection;
 import views.budget.*;
-import views.products.IProductSearchView;
-import views.products.ProductSearchView;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.lang.reflect.Array;
 import java.util.*;
 
 import static utils.MessageTypes.*;
@@ -142,12 +135,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.setWorkingStatus();
 
 
-        if (onEmptyFields(0, 1,3))
-        {
+        if (onEmptyFields(0, 1, 3)) {
             budgetCreateView.showMessage(BUDGET_CREATION_EMPTY_COLUMN);
-        }
-        else
-        {
+        } else {
             budgetModel.createBudget(
                     budgetCreateView.getPreviewStringTableValueAt(0, 0),
                     budgetCreateView.getPreviewStringTableValueAt(0, 2),
@@ -156,34 +146,30 @@ public class BudgetCreatePresenter extends StandardPresenter {
             );
             budgetCreateView.showMessage(BUDGET_CREATION_SUCCESS);
 
-            Map<Integer,String> products = new HashMap<>();
-            ArrayList<String> productsName = getBudgetProductsName(budgetCreateView.getPreviewStringTableValueAt(0, 1));
+            Map<Integer, String> products = new HashMap<>();
 
-            for(String productName : productsName) {
-               //DEBUGGING
-                System.out.println(productName);
-                //DEBUGGING
+            ArrayList<String> productsName = new ArrayList<>();
+            Object value = "";
+            int productCount = 0;
+            int amount = 0;
+            String measures = "";
+            String observations = "";
+            int columnIndex = 1;
+            for (int i = 0; i < budgetCreateView.getPreviewTable().getRowCount(); i++) {
+                value = budgetCreateView.getPreviewTable().getValueAt(i, columnIndex);
+                int indiceX = ((String) value).indexOf('*');
+                String productName = ((String) value).substring(0, indiceX).trim();
 
-                Object value = "";
-                int productCount = 0;
-                int columnIndex = 1;
-                for(int i = 0; i < budgetCreateView.getPreviewTable().getRowCount(); i++){
-                    value = budgetCreateView.getPreviewTable().getValueAt(i, columnIndex);
-                    if(value.equals(productName)) {
-                        productCount++;
-                        //DEBUGGING
-                        System.out.println(productCount);
-                        //DEBUGGING
-                    }
+                if (!productsName.contains(productName)) {
+                    productsName.add((String) value);
                 }
-                products.put(productCount, productName);
+
+                budgetModel.saveProducts(budgetCreateView.getPreviewIntTableValueAt(0, 4), budgetCreateView.getPreviewStringTableValueAt(0, 0), products);
             }
 
-            budgetModel.saveProducts(budgetCreateView.getPreviewStringTableValueAt(0,0), products);
+
+            budgetCreateView.setWaitingStatus();
         }
-
-
-        budgetCreateView.setWaitingStatus();
     }
 
     private void cargarCategorias() {
@@ -199,9 +185,24 @@ public class BudgetCreatePresenter extends StandardPresenter {
     public void onAddProductButtonClicked() {
         int selectedRow = budgetCreateView.getProductTableSelectedRow();
         String productName = "";
+        String productMeasures = "";
+        String productObservations = "";
+        String textToPut = "";
+        int productAmount = 0;
+
         if (selectedRow != -1) {
             productName = budgetCreateView.getProductStringTableValueAt(selectedRow, 0);
-            budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
+            productObservations = budgetCreateView.getObservationsTextField().getText();
+            productMeasures = budgetCreateView.getMeasuresTextField().getText();
+            if(budgetCreateView.getAmountTextField().getText().isEmpty()){
+                productAmount = 1;
+            } else {
+                productAmount = Integer.parseInt(budgetCreateView.getAmountTextField().getText());
+            }
+
+            textToPut = productName + " * " + productAmount + ".00 Unidades " + "\t" + "Medidas: " + productMeasures + "\t" + " Observaciones: " + productObservations;
+
+            budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, textToPut);
         }
         rowCountOnPreviewTable++;
     }
@@ -230,14 +231,17 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return anyEmpty;
     }
 
-    public ArrayList<String> getBudgetProductsName(String budgetName) {
-        Map<Integer,String> products = budgetModel.getSavedProducts(budgetName);
+    public ArrayList<String> getBudgetProductsName(String budgetName, int budgetNumber) {
+        Map<Integer, String> products = budgetModel.getSavedProducts(budgetNumber, budgetName);
         ArrayList<String> productsName = new ArrayList<>();
 
-        for (int i = 0; i < products.size(); i++) {
-            String productName = products.get(i);
-            productsName.add(productName);
+        for (Map.Entry<Integer, String> entry : products.entrySet()) {
+            String actualProductName = entry.getValue();
+            if (!productsName.contains(actualProductName)) {
+                productsName.add(actualProductName);
+            }
         }
+
         return productsName;
     }
 }
