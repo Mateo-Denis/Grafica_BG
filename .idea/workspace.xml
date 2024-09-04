@@ -10,36 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
-      <change afterPath="$PROJECT_DIR$/src/main/java/main/NewStyles.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/CategoryParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2024-09-03_314.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/2024-09-03_314.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/IProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ProductModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/TextUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/TextUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/ProductsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,9 +132,9 @@
     "Application.testingMain.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "254",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "177",
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "452",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "269",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/mateo/Downloads/MyStylesv1.1.0.jar",
