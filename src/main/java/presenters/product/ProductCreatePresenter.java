@@ -1,28 +1,26 @@
 package presenters.product;
 
+import static utils.CategoryParser.parseCategory;
 import static utils.MessageTypes.*;
 
 import models.IProductModel;
 import models.ICategoryModel;
 import presenters.StandardPresenter;
-import javax.swing.*;
 
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import views.products.IProductCreateView;
 import views.products.modular.IModularCategoryView;
-import models.CategoryModel;
 
 
 public class ProductCreatePresenter extends StandardPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
+    private IModularCategoryView modularView;
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel) {
         this.productCreateView = productCreateView;
@@ -32,11 +30,18 @@ public class ProductCreatePresenter extends StandardPresenter {
         cargarCategorias();
         this.productCreateView.comboBoxListenerSet(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                productCreateView.showSelectedView(productCreateView.getProductCategory());
+                String selectedCategory = productCreateView.getProductCategory();
+                productCreateView.showSelectedView(selectedCategory);
+
+
+
+                modularView = productCreateView.getCorrespondingModularView(selectedCategory);
+                updatePriceField(modularView.getPrice());
             }
         });
 
     }
+
 
     public void initListeners() {
         productModel.addProductCreationSuccessListener(() -> productCreateView.showMessage(PRODUCT_CREATION_SUCCESS));
@@ -45,6 +50,14 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public void onHomeCreateProductButtonClicked() {
         productCreateView.showView();
+    }
+
+    public void onModularOptionsClicked(double price){
+        updatePriceField(price);
+    }
+
+    private void updatePriceField(double price) {
+        productCreateView.setProductPriceField(Double.toString(price));
     }
 
     public void onCreateButtonClicked() {
@@ -75,7 +88,6 @@ public class ProductCreatePresenter extends StandardPresenter {
 
         int productID = productModel.createProduct(
                 productCreateView.getProductName(),
-                productCreateView.getProductDescription(),
                 productCreateView.getProductPrice(),
                 categoryID);
 
@@ -90,8 +102,12 @@ public class ProductCreatePresenter extends StandardPresenter {
 
 
     private void cargarCategorias() {
-        List<String> categorias = categoryModel.getCategoriesName();
-        productCreateView.setCategorias(categorias);
+        List<String> categories = categoryModel.getCategoriesName();
+        List<String> categoriesInSpanish = new ArrayList<>();
+        for (String category : categories) {
+            categoriesInSpanish.add(parseCategory(category));
+        }
+        productCreateView.setCategorias(categoriesInSpanish);
     }
 
     private IModularCategoryView getCorrespondingModularView(String category) {

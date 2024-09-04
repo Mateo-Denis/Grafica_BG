@@ -29,13 +29,13 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public int insertProduct(String nombre, String descripcion, double precio, int categoriaID) throws SQLException {
+    public int insertProduct(String nombre, double precio, int categoriaID) throws SQLException {
         int idGenerado = -1;
         String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio, Categoria_ID) VALUES(?, ?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
-            pstmt.setString(2, descripcion);
+            pstmt.setString(2, " ");
             pstmt.setDouble(3, precio);
             pstmt.setInt(4, categoriaID);
             //pstmt.executeUpdate();

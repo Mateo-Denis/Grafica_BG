@@ -12,4 +12,6 @@ public interface IModularCategoryView{
     Map<String,String> getTextFieldValues();
     ArrayList<String> getRadioValues();
     Map<String,String> getModularAttributes();
+
+    double getPrice();
 }

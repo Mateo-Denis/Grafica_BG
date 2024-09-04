@@ -19,11 +19,12 @@ import java.util.List;
 
 
 //TEST
-import testing.testingMain;
 import models.CategoryModel;
 import java.util.Map;
 import utils.TextUtils;
 import views.products.modular.IModularCategoryView;
+
+import static utils.CategoryParser.parseCategory;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     private JPanel containerPanel;
@@ -32,7 +33,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JLabel productLabel;
     private JComboBox<String> categoryComboBox;
     private JLabel categoryLabel;
-    private JTextField productDescriptionField;
     private JTextField productPriceField;
     private JLabel priceLabel;
     private JPanel createButtonContainer;
@@ -57,7 +57,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
-        windowFrame.setSize(400, 300);
+        windowFrame.setSize(600, 400);
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
         modularContainer.setLayout(new BorderLayout());
@@ -90,7 +90,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         Map<String, IModularCategoryView> panelesCategorias = getCategoryPanelsMap();
 
         for (String categoria : panelesCategorias.keySet()) {
-            if (categoria.equals(category)) {
+            if (parseCategory(categoria).equals(category)) {
                 correspondingModularView = panelesCategorias.get(categoria);
                 break;
             }
@@ -106,7 +106,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
             System.out.println(nombre);
         }
         List<String> subStringModulars = new ArrayList<>();
-        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular");
+        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productCreatePresenter);
         Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
 
         //Se extraen los substrings de los nombres de los modulars. EJ: ModularCapView -> Cap
@@ -128,11 +128,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     }
 
     @Override
-    public String getProductDescription() {
-        return productDescriptionField.getText();
-    }
-
-    @Override
     public String getProductCategory() {
         System.out.println((String) categoryComboBox.getSelectedItem());
         return (String) categoryComboBox.getSelectedItem();
@@ -141,6 +136,10 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     public double getProductPrice() {
         return Double.parseDouble(productPriceField.getText());
+    }
+    @Override
+    public void setProductPriceField(String productPrice) {
+        productPriceField.setText(productPrice);
     }
 
     @Override
@@ -195,6 +194,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     public void componentsListenerSet(ItemListener listener) {
         IModularCategoryView modularView = getCorrespondingModularView((String) categoryComboBox.getSelectedItem());
         modularCategoriesPresenter.initListeners();
+
     }
 
 }

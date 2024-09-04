@@ -11,9 +11,11 @@ import java.util.Map;
 
 public interface IProductCreateView extends IToggleableView {
     String getProductName();
-    String getProductDescription();
     String getProductCategory();
     double getProductPrice();
+
+    void setProductPriceField(String productPrice);
+
     void setCategorias(List<String> categorias);
     JPanel getContainerPanel();
     void comboBoxListenerSet(ItemListener listener);

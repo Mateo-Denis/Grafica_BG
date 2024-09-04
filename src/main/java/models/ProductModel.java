@@ -39,9 +39,9 @@ public class ProductModel implements IProductModel {
         this.productSearchFailureListeners = new LinkedList<>();
     }
 
-    public int createProduct(String productName, String productDescription, double productPrice, int categoryID) {
+    public int createProduct(String productName, double productPrice, int categoryID) {
         try {
-            int productID = productsDBConnection.insertProduct(productName, productDescription, productPrice, categoryID);
+            int productID = productsDBConnection.insertProduct(productName, productPrice, categoryID);
             notifyProductCreationSuccess();
             return productID;
         } catch (Exception e) {
@@ -108,6 +108,7 @@ public class ProductModel implements IProductModel {
             throw new RuntimeException(e);
         }
     }*/
+
 
     @Override
     public void addProductCreationSuccessListener(ProductCreationSuccessListener listener) {

@@ -18,7 +18,11 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 	private ArrayList<String> radioValues = new ArrayList<>();
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
-
+	private ProductCreatePresenter presenter;
+	public ModularJacketView(ProductCreatePresenter presenter) {
+		this.presenter = presenter;
+		initListeners();
+	}
 	@Override
 	public JPanel getContainerPanel() {
 		return containerPanel;
@@ -57,5 +61,10 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 		}
 
 		return attributes;
+	}
+
+	@Override
+	public double getPrice() {
+		return 0;
 	}
 }

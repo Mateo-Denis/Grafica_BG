@@ -1,5 +1,7 @@
 package views.products.modular;
 
+import presenters.product.ProductCreatePresenter;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +16,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private ArrayList<String> radioValues = new ArrayList<>();
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
-
+	private ProductCreatePresenter presenter;
+	public ModularCupView(ProductCreatePresenter presenter) {
+		this.presenter = presenter;
+		initListeners();
+	}
 	@Override
 	public JPanel getContainerPanel() {
 		return containerPanel;
@@ -54,6 +60,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		}
 
 		return attributes;
+	}
+
+	@Override
+	public double getPrice() {
+		return 0;
 	}
 
 }

@@ -52,7 +52,7 @@ public class Main {
 
 
         /*ESTILOSSSSSSSSS*/
-        MyStyles.install(MyStyles.METRO_UI, MyStyles.COLOR_PURPLE_DARK);
+        MyStyles.install(MyStyles.METRO_UI, NewStyles.COLOR_BLACK);
         /*ESTILOSSSSSSSSS*/
 
 

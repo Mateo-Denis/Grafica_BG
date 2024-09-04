@@ -1,5 +1,7 @@
 package views.products.modular;
 
+import presenters.product.ProductCreatePresenter;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private ArrayList<String> radioValues = new ArrayList<>();
     private Map<String,String> comboBoxValues = new HashMap<>();
     private Map<String,String> textFieldValues = new HashMap<>();
+    private ProductCreatePresenter presenter;
+    public ModularCapView(ProductCreatePresenter presenter) {
+        this.presenter = presenter;
+        sublimatedRadioButton.setSelected(true);
+        initListeners();
+    }
 
     @Override
     public JPanel getContainerPanel() {
@@ -50,9 +58,37 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         return attributes;
     }
 
+    @Override
+    public double getPrice() {
+        double finalPrice = 0;
+        if(sublimatedRadioButton.isSelected()){
+            finalPrice += 10;
+        }else {
+            finalPrice += 5;
+        }
+        if(visorStampRadioButton.isSelected()){
+            finalPrice += 7;
+        }
+
+        return finalPrice;
+    }
+
     //@Override
     public void initListeners() {
+        whiteFrontRadioButton.addActionListener(e -> {
+            System.out.println(whiteFrontRadioButton.isSelected());
+            presenter.onModularOptionsClicked(getPrice());
+        });
 
+        sublimatedRadioButton.addActionListener(e -> {
+            System.out.println(sublimatedRadioButton.isSelected());
+            presenter.onModularOptionsClicked(getPrice());
+        });
+
+        visorStampRadioButton.addActionListener(e -> {
+            System.out.println(visorStampRadioButton.isSelected());
+            presenter.onModularOptionsClicked(getPrice());
+        });
     }
 }
 

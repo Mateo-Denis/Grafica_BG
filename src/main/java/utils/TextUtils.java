@@ -7,9 +7,11 @@ PARA ASOCIAR EL JPANEL CON EL NOMBRE DE LA CATEGORIA.
 package utils;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.*;
 
 import org.reflections.Reflections;
+import presenters.product.ProductCreatePresenter;
 import views.products.modular.IModularCategoryView;
 
 import java.lang.reflect.Method;
@@ -136,7 +138,7 @@ public class TextUtils {
 
 
 
-    public static List<IModularCategoryView> loadAllViewPanels(String packageName) {
+    public static List<IModularCategoryView> loadAllViewPanels(String packageName, ProductCreatePresenter productCreatePresenter) {
         List<IModularCategoryView> modularList = new ArrayList<>();
 
         // Usar Reflections para encontrar todas las clases en el paquete
@@ -153,7 +155,9 @@ public class TextUtils {
 
             try {
                 // Intentar instanciar la clase
-                IModularCategoryView instance = (IModularCategoryView) clazz.getDeclaredConstructor().newInstance();
+                Constructor<?> constructor = clazz.getDeclaredConstructor(ProductCreatePresenter.class);
+                Object obj = constructor.newInstance(productCreatePresenter);
+                IModularCategoryView instance = (IModularCategoryView) obj;
 
                 // Agregar la instancia a la lista
                 modularList.add(instance);
