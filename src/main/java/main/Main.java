@@ -3,9 +3,12 @@ package main;
 
 import static PdfFormater.SamplePDFCreation.createWeirdAahPDF;
 
-import icm.sphynx.MyStyles;
-import icm.sphynx.ui.metro.tools.MetroUIComponent;
+//import icm.sphynx.MyStyles;
+//import icm.sphynx.ui.metro.tools.MetroUIComponent;
+import com.formdev.flatlaf.FlatLightLaf;
 import models.*;
+import models.settings.ISettingsModel;
+import models.settings.SettingsModel;
 import presenters.budget.*;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientListPresenter;
@@ -14,6 +17,7 @@ import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.categories.CategoryCreatePresenter;
+import presenters.settings.SettingsPresenter;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 import utils.databases.BudgetsDatabaseConnection;
@@ -32,15 +36,18 @@ import views.budget.list.BudgetListView;
 import views.categories.CategoryCreateView;
 import views.home.IHomeView;
 import views.home.HomeView;
+import views.settings.ISettingsView;
+import views.settings.SettingsView;
 
 public class Main {
     public static void main(String[] args) {
 
 
-        /*ESTILOSSSSSSSSS*/
+        /*ESTILOSSSSSSSSS
         MyStyles.install(MyStyles.METRO_UI, NewStyles.COLOR_BLACK);
-        /*ESTILOSSSSSSSSS*/
+        ESTILOSSSSSSSSS*/
 
+        FlatLightLaf.setup();
 
 
 
@@ -65,6 +72,7 @@ public class Main {
         IClientListModel clientListModel = new ClientListModel(clientsDB);
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
+        ISettingsModel settingsModel = new SettingsModel();
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();
@@ -74,6 +82,7 @@ public class Main {
         BudgetListView budgetListView = new BudgetListView();
         CategoryCreateView categoryCreateView = new CategoryCreateView();
         BudgetModifyView budgetModifyView = new BudgetModifyView();
+        SettingsView settingsView = new SettingsView();
 
 
 
@@ -91,6 +100,7 @@ public class Main {
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModifyModel, categoryModel, budgetModel, productModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel);
+        SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
 
         clientCreatePresenter.start();
         clientSearchPresenter.start();
@@ -102,6 +112,7 @@ public class Main {
         categoryCreatePresenter.start();
         budgetListPresenter.start();
         budgetModifyPresenter.start();
+        settingsPresenter.start();
 
         clientCreateView.start();
         clientSearchView.start();
@@ -113,7 +124,14 @@ public class Main {
         categoryCreateView.start();
         budgetListView.start();
         budgetModifyView.start();
+        settingsView.start();
 
-        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter, productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter);
+        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter);
     }
+
+    private void connectToDatabase(){
+
+    }
+
 }

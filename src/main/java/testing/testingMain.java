@@ -55,17 +55,17 @@ public class testingMain {
         conn.close();
     }
 
-    public static ArrayList<String> getBudgetProductsName(String budgetName, int budgetNumber) {
-        Map<Integer,String> products = bmodel.getSavedProducts(budgetNumber, budgetName);
-        ArrayList<String> productsName = new ArrayList<>();
-
-        for(Map.Entry<Integer,String> entry : products.entrySet()) {
-            String actualProductName = entry.getValue();
-            if(!productsName.contains(actualProductName)) {
-                productsName.add(actualProductName);
-            }
-        }
-
-        return productsName;
-    }
+//    public static ArrayList<String> getBudgetProductsName(String budgetName, int budgetNumber) {
+//        Map<Integer,String> products = bmodel.getSavedProducts(budgetNumber, budgetName);
+//        ArrayList<String> productsName = new ArrayList<>();
+//
+//        for(Map.Entry<Integer,String> entry : products.entrySet()) {
+//            String actualProductName = entry.getValue();
+//            if(!productsName.contains(actualProductName)) {
+//                productsName.add(actualProductName);
+//            }
+//        }
+//
+//        return productsName;
+//    }
 }

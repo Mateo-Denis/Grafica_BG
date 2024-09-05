@@ -27,6 +27,7 @@ dependencies {
     implementation ("org.swinglabs.swingx:swingx-all:1.6.5-1")
     implementation ("org.javatuples:javatuples:1.2")
     implementation ("com.google.guava:guava:32.1.2-jre")
+    implementation ("com.formdev:flatlaf:3.5.1")
 }
 
 tasks.test {

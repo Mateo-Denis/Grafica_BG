@@ -7,6 +7,7 @@ import presenters.product.ProductCreatePresenter;
 import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.BudgetCreatePresenter;
 import presenters.categories.CategoryCreatePresenter;
+import presenters.settings.SettingsPresenter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,8 +38,12 @@ public class HomeView extends JFrame implements IHomeView {
 	private final BudgetSearchPresenter budgetSearchPresenter;
 	private final BudgetCreatePresenter budgetCreatePresenter;
 	private final CategoryCreatePresenter categoryCreatePresenter;
+	private final SettingsPresenter settingsPresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter, ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter, BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,CategoryCreatePresenter categoryCreatePresenter) {
+	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
+					ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
+					BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
+					CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
 
 		windowFrame = new JFrame("Gráfica Bahia");
 		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -64,6 +69,7 @@ public class HomeView extends JFrame implements IHomeView {
 		this.budgetCreatePresenter = budgetCreatePresenter;
 		this.budgetSearchPresenter = budgetSearchPresenter;
 		this.categoryCreatePresenter = categoryCreatePresenter;
+		this.settingsPresenter = settingsPresenter;
 
 		initListeners();
 	}
@@ -80,5 +86,9 @@ public class HomeView extends JFrame implements IHomeView {
 		budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 
 		categoryCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+
+		settingsButton.addActionListener(e -> {
+			settingsPresenter.onHomeSettingsButtonClicked();
+		});
 	}
 }
