@@ -1,11 +1,15 @@
 package presenters.budget;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import presenters.StandardPresenter;
 import models.IBudgetModel;
+import views.budget.BudgetCreateView;
 import views.budget.IBudgetSearchView;
 import views.budget.IBudgetCreateView;
 import utils.Budget;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +22,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
     private final IBudgetSearchView budgetSearchView;
     private final IBudgetModel budgetModel;
     private final IBudgetCreateView budgetCreateView;
+    private BudgetCreatePresenter budgetCreatePresenter;
 
     public BudgetSearchPresenter(IBudgetSearchView budgetSearchView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel) {
         this.budgetSearchView = budgetSearchView;
@@ -61,9 +66,9 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void onDeleteButtonClicked() {
         int[] selectedRows = budgetSearchView.getBudgetResultTable().getSelectedRows();
-        if(selectedRows.length == 1) {
+        if (selectedRows.length == 1) {
             deleteOneBudget();
-        } else if(selectedRows.length > 1) {
+        } else if (selectedRows.length > 1) {
             deleteMultipleBudgets();
         }
     }
@@ -109,45 +114,5 @@ public class BudgetSearchPresenter extends StandardPresenter {
             return budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
         }
         return -1;
-    }
-
-    public void onModifyButtonClicked() {
-        int selectedRow = budgetSearchView.getBudgetResultTable().getSelectedRow();
-        Map<Integer,String> savedProducts = new HashMap<>();
-        ArrayList<String> productNames = new ArrayList<>();
-
-        if (selectedRow != -1) {
-            String selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
-            int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
-            savedProducts = budgetModel.getSavedProducts(selectedBudgetNumber, selectedBudgetName);
-            for(Map.Entry<Integer,String> entry : savedProducts.entrySet()) {
-                productNames.add(entry.getValue());
-            }
-            int selectedID = budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
-            setModifyView(budgetCreateView, selectedRow, productNames);
-        }
-    }
-
-    public void setModifyView(IBudgetCreateView createView, int selectedBudgetRow, ArrayList<String> products) {
-        String clientName = budgetSearchView.getStringValueAt(selectedBudgetRow, 0);
-        String date = budgetSearchView.getStringValueAt(selectedBudgetRow, 1);
-        String clientType = budgetSearchView.getStringValueAt(selectedBudgetRow, 2);
-        int budgetNumber = Integer.parseInt(budgetSearchView.getStringValueAt(selectedBudgetRow, 3));
-
-        createView.setPreviewStringTableValueAt(0, 0, clientName);
-        createView.setPreviewStringTableValueAt(0, 2, date);
-
-        for(int i = 0; i < products.size(); i++) {
-            createView.setPreviewStringTableValueAt(i, 1, products.get(i));
-        }
-
-        createView.setPreviewStringTableValueAt(0, 3, clientType);
-        createView.setPreviewIntTableValueAt(0, 4, budgetNumber);
-
-        createView.showView();
-    }
-
-    public Map<Integer,String> getBudgetProducts(int budgetNumber, String budgetName) {
-        return budgetModel.getSavedProducts(budgetNumber, budgetName);
     }
 }

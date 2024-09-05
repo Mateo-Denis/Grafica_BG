@@ -1,5 +1,6 @@
 package models;
 
+import com.google.common.collect.Multimap;
 import models.listeners.successful.BudgetCreationSuccessListener;
 import models.listeners.successful.BudgetSearchSuccessListener;
 import models.listeners.failed.BudgetSearchFailureListener;
@@ -27,6 +28,5 @@ public interface IBudgetModel {
     int getBudgetID(int budgetNumber, String budgetName);
     void deleteOneBudget(int budgetID);
     void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
-    void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products);
-    Map<Integer,String> getSavedProducts(int budgetNumber,String budgetName);
+    void saveProducts(int budgetNumber, String budgetName, Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
 }

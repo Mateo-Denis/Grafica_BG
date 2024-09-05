@@ -3,15 +3,14 @@ package utils.databases;
 import utils.Budget;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-
-import utils.IsNumeric;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import utils.Product;
 
 public class BudgetsDatabaseConnection extends DatabaseConnection{
 
-    private ProductsDatabaseConnection productsDBConnection;
+    private ProductsDatabaseConnection productsDBConnection = new ProductsDatabaseConnection();
 
 
     @Override
@@ -108,7 +107,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
     }
 
     public int getBudgetID(String budgetName, int budgetNumber) throws SQLException {
-        String sql = "SELECT ID, Numero_presupuesto FROM Presupuestos WHERE Nombre_Cliente = ? AND Numero_presupuesto = ?";
+        String sql = "SELECT ID FROM Presupuestos WHERE Nombre_Cliente = ? AND Numero_presupuesto = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setString(1, budgetName);
@@ -145,25 +144,33 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products) throws SQLException {
-        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD) VALUES(?, ?, ?)";
+    public void saveProducts(int budgetNumber, String budgetName, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) throws SQLException {
+        int observationsIndex = 0;
+        int measuresIndex = 0;
+        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS) VALUES(?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        for (Map.Entry<Integer, String> entry : products.entrySet()) { //POR CADA TUPLA EL EL MAPA, EL INT ES LA CANTIDAD DEL PRODUCTO Y EL STRING EL NOMBRE
-            int budgetID = getBudgetID(budgetName, budgetNumber); //OBTIENE EL ID DEL PRESUPUESTO
-            int productID = productsDBConnection.getProductID(entry.getValue());//OBTIENE EL ID DEL PRODUCTO AGARRANDO LA PARTE STRING DEL MAPA Y PASANDOLA
-            int productAmount = entry.getKey(); //LA CANTIDAD DEL PRODUCTO ES LA PARTE INT DEL MAPA              //COMO PARAMETRO A LA FUNCION GETPRODUCTID
+        for (Map.Entry<Integer, String> entry : products.entries()) {
+            String productName = entry.getValue();
+            int budgetID = getBudgetID(budgetName, budgetNumber);
+            int productID = productsDBConnection.getProductID(productName);
+            int productAmount = entry.getKey();
             pstmt.setInt(1, budgetID);
             pstmt.setInt(2, productID);
             pstmt.setInt(3, productAmount);
+            pstmt.setString(4, productObservations.get(observationsIndex));
+            pstmt.setString(5, productMeasures.get(measuresIndex));
+
             pstmt.executeUpdate();
+            observationsIndex++;
+            measuresIndex++;
         }
         pstmt.close();
         conn.close();
     }
 
-    public Map<Integer,String> getSavedProducts(String budgetName, int budgetNumber) throws SQLException {
-        Map<Integer,String> products = new HashMap<>();
+    public Multimap<Integer,String> getSavedProducts(String budgetName, int budgetNumber) throws SQLException {
+        Multimap<Integer,String> products = ArrayListMultimap.create();
         String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -182,4 +189,110 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         return products;
     }
 
+    public ArrayList<String> getProductObservations(String budgetName, int budgetNumber) throws SQLException {
+        ArrayList<String> observations = new ArrayList<>();
+        String sql = "SELECT OBSERVACIONES FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        int budgetID = getBudgetID(budgetName, budgetNumber);
+        pstmt.setInt(1, budgetID);
+        ResultSet resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            observations.add(resultSet.getString("OBSERVACIONES"));
+        }
+        pstmt.close();
+        conn.close();
+        return observations;
+    }
+
+    public ArrayList<String> getProductMeasures(String budgetName, int budgetNumber) throws SQLException {
+        ArrayList<String> measures = new ArrayList<>();
+        String sql = "SELECT MEDIDAS FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        int budgetID = getBudgetID(budgetName, budgetNumber);
+        pstmt.setInt(1, budgetID);
+        ResultSet resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            measures.add(resultSet.getString("MEDIDAS"));
+        }
+        pstmt.close();
+        conn.close();
+        return measures;
+    }
+
+    public void updateBothBudgetTables(String oldClientName, String newClientName, String date, String clientType, int budgetNumber, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
+        updateBudgetTable(newClientName, date, clientType, budgetNumber);
+        updateBudgetProductsTable(budgetNumber, oldClientName, newClientName, products, productObservations, productMeasures);
+    }
+
+    public void updateBudgetTable(String clientName, String date, String clientType, int budgetNumber) {
+        String deleteSQL = "DELETE FROM Presupuestos WHERE Numero_presupuesto = ?";
+        String insertSQL = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto) VALUES(?, ?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement deletePstmt = conn.prepareStatement(deleteSQL);
+             PreparedStatement insertPstmt = conn.prepareStatement(insertSQL)) {
+            deletePstmt.setInt(1, budgetNumber);
+            deletePstmt.executeUpdate();
+            insertPstmt.setString(1, clientName);
+            insertPstmt.setString(2, date);
+            insertPstmt.setString(3, clientType);
+            insertPstmt.setInt(4, budgetNumber);
+            insertPstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateBudgetProductsTable( int budgetNumber, String oldClientName, String newClientName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
+        try {
+            deleteBudgetProducts(oldClientName, budgetNumber);
+            saveProducts(budgetNumber, newClientName, products, observations, productMeasures);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void deleteBudgetProducts(String clientName, int budgetNumber) throws SQLException {
+        int budgetID = getBudgetID(clientName, budgetNumber) - 1;
+        String sql = "DELETE FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, budgetID);
+        pstmt.executeUpdate();
+        pstmt.close();
+        conn.close();
+    }
+
+    public ArrayList<String> getSelectedBudgetData(int budgetNumber) {
+        String sql = "SELECT * FROM Presupuestos WHERE Numero_presupuesto = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, budgetNumber);
+            ResultSet resultSet = pstmt.executeQuery();
+            ArrayList<String> selectedBudgetData = new ArrayList<>();
+            while (resultSet.next()) {
+                selectedBudgetData.add(resultSet.getString("Nombre_Cliente"));
+                selectedBudgetData.add(resultSet.getString("Fecha"));
+                selectedBudgetData.add(resultSet.getString("Tipo_Cliente"));
+            }
+            return selectedBudgetData;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return new ArrayList<>();
+    }
+
+    public String getOldClientName(int budgetNumber) {
+        String sql = "SELECT Nombre_Cliente FROM Presupuestos WHERE Numero_presupuesto = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, budgetNumber);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.getString("Nombre_Cliente");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "";
+    }
 }

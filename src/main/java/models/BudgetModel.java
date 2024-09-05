@@ -11,6 +11,8 @@ import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -202,20 +204,11 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    public void saveProducts(int budgetNumber, String budgetName, Map<Integer,String> products) {
+    public void saveProducts(int budgetNumber, String budgetName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
         try {
-            budgetsDBConnection.saveProducts(budgetNumber, budgetName, products);
+            budgetsDBConnection.saveProducts(budgetNumber, budgetName, products, observations, productMeasures);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public Map<Integer,String> getSavedProducts(int budgetNumber, String budgetName) {
-        try {
-            return budgetsDBConnection.getSavedProducts(budgetName, budgetNumber);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new HashMap<>();
     }
 }

@@ -59,9 +59,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         //Aplica el filtro al documento asociado al JTextField
         windowFrame.setSize(600, 400);
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-
         modularContainer.setLayout(new BorderLayout());
-       //viewMap = getCategoryPanelsMap();
         modularMap = getCategoryPanelsMap();
     }
 
@@ -196,5 +194,4 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         modularCategoriesPresenter.initListeners();
 
     }
-
 }

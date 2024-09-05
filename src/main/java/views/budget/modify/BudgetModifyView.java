@@ -1,7 +1,7 @@
-package views.budget;
+package views.budget.modify;
 
 import presenters.StandardPresenter;
-import presenters.budget.BudgetCreatePresenter;
+import presenters.budget.BudgetModifyPresenter;
 import utils.NumberInputVerifier;
 import utils.Product;
 import views.ToggleableView;
@@ -9,96 +9,81 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
-import java.awt.*;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BudgetCreateView extends ToggleableView implements IBudgetCreateView {
+public class BudgetModifyView extends ToggleableView implements IBudgetModifyView {
     private JPanel containerPanel;
     private JPanel clientSearchingContainer;
-    private JPanel productSearchingContainer;
-    private JPanel budgetPreviewContainer;
     private JLabel budgetNumberLabel;
+    private JPanel selectClientButtonsContainer;
     private JPanel nameAndCityContainer;
+    private JPanel clientResultContainer;
     private JTextField clientTextField;
     private JComboBox cityComboBox;
-    private JLabel cityLabel;
     private JLabel clientLabel;
+    private JLabel cityLabel;
     private JButton clientSearchButton;
-    private JPanel clientResultContainer;
     private JScrollPane clientResultScrollPanel;
     private JTable clientResultTable;
+    private JButton clientAddButton;
+    private JPanel productSearchingContainer;
     private JPanel categoriesContainer;
     private JLabel productLabel;
-    private JComboBox productCategoryComboBox;
+    private JTextField productTextField;
+    private JComboBox productComboBox;
+    private JPanel productTextFieldContainer;
+    private JPanel productSearchButtonContainer;
+    private JButton productSearchButton;
     private JPanel especificationsContainer;
-    private JTextField amountTextField;
     private JPanel amountContainer;
-    private JLabel amountLabel;
+    private JPanel measuresContainer;
     private JPanel observationsContainer;
+    private JLabel amountLabel;
+    private JTextField amountTextField;
+    private JTextField measureTextField;
+    private JLabel measureLabel;
     private JTextField observationsTextField;
     private JLabel observationsLabel;
-    private JComboBox<String> productComboBox;
-    private JButton addProductButton;
-    private JScrollPane budgetPreviewScrollPanel;
-    private JTable budgetPreviewingTable;
-    private JPanel budgetCreationButtonsContainer;
-    private JButton budgetPreviewButton;
-    private JButton budgetCreateButton;
-    private JPanel tableContainer;
-    private JLabel previewTableLabe;
-    private JTable productResultTable;
     private JPanel productTableContainer;
     private JScrollPane productTableScrollPanel;
-    private JPanel measuresContainer;
-    private JTextField measuresTextField;
-    private JLabel measuresLabel;
-    private JButton addClientButton;
-    private JTextField productTextField;
-    private JPanel productTextFieldContainer;
-    private JButton productSearchButton;
-    private JPanel productSearchButtonContainer;
-    private JButton deleteProductButton;
-    private JPanel priceContainer;
-    private JTextArea priceTextArea;
-    private JLabel priceLabel;
-    private JButton productModifyButton;
-    private JPanel clientSelectedCheckContainer;
-    private JCheckBox clientSelectedCheckBox;
-    private JPanel addClientContainer;
+    private JTable productTable;
+    private JButton productAddButton;
+    private JPanel budgetPreviewContainer;
+    private JPanel previewTableContainer;
+    private JScrollPane budgetPreviewScrollPanel;
+    private JTable budgetPreviewTable;
+    private JLabel previewLabel;
+    private JPanel budgetCreationButtonsContainer;
+    private JButton budgetPreviewButton;
+    private JButton productDeleteButton;
     private JButton saveModificationsButton;
-    private BudgetCreatePresenter budgetCreatePresenter;
+    private JPanel priceContainer;
+    private JLabel priceLabel;
+    private JTextArea priceTextArea;
+    private BudgetModifyPresenter budgetModifyPresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
     private DefaultTableModel previewTableModel;
     private StringBuilder sb = new StringBuilder();
 
-    public BudgetCreateView() {
-        windowFrame = new JFrame("Crear Presupuesto");
+
+    public BudgetModifyView(){
+        windowFrame = new JFrame("Modificar Presupuesto");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        windowFrame.setSize(590,1010);
-        windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        saveModificationsButton.setVisible(true);
         priceTextArea.setEditable(false);
         sb.append("Productos: ");
         sb.append("\n");
         sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
-
-        productSearchingContainer.setVisible(false);
-        productModifyButton.setVisible(false);
-        budgetCreationButtonsContainer.setVisible(false);
-        priceContainer.setVisible(false);
-
-
     }
 
     @Override
@@ -108,25 +93,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     protected void initListeners() {
-        budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onCreateButtonClicked());
-        productSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchProductButtonClicked());
-        addProductButton.addActionListener(e -> budgetCreatePresenter.onAddProductButtonClicked());
-        deleteProductButton.addActionListener(e -> budgetCreatePresenter.onDeleteProductButtonClicked());
-        addClientButton.addActionListener(e -> budgetCreatePresenter.onAddClientButtonClicked());
-        clientSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchClientButtonClicked());
-        productCategoryComboBox.addItemListener(e -> budgetCreatePresenter.onCategorySelected());
-        clientSelectedCheckBox.addItemListener(e -> budgetCreatePresenter.onClientSelectedCheckBoxClicked());
-        budgetPreviewingTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Detectar doble clic
-                if (e.getClickCount() == 2 && !e.isConsumed()) {
-                    e.consume(); // Evitar más procesamiento de este evento
-                    int clickedRow = budgetPreviewingTable.getSelectedRow();
-                    budgetCreatePresenter.onPreviewTableDoubleClickedRow(clickedRow);
-                }
-            }
-        });
+        saveModificationsButton.addActionListener(e -> budgetModifyPresenter.onSaveModificationsButtonClicked());
+        productAddButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
+        productDeleteButton.addActionListener(e -> budgetModifyPresenter.onDeleteProductButtonClicked());
     }
 
     @Override
@@ -162,9 +131,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public void clearPreviewTable() {
-        for (int row = 0; row < budgetPreviewingTable.getRowCount(); row++) {
-            for (int col = 0; col < budgetPreviewingTable.getColumnCount(); col++) {
-                budgetPreviewingTable.setValueAt("", row, col);
+        for (int row = 0; row < budgetPreviewTable.getRowCount(); row++) {
+            for (int col = 0; col < budgetPreviewTable.getColumnCount(); col++) {
+                budgetPreviewTable.setValueAt("", row, col);
             }
         }
     }
@@ -180,23 +149,23 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public void clearProductTable() {
-        for (int row = 0; row < productResultTable.getRowCount(); row++) {
-            for (int col = 0; col < productResultTable.getColumnCount(); col++) {
-                productResultTable.setValueAt("", row, col);
+        for (int row = 0; row < productTable.getRowCount(); row++) {
+            for (int col = 0; col < productTable.getColumnCount(); col++) {
+                productTable.setValueAt("", row, col);
             }
         }
     }
 
     @Override
-    public void setPresenter(StandardPresenter budgetCreatePresenter) {
-        this.budgetCreatePresenter = (BudgetCreatePresenter) budgetCreatePresenter;
+    public void setPresenter(StandardPresenter budgetModifyPresenter) {
+        this.budgetModifyPresenter = (BudgetModifyPresenter) budgetModifyPresenter;
     }
 
     @Override
     public void setCategoriesComboBox(List<String> categorias) {
-        productCategoryComboBox.addItem("Seleccione una categoría");
+        productComboBox.addItem("Seleccione una categoría");
         for (String categoria : categorias) {
-            productCategoryComboBox.addItem(categoria);
+            productComboBox.addItem(categoria);
         }
     }
 
@@ -215,7 +184,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public JComboBox<String> getCategoriesComboBox() {
-        return productCategoryComboBox;
+        return productComboBox;
     }
 
     @Override
@@ -232,7 +201,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public String getSelectedCategory() {
-        return (String) productCategoryComboBox.getSelectedItem();
+        return (String) productComboBox.getSelectedItem();
     }
 
     @Override
@@ -242,17 +211,17 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public void setProductStringTableValueAt(int row, int col, String value) {
-        productResultTable.setValueAt(value, row, col);
+        productTable.setValueAt(value, row, col);
     }
 
     @Override
     public void setProductDoubleTableValueAt(int row, int col, Double value) {
-        productResultTable.setValueAt(value, row, col);
+        productTable.setValueAt(value, row, col);
     }
 
     @Override
     public void setProductIntTableValueAt(int row, int col, int value) {
-        productResultTable.setValueAt(value, row, col);
+        productTable.setValueAt(value, row, col);
     }
 
 
@@ -262,25 +231,20 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         clientsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
         clientResultTable.setModel(clientsTableModel);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
-        productResultTable.setModel(productsTableModel);
+        productTable.setModel(productsTableModel);
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
-        budgetPreviewingTable.setModel(previewTableModel);
-        budgetPreviewingTable.getColumnModel().getColumn(1).setPreferredWidth(400);
+        budgetPreviewTable.setModel(previewTableModel);
+        budgetPreviewTable.setRowHeight(300);
+        budgetPreviewTable.getColumnModel().getColumn(1).setPreferredWidth(400);
 
-        setTableVisibility(clientResultTable);
-        setTableVisibility(productResultTable);
-        setTableVisibility(budgetPreviewingTable);
-
-        clientSearchingContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
-        addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
     }
 
     public JButton getAddProductButton() {
-        return addProductButton;
+        return productAddButton;
     }
 
     public void addProductToPreviewTable(Product product, int row) {
-        budgetPreviewingTable.setValueAt(product.getName(), row, 1);
+        budgetPreviewTable.setValueAt(product.getName(), row, 1);
     }
 
     public int getFilledRowsCount(JTable table) {
@@ -312,22 +276,22 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public JButton getClientAddButton() {
-        return addClientButton;
+        return clientAddButton;
     }
 
     @Override
     public void setPreviewStringTableValueAt(int row, int col, String value) {
-        budgetPreviewingTable.setValueAt(value, row, col);
+        budgetPreviewTable.setValueAt(value, row, col);
     }
 
     @Override
     public void setPreviewDoubleTableValueAt(int row, int col, Double value) {
-        budgetPreviewingTable.setValueAt(value, row, col);
+        budgetPreviewTable.setValueAt(value, row, col);
     }
 
     @Override
     public void setPreviewIntTableValueAt(int row, int col, int value) {
-        budgetPreviewingTable.setValueAt(value, row, col);
+        budgetPreviewTable.setValueAt(value, row, col);
     }
 
     public int getClientTableSelectedRow() {
@@ -335,7 +299,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public int getProductTableSelectedRow() {
-        return productResultTable.getSelectedRow();
+        return productTable.getSelectedRow();
     }
 
     public JTable getClientResultTable() {
@@ -344,11 +308,11 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public JTable getPreviewTable() {
-        return budgetPreviewingTable;
+        return budgetPreviewTable;
     }
 
     public String getProductStringTableValueAt(int row, int col) {
-        return (String) productResultTable.getValueAt(row, col);
+        return (String) productTable.getValueAt(row, col);
     }
 
     public String getClientStringTableValueAt(int row, int col) {
@@ -370,12 +334,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public String getPreviewStringTableValueAt(int row, int col) {
-        return (String) budgetPreviewingTable.getValueAt(row, col);
+        return (String) budgetPreviewTable.getValueAt(row, col);
     }
 
     @Override
     public int getPreviewIntTableValueAt(int row, int col) {
-        return (int) budgetPreviewingTable.getValueAt(row, col);
+        return (int) budgetPreviewTable.getValueAt(row, col);
     }
 
     public JTextField getProductsTextField() {
@@ -388,8 +352,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public void setClientOnPreviewTable(String clientName, String clientType) {
-        budgetPreviewingTable.setValueAt(clientName, 0, 0);
-        budgetPreviewingTable.setValueAt(clientType, 0, 3);
+        budgetPreviewTable.setValueAt(clientName, 0, 0);
+        budgetPreviewTable.setValueAt(clientType, 0, 3);
     }
 
     @Override
@@ -399,7 +363,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public JTextField getMeasuresTextField() {
-        return measuresTextField;
+        return measureTextField;
     }
 
     @Override
@@ -415,7 +379,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             Object cellValue = table.getValueAt(rowIndex, columnIndex);
 
             // Comprobar si la celda no está vacía (ni null ni cadena vacía)
-            if (cellValue != null && !cellValue.toString().trim().isEmpty()) {
+            if (cellValue != null && !cellValue.equals("")) {
                 count++;
             }
         }
@@ -427,8 +391,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return previewTableModel;
     }
 
-    public BudgetCreatePresenter getBudgetCreatePresenter() {
-        return budgetCreatePresenter;
+    @Override
+    public JButton getSaveModificationsButton() {
+        return saveModificationsButton;
     }
 
     public JTextArea getPriceTextArea() {
@@ -438,56 +403,4 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public StringBuilder getStringBuilder() {
         return sb;
     }
-
-    @Override
-    public void setProductNameTextField(String productsName) {
-        productTextField.setText(productsName);
-    }
-
-    @Override
-    public void setObservationsTextField(String productsObservation) {
-        observationsTextField.setText(productsObservation);
-    }
-
-    @Override
-    public void setMeasuresTextField(String productsMeasure) {
-        measuresTextField.setText(productsMeasure);
-    }
-
-    @Override
-    public void setAmountTextField(int productsAmount) {
-        amountTextField.setText(String.valueOf(productsAmount));
-    }
-
-    @Override
-    public void setTableVisibility(JTable table) {
-        int rowCountToShow = 4;
-        int rowHeight = table.getRowHeight(); // Altura de cada fila
-        int tableHeight = rowCountToShow * rowHeight; // Altura total para x filas
-        // Establecer la altura preferida del viewport dentro del JScrollPane
-        table.setPreferredScrollableViewportSize(new java.awt.Dimension(
-                table.getPreferredSize().width, tableHeight));
-    }
-
-    @Override
-    public JCheckBox getClientSelectedCheckBox() {
-        return clientSelectedCheckBox;
-    }
-
-    public void setInitialPanelsVisibility() {
-        productSearchingContainer.setVisible(false);
-        budgetCreationButtonsContainer.setVisible(false);
-        priceContainer.setVisible(false);
-        clientSearchingContainer.setVisible(true);
-        budgetPreviewContainer.setVisible(true);
-    }
-
-    public void setSecondPanelsVisibility() {
-        clientSearchingContainer.setVisible(false);
-        budgetPreviewContainer.setVisible(true);
-        productSearchingContainer.setVisible(true);
-        budgetCreationButtonsContainer.setVisible(true);
-        priceContainer.setVisible(true);
-    }
 }
-

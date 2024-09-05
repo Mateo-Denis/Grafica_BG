@@ -21,4 +21,5 @@ public interface IBudgetSearchView extends IToggleableView {
     String getStringValueAt(int row, int col);
     int getIntValueAt(int row, int col);
     double getDoubleValueAt(int row, int col);
+    JButton getModifyButton();
 }

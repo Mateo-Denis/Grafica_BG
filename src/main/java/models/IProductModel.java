@@ -24,4 +24,5 @@ public interface IProductModel {
     //void deleteAllVisibleProducts(ArrayList<String> visibleProductNames);
     String getCategoryName(int categoryID);
     int getCategoryID(String categoryName);
+    Product getOneProduct(int productID);
 }

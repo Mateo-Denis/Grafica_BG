@@ -1,14 +1,16 @@
-package views.budget;
+package views.budget.modify;
+
 import presenters.budget.BudgetCreatePresenter;
 import utils.Product;
 import views.IToggleableView;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface IBudgetCreateView extends IToggleableView {
+public interface IBudgetModifyView extends IToggleableView {
     String getBudgetClientName();
     String getBudgetDate();
     String getBudgetClientType();
@@ -55,15 +57,7 @@ public interface IBudgetCreateView extends IToggleableView {
     JTextField getObservationsTextField();
     int countNonEmptyCells(JTable table, int columnIndex);
     DefaultTableModel getPreviewTableModel();
-    BudgetCreatePresenter getBudgetCreatePresenter();
+    JButton getSaveModificationsButton();
     JTextArea getPriceTextArea();
     StringBuilder getStringBuilder();
-    void setProductNameTextField(String productsName);
-    void setObservationsTextField(String productsPrice);
-    void setMeasuresTextField(String productsMeasure);
-    void setAmountTextField(int productsAmount);
-    void setTableVisibility(JTable table);
-    JCheckBox getClientSelectedCheckBox();
-    void setInitialPanelsVisibility();
-    void setSecondPanelsVisibility();
 }

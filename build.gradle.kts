@@ -25,6 +25,8 @@ dependencies {
     implementation("com.itextpdf:layout:8.0.5")
     implementation ("com.jgoodies:jgoodies-forms:2.13.0")
     implementation ("org.swinglabs.swingx:swingx-all:1.6.5-1")
+    implementation ("org.javatuples:javatuples:1.2")
+    implementation ("com.google.guava:guava:32.1.2-jre")
 }
 
 tasks.test {

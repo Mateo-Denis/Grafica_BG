@@ -163,4 +163,12 @@ public class ProductModel implements IProductModel {
             listener.onFailure();
         }
     }
+
+    public Product getOneProduct(int productID) {
+        try {
+            return productsDBConnection.getOneProduct(productID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

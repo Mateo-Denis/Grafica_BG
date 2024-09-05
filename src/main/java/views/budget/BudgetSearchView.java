@@ -3,8 +3,10 @@ package views.budget;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import models.BudgetModel;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
+import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
 
@@ -30,8 +32,9 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     private JButton deleteButton;
     private BudgetSearchPresenter budgetSearchPresenter;
     private BudgetListPresenter budgetListPresenter;
+    private BudgetModifyPresenter budgetModifyPresenter;
 
-    public BudgetSearchView(BudgetListPresenter budgetListPresenter) {
+    public BudgetSearchView(BudgetListPresenter budgetListPresenter, BudgetModifyPresenter budgetModifyPresenter) {
         windowFrame = new JFrame("Buscar Presupuestos");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
@@ -39,6 +42,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
         this.budgetListPresenter = budgetListPresenter;
+        this.budgetModifyPresenter = budgetModifyPresenter;
 
         initListeners();
     }
@@ -60,10 +64,9 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         searchButton.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
         cleanTableButton.addActionListener(e -> budgetSearchPresenter.onCleanTableButtonClicked());
         budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
-        //modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
         //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
-        modifyButton.addActionListener(e -> budgetSearchPresenter.onModifyButtonClicked());
+        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(this.getBudgetResultTable(), this.getSelectedTableRow()));
     }
 
     @Override
@@ -168,5 +171,10 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public double getDoubleValueAt(int row, int col) {
         return (double) budgetResultTable.getValueAt(row, col);
+    }
+
+    @Override
+    public JButton getModifyButton() {
+        return modifyButton;
     }
 }
