@@ -18,11 +18,7 @@ import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.categories.CategoryCreatePresenter;
 import presenters.settings.SettingsPresenter;
-import utils.databases.ClientsDatabaseConnection;
-import utils.databases.ProductsDatabaseConnection;
-import utils.databases.BudgetsDatabaseConnection;
-import utils.databases.CategoriesDatabaseConnection;
-import utils.databases.AttributesDatabaseConnection;
+import utils.databases.*;
 import views.budget.modify.BudgetModifyView;
 import views.client.ClientCreateView;
 import views.client.ClientSearchView;
@@ -63,6 +59,8 @@ public class Main {
         budgetsDB.loadDatabase();
         AttributesDatabaseConnection attributesDB = new AttributesDatabaseConnection();
         attributesDB.loadDatabase();
+        SettingsDatabaseConnection settingsDB = new SettingsDatabaseConnection();
+        settingsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
@@ -72,7 +70,7 @@ public class Main {
         IClientListModel clientListModel = new ClientListModel(clientsDB);
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
-        ISettingsModel settingsModel = new SettingsModel();
+        ISettingsModel settingsModel = new SettingsModel(settingsDB);
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();
@@ -128,10 +126,6 @@ public class Main {
 
         IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
                 productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter);
-    }
-
-    private void connectToDatabase(){
-
     }
 
 }

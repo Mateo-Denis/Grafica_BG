@@ -32,8 +32,8 @@ public class SettingsPresenter extends StandardPresenter {
 	}
 
 	public void onUpdateDataButtonPressed() {
-		settingsModel.updateGeneralData(settingsView.getPlankLoweringValue(), settingsView.getCapValue(),
-				settingsView.getCupValue(), settingsView.getInkValue(), settingsView.getSeamstressValue());
+		settingsModel.updateGeneralData(settingsView.getSeamstressValue(), settingsView.getDollarValue(), settingsView.getPlankLoweringValue(), settingsView.getCapValue(),
+				settingsView.getCupValue(), settingsView.getInkValue());
 
 		settingsModel.updateClothData(tableToArrayList(settingsView.getClothTable()));
 

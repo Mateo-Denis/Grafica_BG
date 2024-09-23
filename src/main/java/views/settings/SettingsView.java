@@ -24,6 +24,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 	private JLabel plankLoweringLabel;
 	private JLabel capLabel;
 	private JLabel cupLabel;
+	private JLabel dollarLabel;
+	private JTextField dollarTextField;
 	private SettingsPresenter settingsPresenter;
 
 
@@ -55,6 +57,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
 	}
 
+	@Override
+	public String getDollarValue() { return dollarTextField.getText(); }
 	@Override
 	public String getPlankLoweringValue() {
 		return plankLoweringTextField.getText();
