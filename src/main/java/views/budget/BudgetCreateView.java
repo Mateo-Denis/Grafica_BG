@@ -66,7 +66,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JButton deleteProductButton;
     private JPanel priceContainer;
     private JTextArea priceTextArea;
-    private JLabel priceLabel;
     private JButton productModifyButton;
     private JPanel clientSelectedCheckContainer;
     private JCheckBox clientSelectedCheckBox;
@@ -87,10 +86,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.setSize(590,1010);
         windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+
+        sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
-        sb.append("Productos: ");
-        sb.append("\n");
-        sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
 
         productSearchingContainer.setVisible(false);
@@ -255,15 +253,31 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productResultTable.setValueAt(value, row, col);
     }
 
-
     @Override
     public void start() {
         super.start();
-        clientsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
+        clientsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         clientResultTable.setModel(clientsTableModel);
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
+
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         productResultTable.setModel(productsTableModel);
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
+
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         budgetPreviewingTable.setModel(previewTableModel);
         budgetPreviewingTable.getColumnModel().getColumn(1).setPreferredWidth(400);
 
@@ -435,10 +449,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return priceTextArea;
     }
 
-    public StringBuilder getStringBuilder() {
-        return sb;
-    }
-
     @Override
     public void setProductNameTextField(String productsName) {
         productTextField.setText(productsName);
@@ -488,6 +498,14 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
         priceContainer.setVisible(true);
+    }
+
+    public StringBuilder getStringBuilder() {
+        return sb;
+    }
+
+    public JTextArea getTextArea() {
+        return priceTextArea;
     }
 }
 

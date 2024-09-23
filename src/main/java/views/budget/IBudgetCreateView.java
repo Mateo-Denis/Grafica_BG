@@ -57,7 +57,6 @@ public interface IBudgetCreateView extends IToggleableView {
     DefaultTableModel getPreviewTableModel();
     BudgetCreatePresenter getBudgetCreatePresenter();
     JTextArea getPriceTextArea();
-    StringBuilder getStringBuilder();
     void setProductNameTextField(String productsName);
     void setObservationsTextField(String productsPrice);
     void setMeasuresTextField(String productsMeasure);
@@ -66,4 +65,8 @@ public interface IBudgetCreateView extends IToggleableView {
     JCheckBox getClientSelectedCheckBox();
     void setInitialPanelsVisibility();
     void setSecondPanelsVisibility();
+
+
+    StringBuilder getStringBuilder();
+    JTextArea getTextArea();
 }
