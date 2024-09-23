@@ -15,4 +15,19 @@ public interface ISettingsView extends IToggleableView {
 	JTable getClothesTable();
 
 
+	void setDollarValue(String value);
+
+	void setPlankLoweringValue(String value);
+
+	void setCapValue(String value);
+
+	void setCupValue(String value);
+
+	void setInkValue(String value);
+
+	void setSeamstressValue(String value);
+
+	void setClothTableValue(String value, int row, int column);
+
+	void setClothesTableValue(String value, int row, int column);
 }

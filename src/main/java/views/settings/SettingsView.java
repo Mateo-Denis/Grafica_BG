@@ -94,30 +94,33 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 		return clothesValuesTable;
 	}
 
+	@Override
+	public void setDollarValue(String value) { dollarTextField.setText(value); }
+	@Override
 	public void setPlankLoweringValue(String value) {
 		plankLoweringTextField.setText(value);
 	}
-
+	@Override
 	public void setCapValue(String value) {
 		capTextField.setText(value);
 	}
-
+	@Override
 	public void setCupValue(String value) {
 		cupTextField.setText(value);
 	}
-
+	@Override
 	public void setInkValue(String value) {
 		inkTextField.setText(value);
 	}
-
+	@Override
 	public void setSeamstressValue(String value) {
 		seamstressTextField.setText(value);
 	}
-
+	@Override
 	public void setClothTableValue(String value, int row, int column) {
 		clothValuesTable.setValueAt(value, row, column);
 	}
-
+	@Override
 	public void setClothesTableValue(String value, int row, int column) {
 		clothValuesTable.setValueAt(value, row, column);
 	}

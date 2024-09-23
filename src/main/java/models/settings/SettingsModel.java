@@ -18,13 +18,8 @@ public class SettingsModel implements ISettingsModel {
 		dbConnection.updateTable(dollarValue, plankLoweringValue, capValue, cupValue, inkValue, seamstressValue);
 	}
 
-	@Override
-	public void updateClothData(ArrayList<Pair<String, String>> clothTable) {
-
+	public ArrayList<Pair<String, String>> getTableContent(){
+		return dbConnection.getTableContent();
 	}
 
-	@Override
-	public void updateClothesData(ArrayList<Pair<String, String>> clothesTable) {
-
-	}
 }

@@ -100,9 +100,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         String directoryPath = "src/main/java/views/products/modular";
         List<String> nombresDeModulars = textUtils.getFileNamesInDirectory(directoryPath);
         nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
-        for(String nombre : nombresDeModulars){
-            System.out.println(nombre);
-        }
+//        for(String nombre : nombresDeModulars){
+//            System.out.println(nombre);
+//        }
         List<String> subStringModulars = new ArrayList<>();
         List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productCreatePresenter);
         Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
