@@ -37,6 +37,9 @@ public enum MessageTypes {
     PRODUCT_LIST_GENERATION_FAILURE("Error al generar la lista de productos"
             , "Ha ocurrido un error al intentar generar la lista de productos."
             , JOptionPane.ERROR_MESSAGE),
+    MISSING_PRODUCT_NAME("Nombre de producto faltante"
+            , "Por favor, ingrese un nombre para el producto."
+            , JOptionPane.ERROR_MESSAGE),
     SUBCATEGORY_CREATION_SUCCESS("SubCategoria creada con éxito"
             , "La subcategoria fue agregada a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),
@@ -69,6 +72,9 @@ public enum MessageTypes {
             , JOptionPane.INFORMATION_MESSAGE),
     PAGE_DELETE_FAILURE("Error while deleting page"
             , "An error occurred while deleting the page from the database"
+            , JOptionPane.ERROR_MESSAGE),
+    MISSING_MODULAR_VIEW("Error creando el producto"
+            , "POR FAVOR SELECCIONE UNA CATEGORÍA"
             , JOptionPane.ERROR_MESSAGE),
     PAGE_SEARCH_FAILURE("Error while searching page"
             , "An error occurred while searching the page from the Wikipedia API"

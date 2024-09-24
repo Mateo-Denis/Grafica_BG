@@ -272,7 +272,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         };
         productResultTable.setModel(productsTableModel);
 
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Precio", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -500,6 +500,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceContainer.setVisible(true);
     }
 
+    @Override
+    public JTable getProductsResultTable() {
+        return productResultTable;
+    }
+
+    @Override
     public StringBuilder getStringBuilder() {
         return sb;
     }

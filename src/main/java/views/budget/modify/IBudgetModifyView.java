@@ -60,4 +60,5 @@ public interface IBudgetModifyView extends IToggleableView {
     JButton getSaveModificationsButton();
     JTextArea getPriceTextArea();
     StringBuilder getStringBuilder();
+    JTable getProductsResultTable();
 }

@@ -1,9 +1,12 @@
 package testing;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import models.BudgetModel;
 import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.DatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
+import utils.Product;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,61 +14,27 @@ import java.sql.*;
 import java.util.*;
 
 public class testingMain {
-    private static BudgetsDatabaseConnection budgetsDBConnection = new BudgetsDatabaseConnection();
-    private static ProductsDatabaseConnection productsDBConnection = new ProductsDatabaseConnection();
-    private static BudgetModel bmodel;
-    private DatabaseConnection dbconn;
+    private static Multimap<Integer, Product> productMap = ArrayListMultimap.create();
 
     public static void main(String[] args) throws SQLException {
-        //ArrayList<String> products = getBudgetProductsName();
-    }
+        Product product1 = new Product("Producto1", "Descripcion1", 10, 1);
+        Product product2 = new Product("Producto2", "Descripcion2", 20, 1);
+        Product product3 = new Product("Producto3", "Descripcion3", 30, 1);
+        Product product4 = new Product("Producto4", "Descripcion4", 40, 1);
 
+        productMap.put(1, product1);
+        productMap.put(2, product2);
+        productMap.put(1, product3);
+        productMap.put(2, product4);
 
-    public static int getBudgetID(String budgetName, int budgetNumber) throws SQLException {
-        String sql = "SELECT ID, Numero_presupuesto FROM Presupuestos WHERE Nombre_Cliente = ? AND Numero_presupuesto = ?";
-        Connection conn = budgetsDBConnection.connect();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, budgetName);
-        pstmt.setInt(2, budgetNumber);
-        ResultSet resultSet = pstmt.executeQuery();
-        int budgetID = 0;
-        while (resultSet.next()) {
-            budgetID = resultSet.getInt("ID");
+        for(Map.Entry<Integer, Product> entry : productMap.entries()) {
+            System.out.println("Key: " + entry.getKey() + " Value: " + entry.getValue().getName());
         }
-        pstmt.close();
-        conn.close();
-        return budgetID;
-    }
 
+        productMap.remove(1, product1);
 
-    public static void saveProductssss(int budgetNumber, String budgetName, Map<Integer,String> products) throws SQLException {
-        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD) VALUES(?, ?, ?)";
-        Connection conn = budgetsDBConnection.connect();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        for (Map.Entry<Integer, String> entry : products.entrySet()) { //POR CADA TUPLA EL EL MAPA, EL INT ES LA CANTIDAD DEL PRODUCTO Y EL STRING EL NOMBRE
-            int budgetID = getBudgetID(budgetName, budgetNumber); //OBTIENE EL ID DEL PRESUPUESTO
-            int productID = productsDBConnection.getProductID(entry.getValue());//OBTIENE EL ID DEL PRODUCTO AGARRANDO LA PARTE STRING DEL MAPA Y PASANDOLA
-            int productAmount = entry.getKey(); //LA CANTIDAD DEL PRODUCTO ES LA PARTE INT DEL MAPA              //COMO PARAMETRO A LA FUNCION GETPRODUCTID
-            pstmt.setInt(1, budgetID);
-            pstmt.setInt(2, productID);
-            pstmt.setInt(3, productAmount);
-            pstmt.executeUpdate();
+        for(Map.Entry<Integer, Product> entry : productMap.entries()) {
+            System.out.println("Key: " + entry.getKey() + " Value: " + entry.getValue().getName());
         }
-        pstmt.close();
-        conn.close();
     }
-
-//    public static ArrayList<String> getBudgetProductsName(String budgetName, int budgetNumber) {
-//        Map<Integer,String> products = bmodel.getSavedProducts(budgetNumber, budgetName);
-//        ArrayList<String> productsName = new ArrayList<>();
-//
-//        for(Map.Entry<Integer,String> entry : products.entrySet()) {
-//            String actualProductName = entry.getValue();
-//            if(!productsName.contains(actualProductName)) {
-//                productsName.add(actualProductName);
-//            }
-//        }
-//
-//        return productsName;
-//    }
 }

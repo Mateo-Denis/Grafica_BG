@@ -403,4 +403,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     public StringBuilder getStringBuilder() {
         return sb;
     }
+
+    public JTable getProductsResultTable() {
+        return productTable;
+    }
 }
