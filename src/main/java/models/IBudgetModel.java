@@ -22,11 +22,12 @@ public interface IBudgetModel {
     void queryBudgets(String budgetSearch);
     ArrayList<Budget> getLastBudgetsQuery();
     ArrayList<String> getProductNamesByCategory(String category);
-    ArrayList<Product> getProducts(String productName);
+    ArrayList<Product> getProducts(String productName, String productCategory);
     ArrayList<String> getCitiesName();
     ArrayList<Client> getClients(String name, String city);
     int getBudgetID(int budgetNumber, String budgetName);
     void deleteOneBudget(int budgetID);
     void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
     void saveProducts(int budgetNumber, String budgetName, Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
+    void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating);
 }

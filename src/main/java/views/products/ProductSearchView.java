@@ -11,6 +11,7 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductSearchView extends ToggleableView implements IProductSearchView {
 
@@ -28,6 +29,8 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private JButton deleteOneProductButton;
     private JPanel deleteButtonsContainer;
     private JPanel bottomButtonsContainer;
+    private JComboBox categoryComboBox;
+    private JLabel categoryLabel;
     private JButton deleteAllProductsButton;
     private ProductSearchPresenter productSearchPresenter;
     private DefaultTableModel tableModel;
@@ -132,5 +135,18 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
             productNames.add(productName);
         }
         return productNames;
+    }
+
+    @Override
+    public void setCategoriesComboBox(List<String> categorias) {
+        categoryComboBox.addItem("Seleccione una categoría");
+        for (String categoria : categorias) {
+            categoryComboBox.addItem(categoria);
+        }
+    }
+
+    @Override
+    public JComboBox getCategoriesComboBox() {
+        return categoryComboBox;
     }
 }

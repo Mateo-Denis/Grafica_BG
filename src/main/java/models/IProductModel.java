@@ -16,7 +16,7 @@ public interface IProductModel {
     void addProductCreationFailureListener(ProductCreationFailureListener listener);
     void addProductSearchSuccessListener(ProductSearchSuccessListener listener);
     void addProductSearchFailureListener(ProductSearchFailureListener listener);
-    void queryProducts(String searchedName);
+    void queryProducts(String searchedName, String category);
     ArrayList<Product> getLastProductsQuery();
     int getProductID(String productName);
     void deleteOneProduct(int productID);

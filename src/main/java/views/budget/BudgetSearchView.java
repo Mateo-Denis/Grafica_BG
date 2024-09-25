@@ -137,7 +137,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         ArrayList<Integer> budgetNumbers = new ArrayList<>();
         int[] selectedRows = budgetResultTable.getSelectedRows();
         for (int row : selectedRows) {
-            int budgetNumber = (int) budgetResultTable.getValueAt(row, 3);
+            int budgetNumber = Integer.parseInt((String) budgetResultTable.getValueAt(row, 3));
             budgetNumbers.add(budgetNumber);
         }
         return budgetNumbers;

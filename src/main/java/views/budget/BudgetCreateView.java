@@ -112,7 +112,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         deleteProductButton.addActionListener(e -> budgetCreatePresenter.onDeleteProductButtonClicked());
         addClientButton.addActionListener(e -> budgetCreatePresenter.onAddClientButtonClicked());
         clientSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchClientButtonClicked());
-        productCategoryComboBox.addItemListener(e -> budgetCreatePresenter.onCategorySelected());
         clientSelectedCheckBox.addItemListener(e -> budgetCreatePresenter.onClientSelectedCheckBoxClicked());
         budgetPreviewingTable.addMouseListener(new MouseAdapter() {
             @Override

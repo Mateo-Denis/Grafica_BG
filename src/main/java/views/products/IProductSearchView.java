@@ -2,6 +2,7 @@ package views.products;
 
 import views.IToggleableView;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public interface IProductSearchView extends IToggleableView {
@@ -15,4 +16,6 @@ public interface IProductSearchView extends IToggleableView {
     int getSelectedTableRow();
     void deselectAllRows();
     JTable getProductResultTable();
+    void setCategoriesComboBox(List<String> categorias);
+    JComboBox getCategoriesComboBox();
 }

@@ -50,31 +50,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         setearNumeroDePresupuesto();
     }
 
-    public void onCategorySelected() {
-        String selectedOption = budgetCreateView.getSelectedCategory();
-        ArrayList<Product> products = budgetModel.getProducts(selectedOption);
-        int categoryID = 0;
-        String selectedCategoryName = "";
-        List<String> categoriesName = categoryModel.getCategoriesName();
-
-        int rowCount = 0;
-        for (Product product : products) {
-            categoryID = product.getCategoryID();
-            for (String categoryName : categoriesName) {
-                if (categoryModel.getCategoryID(categoryName) == categoryID) {
-                    selectedCategoryName = categoryName;
-                }
-            }
-            if (selectedCategoryName.equals(selectedOption)) {
-                budgetCreateView.setProductStringTableValueAt(rowCount, 0, product.getName());
-                budgetCreateView.setProductStringTableValueAt(rowCount, 1, product.getDescription());
-                budgetCreateView.setProductDoubleTableValueAt(rowCount, 2, product.getPrice());
-                budgetCreateView.setProductStringTableValueAt(rowCount, 3, selectedCategoryName);
-                rowCount++;
-            }
-        }
-    }
-
     public void onSearchClientButtonClicked() {
         String city = (String) budgetCreateView.getCitiesComboBox().getSelectedItem();
         String name = budgetCreateView.getBudgetClientName();
@@ -112,8 +87,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void onSearchProductButtonClicked() {
         String productName = budgetCreateView.getProductsTextField().getText();
-        ArrayList<Product> products = budgetModel.getProducts(productName);
         List<String> categoriesName = categoryModel.getCategoriesName();
+        JComboBox categoryComboBox = budgetCreateView.getCategoriesComboBox();
+        String selectedCategory = (String) categoryComboBox.getSelectedItem();
+        ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory);
         String productCategoryName = "";
         budgetCreateView.clearProductTable();
         int rowCount = 0;
@@ -130,6 +107,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             budgetCreateView.setProductStringTableValueAt(rowCount, 3, productCategoryName);
             rowCount++;
         }
+        categoryComboBox.setSelectedIndex(0);
     }
 
     public void onCreateButtonClicked() {
@@ -241,7 +219,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
             }
 
             if (budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
-                updateTextArea(sb, priceTextArea);
                 textToPut = productName + " * (" + productAmountInt + ".00) Unidades " + "\t" + "Medidas: " + productMeasures + "\t" + " Observaciones: " + productObservations;
                 budgetCreateView.setPreviewStringTableValueAt(1, 1, textToPut);
                 productID = productModel.getProductID(productName);
@@ -249,6 +226,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 productPrice = (double) product.getPrice() * productAmountInt;
                 budgetCreateView.setPreviewDoubleTableValueAt(1, 2, productPrice);
                 rowCountOnPreviewTable = 2;
+                updateTextArea(sb, priceTextArea, true);
             } else { //HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
                 textToPut = productName + " * (" + productAmountInt + ".00) Unidades " + "\t" + "Medidas: " + productMeasures + "\t" + " Observaciones: " + productObservations;
                 budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, textToPut);
@@ -256,7 +234,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 Product product = productModel.getOneProduct(productID);
                 productPrice = product.getPrice() * productAmountInt;
                 budgetCreateView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 2, productPrice);
-                updateTextArea(sb, priceTextArea);
+                updateTextArea(sb, priceTextArea,true);
                 rowCountOnPreviewTable++;
             }
         }
@@ -292,8 +270,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             StringBuilder sb = budgetCreateView.getStringBuilder();
             JTextArea priceTextArea = budgetCreateView.getPriceTextArea();
             budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
-            rowCountOnPreviewTable--;
-            updateTextArea(sb, priceTextArea);
+            updateTextArea(sb, priceTextArea, false);
         }
     }
 
@@ -334,35 +311,58 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
     }
 
-    public void updateTextArea(StringBuilder stb, JTextArea textArea) {
+    public void updateTextArea(StringBuilder stb, JTextArea textArea, boolean adding) {
         double totalPrice = 0;
         int productAmount = 0;
         int indiceAst = -1;
         int endOfAmountValueIndex = -1;
         int selectedProductRowIndex = budgetCreateView.getProductTableSelectedRow();
-        double productPrice = (double) budgetCreateView.getProductsResultTable().getValueAt(selectedProductRowIndex, 2);
+        double productPrice = 0;
         int filledCells = budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1);
         System.out.println("HAY " + filledCells + " CELDAS CON CONTENIDO.");
         stb.setLength(0);
 
-        if(filledCells == 0) {
-            if(selectedProductRowIndex != -1) {
-                if(budgetCreateView.getAmountTextField().getText().equals("")) {
-                    productAmount = 1;
-                } else {
-                    productAmount = Integer.parseInt(budgetCreateView.getAmountTextField().getText());
+        System.out.println("HAY: " + filledCells + " CELDAS LLENAS EN LA PREVIEW TABLE.");
+
+
+        if(adding){ // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE AGREGÓ UN PRODUCTO:
+            productPrice = (double) budgetCreateView.getProductsResultTable().getValueAt(selectedProductRowIndex, 2); // EL PRECIO DEL PRODUCTO ES EL PRECIO DE LA TABLA DE PRODUCTOS DE LA FILA SELECCIONADA
+            if (filledCells == 0) { // SI NO HAY NINGUN PRODUCTO EN LA PREVIEW TABLE:
+                if (selectedProductRowIndex != -1) { // SI SE SELECCIONÓ UN PRODUCTO DE LA TABLA DE PRODUCTOS:
+                    if (budgetCreateView.getAmountTextField().getText().equals("")) { // SI NO SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
+                        productAmount = 1; // SE PONE CANTIDAD 1 POR DEFECTO
+                    } else { // SI SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
+                        productAmount = Integer.parseInt(budgetCreateView.getAmountTextField().getText());  // SE CAPTURA LA CANTIDAD DE PRODUCTOS A AGREGAR DESDE EL TEXTFIELD
+                    }
+                    totalPrice += productPrice * productAmount; // SE AGREGA LA CANTIDAD * PRECIO AL PRECIO TOTAL
+                } else { // SI NO SE SELECCIONÓ NINGUN PRODUCTO DE LA TABLA DE PRODUCTOS:
+                    totalPrice = 0; // EL PRECIO TOTAL ES 0
                 }
-                totalPrice += productPrice * productAmount;
-            } else {
-                totalPrice = 0;
+            } else { // SI YA HAY PRODUCTOS EN LA PREVIEW TABLE:
+                for (int i = 1; i <= filledCells; i++) { // SE RECORREN LAS FILAS DE LA PREVIEW TABLE
+                    indiceAst = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf('*');
+                    endOfAmountValueIndex = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf(".00)");
+                    productAmount = Integer.parseInt(((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).substring(indiceAst + 3, endOfAmountValueIndex));
+                    productPrice = (double) budgetCreateView.getPreviewTable().getValueAt(i, 2);
+                    totalPrice += productPrice;
+                }
             }
-        } else {
-            for(int i = 1; i <= filledCells; i++) {
-                indiceAst = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf('*');
-                endOfAmountValueIndex = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf(".00)");
-                productAmount = Integer.parseInt(((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).substring(indiceAst + 3, endOfAmountValueIndex));
-                productPrice = (double) budgetCreateView.getProductsResultTable().getValueAt(i, 2);
-                totalPrice += productPrice * productAmount;
+        } else { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE ELIMINÓ UN PRODUCTO:
+            if(filledCells == 0) {
+                totalPrice = 0;
+            } else {
+                for (int i = 1; i <= filledCells; i++) {
+                    indiceAst = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf('*');
+                    endOfAmountValueIndex = ((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).indexOf(".00)");
+                    productAmount = Integer.parseInt(((String) budgetCreateView.getPreviewTable().getValueAt(i, 1)).substring(indiceAst + 3, endOfAmountValueIndex));
+
+                    //TESTING:
+                    System.out.println("INTENTANDO CAPTURAR EL PRECIO DE LA FILA: " + i + " DE LA PREVIEW TABLE. OBTUVE: " + budgetCreateView.getProductsResultTable().getValueAt(i, 2));
+                    productPrice = (double) budgetCreateView.getPreviewTable().getValueAt(i, 2);
+
+
+                    totalPrice += productPrice;
+                }
             }
         }
 

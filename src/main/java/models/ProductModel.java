@@ -131,9 +131,9 @@ public class ProductModel implements IProductModel {
     }
 
     @Override
-    public void queryProducts(String searchedName) {
+    public void queryProducts(String searchedName, String category) {
         try {
-            products = productsDBConnection.getProducts(searchedName);
+            products = productsDBConnection.getProducts(searchedName, category);
             notifyProductSearchSuccess();
         } catch (SQLException e) {
             notifyProductSearchFailure();

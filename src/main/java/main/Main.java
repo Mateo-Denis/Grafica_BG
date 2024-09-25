@@ -92,7 +92,7 @@ public class Main {
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);
         ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
-        ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(productSearchView, productModel);
+        ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(productSearchView, productModel, categoryModel);
         ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
         BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(budgetCreateView, budgetModel, categoryModel, productModel);
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModifyModel, categoryModel, budgetModel, productModel);

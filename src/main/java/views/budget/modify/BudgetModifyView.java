@@ -18,52 +18,53 @@ import java.util.List;
 public class BudgetModifyView extends ToggleableView implements IBudgetModifyView {
     private JPanel containerPanel;
     private JPanel clientSearchingContainer;
-    private JLabel budgetNumberLabel;
-    private JPanel selectClientButtonsContainer;
-    private JPanel nameAndCityContainer;
+    private JPanel productSearchingContainer;
+    private JPanel budgetPreviewContainer;
+    private JPanel budgetCreationButtonsContainer;
+    private JPanel priceContainer;
     private JPanel clientResultContainer;
-    private JTextField clientTextField;
-    private JComboBox cityComboBox;
-    private JLabel clientLabel;
-    private JLabel cityLabel;
-    private JButton clientSearchButton;
+    private JLabel budgetNumberLabel;
     private JScrollPane clientResultScrollPanel;
+    private JPanel addClientContainer;
+    private JPanel nameAndCityContainer;
     private JTable clientResultTable;
     private JButton clientAddButton;
-    private JPanel productSearchingContainer;
+    private JLabel clientLabel;
+    private JTextField clientTextField;
+    private JLabel cityLabel;
+    private JComboBox cityComboBox;
+    private JButton clientSearchButton;
+    private JPanel clientSelectedCheckContainer;
     private JPanel categoriesContainer;
+    private JPanel especificationsContainer;
+    private JPanel productTableContainer;
+    private JCheckBox clientSelectedCheckBox;
     private JLabel productLabel;
+    private JPanel productTextFieldContainer;
     private JTextField productTextField;
     private JComboBox productComboBox;
-    private JPanel productTextFieldContainer;
     private JPanel productSearchButtonContainer;
     private JButton productSearchButton;
-    private JPanel especificationsContainer;
     private JPanel amountContainer;
     private JPanel measuresContainer;
     private JPanel observationsContainer;
     private JLabel amountLabel;
     private JTextField amountTextField;
-    private JTextField measureTextField;
-    private JLabel measureLabel;
+    private JLabel measuresLabel;
+    private JTextField measuresTextField;
     private JTextField observationsTextField;
     private JLabel observationsLabel;
-    private JPanel productTableContainer;
     private JScrollPane productTableScrollPanel;
     private JTable productTable;
-    private JButton productAddButton;
-    private JPanel budgetPreviewContainer;
+    private JButton addProductButton;
+    private JLabel previewTableLabel;
     private JPanel previewTableContainer;
     private JScrollPane budgetPreviewScrollPanel;
     private JTable budgetPreviewTable;
-    private JLabel previewLabel;
-    private JPanel budgetCreationButtonsContainer;
-    private JButton budgetPreviewButton;
-    private JButton productDeleteButton;
-    private JButton saveModificationsButton;
-    private JPanel priceContainer;
-    private JLabel priceLabel;
     private JTextArea priceTextArea;
+    private JButton budgetPreviewButton;
+    private JButton budgetModifyButton;
+    private JButton deleteProductButton;
     private BudgetModifyPresenter budgetModifyPresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
@@ -78,12 +79,14 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-        saveModificationsButton.setVisible(true);
+        budgetModifyButton.setVisible(true);
         priceTextArea.setEditable(false);
         sb.append("Productos: ");
         sb.append("\n");
         sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
+
+        clientSearchingContainer.setVisible(false);
     }
 
     @Override
@@ -93,9 +96,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     protected void initListeners() {
-        saveModificationsButton.addActionListener(e -> budgetModifyPresenter.onSaveModificationsButtonClicked());
-        productAddButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
-        productDeleteButton.addActionListener(e -> budgetModifyPresenter.onDeleteProductButtonClicked());
+        budgetModifyButton.addActionListener(e -> budgetModifyPresenter.onSaveModificationsButtonClicked());
+        addProductButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
+        deleteProductButton.addActionListener(e -> budgetModifyPresenter.onDeleteProductButtonClicked());
+        clientSelectedCheckBox.addItemListener(e -> budgetModifyPresenter.onClientSelectedCheckBoxClicked());
+        clientAddButton.addActionListener(e -> budgetModifyPresenter.onAddClientButtonClicked());
+        productSearchButton.addActionListener(e -> budgetModifyPresenter.onSearchProductButtonClicked());
     }
 
     @Override
@@ -232,15 +238,14 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientResultTable.setModel(clientsTableModel);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
         productTable.setModel(productsTableModel);
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Precio", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
         budgetPreviewTable.setModel(previewTableModel);
-        budgetPreviewTable.setRowHeight(300);
         budgetPreviewTable.getColumnModel().getColumn(1).setPreferredWidth(400);
 
     }
 
     public JButton getAddProductButton() {
-        return productAddButton;
+        return addProductButton;
     }
 
     public void addProductToPreviewTable(Product product, int row) {
@@ -363,7 +368,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     public JTextField getMeasuresTextField() {
-        return measureTextField;
+        return measuresTextField;
     }
 
     @Override
@@ -393,7 +398,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     public JButton getSaveModificationsButton() {
-        return saveModificationsButton;
+        return null;
     }
 
     public JTextArea getPriceTextArea() {
@@ -406,5 +411,26 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     public JTable getProductsResultTable() {
         return productTable;
+    }
+
+    public void setInitialPanelsVisibility() {
+        productSearchingContainer.setVisible(false);
+        budgetCreationButtonsContainer.setVisible(false);
+        priceContainer.setVisible(false);
+        clientSearchingContainer.setVisible(true);
+        budgetPreviewContainer.setVisible(false);
+    }
+
+    public void setSecondPanelsVisibility() {
+        clientSearchingContainer.setVisible(false);
+        budgetPreviewContainer.setVisible(true);
+        productSearchingContainer.setVisible(true);
+        budgetCreationButtonsContainer.setVisible(true);
+        priceContainer.setVisible(true);
+    }
+
+    @Override
+    public JCheckBox getClientSelectedCheckBox() {
+        return clientSelectedCheckBox;
     }
 }

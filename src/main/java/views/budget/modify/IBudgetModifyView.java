@@ -61,4 +61,7 @@ public interface IBudgetModifyView extends IToggleableView {
     JTextArea getPriceTextArea();
     StringBuilder getStringBuilder();
     JTable getProductsResultTable();
+    void setInitialPanelsVisibility();
+    void setSecondPanelsVisibility();
+    JCheckBox getClientSelectedCheckBox();
 }

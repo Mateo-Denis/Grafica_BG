@@ -1,12 +1,14 @@
 package presenters.product;
 
 
+import models.ICategoryModel;
 import models.IProductModel;
 import presenters.StandardPresenter;
 import views.products.IProductSearchView;
 import utils.Product;
 
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +17,14 @@ import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 public class ProductSearchPresenter extends StandardPresenter {
     private final IProductSearchView productSearchView;
     private final IProductModel productModel;
+    private final ICategoryModel categoryModel;
 
-    public ProductSearchPresenter(IProductSearchView productSearchView, IProductModel productModel) {
+    public ProductSearchPresenter(IProductSearchView productSearchView, IProductModel productModel, ICategoryModel categoryModel) {
         this.productSearchView = productSearchView;
         view = productSearchView;
         this.productModel = productModel;
+        this.categoryModel = categoryModel;
+        cargarCategorias();
     }
 
     @Override
@@ -41,7 +46,7 @@ public class ProductSearchPresenter extends StandardPresenter {
 
     }
 
-    public void onSearchButtonClicked() {
+/*    public void onSearchButtonClicked() {
         productSearchView.setWorkingStatus();
 
         String searchedName = productSearchView.getNameSearchText();
@@ -51,6 +56,16 @@ public class ProductSearchPresenter extends StandardPresenter {
         productModel.queryProducts(searchedName);
 
         productSearchView.setWaitingStatus();
+    }*/
+
+    public void onSearchButtonClicked() {
+        productSearchView.clearView();
+        String productName = productSearchView.getNameSearchText();
+        List<String> categoriesName = categoryModel.getCategoriesName();
+        JComboBox categoryComboBox = productSearchView.getCategoriesComboBox();
+        String selectedCategory = (String) categoryComboBox.getSelectedItem();
+        productModel.queryProducts(productName, selectedCategory);
+        String productCategoryName = "";
     }
 
     public void onHomeSearchProductButtonClicked() {
@@ -73,7 +88,7 @@ public class ProductSearchPresenter extends StandardPresenter {
             productSearchView.setWorkingStatus();
             productSearchView.clearView();
             String searchedName = productSearchView.getNameSearchText();
-            productModel.queryProducts(searchedName);
+            productModel.queryProducts(searchedName, "Seleccione una categoría");
             productSearchView.deselectAllRows();
             productSearchView.setWaitingStatus();
         }
@@ -95,7 +110,7 @@ public class ProductSearchPresenter extends StandardPresenter {
         productSearchView.setWorkingStatus();
         productSearchView.clearView();
         String searchedName = productSearchView.getNameSearchText();
-        productModel.queryProducts(searchedName);
+        productModel.queryProducts(searchedName, "Seleccione una categoría");
         productSearchView.deselectAllRows();
         productSearchView.setWaitingStatus();
     }
@@ -107,5 +122,10 @@ public class ProductSearchPresenter extends StandardPresenter {
             return productModel.getProductID(selectedProductName);
         }
         return -1;
+    }
+
+    private void cargarCategorias() {
+        List<String> categorias = categoryModel.getCategoriesName();
+        productSearchView.setCategoriesComboBox(categorias);
     }
 }

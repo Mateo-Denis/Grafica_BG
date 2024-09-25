@@ -246,15 +246,22 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
 
     public void updateBudgetProductsTable( int budgetNumber, String oldClientName, String newClientName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
         try {
-            deleteBudgetProducts(oldClientName, budgetNumber);
             saveProducts(budgetNumber, newClientName, products, observations, productMeasures);
+            deleteBudgetProducts(newClientName, budgetNumber, true);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void deleteBudgetProducts(String clientName, int budgetNumber) throws SQLException {
-        int budgetID = getBudgetID(clientName, budgetNumber) - 1;
+    public void deleteBudgetProducts(String clientName, int budgetNumber, boolean updating) throws SQLException {
+        int budgetID = 0;
+
+        if(updating){
+            budgetID = getBudgetID(clientName, budgetNumber) - 1;
+        } else {
+            budgetID = getBudgetID(clientName, budgetNumber);
+        }
+
         String sql = "DELETE FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);

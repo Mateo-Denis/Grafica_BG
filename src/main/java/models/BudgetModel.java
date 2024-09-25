@@ -11,7 +11,6 @@ import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import java.sql.SQLException;
@@ -147,9 +146,9 @@ public class BudgetModel implements IBudgetModel {
         return new ArrayList<>();
     }
 
-    public ArrayList<Product> getProducts(String productName) {
+    public ArrayList<Product> getProducts(String productName, String productCategory) {
         try {
-            return productsDBConnection.getProducts(productName);
+            return productsDBConnection.getProducts(productName, productCategory);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -207,6 +206,14 @@ public class BudgetModel implements IBudgetModel {
     public void saveProducts(int budgetNumber, String budgetName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
         try {
             budgetsDBConnection.saveProducts(budgetNumber, budgetName, products, observations, productMeasures);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating) {
+        try {
+            budgetsDBConnection.deleteBudgetProducts(budgetName, budgetNumber, updating);
         } catch (Exception e) {
             e.printStackTrace();
         }

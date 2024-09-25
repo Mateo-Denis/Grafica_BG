@@ -58,13 +58,17 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         return idGenerado;
     }
 
-    public ArrayList<Product> getProducts(String searchText) throws SQLException {
+    public ArrayList<Product> getProducts(String searchText, String category) throws SQLException {
 
         String sql = "SELECT * FROM Productos WHERE (Nombre LIKE ?)";
+        String sqlWCategory = "SELECT * FROM Productos WHERE (Nombre LIKE ?) AND Categoria_ID = ?";
 
         try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(category.equals("Seleccione una categoría") ? sql : sqlWCategory)) {
             pstmt.setString(1, "%" + searchText + "%");
+            if (!category.equals("Seleccione una categoría")) {
+                pstmt.setInt(2, categoriesDatabaseConnection.getCategoryID(category));
+            }
             ResultSet resultSet = pstmt.executeQuery();
             ArrayList<Product> products = new ArrayList<>();
             while (resultSet.next()) {
@@ -82,6 +86,28 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             conn.close();
             return products;
         }
+
+
+/*        try (Connection conn = connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + searchText + "%");
+            ResultSet resultSet = pstmt.executeQuery();
+            ArrayList<Product> products = new ArrayList<>();
+            while (resultSet.next()) {
+                Product product = new Product(
+                        resultSet.getString("Nombre"),
+                        resultSet.getString("Descripcion"),
+                        resultSet.getDouble("Precio"),
+                        resultSet.getInt("Categoria_ID")
+                );
+                products.add(product);
+            }
+
+            resultSet.close();
+            pstmt.close();
+            conn.close();
+            return products;
+        }*/
     }
 
     public int getCategoryID(String productName) throws SQLException {
