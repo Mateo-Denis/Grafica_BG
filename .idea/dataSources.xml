@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PRUEBAS.db" uuid="1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8">
+    <data-source source="LOCAL" name="PRUEBAS.db [2]" uuid="74eaaab1-be2c-4951-ae9c-ae5771d908e1">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/PRUEBAS.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/../../../../../Downloads/PRUEBAS.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

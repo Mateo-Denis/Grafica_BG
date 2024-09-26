@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-242.23339.11">
-    <data-source name="PRUEBAS.db" uuid="1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8">
+  <component name="dataSourceStorageLocal" created-in="IU-233.15325.26">
+    <data-source name="PRUEBAS.db [2]" uuid="74eaaab1-be2c-4951-ae9c-ae5771d908e1">
       <database-info product="SQLite" version="3.45.1" jdbc-version="4.2" driver-name="SQLite JDBC" driver-version="3.45.1.0" dbms="SQLITE" exact-version="3.45.1" exact-driver-version="3.45">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

@@ -21,10 +21,20 @@ public class SamplePDFCreation {
                 Row rowcita = new Row("Ejemplo "+i, i,2,0,0);
                 mamongas[i] = rowcita;
             }
-            pdfConverter.generateBill(new Client("Pepito","Juan Molina", "Bahía Blanca", "123456789", false),
+            pdfConverter.generateBill(false, new Client("Pepito","Juan Molina", "Bahía Blanca", "123456789", false),
                     314,mamongas,99999);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public static void createPDF(boolean isPreview, Client client, int billNumber, Row[] tableContent, float total){
+        PdfConverter pdfConverter  = new PdfConverter();
+        try {
+            pdfConverter.generateBill(isPreview, client,billNumber,tableContent,total);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package presenters.settings;
 
+import com.google.gson.JsonObject;
 import models.settings.ISettingsModel;
 import org.javatuples.Pair;
 import presenters.StandardPresenter;
@@ -23,17 +24,35 @@ public class SettingsPresenter extends StandardPresenter {
 		this.settingsView = settingsView;
 		view = settingsView;
 		this.settingsModel = settingsModel;
-		initValues();
+		updateValues();
+		showValues();
 	}
 
-	private void initValues() {
-		ArrayList<Pair<String, String>> tableContent = settingsModel.getTableContent();
-		dollarValue = tableContent.get(0).getValue1();
-		plankLoweringValue = tableContent.get(1).getValue1();
-		capValue = tableContent.get(2).getValue1();
-		cupValue = tableContent.get(3).getValue1();
-		inkValue = tableContent.get(4).getValue1();
-		seamstressValue = tableContent.get(5).getValue1();
+	private void showValues() {
+		settingsView.setDollarValue(dollarValue);
+		settingsView.setPlankLoweringValue(plankLoweringValue);
+		settingsView.setCapValue(capValue);
+		settingsView.setCupValue(cupValue);
+		settingsView.setInkValue(inkValue);
+		settingsView.setSeamstressValue(seamstressValue);
+	}
+
+	private void updateValues() {
+//		ArrayList<Pair<String, String>> tableContent = settingsModel.getTableContent();
+//		dollarValue = tableContent.get(0).getValue1();
+//		plankLoweringValue = tableContent.get(1).getValue1();
+//		capValue = tableContent.get(2).getValue1();
+//		cupValue = tableContent.get(3).getValue1();
+//		inkValue = tableContent.get(4).getValue1();
+//		seamstressValue = tableContent.get(5).getValue1();.
+
+		JsonObject json = settingsModel.readConfig();
+		dollarValue = json.get("Dollar").getAsString();
+		plankLoweringValue = json.get("PlankLowering").getAsString();
+		capValue = json.get("Cap").getAsString();
+		cupValue = json.get("Cup").getAsString();
+		inkValue = json.get("Ink").getAsString();
+		seamstressValue = json.get("Seamstress").getAsString();
 	}
 
 	@Override
@@ -58,7 +77,10 @@ public class SettingsPresenter extends StandardPresenter {
 		String local_inkValue = settingsView.getInkValue();
 		String local_seamstressValue = settingsView.getSeamstressValue();
 
-		settingsModel.updateGeneralData(dollarValue, plankLoweringValue, capValue, cupValue, inkValue, seamstressValue);
+		JsonObject json = settingsModel.readConfig();
+		json.get("Dolar").getAsDouble();
+
+		//settingsModel.updateGeneralData(dollarValue, plankLoweringValue, capValue, cupValue, inkValue, seamstressValue);
 
 		//settingsModel.updateClothData(tableToArrayList(settingsView.getClothTable()));
 
