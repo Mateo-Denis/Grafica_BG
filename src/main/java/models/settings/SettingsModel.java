@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SettingsModel implements ISettingsModel {
 
 	private final SettingsDatabaseConnection dbConnection;
-	private static final String CONFIG_FILE_PATH = "src/main/utils/config/config.json";
+	private static final String CONFIG_FILE_PATH = "src/main/java/utils/config/config.json";
 
 	public SettingsModel(SettingsDatabaseConnection dbConnection) {
 		this.dbConnection = dbConnection;

@@ -13,7 +13,6 @@ import views.budget.modify.IBudgetModifyView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class BudgetModifyPresenter extends StandardPresenter {
@@ -233,8 +232,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         ArrayList<String> productNames = new ArrayList<>();
         ArrayList<String> productObservations = new ArrayList<>();
         ArrayList<String> productMeasures = new ArrayList<>();
-        int budgetID = budgetModel.getBudgetID(selectedRow);
-        budgetNumber = budgetModel.getBudgetNumber(budgetID);
+        //int budgetID = budgetModel.getBudgetID(selectedRow);
+        //budgetNumber = budgetModel.getBudgetNumber(budgetID);
         ArrayList<String> budgetData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
 
         if (selectedRow != -1) {
@@ -268,115 +267,114 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         if (selectedProductRow != -1) {
 
-            productName = budgetModifyView.getProductStringTableValueAt(selectedProductRow, 0);
-            productObservations = budgetModifyView.getObservationsTextField().getText();
-            productMeasures = budgetModifyView.getMeasuresTextField().getText();
-            productAmountStr = budgetModifyView.getAmountTextField().getText();
+           if(!editingProduct) {
+               productName = budgetModifyView.getProductStringTableValueAt(selectedProductRow, 0);
+               productObservations = budgetModifyView.getObservationsTextField().getText();
+               productMeasures = budgetModifyView.getMeasuresTextField().getText();
+               productAmountStr = budgetModifyView.getAmountTextField().getText();
 
-            if (productAmountStr.equals("")) { // NO INGRESÓ CANTIDAD
-                productAmountInt = 1;
-            } else { // INGRESÓ CANTIDAD
-                productAmountInt = Integer.parseInt(productAmountStr);
-            }
+               if (productAmountStr.equals("")) { // NO INGRESÓ CANTIDAD
+                   productAmountInt = 1;
+               } else { // INGRESÓ CANTIDAD
+                   productAmountInt = Integer.parseInt(productAmountStr);
+               }
 
-            if (productObservations.equals("")) { // NO INGRESÓ OBSERVACIONES
-                productObservations = "";
-            } else { // INGRESÓ OBSERVACIONES
-                productObservations = productObservations.trim();
-            }
+               if (productObservations.equals("")) { // NO INGRESÓ OBSERVACIONES
+                   productObservations = "";
+               } else { // INGRESÓ OBSERVACIONES
+                   productObservations = productObservations.trim();
+               }
 
-            if (productMeasures.equals("")) { // NO INGRESÓ MEDIDAS
-                productMeasures = "";
-            } else { // INGRESÓ MEDIDAS
-                productMeasures = productMeasures.trim();
-            }
+               if (productMeasures.equals("")) { // NO INGRESÓ MEDIDAS
+                   productMeasures = "";
+               } else { // INGRESÓ MEDIDAS
+                   productMeasures = productMeasures.trim();
+               }
 
-            if (!productMeasures.equals("") && !productObservations.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
-                textToPut = "Medidas: " + productMeasures + " || Observaciones: " + productObservations;
-            } else if (!productMeasures.equals("")) { // INGRESÓ MEDIDAS
-                textToPut = "Medidas: " + productMeasures;
-            } else if (!productObservations.equals("")) { // INGRESÓ OBSERVACIONES
-                textToPut = "Observaciones: " + productObservations;
-            } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
-                textToPut = "-";
-            }
+               if (!productMeasures.equals("") && !productObservations.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
+                   textToPut = "Medidas: " + productMeasures + " || Observaciones: " + productObservations;
+               } else if (!productMeasures.equals("")) { // INGRESÓ MEDIDAS
+                   textToPut = "Medidas: " + productMeasures;
+               } else if (!productObservations.equals("")) { // INGRESÓ OBSERVACIONES
+                   textToPut = "Observaciones: " + productObservations;
+               } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
+                   textToPut = "-";
+               }
 
-            if (budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+               if (budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
 
-                budgetModifyView.setPreviewStringTableValueAt(1, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
-                budgetModifyView.setPreviewIntTableValueAt(1, 2, productAmountInt); //INSERTA EN LA COLUMNA DE CANTIDAD
-                budgetModifyView.setPreviewStringTableValueAt(1, 3, textToPut); //INSERTA EN LA COLUMNA DE PRODUCTO
+                   budgetModifyView.setPreviewStringTableValueAt(1, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
+                   budgetModifyView.setPreviewIntTableValueAt(1, 2, productAmountInt); //INSERTA EN LA COLUMNA DE CANTIDAD
+                   budgetModifyView.setPreviewStringTableValueAt(1, 3, textToPut); //INSERTA EN LA COLUMNA DE PRODUCTO
 
-                productID = productModel.getProductID(productName);
-                Product product = productModel.getOneProduct(productID);
-                productPrice = (double) product.getPrice() * productAmountInt;
-                budgetModifyView.setPreviewDoubleTableValueAt(1, 4, productPrice);
-                rowCountOnPreviewTable = 2;
-                updateTextArea(sb, priceTextArea, true);
+                   productID = productModel.getProductID(productName);
+                   Product product = productModel.getOneProduct(productID);
+                   productPrice = (double) product.getPrice() * productAmountInt;
+                   budgetModifyView.setPreviewDoubleTableValueAt(1, 4, productPrice);
+                   rowCountOnPreviewTable = 2;
+                   updateTextArea(sb, priceTextArea, true);
 
-            } else { //HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+               } else { //HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
 
-                budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
-                budgetModifyView.setPreviewIntTableValueAt(rowCountOnPreviewTable, 2, productAmountInt);
-                budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
-                productID = productModel.getProductID(productName);
-                Product product = productModel.getOneProduct(productID);
-                productPrice = product.getPrice() * productAmountInt;
-                budgetModifyView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
-                updateTextArea(sb, priceTextArea, true);
-                rowCountOnPreviewTable++;
+                   budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
+                   budgetModifyView.setPreviewIntTableValueAt(rowCountOnPreviewTable, 2, productAmountInt);
+                   budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
+                   productID = productModel.getProductID(productName);
+                   Product product = productModel.getOneProduct(productID);
+                   productPrice = product.getPrice() * productAmountInt;
+                   budgetModifyView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
+                   updateTextArea(sb, priceTextArea, true);
+                   rowCountOnPreviewTable++;
+               }
+           } else {
+                   int previewTableSelectedRow = budgetModifyView.getPreviewTable().getSelectedRow();
+                   String productNameToEdit = budgetModifyView.getPreviewStringTableValueAt(previewTableSelectedRow, 1);
+                   String productMeasuresToEdit = budgetModifyView.getMeasuresTextField().getText();
+                   String productObservationsToEdit = budgetModifyView.getObservationsTextField().getText();
+                   String textToPutToEdit = "";
+                   String productAmountStrToEdit = budgetModifyView.getAmountTextField().getText();
+                   int productAmountIntToEdit = 1;
+                   int productIDToEdit = -1;
+                   double productPriceToEdit = -1;
 
-            }
-        } else {
-            if (editingProduct) {
-                int previewTableSelectedRow = budgetModifyView.getPreviewTable().getSelectedRow();
-                String productNameToEdit = budgetModifyView.getPreviewStringTableValueAt(previewTableSelectedRow, 1);
-                String productMeasuresToEdit = budgetModifyView.getMeasuresTextField().getText();
-                String productObservationsToEdit = budgetModifyView.getObservationsTextField().getText();
-                String textToPutToEdit = "";
-                String productAmountStrToEdit = budgetModifyView.getAmountTextField().getText();
-                int productAmountIntToEdit = 1;
-                int productIDToEdit = -1;
-                double productPriceToEdit = -1;
+                   if (productAmountStrToEdit.equals("")) { // NO INGRESÓ CANTIDAD
+                       productAmountIntToEdit = 1;
+                   } else { // INGRESÓ CANTIDAD
+                       productAmountIntToEdit = Integer.parseInt(productAmountStrToEdit);
+                   }
 
-                if (productAmountStrToEdit.equals("")) { // NO INGRESÓ CANTIDAD
-                    productAmountIntToEdit = 1;
-                } else { // INGRESÓ CANTIDAD
-                    productAmountIntToEdit = Integer.parseInt(productAmountStrToEdit);
-                }
+                   if (productObservationsToEdit.equals("")) { // NO INGRESÓ OBSERVACIONES
+                       productObservationsToEdit = "";
+                   } else { // INGRESÓ OBSERVACIONES
+                       productObservationsToEdit = productObservationsToEdit.trim();
+                   }
 
-                if (productObservationsToEdit.equals("")) { // NO INGRESÓ OBSERVACIONES
-                    productObservationsToEdit = "";
-                } else { // INGRESÓ OBSERVACIONES
-                    productObservationsToEdit = productObservationsToEdit.trim();
-                }
+                   if (productMeasuresToEdit.equals("")) { // NO INGRESÓ MEDIDAS
+                       productMeasuresToEdit = "";
+                   } else { // INGRESÓ MEDIDAS
+                       productMeasuresToEdit = productMeasuresToEdit.trim();
+                   }
 
-                if (productMeasuresToEdit.equals("")) { // NO INGRESÓ MEDIDAS
-                    productMeasuresToEdit = "";
-                } else { // INGRESÓ MEDIDAS
-                    productMeasuresToEdit = productMeasuresToEdit.trim();
-                }
+                   if (!productMeasuresToEdit.equals("") && !productObservationsToEdit.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
+                       textToPutToEdit = "Medidas: " + productMeasuresToEdit + " || Observaciones: " + productObservationsToEdit;
+                   } else if (!productMeasuresToEdit.equals("")) { // INGRESÓ MEDIDAS
+                       textToPutToEdit = "Medidas: " + productMeasuresToEdit;
+                   } else if (!productObservationsToEdit.equals("")) { // INGRESÓ OBSERVACIONES
+                       textToPutToEdit = "Observaciones: " + productObservationsToEdit;
+                   } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
+                       textToPutToEdit = "";
+                   }
 
-                if (!productMeasuresToEdit.equals("") && !productObservationsToEdit.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
-                    textToPutToEdit = "Medidas: " + productMeasuresToEdit + " || Observaciones: " + productObservationsToEdit;
-                } else if (!productMeasuresToEdit.equals("")) { // INGRESÓ MEDIDAS
-                    textToPutToEdit = "Medidas: " + productMeasuresToEdit;
-                } else if (!productObservationsToEdit.equals("")) { // INGRESÓ OBSERVACIONES
-                    textToPutToEdit = "Observaciones: " + productObservationsToEdit;
-                } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
-                    textToPutToEdit = "";
-                }
-
-                budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 1, productNameToEdit);
-                budgetModifyView.setPreviewIntTableValueAt(previewTableSelectedRow, 2, productAmountIntToEdit);
-                budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
-                productIDToEdit = productModel.getProductID(productNameToEdit);
-                Product productToEdit = productModel.getOneProduct(productIDToEdit);
-                productPriceToEdit = productToEdit.getPrice() * productAmountIntToEdit;
-                budgetModifyView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
-            }
+                   budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 1, productNameToEdit);
+                   budgetModifyView.setPreviewIntTableValueAt(previewTableSelectedRow, 2, productAmountIntToEdit);
+                   budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
+                   productIDToEdit = productModel.getProductID(productNameToEdit);
+                   Product productToEdit = productModel.getOneProduct(productIDToEdit);
+                   productPriceToEdit = productToEdit.getPrice() * productAmountIntToEdit;
+                   budgetModifyView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
+           }
         }
-    }
+    }   
 
     private void cargarCategorias() {
         List<String> categorias = categoryModel.getCategoriesName();
