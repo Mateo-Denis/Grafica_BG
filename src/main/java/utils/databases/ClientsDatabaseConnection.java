@@ -168,4 +168,29 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
         }
         JOptionPane.showMessageDialog(null, "Clientes eliminados con éxito!");
     }
+
+    public ArrayList<Client> getOneClient(int clientID) {
+        String sql = "SELECT * FROM Clientes WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientID);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                ArrayList<Client> clients = new ArrayList<>();
+                while (resultSet.next()) {
+                    Client client = new Client(
+                            resultSet.getString("Nombre"),
+                            resultSet.getString("Direccion"),
+                            resultSet.getString("Localidad"),
+                            resultSet.getString("Telefono"),
+                            resultSet.getString("TipoCliente").equals("Cliente")
+                    );
+                    clients.add(client);
+                }
+                return clients;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
 }

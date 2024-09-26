@@ -30,4 +30,7 @@ public interface IBudgetModel {
     void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
     void saveProducts(int budgetNumber, String budgetName, Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
     void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating);
+    ArrayList<Client> getOneClient(int clientID);
+    int getClientID(String clientName);
+    int getBudgetNumber(int budgetID);
 }

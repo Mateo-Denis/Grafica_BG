@@ -13,6 +13,7 @@ import views.budget.modify.IBudgetModifyView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class BudgetModifyPresenter extends StandardPresenter {
@@ -22,6 +23,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final IProductModel productModel;
     private Multimap<Integer, Product> productsList = ArrayListMultimap.create();
+    private ArrayList<Client> globalClientsList;
+    private int globalClientID = -1;
+    private int budgetNumber = -1;
+    private boolean editingProduct = false;
+    private int rowCountOnPreviewTable = 0;
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModifyModel budgetModifyModel, ICategoryModel categoryModel, IBudgetModel budgetModel, IProductModel productModel) {
         this.budgetModifyView = budgetModifyView;
@@ -36,18 +42,23 @@ public class BudgetModifyPresenter extends StandardPresenter {
             public void actionPerformed(ActionEvent e) {
                 String city = (String) budgetModifyView.getCitiesComboBox().getSelectedItem();
                 String name = budgetModifyView.getBudgetClientName();
+                int clientID = -1;
                 if (city.equals("Seleccione una ciudad")) {
                     city = "";
                 }
+                globalClientsList = budgetModel.getClients(name, city);
                 ArrayList<Client> clients = budgetModel.getClients(name, city);
                 budgetModifyView.clearClientTable();
                 int rowCount = 0;
                 for (Client client : clients) {
-                    budgetModifyView.setClientStringTableValueAt(rowCount, 0, client.getName());
-                    budgetModifyView.setClientStringTableValueAt(rowCount, 1, client.getAddress());
-                    budgetModifyView.setClientStringTableValueAt(rowCount, 2, client.getCity());
-                    budgetModifyView.setClientStringTableValueAt(rowCount, 3, client.getPhone());
-                    budgetModifyView.setClientStringTableValueAt(rowCount, 4, client.isClient() ? "Cliente" : "Particular");
+                    clientID = budgetModel.getClientID(client.getName());
+
+                    budgetModifyView.setClientIntTableValueAt(rowCount, 0, clientID);
+                    budgetModifyView.setClientStringTableValueAt(rowCount, 1, client.getName());
+                    budgetModifyView.setClientStringTableValueAt(rowCount, 2, client.getAddress());
+                    budgetModifyView.setClientStringTableValueAt(rowCount, 3, client.getCity());
+                    budgetModifyView.setClientStringTableValueAt(rowCount, 4, client.getPhone());
+                    budgetModifyView.setClientStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
                     rowCount++;
                 }
             }
@@ -59,11 +70,16 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 int selectedRow = budgetModifyView.getClientTableSelectedRow();
                 String clientName = "";
                 String clientType = "";
+                JCheckBox clientSelectedCheckBox = budgetModifyView.getClientSelectedCheckBox();
                 if (selectedRow != -1) {
-                    clientName = budgetModifyView.getClientStringTableValueAt(selectedRow, 0);
-                    clientType = budgetModifyView.getClientStringTableValueAt(selectedRow, 4);
+                    clientName = budgetModifyView.getClientStringTableValueAt(selectedRow, 1);
+                    clientType = budgetModifyView.getClientStringTableValueAt(selectedRow, 5);
                     budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName);
-                    budgetModifyView.setPreviewStringTableValueAt(0, 4, clientType);
+                    budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
+                    globalClientID = budgetModel.getClientID(clientName);
+                    clientSelectedCheckBox.setSelected(true);
+                } else {
+                    budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
                 }
             }
         });
@@ -74,51 +90,57 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void onSaveModificationsButtonClicked() {
         String newClientName = budgetModifyView.getPreviewStringTableValueAt(0, 0);
-        String date = budgetModifyView.getPreviewStringTableValueAt(0, 3);
-        String clientType = budgetModifyView.getPreviewStringTableValueAt(0, 4);
-        int budgetNumber = (int) budgetModifyView.getPreviewIntTableValueAt(0, 5);
+        String newClientType = budgetModifyView.getPreviewStringTableValueAt(0, 5);
         String oldClientName = budgetModifyModel.getOldClientName(budgetNumber);
-        int productIndex = 0;
+        String date = budgetModifyView.getBudgetDate();
         String productName = "";
         int productAmount = 0;
-        String productString = "";
         String productObservation = "";
         String productMeasure = "";
+        String measuresObservations = "";
         Multimap<Integer, String> products = ArrayListMultimap.create();
         ArrayList<String> productObservations = new ArrayList<>();
         ArrayList<String> productMeasures = new ArrayList<>();
         int observationsIndex = 0;
         int measuresIndex = 0;
-        boolean anyEmpty = onEmptyFields(0, 1, 3);
+        boolean anyEmpty = onEmptyFields(0, 1);
 
         if (anyEmpty) {
             budgetModifyView.showMessage(MessageTypes.BUDGET_CREATION_EMPTY_COLUMN);
         } else {
-            for (int row = 0; row < budgetModifyView.getPreviewTable().getRowCount(); row++) {
-                productString = budgetModifyView.getPreviewStringTableValueAt(row, 1);
-                if (productString != null) {
-                    productName = productString.substring(0, productString.indexOf("*") - 1).trim();
-                    productAmount = Integer.parseInt(productString.substring(productString.indexOf("*") + 3, productString.indexOf(".")));
-                    productObservation = productString.substring(productString.indexOf("Observaciones: ") + 15);
-                    productMeasure = productString.substring(productString.indexOf("Medidas: ") + 9, productString.indexOf("Observaciones: "));
+            for (int row = 1; row < (rowCountOnPreviewTable - 1); row++) {
+                    productName = budgetModifyView.getPreviewStringTableValueAt(row,1);
+                    productAmount = budgetModifyView.getPreviewIntTableValueAt(row, 2);
+                    measuresObservations = budgetModifyView.getPreviewStringTableValueAt(row, 3);
+                    
+                    if(!measuresObservations.equals("") && !(measuresObservations == null)) {
+                        if(measuresObservations.contains("Medidas:") && measuresObservations.contains("Observaciones:")) {
+                            int measuresIndexStart = measuresObservations.indexOf("Medidas:");
+                                int measuresIndexEnd = measuresObservations.indexOf("Observaciones:");
+                                productMeasure = measuresObservations.substring(measuresIndexStart + 8, measuresIndexEnd);
+                                productObservation = measuresObservations.substring(measuresIndexEnd + 14);
+                        } else if(measuresObservations.contains("Medidas:") && !measuresObservations.contains("Observaciones:")) {
+                            productMeasure = measuresObservations;
+                        } else if(measuresObservations.contains("Observaciones:") && !measuresObservations.contains("Medidas:")) {
+                            productObservation = measuresObservations;
+                        }
+                    }
+
+
                     products.put(productAmount, productName);
                     productObservations.add(productObservation);
                     productMeasures.add(productMeasure);
-                }
+
             }
 
-            for (Map.Entry<Integer, String> entry : products.entries()) {
-                System.out.println("Product Amount: " + entry.getKey());
-                System.out.println("Product Name: " + entry.getValue());
-            }
-
-            budgetModifyModel.updateBudget(oldClientName, newClientName, date, clientType, budgetNumber, products, productObservations, productMeasures);
+            budgetModifyModel.updateBudget(oldClientName, newClientName, date, newClientType, budgetNumber, products, productObservations, productMeasures);
             budgetModifyView.hideView();
         }
     }
 
     public void setModifyView(int budgetNumber, int selectedBudgetRow, Multimap<Integer, String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
         budgetModifyView.showView();
+        rowCountOnPreviewTable = budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) + 1;
         JTextArea textArea = budgetModifyView.getPriceTextArea();
         StringBuilder sb = budgetModifyView.getStringBuilder();
         ArrayList<String> budgetData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
@@ -139,7 +161,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         int productAmountToSave = 0;
         Multimap<Integer, Product> productsMap = ArrayListMultimap.create();
         budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName);
-        budgetModifyView.setPreviewStringTableValueAt(0, 3, date);
+        budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
 
         for (Map.Entry<Integer, String> entry : products.entries()) {
 
@@ -151,10 +173,19 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productID = productModel.getProductID(productName);
             Product product = productModel.getOneProduct(productID);
             productPrice = product.getPrice() * productAmount;
-            productString = productName + " * (" + productAmount + ".00) Unidades" + "\t" + " Medidas: " + productMeasure + "\t" + " Observaciones: " + productObservation;
-            budgetModifyView.setPreviewStringTableValueAt(productIndex, 1, productString);
-            budgetModifyView.setPreviewDoubleTableValueAt(productIndex, 2, productPrice);
-
+            budgetModifyView.setPreviewStringTableValueAt(productIndex, 1, productName);
+            budgetModifyView.setPreviewIntTableValueAt(productIndex, 2, productAmount);
+            if (!productMeasure.equals("") && !productObservation.equals("")) {
+                productString = "Medidas: " + productMeasure + " || Observaciones: " + productObservation;
+            } else if (!productMeasure.equals("")) {
+                productString = "Medidas: " + productMeasure;
+            } else if (!productObservation.equals("")) {
+                productString = "Observaciones: " + productObservation;
+            } else {
+                productString = "-";
+            }
+            budgetModifyView.setPreviewStringTableValueAt(productIndex, 3, productString);
+            budgetModifyView.setPreviewDoubleTableValueAt(productIndex, 4, productPrice);
 
             if (productsMap.isEmpty()) {
                 System.out.println("MAPA VACIO XDDD");
@@ -190,8 +221,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             measuresIndex++;
         }
 
-        budgetModifyView.setPreviewStringTableValueAt(0, 4, clientType);
-        budgetModifyView.setPreviewIntTableValueAt(0, 5, budgetNumber);
+        budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
 
         budgetModifyView.setWaitingStatus();
     }
@@ -203,7 +233,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         ArrayList<String> productNames = new ArrayList<>();
         ArrayList<String> productObservations = new ArrayList<>();
         ArrayList<String> productMeasures = new ArrayList<>();
-        int budgetNumber = Integer.parseInt((String) table.getValueAt(selectedRow, 3));
+        int budgetID = budgetModel.getBudgetID(selectedRow);
+        budgetNumber = budgetModel.getBudgetNumber(budgetID);
         ArrayList<String> budgetData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
 
         if (selectedRow != -1) {
@@ -224,7 +255,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void onAddProductButtonClicked() {
         int selectedProductRow = budgetModifyView.getProductTableSelectedRow();
-        int filledRows = budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1);
         String productName = "";
         String productMeasures = "";
         String productObservations = "";
@@ -243,31 +273,108 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productMeasures = budgetModifyView.getMeasuresTextField().getText();
             productAmountStr = budgetModifyView.getAmountTextField().getText();
 
-            if (productAmountStr.equals("")) {
+            if (productAmountStr.equals("")) { // NO INGRESÓ CANTIDAD
                 productAmountInt = 1;
-            } else {
+            } else { // INGRESÓ CANTIDAD
                 productAmountInt = Integer.parseInt(productAmountStr);
             }
 
-            if (productObservations.equals("")) {
-                productObservations = "Oservaciones no especificadas / no necesarias";
-            } else {
+            if (productObservations.equals("")) { // NO INGRESÓ OBSERVACIONES
+                productObservations = "";
+            } else { // INGRESÓ OBSERVACIONES
                 productObservations = productObservations.trim();
             }
 
-            if (productMeasures.equals("")) {
-                productMeasures = "Medidas no especificadas / no necesarias";
-            } else {
+            if (productMeasures.equals("")) { // NO INGRESÓ MEDIDAS
+                productMeasures = "";
+            } else { // INGRESÓ MEDIDAS
                 productMeasures = productMeasures.trim();
             }
 
-            textToPut = productName + " * (" + productAmountInt + ".00) Unidades " + "\t" + "Medidas: " + productMeasures + "\t" + " Observaciones: " + productObservations;
-            budgetModifyView.setPreviewStringTableValueAt(filledRows + 1, 1, textToPut);
-            productID = productModel.getProductID(productName);
-            Product product = productModel.getOneProduct(productID);
-            productPrice = product.getPrice() * productAmountInt;
-            budgetModifyView.setPreviewDoubleTableValueAt(filledRows + 1, 2, productPrice);
-            updateTextArea(sb, priceTextArea, true);
+            if (!productMeasures.equals("") && !productObservations.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
+                textToPut = "Medidas: " + productMeasures + " || Observaciones: " + productObservations;
+            } else if (!productMeasures.equals("")) { // INGRESÓ MEDIDAS
+                textToPut = "Medidas: " + productMeasures;
+            } else if (!productObservations.equals("")) { // INGRESÓ OBSERVACIONES
+                textToPut = "Observaciones: " + productObservations;
+            } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
+                textToPut = "-";
+            }
+
+            if (budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+
+                budgetModifyView.setPreviewStringTableValueAt(1, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
+                budgetModifyView.setPreviewIntTableValueAt(1, 2, productAmountInt); //INSERTA EN LA COLUMNA DE CANTIDAD
+                budgetModifyView.setPreviewStringTableValueAt(1, 3, textToPut); //INSERTA EN LA COLUMNA DE PRODUCTO
+
+                productID = productModel.getProductID(productName);
+                Product product = productModel.getOneProduct(productID);
+                productPrice = (double) product.getPrice() * productAmountInt;
+                budgetModifyView.setPreviewDoubleTableValueAt(1, 4, productPrice);
+                rowCountOnPreviewTable = 2;
+                updateTextArea(sb, priceTextArea, true);
+
+            } else { //HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+
+                budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
+                budgetModifyView.setPreviewIntTableValueAt(rowCountOnPreviewTable, 2, productAmountInt);
+                budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
+                productID = productModel.getProductID(productName);
+                Product product = productModel.getOneProduct(productID);
+                productPrice = product.getPrice() * productAmountInt;
+                budgetModifyView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
+                updateTextArea(sb, priceTextArea, true);
+                rowCountOnPreviewTable++;
+
+            }
+        } else {
+            if (editingProduct) {
+                int previewTableSelectedRow = budgetModifyView.getPreviewTable().getSelectedRow();
+                String productNameToEdit = budgetModifyView.getPreviewStringTableValueAt(previewTableSelectedRow, 1);
+                String productMeasuresToEdit = budgetModifyView.getMeasuresTextField().getText();
+                String productObservationsToEdit = budgetModifyView.getObservationsTextField().getText();
+                String textToPutToEdit = "";
+                String productAmountStrToEdit = budgetModifyView.getAmountTextField().getText();
+                int productAmountIntToEdit = 1;
+                int productIDToEdit = -1;
+                double productPriceToEdit = -1;
+
+                if (productAmountStrToEdit.equals("")) { // NO INGRESÓ CANTIDAD
+                    productAmountIntToEdit = 1;
+                } else { // INGRESÓ CANTIDAD
+                    productAmountIntToEdit = Integer.parseInt(productAmountStrToEdit);
+                }
+
+                if (productObservationsToEdit.equals("")) { // NO INGRESÓ OBSERVACIONES
+                    productObservationsToEdit = "";
+                } else { // INGRESÓ OBSERVACIONES
+                    productObservationsToEdit = productObservationsToEdit.trim();
+                }
+
+                if (productMeasuresToEdit.equals("")) { // NO INGRESÓ MEDIDAS
+                    productMeasuresToEdit = "";
+                } else { // INGRESÓ MEDIDAS
+                    productMeasuresToEdit = productMeasuresToEdit.trim();
+                }
+
+                if (!productMeasuresToEdit.equals("") && !productObservationsToEdit.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
+                    textToPutToEdit = "Medidas: " + productMeasuresToEdit + " || Observaciones: " + productObservationsToEdit;
+                } else if (!productMeasuresToEdit.equals("")) { // INGRESÓ MEDIDAS
+                    textToPutToEdit = "Medidas: " + productMeasuresToEdit;
+                } else if (!productObservationsToEdit.equals("")) { // INGRESÓ OBSERVACIONES
+                    textToPutToEdit = "Observaciones: " + productObservationsToEdit;
+                } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
+                    textToPutToEdit = "";
+                }
+
+                budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 1, productNameToEdit);
+                budgetModifyView.setPreviewIntTableValueAt(previewTableSelectedRow, 2, productAmountIntToEdit);
+                budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
+                productIDToEdit = productModel.getProductID(productNameToEdit);
+                Product productToEdit = productModel.getOneProduct(productIDToEdit);
+                productPriceToEdit = productToEdit.getPrice() * productAmountIntToEdit;
+                budgetModifyView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
+            }
         }
     }
 
@@ -281,14 +388,12 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setCitiesComboBox(ciudades);
     }
 
-    public boolean onEmptyFields(int clientNameColumn, int productColumn, int clientTypeColumn) {
+    public boolean onEmptyFields(int clientNameColumn, int productColumn) {
         boolean anyEmpty = false;
         String clientName = budgetModifyView.getPreviewStringTableValueAt(0, clientNameColumn);
-        String clientType = budgetModifyView.getPreviewStringTableValueAt(0, clientTypeColumn);
         String product = budgetModifyView.getPreviewStringTableValueAt(1, productColumn);
 
         if ((clientName == null || clientName.trim().isEmpty()) ||
-                (clientType == null || clientType.trim().isEmpty()) ||
                 (product == null || product.trim().isEmpty())) {
             anyEmpty = true;
         }
@@ -303,14 +408,13 @@ public class BudgetModifyPresenter extends StandardPresenter {
             JTextArea priceTextArea = budgetModifyView.getPriceTextArea();
             budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
             updateTextArea(sb, priceTextArea, false);
+            rowCountOnPreviewTable--;
         }
     }
 
     public void updateTextArea(StringBuilder stb, JTextArea textArea, boolean adding) {
         double totalPrice = 0;
         int productAmount = 0;
-        int indiceAst = -1;
-        int endOfAmountValueIndex = -1;
         int selectedProductRowIndex = budgetModifyView.getProductTableSelectedRow();
         double productPrice = 0;
         int filledCells = budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1);
@@ -320,14 +424,14 @@ public class BudgetModifyPresenter extends StandardPresenter {
         System.out.println("HAY: " + filledCells + " CELDAS LLENAS EN LA PREVIEW TABLE.");
 
 
-        if(adding){ // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE AGREGÓ UN PRODUCTO:
+        if (adding) { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE AGREGÓ UN PRODUCTO:
             productPrice = (double) budgetModifyView.getProductsResultTable().getValueAt(selectedProductRowIndex, 2); // EL PRECIO DEL PRODUCTO ES EL PRECIO DE LA TABLA DE PRODUCTOS DE LA FILA SELECCIONADA
             if (filledCells == 0) { // SI NO HAY NINGUN PRODUCTO EN LA PREVIEW TABLE:
                 if (selectedProductRowIndex != -1) { // SI SE SELECCIONÓ UN PRODUCTO DE LA TABLA DE PRODUCTOS:
                     if (budgetModifyView.getAmountTextField().getText().equals("")) { // SI NO SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
                         productAmount = 1; // SE PONE CANTIDAD 1 POR DEFECTO
-                    } else { // SI SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
-                        productAmount = Integer.parseInt(budgetModifyView.getAmountTextField().getText());  // SE CAPTURA LA CANTIDAD DE PRODUCTOS A AGREGAR DESDE EL TEXTFIELD
+                    } else {// SI SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
+                        productAmount = Integer.parseInt(budgetModifyView.getAmountTextField().getText()); // SE CAPTURA LA CANTIDAD DE PRODUCTOS A AGREGAR
                     }
                     totalPrice += productPrice * productAmount; // SE AGREGA LA CANTIDAD * PRECIO AL PRECIO TOTAL
                 } else { // SI NO SE SELECCIONÓ NINGUN PRODUCTO DE LA TABLA DE PRODUCTOS:
@@ -335,27 +439,16 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 }
             } else { // SI YA HAY PRODUCTOS EN LA PREVIEW TABLE:
                 for (int i = 1; i <= filledCells; i++) { // SE RECORREN LAS FILAS DE LA PREVIEW TABLE
-                    indiceAst = ((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).indexOf('*');
-                    endOfAmountValueIndex = ((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).indexOf(".00)");
-                    productAmount = Integer.parseInt(((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).substring(indiceAst + 3, endOfAmountValueIndex));
-                    productPrice = (double) budgetModifyView.getPreviewTable().getValueAt(i, 2);
+                    productPrice = (double) budgetModifyView.getPreviewTable().getValueAt(i, 4);
                     totalPrice += productPrice;
                 }
             }
         } else { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE ELIMINÓ UN PRODUCTO:
-            if(filledCells == 0) {
+            if (filledCells == 0) {
                 totalPrice = 0;
             } else {
                 for (int i = 1; i <= filledCells; i++) {
-                    indiceAst = ((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).indexOf('*');
-                    endOfAmountValueIndex = ((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).indexOf(".00)");
-                    productAmount = Integer.parseInt(((String) budgetModifyView.getPreviewTable().getValueAt(i, 1)).substring(indiceAst + 3, endOfAmountValueIndex));
-
-                    //TESTING:
-                    System.out.println("INTENTANDO CAPTURAR EL PRECIO DE LA FILA: " + i + " DE LA PREVIEW TABLE. OBTUVE: " + budgetModifyView.getProductsResultTable().getValueAt(i, 2));
-                    productPrice = (double) budgetModifyView.getPreviewTable().getValueAt(i, 2);
-
-
+                    productPrice = (double) budgetModifyView.getPreviewTable().getValueAt(i, 4);
                     totalPrice += productPrice;
                 }
             }
@@ -383,7 +476,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             clientName = budgetModifyView.getClientStringTableValueAt(selectedRow, 0);
             clientType = budgetModifyView.getClientStringTableValueAt(selectedRow, 4);
             budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName);
-            budgetModifyView.setPreviewStringTableValueAt(0, 4, clientType);
+            budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
             clientSelectedCheckBox.setSelected(true);
         } else {
             budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
@@ -413,6 +506,43 @@ public class BudgetModifyPresenter extends StandardPresenter {
             rowCount++;
         }
         categoryComboBox.setSelectedIndex(0);
+    }
+
+    public void onPreviewTableDoubleClickedRow(int clickedRow) {
+        String productName = "";
+        String productMeasures = "";
+        String productObservations = "";
+        int productAmount = 0;
+        int productID = -1;
+        Object observationsMeasures = "";
+
+        if (clickedRow != -1 && clickedRow != 0) {
+            budgetModifyView.getProductsResultTable().clearSelection();
+            editingProduct = true;
+            productName = (String) budgetModifyView.getPreviewTable().getValueAt(clickedRow, 1);
+            productAmount = (int) budgetModifyView.getPreviewTable().getValueAt(clickedRow, 2);
+            observationsMeasures = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 3);
+
+            if (observationsMeasures != null && !observationsMeasures.equals("")) {
+                if (observationsMeasures.toString().contains("Medidas:") && observationsMeasures.toString().contains("Observaciones:")) {
+                    productMeasures = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Medidas: ") + 9, observationsMeasures.toString().indexOf(" || Observaciones: "));
+                    productObservations = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Observaciones: ") + 14);
+                } else if (observationsMeasures.toString().contains("Medidas:")) {
+                    productMeasures = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Medidas: ") + 9);
+                    productObservations = "";
+                } else if (observationsMeasures.toString().contains("Observaciones:")) {
+                    productObservations = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Observaciones: ") + 14);
+                    productMeasures = "";
+                } else {
+                    productMeasures = "";
+                    productObservations = "";
+                }
+            }
+
+            budgetModifyView.setAmountTextField(productAmount);
+            budgetModifyView.setMeasuresTextField(productMeasures);
+            budgetModifyView.setObservationsTextField(productObservations);
+        }
     }
 
 }

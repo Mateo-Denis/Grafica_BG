@@ -238,10 +238,30 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientResultTable.setModel(clientsTableModel);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
         productTable.setModel(productsTableModel);
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Productos", "Precio", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas / Observaciones" ,  "Precio", "Cliente / Particular"}, 200) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         budgetPreviewTable.setModel(previewTableModel);
-        budgetPreviewTable.getColumnModel().getColumn(1).setPreferredWidth(400);
 
+        setTableVisibility(clientResultTable);
+        setTableVisibility(productTable);
+        setTableVisibility(budgetPreviewTable);
+
+        clientSearchingContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+        addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+    }
+
+    @Override
+    public void setTableVisibility(JTable table) {
+        int rowCountToShow = 4;
+        int rowHeight = table.getRowHeight(); // Altura de cada fila
+        int tableHeight = rowCountToShow * rowHeight; // Altura total para x filas
+        // Establecer la altura preferida del viewport dentro del JScrollPane
+        table.setPreferredScrollableViewportSize(new java.awt.Dimension(
+                table.getPreferredSize().width, tableHeight));
     }
 
     public JButton getAddProductButton() {
@@ -432,5 +452,20 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public JCheckBox getClientSelectedCheckBox() {
         return clientSelectedCheckBox;
+    }
+
+    @Override
+    public void setObservationsTextField(String productsObservation) {
+        observationsTextField.setText(productsObservation);
+    }
+
+    @Override
+    public void setMeasuresTextField(String productsMeasure) {
+        measuresTextField.setText(productsMeasure);
+    }
+
+    @Override
+    public void setAmountTextField(int productsAmount) {
+        amountTextField.setText(String.valueOf(productsAmount));
     }
 }

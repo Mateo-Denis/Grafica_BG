@@ -218,4 +218,33 @@ public class BudgetModel implements IBudgetModel {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public ArrayList<Client> getOneClient(int clientID) {
+        try {
+            return clientsDBConnection.getOneClient(clientID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public int getClientID(String clientName) {
+        try {
+            return clientsDBConnection.getClientID(clientName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    @Override
+    public int getBudgetNumber(int budgetID) {
+        try {
+            return budgetsDBConnection.getBudgetNumber(budgetID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

@@ -302,4 +302,17 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
         return "";
     }
+
+    public int getBudgetNumber(int budgetID) {
+        String sql = "SELECT Numero_presupuesto FROM Presupuestos WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, budgetID);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.getInt("Numero_presupuesto");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
 }

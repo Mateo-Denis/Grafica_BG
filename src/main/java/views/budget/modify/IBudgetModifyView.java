@@ -64,4 +64,8 @@ public interface IBudgetModifyView extends IToggleableView {
     void setInitialPanelsVisibility();
     void setSecondPanelsVisibility();
     JCheckBox getClientSelectedCheckBox();
+    void setTableVisibility(JTable table);
+    void setObservationsTextField(String productsObservation);
+    void setMeasuresTextField(String productsMeasure);
+    void setAmountTextField(int productsAmount);
 }
