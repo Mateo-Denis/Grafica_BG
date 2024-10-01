@@ -38,14 +38,6 @@ public class SettingsPresenter extends StandardPresenter {
 	}
 
 	private void updateValues() {
-//		ArrayList<Pair<String, String>> tableContent = settingsModel.getTableContent();
-//		dollarValue = tableContent.get(0).getValue1();
-//		plankLoweringValue = tableContent.get(1).getValue1();
-//		capValue = tableContent.get(2).getValue1();
-//		cupValue = tableContent.get(3).getValue1();
-//		inkValue = tableContent.get(4).getValue1();
-//		seamstressValue = tableContent.get(5).getValue1();.
-
 		JsonObject json = settingsModel.readConfig();
 		dollarValue = json.get("Dollar").getAsString();
 		plankLoweringValue = json.get("PlankLowering").getAsString();
@@ -70,6 +62,7 @@ public class SettingsPresenter extends StandardPresenter {
 
 	public void onUpdateDataButtonPressed() {
 
+		boolean changesWereMade = false;
 		String local_dollarValue = settingsView.getDollarValue();
 		String local_plankLoweringValue = settingsView.getPlankLoweringValue();
 		String local_capValue = settingsView.getCapValue();
@@ -78,21 +71,73 @@ public class SettingsPresenter extends StandardPresenter {
 		String local_seamstressValue = settingsView.getSeamstressValue();
 
 		JsonObject json = settingsModel.readConfig();
-		json.get("Dolar").getAsDouble();
 
-		//settingsModel.updateGeneralData(dollarValue, plankLoweringValue, capValue, cupValue, inkValue, seamstressValue);
+		try {
+			Double.parseDouble(local_dollarValue);
+			json.addProperty("Dollar", local_dollarValue);
+			dollarValue = local_dollarValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating Dollar.");
+		}
+
+		try {
+			Double.parseDouble(local_plankLoweringValue);
+			json.addProperty("PlankLowering", local_plankLoweringValue);
+			plankLoweringValue = local_plankLoweringValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating PL.");
+		}
+
+		try {
+			Double.parseDouble(local_capValue);
+			json.addProperty("Cap", local_capValue);
+			capValue = local_capValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating Cap.");
+		}
+
+		try {
+			Double.parseDouble(local_cupValue);
+			json.addProperty("Cup", local_cupValue);
+			cupValue = local_cupValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating Cup.");
+		}
+
+		try {
+			Double.parseDouble(local_inkValue);
+			json.addProperty("Ink", local_inkValue);
+			inkValue = local_inkValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating Ink.");
+		}
+
+		try {
+			Double.parseDouble(local_seamstressValue);
+			json.addProperty("Seamstress", local_seamstressValue);
+			seamstressValue = local_seamstressValue;
+			changesWereMade = true;
+		} catch (NumberFormatException e) {
+			//TODO show error message
+			System.out.println("Error while updating Seamstress.");
+		}
+
+		if (changesWereMade) {
+			settingsModel.writeConfig(json);
+		}
 
 		//settingsModel.updateClothData(tableToArrayList(settingsView.getClothTable()));
-
 		//settingsModel.updateClothesData(tableToArrayList(settingsView.getClothesTable()));
-
-		dollarValue = local_dollarValue;
-		plankLoweringValue = local_plankLoweringValue;
-		capValue = local_capValue;
-		cupValue = local_cupValue;
-		inkValue = local_inkValue;
-		seamstressValue = local_seamstressValue;
-
 	}
 
 	public void onHomeSettingsButtonClicked() {

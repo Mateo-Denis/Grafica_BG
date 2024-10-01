@@ -68,13 +68,13 @@ public class CodingErrorPdfInvoiceCreator {
         document.close();
     }
 
-    public void createProduct(List<Product> productList, float totalPrice) {
+    public void createProduct(List<Product> productList, double totalPrice) {
         float threecol=190f;
         float fullwidth[]={threecol*4}; //Modify?
         Table threeColTable2=new Table(threeColumnWidth);
         for (Product product:productList)
         {
-            float total=product.getQuantity()*product.getPriceperpeice();
+            double total=product.getQuantity()*product.getPriceperpeice();
             threeColTable2.addCell(new Cell().add(new Paragraph(product.getPname().orElse(""))).setBorder(Border.NO_BORDER).setMarginLeft(10f));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getQuantity()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getDimensions()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
@@ -120,7 +120,7 @@ public class CodingErrorPdfInvoiceCreator {
         return productList;
     }*/
 
-    public List<Product> formatProductsToProductsList(Row[] rows){
+    public List<Product> formatProductsToProductsList(ArrayList<Row> rows){
         List<Product> productList=new ArrayList<>();
         for(Row row:rows){
             productList.add(new Product(row.getDescription(),row.getQuantity(),row.getDimensions(),row.getPrice(),row.getTotal()));

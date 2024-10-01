@@ -16,7 +16,7 @@ import java.util.List;
 public class PdfConverter implements IPdfConverter{
     public PdfConverter(){}
     @Override
-    public void generateBill(boolean isPreview, Client client, int billNumber, Row[] tableContent, float total) throws FileNotFoundException {
+    public void generateBill(boolean isPreview, Client client, int billNumber, ArrayList<Row> tableContent, double total) throws FileNotFoundException {
         LocalDate ld= LocalDate.now();
         String pdfName;
         if(isPreview){
@@ -71,7 +71,7 @@ public class PdfConverter implements IPdfConverter{
 
         //Term and Condition Start
         List<String> TncList=new ArrayList<>();
-        TncList.add("Precio válido por 48hs.");
+        TncList.add("Presupuesto válido por 48hs.");
         //I left this as a sample, you can add more stuff here
         /*
         TncList.add("1. The Seller shall not be liable to the Buyer directly or indirectly for any loss or damage suffered by the Buyer.");

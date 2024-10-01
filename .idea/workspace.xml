@@ -10,27 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
-      <change afterPath="$PROJECT_DIR$/314_2024-09-25.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/config/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/314_2024-09-30.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ModularViews/ModularcostureraView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1b82c8c9-a0ad-442c-a987-2ca2f9c30ac8/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/PdfFormater/IPdfConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/PdfFormater/IPdfConverter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/PdfFormater/PdfConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/PdfFormater/PdfConverter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/PdfFormater/SamplePDFCreation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/PdfFormater/SamplePDFCreation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/models/IProductModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/models/IProductModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/models/ProductModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/models/ProductModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductSearchPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductSearchPresenter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/IProductSearchView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/IProductSearchView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/ProductSearchView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/ProductSearchView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/models/settings/ISettingsModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/models/settings/ISettingsModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/models/settings/SettingsModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/models/settings/SettingsModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetCreatePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetCreatePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/budget/BudgetModifyPresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/settings/SettingsPresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/settings/SettingsPresenter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/IPdfConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/IPdfConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/PdfConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/PdfConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/Row.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/Row.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/SamplePDFCreation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/SamplePDFCreation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/service/CodingErrorPdfInvoiceCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PdfFormater/codingerror/service/CodingErrorPdfInvoiceCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/ISettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/ISettingsModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/settings/SettingsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/settings/SettingsPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/config/config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,31 +150,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.testingMain.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "177",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "506",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/mateo/Downloads/PRUEBAS.db",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.testingMain.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;177&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;506&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mateo/Downloads/PRUEBAS.db&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.json.schema&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\gongi\OneDrive\Escritorio\manualMerge\grafica_backuptest\src\main\java\PdfFormater" />
@@ -352,7 +358,9 @@
       <workItem from="1727123828960" duration="9027000" />
       <workItem from="1727202482044" duration="54000" />
       <workItem from="1727236953870" duration="32000" />
-      <workItem from="1727313039609" duration="5268000" />
+      <workItem from="1727313039609" duration="5371000" />
+      <workItem from="1727384365513" duration="1313000" />
+      <workItem from="1727710252118" duration="11145000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />

@@ -1,6 +1,9 @@
 package presenters.budget;
 
 
+import PdfFormater.PdfConverter;
+import PdfFormater.Row;
+import PdfFormater.SamplePDFCreation;
 import lombok.Setter;
 import models.IProductModel;
 import presenters.StandardPresenter;
@@ -121,6 +124,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     public void onCreateButtonClicked() {
         budgetCreateView.setWorkingStatus();
         ArrayList<Client> oneClientList = budgetModel.getOneClient(globalClientID);
+        ArrayList<Row> rows = new ArrayList<>();
 
         if (onEmptyFields(0, 1)) {
             budgetCreateView.showMessage(BUDGET_CREATION_EMPTY_COLUMN);
@@ -143,6 +147,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             String measures = "";
             String observation = "";
             String budgetName = budgetCreateView.getPreviewStringTableValueAt(0, 0);
+            double finalPrice = 0;
 
             for (int i = 1; i < rowCountOnPreviewTable; i++) {
                 productCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 3); // VALOR DE LA COLUMNA DE MEDIDAS/OBSERVACIONES
@@ -181,9 +186,17 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 products.put(amount, productName);
                 productMeasures.add(measures);
                 productObservations.add(observation);
+                double productPrice = product.getPrice();
+                double totalPrice = productPrice * amount;
+                rows.add(new Row(productName, amount, measures, productPrice, totalPrice));
+
+                finalPrice += totalPrice;
             }
 
             budgetModel.saveProducts(budgetNumber, budgetName, products, productObservations, productMeasures);
+
+            SamplePDFCreation.createPDF(false, oneClientList.get(0), budgetNumber, rows, finalPrice);
+
             budgetCreateView.setWaitingStatus();
         }
     }

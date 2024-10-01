@@ -9,6 +9,8 @@ public interface ISettingsModel {
 	// Method to read the configuration from JSON file
 	JsonObject readConfig();
 
+	void updateConfig(JsonObject config, String key, String newValue);
+
 	void writeConfig(JsonObject config);
 
 	void updateGeneralData(String dollarValue, String plankLoweringValue, String capValue, String cupValue, String inkValue, String seamstressValue);

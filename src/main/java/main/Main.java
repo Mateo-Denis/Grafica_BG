@@ -1,7 +1,7 @@
 package main;
 
 
-import static PdfFormater.SamplePDFCreation.createWeirdAahPDF;
+import static PdfFormater.SamplePDFCreation.*;
 
 //import icm.sphynx.MyStyles;
 //import icm.sphynx.ui.metro.tools.MetroUIComponent;
@@ -47,7 +47,7 @@ public class Main {
 
 
 
-        createWeirdAahPDF();
+        //createWeirdAahPDF();
 
         CategoriesDatabaseConnection categoriesDB = new CategoriesDatabaseConnection();
         categoriesDB.loadDatabase();

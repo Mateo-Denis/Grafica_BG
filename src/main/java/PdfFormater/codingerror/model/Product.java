@@ -6,12 +6,12 @@ import java.util.Optional;
 public class Product {
     private Optional<String> pname;
     private int quantity;
-    private float dimensions;
-    private float priceperpeice;
-    private float total;
+    private String dimensions;
+    private double priceperpeice;
+    private double total;
 
 
-    public Product(String pname, int quantity,float dimensions ,float priceperpeice, float total ) {
+    public Product(String pname, int quantity, String dimensions , double priceperpeice, double total ) {
         this.pname = Optional.ofNullable(pname);
         this.quantity = quantity;
         this.dimensions = dimensions;
@@ -22,10 +22,10 @@ public class Product {
     public Optional<String> getPname() {
         return pname;
     }
-    public float getDimensions(){
+    public String getDimensions(){
         return dimensions;
     }
-    public float getTotal(){
+    public double getTotal(){
         return total;
     }
 
@@ -42,7 +42,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public float getPriceperpeice() {
+    public double getPriceperpeice() {
         return priceperpeice;
     }
 

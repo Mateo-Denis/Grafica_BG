@@ -33,6 +33,13 @@ public class SettingsModel implements ISettingsModel {
 			return null;
 		}
 	}
+
+	// Method to update a specific value in the config
+	@Override
+	public void updateConfig(JsonObject config, String key, String newValue) {
+		config.addProperty(key, newValue);  // Update the key with the new value
+	}
+
 	@Override
 	public void writeConfig(JsonObject config) {
 		try (FileWriter file = new FileWriter(CONFIG_FILE_PATH)) {

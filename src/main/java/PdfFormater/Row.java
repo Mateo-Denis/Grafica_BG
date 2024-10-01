@@ -9,11 +9,11 @@ import lombok.Setter;
 public class Row {
     private String description;
     private int quantity;
-    private float dimensions;
-    private float price;
-    private float total;
+    private String dimensions;
+    private double price;
+    private double total;
 
-    public Row(String description, int quantity,float dimensions,float price,float total){
+    public Row(String description, int quantity, String dimensions, double price, double total){
         this.description = description;
         this.quantity = quantity;
         this.dimensions = dimensions;
