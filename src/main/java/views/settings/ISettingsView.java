@@ -1,33 +1,15 @@
 package views.settings;
 
+import org.javatuples.Pair;
+import utils.databases.SettingsTableNames;
 import views.IToggleableView;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public interface ISettingsView extends IToggleableView {
-	String getDollarValue();
-	String getPlankLoweringValue();
-	String getCapValue();
-	String getCupValue();
-	String getInkValue();
-	String getSeamstressValue();
-	JTable getClothTable();
-	JTable getClothesTable();
 
+	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues);
 
-	void setDollarValue(String value);
-
-	void setPlankLoweringValue(String value);
-
-	void setCapValue(String value);
-
-	void setCupValue(String value);
-
-	void setInkValue(String value);
-
-	void setSeamstressValue(String value);
-
-	void setClothTableValue(String value, int row, int column);
-
-	void setClothesTableValue(String value, int row, int column);
+	JTable getModularTable(SettingsTableNames table);
 }

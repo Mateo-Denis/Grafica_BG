@@ -6,59 +6,47 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.javatuples.Pair;
 import utils.databases.SettingsDatabaseConnection;
+import utils.databases.SettingsTableNames;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static utils.databases.SettingsTableNames.*;
 
 public class SettingsModel implements ISettingsModel {
 
 	private final SettingsDatabaseConnection dbConnection;
-	private static final String CONFIG_FILE_PATH = "src/main/java/utils/config/config.json";
 
 	public SettingsModel(SettingsDatabaseConnection dbConnection) {
 		this.dbConnection = dbConnection;
 	}
 
-	// Method to read the configuration from JSON file
 	@Override
-	public JsonObject readConfig() {
-		try (FileReader reader = new FileReader(CONFIG_FILE_PATH)) {
-			// Parse the JSON file into a JsonObject
-			JsonElement jsonElement = JsonParser.parseReader(reader);
-			return jsonElement.getAsJsonObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	// Method to update a specific value in the config
-	@Override
-	public void updateConfig(JsonObject config, String key, String newValue) {
-		config.addProperty(key, newValue);  // Update the key with the new value
+	public ArrayList<Pair<String, Double>> getModularValues(SettingsTableNames tableName){
+		return dbConnection.getTableAsList(tableName);
 	}
 
 	@Override
-	public void writeConfig(JsonObject config) {
-		try (FileWriter file = new FileWriter(CONFIG_FILE_PATH)) {
-			Gson gson = new Gson();
-			// Write the updated JsonObject back to the file
-			gson.toJson(config, file);
-			System.out.println("Configuration updated successfully.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void updateModularValue(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException {
+		dbConnection.insertOrUpdateBatch(tableName, rows);
 	}
+
 	@Override
-	public void updateGeneralData(String dollarValue, String plankLoweringValue, String capValue, String cupValue, String inkValue, String seamstressValue) {
-		dbConnection.updateTable(dollarValue, plankLoweringValue, capValue, cupValue, inkValue, seamstressValue);
-
-	}
-
-	public ArrayList<Pair<String, String>> getTableContent(){
-		return dbConnection.getTableContent();
+	public ArrayList<SettingsTableNames> getTableNames() {
+		ArrayList<SettingsTableNames> list = new ArrayList<>();
+		list.add(GENERAL);
+		list.add(BAJADA_PLANCHA);
+		list.add(TELAS);
+		list.add(CORTE);
+		list.add(PRENDAS);
+		list.add(SERVICIOS);
+		list.add(IMPRESIONES);
+		list.add(VINILOS);
+		list.add(LONAS);
+		return list;
 	}
 
 }
