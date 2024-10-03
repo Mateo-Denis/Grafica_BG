@@ -10,9 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsTableNames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PRUEBAS.db" beforeDir="false" afterPath="$PROJECT_DIR$/PRUEBAS.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/PdfFormater/IPdfConverter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/PdfFormater/IPdfConverter.class" afterDir="false" />
@@ -34,16 +31,8 @@
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/home/HomeView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/home/HomeView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/ISettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/ISettingsView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/ISettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/ISettingsModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/budget/BudgetCreatePresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/settings/SettingsPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/settings/SettingsPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/MessageTypes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/config/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/home/HomeView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/ISettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/ISettingsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -373,7 +362,7 @@
       <workItem from="1727236953870" duration="32000" />
       <workItem from="1727313039609" duration="5371000" />
       <workItem from="1727384365513" duration="1313000" />
-      <workItem from="1727710252118" duration="41560000" />
+      <workItem from="1727710252118" duration="46948000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -478,13 +467,13 @@
           <option name="timeStamp" value="2" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/presenters/settings/SettingsPresenter.java</url>
-          <line>55</line>
-          <properties class="presenters.settings.SettingsPresenter" method="tableToArrayList">
+          <url>file://$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java</url>
+          <line>146</line>
+          <properties class="views.settings.SettingsView" method="tableToArrayList">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

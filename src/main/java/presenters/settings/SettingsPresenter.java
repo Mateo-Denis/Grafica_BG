@@ -27,8 +27,6 @@ public class SettingsPresenter extends StandardPresenter {
 		view = settingsView;
 		this.settingsModel = settingsModel;
 		tableNames = settingsModel.getTableNames();
-		updateValues();
-		showValues();
 	}
 	private void showValues() {
 		for(SettingsTableNames table : tableNames){
@@ -39,10 +37,10 @@ public class SettingsPresenter extends StandardPresenter {
 		boolean foundError = false;
 		for(SettingsTableNames table : tableNames){
 			try{
-				settingsModel.updateModularValue(table, tableToArrayList(settingsView.getModularTable(table)));
-			}catch (SQLException e){
+				settingsModel.updateModularValue(table, settingsView.tableToArrayList(table));
+			}catch (SQLException | NumberFormatException e){
 				foundError = true;
-				settingsView.showMessage(SETTINGS_SAVE_FAILURE);
+				settingsView.showDetailedMessage(SETTINGS_SAVE_FAILURE, table);
 			}
 		}
 		if(!foundError){
@@ -50,16 +48,12 @@ public class SettingsPresenter extends StandardPresenter {
 		}
 	}
 
-	private void updateValues() {
-
-	}
-
 	@Override
 	protected void initListeners() {
 
 	}
 
-	private ArrayList<Pair<String, Double>> tableToArrayList(JTable table) {
+	private ArrayList<Pair<String, Double>> tableToArrayList(JTable table) throws NumberFormatException{
 		ArrayList<Pair<String, Double>> arrayList = new ArrayList<>();
 		Object obj;
 		for (int i = 0; i < table.getRowCount(); i++) {
