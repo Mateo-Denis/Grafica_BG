@@ -2,18 +2,17 @@ package models.settings;
 
 import com.google.gson.JsonObject;
 import org.javatuples.Pair;
+import utils.databases.SettingsTableNames;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public interface ISettingsModel {
-	// Method to read the configuration from JSON file
-	JsonObject readConfig();
+	ArrayList<Pair<String, Double>> getModularValues(SettingsTableNames tableName);
 
-	void updateConfig(JsonObject config, String key, String newValue);
+	void updateModularValue(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException;
 
-	void writeConfig(JsonObject config);
 
-	void updateGeneralData(String dollarValue, String plankLoweringValue, String capValue, String cupValue, String inkValue, String seamstressValue);
-
-	ArrayList<Pair<String, String>> getTableContent();
+	ArrayList<SettingsTableNames> getTableNames();
 }

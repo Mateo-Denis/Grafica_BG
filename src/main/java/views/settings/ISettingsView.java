@@ -1,33 +1,20 @@
 package views.settings;
 
+import org.javatuples.Pair;
+import utils.MessageTypes;
+import utils.databases.SettingsTableNames;
 import views.IToggleableView;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public interface ISettingsView extends IToggleableView {
-	String getDollarValue();
-	String getPlankLoweringValue();
-	String getCapValue();
-	String getCupValue();
-	String getInkValue();
-	String getSeamstressValue();
-	JTable getClothTable();
-	JTable getClothesTable();
 
+	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues);
 
-	void setDollarValue(String value);
+	ArrayList<Pair<String, Double>> tableToArrayList(SettingsTableNames tableName) throws NumberFormatException;
 
-	void setPlankLoweringValue(String value);
+	JTable getModularTable(SettingsTableNames table);
 
-	void setCapValue(String value);
-
-	void setCupValue(String value);
-
-	void setInkValue(String value);
-
-	void setSeamstressValue(String value);
-
-	void setClothTableValue(String value, int row, int column);
-
-	void setClothesTableValue(String value, int row, int column);
+	void showDetailedMessage(MessageTypes messageType, SettingsTableNames tableName);
 }

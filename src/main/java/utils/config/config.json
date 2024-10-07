@@ -1,1 +1,27 @@
-{"Dollar":"1111","PlankLowering":"50","Cap":"20","Cup":"15","Ink":"565656","Seamstress":"40.98"}
+{
+  "Cap": "20",
+  "CapPlankLowering": "50",
+  "ClothCutting": "24",
+  "Cup": "15",
+  "CupPlankLowering": "50",
+  "DieCut": "987456",
+  "Dollar": "1111",
+  "EconomicMcCAL": "52",
+  "FileDesign": "27",
+  "FileRetouch": "9",
+  "FluorescentMcCAL": "46.6",
+  "FluorescentOracal": "42",
+  "FrostedMcCAL": "22",
+  "HeatTransferable": "12",
+  "Ink": "565656",
+  "Lacquered": "145",
+  "Laminated": "135",
+  "McCAL": "324",
+  "Oracal100": "9999",
+  "Oracal651": "3.14",
+  "Reflective": "212",
+  "Seamstress": "40.98",
+  "SetPositioner": "986",
+  "StandardPlankLowering": "50",
+  "VinylPeeling": "6"
+}

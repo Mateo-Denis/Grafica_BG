@@ -76,9 +76,14 @@ public enum MessageTypes {
     MISSING_MODULAR_VIEW("Error creando el producto"
             , "POR FAVOR SELECCIONE UNA CATEGORÍA"
             , JOptionPane.ERROR_MESSAGE),
-    PAGE_SEARCH_FAILURE("Error while searching page"
-            , "An error occurred while searching the page from the Wikipedia API"
-            , JOptionPane.ERROR_MESSAGE);
+    SETTINGS_SAVE_FAILURE("Error al guardar la configuración"
+            , "Ha ocurrido un error al intentar guardar la configuración de la tabla "
+            , JOptionPane.ERROR_MESSAGE),
+    SETTINGS_SAVE_SUCCESS("Configuración guardada con éxito"
+            , "La configuración de las tablas fue guardada con éxito."
+            , JOptionPane.INFORMATION_MESSAGE),
+
+    ;
 
     private final String title;
     private final String message;

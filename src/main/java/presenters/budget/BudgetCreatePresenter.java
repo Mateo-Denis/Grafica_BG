@@ -189,7 +189,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 productObservations.add(observation);
                 double productPrice = product.getPrice();
                 double totalPrice = productPrice * amount;
-                rows.add(new Row(productName, amount, measures, productPrice, totalPrice));
+                rows.add(new Row(productName + " || " + observation, amount, measures, productPrice, totalPrice));
 
                 finalPrice += totalPrice;
             }
