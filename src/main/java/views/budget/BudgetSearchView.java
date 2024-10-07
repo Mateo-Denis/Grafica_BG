@@ -3,7 +3,6 @@ package views.budget;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import models.BudgetModel;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
@@ -11,7 +10,6 @@ import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
@@ -66,7 +64,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
         //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
-        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(this.getBudgetResultTable(), this.getSelectedTableRow()));
+        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(this.getBudgetResultTable(), this.getSelectedTableRow(), getSelectedBudgetNumber()));
     }
 
     @Override

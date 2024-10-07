@@ -203,9 +203,9 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    public void saveProducts(int budgetNumber, String budgetName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
+    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
         try {
-            budgetsDBConnection.saveProducts(budgetNumber, budgetName, products, observations, productMeasures);
+            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -213,7 +213,7 @@ public class BudgetModel implements IBudgetModel {
 
     public void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating) {
         try {
-            budgetsDBConnection.deleteBudgetProducts(budgetName, budgetNumber, updating);
+            budgetsDBConnection.deleteBudgetProducts(-2, budgetName, budgetNumber, updating);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -246,5 +246,24 @@ public class BudgetModel implements IBudgetModel {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public int getNextBudgetNumber() {
+        try {
+            return budgetsDBConnection.getNextBudgetNumber();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    @Override
+    public int getMaxBudgetID() {
+        try {
+            return budgetsDBConnection.getMaxBudgetID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 }

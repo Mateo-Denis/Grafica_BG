@@ -9,7 +9,7 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -96,21 +96,50 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     protected void initListeners() {
-        budgetModifyButton.addActionListener(e -> budgetModifyPresenter.onSaveModificationsButtonClicked());
+        budgetModifyButton.addActionListener(e -> {
+            budgetModifyPresenter.onSaveModificationsButtonClicked();
+            restartWindow();
+        });
         addProductButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
         deleteProductButton.addActionListener(e -> budgetModifyPresenter.onDeleteProductButtonClicked());
         clientSelectedCheckBox.addItemListener(e -> budgetModifyPresenter.onClientSelectedCheckBoxClicked());
         clientAddButton.addActionListener(e -> budgetModifyPresenter.onAddClientButtonClicked());
         productSearchButton.addActionListener(e -> budgetModifyPresenter.onSearchProductButtonClicked());
+        budgetPreviewTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Detectar doble clic
+                if (e.getClickCount() == 2 && !e.isConsumed()) {
+                    e.consume(); // Evitar más procesamiento de este evento
+                    int clickedRow = budgetPreviewTable.getSelectedRow();
+                    budgetModifyPresenter.onPreviewTableDoubleClickedRow(clickedRow);
+                }
+            }
+        });
+        windowFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                restartWindow();
+            }
+        });
     }
 
     @Override
     public void clearView() {
         clientTextField.setText("");
-        cityComboBox.setSelectedIndex(-1);
+        cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         observationsTextField.setText("");
-        this.clearPreviewTable();
+    }
+
+    public void restartWindow() {
+        windowFrame.setSize(590,1010);
+        sb.setLength(0);
+        sb.append("Precio Total: ");
+        priceTextArea.setEditable(false);
+        priceTextArea.setText(sb.toString());
+        setInitialPanelsVisibility();
+        clearView();
     }
 
     @Override
@@ -128,11 +157,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public String getBudgetClientType() {
         return "Particular";
-    }
-
-    @Override
-    public int getBudgetNumber() {
-        return 8888;
     }
 
     @Override
@@ -434,19 +458,15 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     public void setInitialPanelsVisibility() {
-        productSearchingContainer.setVisible(false);
-        budgetCreationButtonsContainer.setVisible(false);
-        priceContainer.setVisible(false);
-        clientSearchingContainer.setVisible(true);
-        budgetPreviewContainer.setVisible(false);
+        clientSearchingContainer.setVisible(false);
     }
 
     public void setSecondPanelsVisibility() {
-        clientSearchingContainer.setVisible(false);
-        budgetPreviewContainer.setVisible(true);
-        productSearchingContainer.setVisible(true);
-        budgetCreationButtonsContainer.setVisible(true);
-        priceContainer.setVisible(true);
+        clientSearchingContainer.setVisible(true);
+        budgetPreviewContainer.setVisible(false);
+        productSearchingContainer.setVisible(false);
+        budgetCreationButtonsContainer.setVisible(false);
+        priceContainer.setVisible(false);
     }
 
     @Override

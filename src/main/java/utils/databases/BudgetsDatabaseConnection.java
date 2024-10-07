@@ -20,7 +20,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
                             "Nombre_Cliente TEXT NOT NULL," +
                             "Fecha TEXT NOT NULL," +
                             "Tipo_Cliente TEXT NOT NULL CHECK(Tipo_Cliente IN ('Cliente', 'Particular'))," +
-                            "Numero_Presupuesto INTEGER NOT NULL" +
+                            "Numero_presupuesto INTEGER NOT NULL" +
                             ")";
         try (Statement stmt = connection.createStatement()) {
             stmt.setQueryTimeout(QUERY_TIMEOUT);
@@ -122,6 +122,18 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         return budgetID;
     }
 
+    public int getMaxBudgetID() {
+        String sql = "SELECT MAX(ID) FROM Presupuestos";
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     public void deleteOneBudget(int budgetID) throws SQLException {
         String sql = "DELETE FROM Presupuestos WHERE ID = ?";
         Connection conn = connect();
@@ -144,7 +156,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public void saveProducts(int budgetNumber, String budgetName, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) throws SQLException {
+    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) throws SQLException {
         int observationsIndex = 0;
         int measuresIndex = 0;
         String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS) VALUES(?, ?, ?, ?, ?)";
@@ -152,7 +164,6 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         PreparedStatement pstmt = conn.prepareStatement(sql);
         for (Map.Entry<Integer, String> entry : products.entries()) {
             String productName = entry.getValue();
-            int budgetID = getBudgetID(budgetName, budgetNumber);
             int productID = productsDBConnection.getProductID(productName);
             int productAmount = entry.getKey();
             pstmt.setInt(1, budgetID);
@@ -221,11 +232,6 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         return measures;
     }
 
-    public void updateBothBudgetTables(String oldClientName, String newClientName, String date, String clientType, int budgetNumber, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
-        updateBudgetTable(newClientName, date, clientType, budgetNumber);
-        updateBudgetProductsTable(budgetNumber, oldClientName, newClientName, products, productObservations, productMeasures);
-    }
-
     public void updateBudgetTable(String clientName, String date, String clientType, int budgetNumber) {
         String deleteSQL = "DELETE FROM Presupuestos WHERE Numero_presupuesto = ?";
         String insertSQL = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto) VALUES(?, ?, ?, ?)";
@@ -244,20 +250,11 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
-    public void updateBudgetProductsTable( int budgetNumber, String oldClientName, String newClientName, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
-        try {
-            saveProducts(budgetNumber, newClientName, products, observations, productMeasures);
-            deleteBudgetProducts(newClientName, budgetNumber, true);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deleteBudgetProducts(String clientName, int budgetNumber, boolean updating) throws SQLException {
-        int budgetID = 0;
+    public void deleteBudgetProducts(int oldBudgetID, String clientName, int budgetNumber, boolean updating) throws SQLException {
+        int budgetID = -1;
 
         if(updating){
-            budgetID = getBudgetID(clientName, budgetNumber) - 1;
+            budgetID = oldBudgetID;
         } else {
             budgetID = getBudgetID(clientName, budgetNumber);
         }
@@ -314,5 +311,22 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
             System.out.println(e.getMessage());
         }
         return 0;
+    }
+
+    public int getNextBudgetNumber() {
+        int bnumber = 1;  // Por defecto será 1 si no hay presupuestos en la tabla.
+        String sql = "SELECT MAX(Numero_presupuesto) FROM Presupuestos";
+
+        try (Connection conn = connect();
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            if (resultSet.next()) {
+                bnumber = resultSet.getInt(1) + 1;  // Accediendo a la columna por índice.
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return bnumber;
     }
 }

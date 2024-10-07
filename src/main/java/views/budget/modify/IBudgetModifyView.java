@@ -14,7 +14,6 @@ public interface IBudgetModifyView extends IToggleableView {
     String getBudgetClientName();
     String getBudgetDate();
     String getBudgetClientType();
-    int getBudgetNumber();
     void clearPreviewTable();
     void clearClientTable();
     void clearProductTable();
@@ -68,4 +67,5 @@ public interface IBudgetModifyView extends IToggleableView {
     void setObservationsTextField(String productsObservation);
     void setMeasuresTextField(String productsMeasure);
     void setAmountTextField(int productsAmount);
+    void restartWindow();
 }

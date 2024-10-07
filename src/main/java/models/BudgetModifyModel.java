@@ -17,7 +17,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
     @Override
     public void updateBudget(String oldClientName, String newClientName, String date, String clientType, int budgetNumber, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
         try {
-            budgetsDBConnection.updateBothBudgetTables(oldClientName, newClientName, date, clientType, budgetNumber, products, productObservations, productMeasures);
+            budgetsDBConnection.updateBudgetTable(newClientName, date, clientType, budgetNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,5 +64,14 @@ public class BudgetModifyModel implements IBudgetModifyModel {
     @Override
     public String getOldClientName(int budgetNumber) {
         return budgetsDBConnection.getOldClientName(budgetNumber);
+    }
+
+    @Override
+    public void deleteFromBudgetProductsTable(int oldBudgetID, String clientName, int budgetNumber, boolean updating) {
+        try {
+            budgetsDBConnection.deleteBudgetProducts(oldBudgetID, clientName, budgetNumber, updating);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

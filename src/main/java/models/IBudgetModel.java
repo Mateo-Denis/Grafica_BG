@@ -10,7 +10,6 @@ import utils.Client;
 import utils.Product;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public interface IBudgetModel {
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
@@ -28,9 +27,11 @@ public interface IBudgetModel {
     int getBudgetID(int budgetNumber, String budgetName);
     void deleteOneBudget(int budgetID);
     void deleteMultipleBudgets(ArrayList<Integer> budgetIDs);
-    void saveProducts(int budgetNumber, String budgetName, Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
+    void saveProducts(int budgetID, Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
     void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating);
     ArrayList<Client> getOneClient(int clientID);
     int getClientID(String clientName);
     int getBudgetNumber(int budgetID);
+    int getNextBudgetNumber();
+    int getMaxBudgetID();
 }

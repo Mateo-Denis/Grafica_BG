@@ -1,7 +1,6 @@
 package presenters.budget;
 
 
-import PdfFormater.PdfConverter;
 import PdfFormater.Row;
 import PdfFormater.SamplePDFCreation;
 import lombok.Setter;
@@ -30,7 +29,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private final IProductModel productModel;
     private ArrayList<Client> globalClientsList;
     private int globalClientID = -1;
-    private int budgetNumber = new Random().nextInt(1000);
+    private int budgetNumber = -1;
     private boolean editingProduct = false;
 
     public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, ICategoryModel categoryModel, IProductModel productModel) {
@@ -41,6 +40,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         this.productModel = productModel;
         cargarCategorias();
         cargarCiudades();
+        budgetNumber = budgetModel.getNextBudgetNumber();
     }
 
     @Override
@@ -50,9 +50,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
     public void onHomeCreateBudgetButtonClicked() {
+
         budgetCreateView.showView();
-        //setearFecha();
-        //setearNumeroDePresupuesto();
     }
 
     public void onSearchClientButtonClicked() {
@@ -122,6 +121,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
     public void onCreateButtonClicked() {
+        int budgetID = -1;
+        budgetNumber = budgetModel.getNextBudgetNumber();
         budgetCreateView.setWorkingStatus();
         ArrayList<Client> oneClientList = budgetModel.getOneClient(globalClientID);
         ArrayList<Row> rows = new ArrayList<>();
@@ -193,11 +194,11 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 finalPrice += totalPrice;
             }
 
-            budgetModel.saveProducts(budgetNumber, budgetName, products, productObservations, productMeasures);
-
+            budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
+            budgetModel.saveProducts(budgetID, products, productObservations, productMeasures);
             SamplePDFCreation.createPDF(false, oneClientList.get(0), budgetNumber, rows, finalPrice);
-
             budgetCreateView.setWaitingStatus();
+            budgetCreateView.getWindowFrame().dispose();
         }
     }
 
@@ -226,7 +227,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         StringBuilder sb = budgetCreateView.getStringBuilder();
         JTable productsTable = budgetCreateView.getProductsResultTable();
 
-        if (selectedProductRow != -1) {
+        if (selectedProductRow != -1 || editingProduct) {
 
             if (!editingProduct) {
                 productName = budgetCreateView.getProductStringTableValueAt(selectedProductRow, 0);

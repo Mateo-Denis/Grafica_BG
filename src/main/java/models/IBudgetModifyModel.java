@@ -11,4 +11,5 @@ public interface IBudgetModifyModel {
     Multimap<Integer,String> getSavedProducts(int budgetNumber, String budgetName);
     ArrayList<String> getSelectedBudgetData(int budgetNumber);
     String getOldClientName(int budgetNumber);
+    void deleteFromBudgetProductsTable(int oldBudgetID, String clientName, int budgetNumber, boolean updating);
 }

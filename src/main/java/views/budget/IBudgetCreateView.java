@@ -69,4 +69,5 @@ public interface IBudgetCreateView extends IToggleableView {
 
     StringBuilder getStringBuilder();
     JTextArea getTextArea();
+    JFrame getWindowFrame();
 }

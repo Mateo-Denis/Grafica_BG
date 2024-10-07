@@ -10,9 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -96,7 +94,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetCreationButtonsContainer.setVisible(false);
         priceContainer.setVisible(false);
 
-
     }
 
     @Override
@@ -106,7 +103,10 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     protected void initListeners() {
-        budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onCreateButtonClicked());
+        budgetCreateButton.addActionListener(e -> {
+            budgetCreatePresenter.onCreateButtonClicked();
+            restartWindow();
+        });
         productSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchProductButtonClicked());
         addProductButton.addActionListener(e -> budgetCreatePresenter.onAddProductButtonClicked());
         deleteProductButton.addActionListener(e -> budgetCreatePresenter.onDeleteProductButtonClicked());
@@ -124,20 +124,41 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 }
             }
         });
+        windowFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                restartWindow();
+            }
+        });
     }
 
     @Override
     public void clearView() {
         clientTextField.setText("");
-        cityComboBox.setSelectedIndex(-1);
+        productTextField.setText("");
+        cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         observationsTextField.setText("");
-        this.clearPreviewTable();
+        measuresTextField.setText("");
+        clientSelectedCheckBox.setSelected(false);
+        clearPreviewTable();
+        clearClientTable();
+        clearProductTable();
     }
 
     @Override
     public String getBudgetClientName() {
         return clientTextField.getText();
+    }
+
+    public void restartWindow() {
+        windowFrame.setSize(590,1010);
+        sb.setLength(0);
+        sb.append("Precio Total: ");
+        priceTextArea.setEditable(false);
+        priceTextArea.setText(sb.toString());
+        setInitialPanelsVisibility();
+        clearView();
     }
 
     @Override
@@ -510,6 +531,11 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     public JTextArea getTextArea() {
         return priceTextArea;
+    }
+
+    @Override
+    public JFrame getWindowFrame() {
+        return windowFrame;
     }
 }
 
