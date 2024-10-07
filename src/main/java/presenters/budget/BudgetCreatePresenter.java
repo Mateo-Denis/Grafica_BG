@@ -156,27 +156,15 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
                 if (!productCellValue.equals("") && productCellValue != null) { // SI LA COLUMNA NO ESTÁ VACIA
                     if (productCellValue.contains("Medidas:") && productCellValue.contains("Observaciones:")) { // SI CONTIENE MEDIDAS Y OBSERVACIONES
-                        //TESTING:
-                        System.out.println("INGRESÓ A MEDIDAS Y OBSERVACIONES");
-                        //TESTING:
                         measures = productCellValue.substring(productCellValue.indexOf("Medidas: ") + 9, productCellValue.indexOf(" || Observaciones: "));
                         observation = productCellValue.substring(productCellValue.indexOf("Observaciones: ") + 14);
                     } else if (productCellValue.contains("Medidas:") && !productCellValue.contains("Observaciones:")) {
-                        //TESTING:
-                        System.out.println("INGRESÓ A MEDIDAS PERO NO OBSERVACIONES");
-                        //TESTING:
                         measures = productCellValue.substring(productCellValue.indexOf("Medidas: ") + 9);
                         observation = "";
                     } else if (productCellValue.contains("Observaciones:") && !productCellValue.contains("Medidas:")) {
-                        //TESTING:
-                        System.out.println("INGRESÓ A OBSERVACIONES PERO NO MEDIDAS");
-                        //TESTING:
                         observation = productCellValue.substring(productCellValue.indexOf("Observaciones: ") + 14);
                         measures = "";
                     } else {
-                        //TESTING:
-                        System.out.println("NO HAY MEDIDAS NI OBSERVACIONES");
-                        //TESTING:
                         measures = "";
                         observation = "";
                     }
@@ -436,12 +424,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         int selectedProductRowIndex = budgetCreateView.getProductTableSelectedRow();
         double productPrice = 0;
         int filledCells = budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1);
-        System.out.println("HAY " + filledCells + " CELDAS CON CONTENIDO.");
         stb.setLength(0);
-
-        System.out.println("HAY: " + filledCells + " CELDAS LLENAS EN LA PREVIEW TABLE.");
-
-
         if (adding) { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE AGREGÓ UN PRODUCTO:
             productPrice = (double) budgetCreateView.getProductsResultTable().getValueAt(selectedProductRowIndex, 2); // EL PRECIO DEL PRODUCTO ES EL PRECIO DE LA TABLA DE PRODUCTOS DE LA FILA SELECCIONADA
             if (filledCells == 0) { // SI NO HAY NINGUN PRODUCTO EN LA PREVIEW TABLE:

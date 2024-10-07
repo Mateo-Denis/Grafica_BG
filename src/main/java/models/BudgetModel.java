@@ -211,9 +211,9 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    public void deleteBudgetProducts(String budgetName, int budgetNumber, boolean updating) {
+    public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber, boolean updating) {
         try {
-            budgetsDBConnection.deleteBudgetProducts(-2, budgetName, budgetNumber, updating);
+            budgetsDBConnection.deleteBudgetProducts(budgetName, budgetID, budgetNumber, updating);
         } catch (Exception e) {
             e.printStackTrace();
         }

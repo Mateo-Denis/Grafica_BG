@@ -65,13 +65,4 @@ public class BudgetModifyModel implements IBudgetModifyModel {
     public String getOldClientName(int budgetNumber) {
         return budgetsDBConnection.getOldClientName(budgetNumber);
     }
-
-    @Override
-    public void deleteFromBudgetProductsTable(int oldBudgetID, String clientName, int budgetNumber, boolean updating) {
-        try {
-            budgetsDBConnection.deleteBudgetProducts(oldBudgetID, clientName, budgetNumber, updating);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

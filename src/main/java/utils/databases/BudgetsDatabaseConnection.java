@@ -159,6 +159,13 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
     public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) throws SQLException {
         int observationsIndex = 0;
         int measuresIndex = 0;
+
+        System.out.println("PRODUCTOS A INSERTAR: (METODO DEL BUDGETSDBCONNECTION CLASS)");
+        for(Map.Entry<Integer, String> entry : products.entries()){
+            System.out.println("Cantidad: " + entry.getKey() + " Producto: " + entry.getValue());
+        }
+
+
         String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS) VALUES(?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -250,13 +257,13 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
-    public void deleteBudgetProducts(int oldBudgetID, String clientName, int budgetNumber, boolean updating) throws SQLException {
+    public void deleteBudgetProducts(String budgetName, int oldBudgetID, int budgetNumber, boolean updating) throws SQLException {
         int budgetID = -1;
 
         if(updating){
             budgetID = oldBudgetID;
         } else {
-            budgetID = getBudgetID(clientName, budgetNumber);
+            budgetID = getBudgetID(budgetName, budgetNumber);
         }
 
         String sql = "DELETE FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";

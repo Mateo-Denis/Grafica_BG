@@ -77,7 +77,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
         int budgetID = getOneBudgetID();
         if (budgetID != -1 && budgetID != 0) {
             budgetModel.deleteOneBudget(budgetID);
-            budgetModel.deleteBudgetProducts(budgetSearchView.getSelectedBudgetName(), budgetSearchView.getSelectedBudgetNumber(), false);
+            budgetModel.deleteBudgetProducts(budgetSearchView.getSelectedBudgetName(), budgetSearchView.getSelectedBudgetNumber(), budgetID, false);
             budgetSearchView.setWorkingStatus();
             budgetSearchView.clearTable();
             String budgetSearch = budgetSearchView.getSearchText();
@@ -98,7 +98,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
             int budgetNumber = selectedBudgetNumbers.get(i);
             int budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
             budgetIDs.add(budgetID);
-            budgetModel.deleteBudgetProducts(budgetName, budgetNumber, false);
+            budgetModel.deleteBudgetProducts(budgetName, budgetID, budgetNumber, false);
         }
         budgetModel.deleteMultipleBudgets(budgetIDs);
         budgetSearchView.setWorkingStatus();

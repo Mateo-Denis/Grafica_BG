@@ -102,17 +102,20 @@ public class BudgetModifyPresenter extends StandardPresenter {
         Multimap<Integer, String> products = ArrayListMultimap.create();
         ArrayList<String> productObservations = new ArrayList<>();
         ArrayList<String> productMeasures = new ArrayList<>();
-        int observationsIndex = 0;
-        int measuresIndex = 0;
         boolean anyEmpty = onEmptyFields(0, 1);
 
         if (anyEmpty) {
             budgetModifyView.showMessage(MessageTypes.BUDGET_CREATION_EMPTY_COLUMN);
         } else {
-            for (int row = 1; row < (rowCountOnPreviewTable - 1); row++) {
+            for (int row = 1; row <= (rowCountOnPreviewTable - 1); row++) {
+                System.out.println("FILA: " + row);
+                System.out.println("CANTIDAD DE FILAS: " + rowCountOnPreviewTable);
                 productName = budgetModifyView.getPreviewStringTableValueAt(row, 1);
+                System.out.println("METODO DEL BUDGETMODIFYPRESENTER CLASS: PRODUCTO: " + productName);
                 productAmount = budgetModifyView.getPreviewIntTableValueAt(row, 2);
+                System.out.println("METODO DEL BUDGETMODIFYPRESENTER CLASS: CANTIDAD: " + productAmount);
                 measuresObservations = budgetModifyView.getPreviewStringTableValueAt(row, 3);
+                System.out.println("METODO DEL BUDGETMODIFYPRESENTER CLASS: MEDIDAS Y OBSERVACIONES: " + measuresObservations);
 
                 if (!measuresObservations.equals("") && !(measuresObservations == null)) {
                     if (measuresObservations.contains("Medidas:") && measuresObservations.contains("Observaciones:")) {
@@ -131,7 +134,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 products.put(productAmount, productName);
                 productObservations.add(productObservation);
                 productMeasures.add(productMeasure);
+            }
 
+            System.out.println("PRODUCTOS A AGREGAR: (METODO DEL BUDGETMODIFYPRESENTER CLASS)");
+            for(Map.Entry<Integer, String> entry : products.entries()) {
+                System.out.println("CANTIDAD: " + entry.getKey() + " PRODUCTO: " + entry.getValue());
             }
 
             oldBudgetID = budgetModel.getBudgetID(budgetNumber, oldClientName);
@@ -140,7 +147,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             newBudgetID = budgetModel.getMaxBudgetID();
             System.out.println("ID DEL NUEVO BUDGET: " + newBudgetID);
             budgetModel.saveProducts(newBudgetID, products, productObservations, productMeasures);
-            //budgetModifyModel.deleteFromBudgetProductsTable(oldBudgetID, oldClientName, budgetNumber, true);
+            budgetModel.deleteBudgetProducts(oldClientName, oldBudgetID, budgetNumber, true);
             budgetModel.deleteOneBudget(oldBudgetID);
             budgetModifyView.hideView();
         }
@@ -196,20 +203,15 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModifyView.setPreviewDoubleTableValueAt(productIndex, 4, productPrice);
 
             if (productsMap.isEmpty()) {
-                System.out.println("MAPA VACIO XDDD");
                 productsMap.put(productAmount, product);
             } else {
                 Iterator<Map.Entry<Integer, Product>> iterator = productsMap.entries().iterator();
                 boolean productAlreadyOnMap = false;
-                System.out.println("MAPA NO VACIO XDDD");
                 while (iterator.hasNext()) {
                     Map.Entry<Integer, Product> entry2 = iterator.next();
                     Product productValue = entry2.getValue();
                     int productKey = entry2.getKey();
-                    System.out.println("PRODUCTO ITERADO DEL MAPA: " + productValue + " CANTIDAD: " + productKey);
-                    System.out.println("ESTÁ EN EL MAPA? " + productValue.getName().equals(productName));
-                    if (productValue.getName().equals(productName)) { //EL PRODUCT DE LA FILA DE LA PREVIEW TABLE, YA ESTÁ EN EL MAPA:
-                        System.out.println("EL PRODUCTO YA ESTÁ EN EL MAPA");
+                    if (productValue.getName().equals(productName)) {
                         productsMap.remove(productKey, productValue); //REMUEVO ESE PRODUCTO DEL MAPA
                         productKey += productAmount; //LE SUMO LA CANTIDAD DE PRODUCTOS QUE SE ESTÁN AGREGANDO
                         productsMap.put(productKey, productValue); //AGREGO EL PRODUCTO CON LA NUEVA CANTIDAD
@@ -219,7 +221,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 }
 
                 if (!productAlreadyOnMap) {
-                    System.out.println("EL PRODUCTO NO ESTÁ EN EL MAPA");
                     productsMap.put(productAmount, product);
                 }
             }
