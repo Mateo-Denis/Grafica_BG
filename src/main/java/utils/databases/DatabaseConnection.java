@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public abstract class DatabaseConnection {
 
-	protected static final String URL = "jdbc:sqlite:./PRUEBAS.db";
+	protected static final String URL = "jdbc:sqlite:./GRAFICA_BAHIA_DATABASE.db";
 	protected static final int QUERY_TIMEOUT = 30;
 	public Connection connect() throws SQLException {
 		return DriverManager.getConnection(URL);

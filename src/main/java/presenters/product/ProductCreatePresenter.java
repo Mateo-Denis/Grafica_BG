@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import utils.price.formula.Formula;
 import views.products.IProductCreateView;
 import views.products.modular.IModularCategoryView;
 
@@ -33,7 +34,7 @@ public class ProductCreatePresenter extends StandardPresenter {
                 String selectedCategory = productCreateView.getProductCategory();
                 productCreateView.showSelectedView(selectedCategory);
 
-
+                
 
                 modularView = productCreateView.getCorrespondingModularView(selectedCategory);
                 updatePriceField(modularView.getPrice());
@@ -41,6 +42,7 @@ public class ProductCreatePresenter extends StandardPresenter {
         });
 
     }
+
 
 
     public void initListeners() {
