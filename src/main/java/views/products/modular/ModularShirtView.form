@@ -68,10 +68,6 @@
     </children>
   </grid>
   <buttonGroups>
-    <group name="tshirtOrChombaButtonGroup">
-      <member id="8736e"/>
-      <member id="a4853"/>
-    </group>
     <group name="sleeveLengthButtonGroup">
       <member id="3587e"/>
       <member id="f0c38"/>

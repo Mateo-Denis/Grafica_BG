@@ -5,7 +5,6 @@ import views.products.modular.IModularCategoryView;
 
 import javax.swing.*;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public interface IProductCreateView extends IToggleableView {
     void setCategorias(List<String> categorias);
     JPanel getContainerPanel();
     void comboBoxListenerSet(ItemListener listener);
-    JPanel getModularView();
+    IModularCategoryView getModularView();
     //JPanel getCorrespondingModularView(String category);
     IModularCategoryView getCorrespondingModularView(String category);
     //Map<String, JPanel> getCategoryPanelsMap();

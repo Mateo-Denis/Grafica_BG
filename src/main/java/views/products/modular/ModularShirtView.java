@@ -22,6 +22,9 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 	private ProductCreatePresenter presenter;
 	public ModularShirtView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
+		ButtonGroup shirtButtonGroup = new ButtonGroup();
+		shirtButtonGroup.add(tshirtRadioButton);
+		shirtButtonGroup.add(chombaRadioButton);
 		initListeners();
 	}
 	@Override
@@ -72,23 +75,14 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 
 
 	private String getShirtMaterialSelected() {
-		System.out.println(tshirtRadioButton.isSelected());
+		System.out.println(tshirtRadioButton.getModel().isSelected());
 
-		if(tshirtRadioButton.getModel().isSelected())
+		if (tshirtRadioButton.isSelected())
 			return "Remera";
-		else if (chombaRadioButton.getModel().isSelected())
+		else if (chombaRadioButton.isSelected())
 			return "Chomba";
 		else
 			return "Musculosa";
-
-
-//		if(chombaRadioButton.isSelected()) {
-//			return "Chomba";
-//		} else if (tshirtRadioButton.isSelected()) {
-//			return "Remera";
-//		}else {
-//			return (String) materialComboBox.getSelectedItem();
-//		}
 
 	}
 

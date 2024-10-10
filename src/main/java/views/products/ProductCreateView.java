@@ -44,7 +44,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private ProductCreatePresenter productCreatePresenter;
     private CategoryModel categoryModel;
     private TextUtils textUtils = new TextUtils();
-    private JPanel modularView = new JPanel();
+    private IModularCategoryView modularView;
     private CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
     private ProductsDatabaseConnection productDatabaseConnection = new ProductsDatabaseConnection();
     private Map<String, JPanel> viewMap;
@@ -73,6 +73,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         //JPanel selectedView = getCorrespondingModularView(category);
         IModularCategoryView selectedView = getCorrespondingModularView(category);
         if (selectedView != null && selectedView.getContainerPanel() != null) {
+            modularView = selectedView;
             modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
             selectedView.getContainerPanel().setVisible(true);
         }
@@ -161,10 +162,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         updatePriceButton.addActionListener(e -> productCreatePresenter.onUpdatePriceButtonClicked());
     }
 
-    private IModularCategoryView getFromMap(String category) {
-        return modularMap.get(category);
-    }
-
     @Override
     public void setPresenter(StandardPresenter productCreatePresenter) {
         this.productCreatePresenter = (ProductCreatePresenter) productCreatePresenter;
@@ -177,11 +174,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         }
     }
 
-    public JComboBox<String> getCategoryComboBox() {
-        return categoryComboBox;
-    }
 
-    public JPanel getModularView() {
+    public IModularCategoryView getModularView() {
         return modularView;
     }
 

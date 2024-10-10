@@ -19,6 +19,8 @@ import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
 import views.products.modular.*;
 
+import javax.swing.*;
+
 public class ProductCreatePresenter extends StandardPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
@@ -62,6 +64,8 @@ public class ProductCreatePresenter extends StandardPresenter {
         if(modularView == null){
             productCreateView.showMessage(MISSING_MODULAR_VIEW);
         }else {
+            modularView = productCreateView.getModularView();
+
             updatePriceField(modularView.getPrice());
         }
     }
@@ -71,7 +75,6 @@ public class ProductCreatePresenter extends StandardPresenter {
     public void initListeners() {
         productModel.addProductCreationSuccessListener(() -> productCreateView.showMessage(PRODUCT_CREATION_SUCCESS));
         productModel.addProductCreationFailureListener(() -> productCreateView.showMessage(PRODUCT_CREATION_FAILURE));
-
     }
 
     public void onHomeCreateProductButtonClicked() {
