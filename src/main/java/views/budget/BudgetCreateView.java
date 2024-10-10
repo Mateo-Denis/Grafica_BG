@@ -94,6 +94,11 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetCreationButtonsContainer.setVisible(false);
         priceContainer.setVisible(false);
 
+        cambiarTamanioFuente(containerPanel, 14);
+
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
+
     }
 
     @Override
@@ -509,6 +514,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceContainer.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
     }
 
     public void setSecondPanelsVisibility() {
@@ -517,11 +524,18 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
         priceContainer.setVisible(true);
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
     }
 
     @Override
     public JTable getProductsResultTable() {
         return productResultTable;
+    }
+
+    @Override
+    public DefaultTableModel getClientResultTableModel() {
+        return clientsTableModel;
     }
 
     @Override

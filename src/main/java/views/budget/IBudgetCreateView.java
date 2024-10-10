@@ -66,7 +66,7 @@ public interface IBudgetCreateView extends IToggleableView {
     void setInitialPanelsVisibility();
     void setSecondPanelsVisibility();
     JTable getProductsResultTable();
-
+    DefaultTableModel getClientResultTableModel();
     StringBuilder getStringBuilder();
     JTextArea getTextArea();
     JFrame getWindowFrame();

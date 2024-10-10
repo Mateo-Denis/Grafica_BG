@@ -29,6 +29,20 @@ public abstract class ToggleableView extends JFrame {
 	public void hideView() {
 		windowFrame.setVisible(false);
 	}
+	protected void cambiarTamanioFuente(Component component, int newSize) {
+		if (component instanceof JComponent) {
+			Font oldFont = component.getFont();
+			if (oldFont != null) {
+				component.setFont(oldFont.deriveFont((float) newSize));  // Cambiar tamaño de fuente
+			}
+		}
+
+		if (component instanceof Container) {
+			for (Component child : ((Container) component).getComponents()) {
+				cambiarTamanioFuente(child, newSize);  // Llamada recursiva para subcomponentes
+			}
+		}
+	}
 	public void setWorkingStatus() {
 		for (Component c : containerPanelWrapper.getComponents()) c.setEnabled(false);
 	}

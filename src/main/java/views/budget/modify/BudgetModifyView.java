@@ -85,6 +85,9 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         sb.append("\n");
         sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
 
         clientSearchingContainer.setVisible(false);
     }
@@ -140,6 +143,11 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         priceTextArea.setText(sb.toString());
         setInitialPanelsVisibility();
         clearView();
+    }
+
+    @Override
+    public DefaultTableModel getClientResultTableModel() {
+        return clientsTableModel;
     }
 
     @Override
@@ -258,7 +266,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public void start() {
         super.start();
-        clientsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
+        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
         clientResultTable.setModel(clientsTableModel);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
         productTable.setModel(productsTableModel);
@@ -459,6 +467,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     public void setInitialPanelsVisibility() {
         clientSearchingContainer.setVisible(false);
+        budgetPreviewContainer.setVisible(true);
+        productSearchingContainer.setVisible(true);
+        budgetCreationButtonsContainer.setVisible(true);
+        priceContainer.setVisible(true);
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
     }
 
     public void setSecondPanelsVisibility() {
@@ -467,6 +481,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productSearchingContainer.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
         priceContainer.setVisible(false);
+        windowFrame.setSize(750,800);
+        windowFrame.setResizable(false);
     }
 
     @Override

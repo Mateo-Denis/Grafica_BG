@@ -44,6 +44,9 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
         this.productListPresenter = productListPresenter;
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(470,560);
+        windowFrame.setResizable(false);
 
         initListeners();
     }

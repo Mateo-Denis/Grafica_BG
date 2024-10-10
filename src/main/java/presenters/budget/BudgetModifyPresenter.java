@@ -11,6 +11,7 @@ import utils.Product;
 import views.budget.modify.IBudgetModifyView;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
@@ -155,6 +156,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void setModifyView(int budgetNumber, int selectedBudgetRow, Multimap<Integer, String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
         budgetModifyView.showView();
+        budgetModifyView.getClientSelectedCheckBox().setSelected(true);
         rowCountOnPreviewTable = budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) + 1;
         JTextArea textArea = budgetModifyView.getPriceTextArea();
         StringBuilder sb = budgetModifyView.getStringBuilder();
@@ -471,7 +473,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void onClientSelectedCheckBoxClicked() {
         JCheckBox clientSelectedCheckBox = budgetModifyView.getClientSelectedCheckBox();
-        if (clientSelectedCheckBox.isSelected()) {
+        if (!clientSelectedCheckBox.isSelected()) {
             budgetModifyView.setSecondPanelsVisibility();
         } else {
             budgetModifyView.setInitialPanelsVisibility();
@@ -482,13 +484,19 @@ public class BudgetModifyPresenter extends StandardPresenter {
         int selectedRow = budgetModifyView.getClientTableSelectedRow();
         String clientName = "";
         String clientType = "";
+        DefaultTableModel clientTableModel = budgetModifyView.getClientResultTableModel();
         JCheckBox clientSelectedCheckBox = budgetModifyView.getClientSelectedCheckBox();
+
         if (selectedRow != -1) {
-            clientName = budgetModifyView.getClientStringTableValueAt(selectedRow, 0);
-            clientType = budgetModifyView.getClientStringTableValueAt(selectedRow, 4);
-            budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName);
-            budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
-            clientSelectedCheckBox.setSelected(true);
+            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().equals("")) {
+                clientName = clientTableModel.getValueAt(selectedRow, 1).toString();
+                clientType = clientTableModel.getValueAt(selectedRow, 5).toString();
+                budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName);
+                budgetModifyView.setPreviewStringTableValueAt(0, 5, clientType);
+                clientSelectedCheckBox.setSelected(true);
+            } else {
+                budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
+            }
         } else {
             budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
         }

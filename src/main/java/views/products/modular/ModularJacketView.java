@@ -85,7 +85,6 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 		} else {
 			jacket = "Deportivo Frisado Sublimado";
 		}
-
 		return jacket;
 	}
 

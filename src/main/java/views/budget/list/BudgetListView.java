@@ -24,6 +24,10 @@ public class BudgetListView extends ToggleableView implements IBudgetListView {
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         wrapContainer();
         setBudgetTableModel();
+
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(720,470);
+        windowFrame.setResizable(false);
     }
 
 

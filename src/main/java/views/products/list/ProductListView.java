@@ -24,6 +24,9 @@ public class ProductListView extends ToggleableView implements IProductListView 
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(470,560);
+        windowFrame.setResizable(false);
     }
 
     @Override

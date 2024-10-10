@@ -16,6 +16,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.*;
 
 import static utils.MessageTypes.*;
@@ -83,13 +84,19 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String clientName = "";
         String clientType = "";
         JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox();
+        DefaultTableModel clientTableModel = budgetCreateView.getClientResultTableModel();
+
         if (selectedRow != -1) {
-            clientName = budgetCreateView.getClientStringTableValueAt(selectedRow, 1);
-            clientType = budgetCreateView.getClientStringTableValueAt(selectedRow, 5);
-            budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName);
-            budgetCreateView.setPreviewStringTableValueAt(0, 5, clientType);
-            globalClientID = budgetModel.getClientID(clientName);
-            clientSelectedCheckBox.setSelected(true);
+            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().equals("")) {
+                clientName = clientTableModel.getValueAt(selectedRow, 1).toString();
+                clientType = clientTableModel.getValueAt(selectedRow, 5).toString();
+                budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName);
+                budgetCreateView.setPreviewStringTableValueAt(0, 5, clientType);
+                globalClientID = budgetModel.getClientID(clientName);
+                clientSelectedCheckBox.setSelected(true);
+            } else {
+                budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
+            }
         } else {
             budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
         }

@@ -68,4 +68,5 @@ public interface IBudgetModifyView extends IToggleableView {
     void setMeasuresTextField(String productsMeasure);
     void setAmountTextField(int productsAmount);
     void restartWindow();
+    DefaultTableModel getClientResultTableModel();
 }

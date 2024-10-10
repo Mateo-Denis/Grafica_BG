@@ -42,6 +42,10 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         this.budgetListPresenter = budgetListPresenter;
         this.budgetModifyPresenter = budgetModifyPresenter;
 
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(850,580);
+        windowFrame.setResizable(false);
+
         initListeners();
     }
 

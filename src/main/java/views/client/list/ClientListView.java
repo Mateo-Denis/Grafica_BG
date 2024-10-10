@@ -26,6 +26,10 @@ public class ClientListView extends ToggleableView implements IClientListView {
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         wrapContainer();
         setClientTableModel();
+
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(470,560);
+        windowFrame.setResizable(false);
     }
 
     @Override

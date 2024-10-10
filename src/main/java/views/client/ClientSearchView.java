@@ -33,6 +33,9 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
         this.clientListPresenter = clientListPresenter;
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(470,560);
+        windowFrame.setResizable(false);
 
         initListeners();
     }

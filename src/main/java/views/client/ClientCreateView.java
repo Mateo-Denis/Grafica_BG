@@ -37,7 +37,10 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 		windowFrame.setSize(400, 300);
+		windowFrame.setResizable(false);
 		((AbstractDocument) phoneTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+
+		cambiarTamanioFuente(containerPanel, 14);
 	}
 	@Override
 	public String getClientText() {

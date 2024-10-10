@@ -71,6 +71,10 @@ public class HomeView extends JFrame implements IHomeView {
 		this.categoryCreatePresenter = categoryCreatePresenter;
 		this.settingsPresenter = settingsPresenter;
 
+		cambiarTamanioFuente(containerPanel, 14);
+		windowFrame.setSize(264,788);
+		windowFrame.setResizable(false);
+
 		initListeners();
 	}
 
@@ -90,5 +94,20 @@ public class HomeView extends JFrame implements IHomeView {
 		settingsButton.addActionListener(e -> {
 			settingsPresenter.onHomeSettingsButtonClicked();
 		});
+	}
+
+	protected void cambiarTamanioFuente(Component component, int newSize) {
+		if (component instanceof JComponent) {
+			Font oldFont = component.getFont();
+			if (oldFont != null) {
+				component.setFont(oldFont.deriveFont((float) newSize));  // Cambiar tamaño de fuente
+			}
+		}
+
+		if (component instanceof Container) {
+			for (Component child : ((Container) component).getComponents()) {
+				cambiarTamanioFuente(child, newSize);  // Llamada recursiva para subcomponentes
+			}
+		}
 	}
 }

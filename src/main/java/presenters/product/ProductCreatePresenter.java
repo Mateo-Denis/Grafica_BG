@@ -42,8 +42,8 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.productCreateView = productCreateView;
-		this.settingsModel = settingsModel;
-		view = productCreateView;
+        this.settingsModel = settingsModel;
+        view = productCreateView;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
         cargarCategorias();
