@@ -11,9 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" beforeDir="false" afterPath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" afterDir="false" />
@@ -22,13 +20,14 @@
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" afterDir="false" />
@@ -147,7 +146,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "Application.testingMain.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -377,6 +376,7 @@
       <workItem from="1728505872077" duration="1030000" />
       <workItem from="1728507353883" duration="22015000" />
       <workItem from="1728531826422" duration="1847000" />
+      <workItem from="1728533810092" duration="1957000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -482,7 +482,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>238</line>
+          <line>228</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -492,7 +492,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>153</line>
+          <line>158</line>
           <properties class="presenters.product.ProductCreatePresenter" method="calculatePrice">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -501,7 +501,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>59</line>
+          <line>60</line>
           <properties class="presenters.product.ProductCreatePresenter" method="onUpdatePriceButtonClicked">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -518,6 +518,7 @@
     <watches-manager>
       <configuration name="Application">
         <watch expression="((ModularShirtView)mview).materialComboBox" custom="views.products.modular.ModularShirtView" />
+        <watch expression="((ModularShirtView)modularView).tshirtRadioButton" custom="views.products.modular.ModularShirtView" />
       </configuration>
     </watches-manager>
   </component>

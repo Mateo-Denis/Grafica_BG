@@ -71,22 +71,28 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 	}
 
 
-	public String getShirtMaterialSelected() {
+	private String getShirtMaterialSelected() {
 		System.out.println(tshirtRadioButton.isSelected());
 
-
-
-		if(chombaRadioButton.isSelected()) {
-			return "Chomba";
-		} else if (tshirtRadioButton.isSelected()) {
+		if(tshirtRadioButton.getModel().isSelected())
 			return "Remera";
-		}else {
-			return (String) materialComboBox.getSelectedItem();
-		}
+		else if (chombaRadioButton.getModel().isSelected())
+			return "Chomba";
+		else
+			return "Musculosa";
+
+
+//		if(chombaRadioButton.isSelected()) {
+//			return "Chomba";
+//		} else if (tshirtRadioButton.isSelected()) {
+//			return "Remera";
+//		}else {
+//			return (String) materialComboBox.getSelectedItem();
+//		}
 
 	}
 
-	public String getShirtTypeSelected() {
+	private String getShirtTypeSelected() {
 		String shirt;
 		if(tshirtRadioButton.isSelected()) {
 			shirt = "Tela para manga corta";
@@ -98,7 +104,15 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 		return shirt;
 	}
 
-	public String getMaterialSelected() {
+	private String getMaterialSelected() {
 		return (String) materialComboBox.getSelectedItem();
+	}
+
+	public ArrayList<String> getRelevantInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getShirtMaterialSelected());
+		relevantInformation.add(getShirtTypeSelected());
+		relevantInformation.add(getMaterialSelected());
+		return relevantInformation;
 	}
 }

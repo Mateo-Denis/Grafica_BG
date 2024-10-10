@@ -14,4 +14,6 @@ public interface IModularCategoryView{
     Map<String,String> getModularAttributes();
 
     double getPrice();
+
+    ArrayList<String> getRelevantInformation();
 }

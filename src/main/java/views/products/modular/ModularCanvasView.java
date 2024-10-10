@@ -50,7 +50,14 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 		return presenter.calculatePrice("canvas");
 	}
 
-	public String getCanvasComboBoxSelection() {
+	@Override
+	public ArrayList<String> getRelevantInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getCanvasComboBoxSelection());
+		return relevantInformation;
+	}
+
+	private String getCanvasComboBoxSelection() {
 		return (String) canvasComboBox.getSelectedItem();
 	}
 }

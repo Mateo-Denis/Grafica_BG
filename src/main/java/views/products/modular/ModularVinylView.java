@@ -54,4 +54,9 @@ public class ModularVinylView extends JPanel implements IModularCategoryView {
 	public double getPrice() {
 		return 99999;
 	}
+
+	@Override
+	public ArrayList<String> getRelevantInformation() {
+		return new ArrayList<>();
+	}
 }

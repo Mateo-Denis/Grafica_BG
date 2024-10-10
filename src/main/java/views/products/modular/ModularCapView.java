@@ -63,7 +63,14 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         return presenter.calculatePrice("cap");
     }
 
-    public String getSelectedRadioButton(){
+    @Override
+    public ArrayList<String> getRelevantInformation() {
+        ArrayList<String> relevantInformation = new ArrayList<>();
+        relevantInformation.add(getSelectedRadioButton());
+        return relevantInformation;
+    }
+
+    private String getSelectedRadioButton(){
         if(whiteFrontRadioButton.isSelected()){
             return "Gorra Blanca";
         } else if(sublimatedRadioButton.isSelected()){

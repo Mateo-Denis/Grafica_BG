@@ -68,7 +68,15 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 		return presenter.calculatePrice("jacket");
 	}
 
-	public String getJacketMaterialSelected() {
+	@Override
+	public ArrayList<String> getRelevantInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getJacketMaterialSelected());
+		relevantInformation.add(getJacketSizeSelected());
+		return relevantInformation;
+	}
+
+	private String getJacketMaterialSelected() {
 		String jacket;
 		if (cottonRadioButton.isSelected()) {
 			jacket = "Campera Algodon";
@@ -81,7 +89,7 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 		return jacket;
 	}
 
-	public String getJacketSizeSelected() {
+	private String getJacketSizeSelected() {
 		String size;
 		if (adultRadioButton.isSelected()) {
 			size = "Campera Adulto";

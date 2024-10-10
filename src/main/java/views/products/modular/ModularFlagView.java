@@ -60,11 +60,19 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 		return presenter.calculatePrice("flag");
 	}
 
-	public String getFlagComboBoxSelection() {
+	@Override
+	public ArrayList<String> getRelevantInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getFlagComboBoxSelection());
+		relevantInformation.add(getSizeComboBoxSelection());
+		return relevantInformation;
+	}
+
+	private String getFlagComboBoxSelection() {
 		return (String) clothComboBox.getSelectedItem();
 	}
 
-	public String getSizeComboBoxSelection() {
+	private String getSizeComboBoxSelection() {
 		return (String) sizeComboBox.getSelectedItem();
 	}
 }

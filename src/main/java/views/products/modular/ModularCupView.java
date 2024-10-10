@@ -67,7 +67,15 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		return presenter.calculatePrice("cup");
 	}
 
-	public String getCupMaterial() {
+	@Override
+	public ArrayList<String> getRelevantInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getCupMaterial());
+		relevantInformation.add(isSublimated());
+		return relevantInformation;
+	}
+
+	private String getCupMaterial() {
 		if(ceramicRadioButton.isSelected()){
 			return "Taza Ceramica";
 		} else if(plasticRadioButton.isSelected()){
@@ -76,8 +84,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		return "unreachable";
 	}
 
-	public boolean isSublimated() {
-		return sublimatedRadioButton.isSelected();
+	private String isSublimated() {
+		return sublimatedRadioButton.isSelected() ? "Sublimado" : "Blanco";
 	}
 
 }
