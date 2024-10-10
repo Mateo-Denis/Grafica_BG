@@ -67,6 +67,38 @@ public class ModularSweaterView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return presenter.calculatePrice("sweater");
+	}
+
+	public String getSweaterSizeSelected() {
+		String size;
+		if (adultRadioButton.isSelected()) {
+			size = "Buzo Adulto";
+		} else {
+			size = "Buzo Niño";
+		}
+		return size;
+	}
+
+	public String getSweaterTypeSelected() {
+		String type;
+		if (roundNeckRadioButton.isSelected()) {
+			type = "Cuello Redondo";
+		} else {
+			type = "Capucha con canguro";
+		}
+		return type;
+	}
+
+	public String getSweaterMaterialSelected() {
+		String material;
+		if (sportRadioButton.isSelected()) {
+			material = "Deportivo";
+		} else if (kettenRadioButton.isSelected()) {
+			material = "Ketten";
+		} else {
+			material = "Algodon";
+		}
+		return material;
 	}
 }

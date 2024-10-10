@@ -38,7 +38,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel createButtonContainer;
     private JButton createButton;
     private JPanel modularContainer;
-    private JComboBox<String> subCategoryComboBox;
+	private JButton updatePriceButton;
+	private JComboBox<String> subCategoryComboBox;
     private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
     private CategoryModel categoryModel;
@@ -157,6 +158,11 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     protected void initListeners() {
         createButton.addActionListener(e -> productCreatePresenter.onCreateButtonClicked());
+        updatePriceButton.addActionListener(e -> productCreatePresenter.onUpdatePriceButtonClicked());
+    }
+
+    private IModularCategoryView getFromMap(String category) {
+        return modularMap.get(category);
     }
 
     @Override

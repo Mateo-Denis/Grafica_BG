@@ -12,23 +12,26 @@
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" beforeDir="false" afterPath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularPrintingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularPrintingView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularShirtView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularShirtView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsTableNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsTableNames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/price/formula/CanvasFormula.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/price/formula/Formula.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,9 +152,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "329",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "177",
     "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "139",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "249",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/mateo/Downloads/PRUEBAS.db",
@@ -163,7 +166,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "settings.json.schema",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -192,6 +195,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <extension name="de.eudaemon.ideaswag.SwingspectorExtension">
+        <Swingspector>
+          <keystroke code="46" modifiers="130" />
+          <active value="true" />
+          <timeout>5.0</timeout>
+        </Swingspector>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -209,6 +219,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.testingMain" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -361,7 +375,8 @@
       <workItem from="1728166860958" duration="20000" />
       <workItem from="1728503138295" duration="2665000" />
       <workItem from="1728505872077" duration="1030000" />
-      <workItem from="1728507353883" duration="11019000" />
+      <workItem from="1728507353883" duration="22015000" />
+      <workItem from="1728531826422" duration="1847000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -465,6 +480,34 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
+          <line>238</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
+          <line>153</line>
+          <properties class="presenters.product.ProductCreatePresenter" method="calculatePrice">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
+          <line>59</line>
+          <properties class="presenters.product.ProductCreatePresenter" method="onUpdatePriceButtonClicked">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -472,6 +515,11 @@
         <PinnedItemInfo parentTag="org.sqlite.jdbc4.JDBC4ResultSet" memberName="row" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((ModularShirtView)mview).materialComboBox" custom="views.products.modular.ModularShirtView" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

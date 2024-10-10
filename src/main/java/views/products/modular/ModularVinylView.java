@@ -52,6 +52,6 @@ public class ModularVinylView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return 99999;
 	}
 }

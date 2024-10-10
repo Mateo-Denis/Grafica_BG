@@ -25,6 +25,18 @@ public class ProductCreatePresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final ISettingsModel settingsModel;
     private IModularCategoryView modularView;
+    private ModularCanvasView canvasView;
+    private ModularCapView capView;
+    private ModularClothView clothView;
+    private ModularCupView cupView;
+    private ModularFlagView flagView;
+    private ModularJacketView jacketView;
+    private ModularPrintingView printingView;
+    private ModularShirtView shirtView;
+    private ModularSweaterView sweaterView;
+    private ModularVinylView vinylView;
+
+
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.productCreateView = productCreateView;
@@ -38,8 +50,6 @@ public class ProductCreatePresenter extends StandardPresenter {
                 String selectedCategory = productCreateView.getProductCategory();
                 productCreateView.showSelectedView(selectedCategory);
 
-                
-
                 modularView = productCreateView.getCorrespondingModularView(selectedCategory);
                 updatePriceField(modularView.getPrice());
             }
@@ -47,11 +57,16 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     }
 
+    public void onUpdatePriceButtonClicked() {
+        updatePriceField(shirtView.getPrice());
+    }
+
 
 
     public void initListeners() {
         productModel.addProductCreationSuccessListener(() -> productCreateView.showMessage(PRODUCT_CREATION_SUCCESS));
         productModel.addProductCreationFailureListener(() -> productCreateView.showMessage(PRODUCT_CREATION_FAILURE));
+
     }
 
     public void onHomeCreateProductButtonClicked() {
@@ -139,6 +154,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     public double calculatePrice(String productCategory) {
         double totalPrice = 0.0;
         double profit = 0.0;
+
         switch (productCategory) {
             case "canvas" -> {
                 ModularCanvasView instanceView = (ModularCanvasView) modularView;
@@ -201,12 +217,63 @@ public class ProductCreatePresenter extends StandardPresenter {
             }
             case "jacket" -> {
                 ModularJacketView instanceView = (ModularJacketView) modularView;
-                String selectedJacket = instanceView.getJacketComboBoxSelection();
+                String selectedJacket = instanceView.getJacketMaterialSelected();
 
                 double jacketPrice = getIndividualPrice(PRENDAS, selectedJacket);
-                profit = getProfitFor("Chamarras");
+                profit = getProfitFor("Camperas");
 
-                totalPrice = (jacketPrice * profit);
+                String jacketSizeS = instanceView.getJacketSizeSelected();
+                double jacketSize = getIndividualPrice(PRENDAS, jacketSizeS);
+
+                totalPrice = (jacketPrice * jacketSize * profit);
+            }
+            case "printing" -> {
+                ModularPrintingView instanceView = (ModularPrintingView) modularView;
+                String selectedPrinting = instanceView.getPrintingComboBoxSelection();
+
+                double printingPrice = getIndividualPrice(IMPRESIONES, selectedPrinting);
+                profit = getProfitFor("Impresiones");
+
+                totalPrice = (printingPrice * profit);
+            }
+            case "shirt" -> {
+                if(shirtView == null){
+                    shirtView = (ModularShirtView) modularView;
+                }
+
+                String selectedShirt = shirtView.getShirtMaterialSelected();
+                System.out.println(selectedShirt+"aaaaaaaaaaaaaaaa");
+
+                double shirtPrice = getIndividualPrice(PRENDAS, selectedShirt);
+                profit = getProfitFor("Remeras");
+
+                double shirtSizePrice = getIndividualPrice(PRENDAS, shirtView.getShirtTypeSelected());
+
+                String materialSelected = shirtView.getMaterialSelected();
+                double materialCost = getIndividualPrice(TELAS, materialSelected);
+
+                totalPrice = ((shirtPrice + (shirtSizePrice * materialCost)) * profit);
+            }
+            case "sweater" -> {
+                ModularSweaterView instanceView = (ModularSweaterView) modularView;
+                String selectedSweater = instanceView.getSweaterMaterialSelected();
+
+                double sweaterPrice = getIndividualPrice(PRENDAS, selectedSweater);
+                profit = getProfitFor("Buzos");
+
+                String sweaterSizeS = instanceView.getSweaterSizeSelected();
+                double sweaterSize = getIndividualPrice(PRENDAS, sweaterSizeS);
+
+                totalPrice = (sweaterPrice * sweaterSize * profit);
+            }
+            case "vinyl" -> {
+//                ModularVinylView instanceView = (ModularVinylView) modularView;
+//                String selectedVinyl = instanceView.getVinylComboBoxSelection();
+//
+//                double vinylPrice = getIndividualPrice(TELAS, selectedVinyl);
+//                profit = getProfitFor("Vinilos");
+//
+//                totalPrice = (vinylPrice * profit);
             }
 
         }

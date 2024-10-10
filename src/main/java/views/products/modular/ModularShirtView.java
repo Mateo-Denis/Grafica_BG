@@ -15,6 +15,7 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 	private JRadioButton shortSleeveRadioButton;
 	private JRadioButton longSleeveRadioButton;
 	private JPanel containerPanel;
+	private JRadioButton tankTopRadioButton;
 	private ArrayList<String> radioValues = new ArrayList<>();
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
@@ -66,6 +67,38 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return presenter.calculatePrice("shirt");
+	}
+
+
+	public String getShirtMaterialSelected() {
+		System.out.println(tshirtRadioButton.isSelected());
+
+
+
+		if(chombaRadioButton.isSelected()) {
+			return "Chomba";
+		} else if (tshirtRadioButton.isSelected()) {
+			return "Remera";
+		}else {
+			return (String) materialComboBox.getSelectedItem();
+		}
+
+	}
+
+	public String getShirtTypeSelected() {
+		String shirt;
+		if(tshirtRadioButton.isSelected()) {
+			shirt = "Tela para manga corta";
+		} else if(longSleeveRadioButton.isSelected()) {
+			shirt = "Tela para manga larga";
+		}else {
+			shirt = "Tela para musculosa";
+		}
+		return shirt;
+	}
+
+	public String getMaterialSelected() {
+		return (String) materialComboBox.getSelectedItem();
 	}
 }

@@ -47,6 +47,10 @@ public class ModularPrintingView extends JPanel implements IModularCategoryView{
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return presenter.calculatePrice("printing");
+	}
+
+	public String getPrintingComboBoxSelection() {
+		return (String) sizeComboBox.getSelectedItem();
 	}
 }
