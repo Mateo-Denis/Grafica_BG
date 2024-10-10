@@ -75,6 +75,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		return relevantInformation;
 	}
 
+	@Override
+	public void loadComboBoxValues() {
+
+	}
+
 	private String getCupMaterial() {
 		if(ceramicRadioButton.isSelected()){
 			return "Taza Ceramica";

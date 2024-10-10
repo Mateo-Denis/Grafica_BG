@@ -72,7 +72,16 @@ public class ModularSweaterView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public ArrayList<String> getRelevantInformation() {
-		return null;
+		ArrayList<String> relevantInformation = new ArrayList<>();
+		relevantInformation.add(getSweaterSizeSelected());
+		relevantInformation.add(getSweaterTypeSelected());
+		relevantInformation.add(getSweaterMaterialSelected());
+		return relevantInformation;
+	}
+
+	@Override
+	public void loadComboBoxValues() {
+
 	}
 
 	private String getSweaterSizeSelected() {

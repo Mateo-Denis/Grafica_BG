@@ -10,7 +10,8 @@ public enum SettingsTableNames {
 	IMPRESIONES("Impresiones"),
 	VINILOS("Vinilos"),
 	LONAS("Lonas"),
-	GANANCIAS("Ganancias");
+	GANANCIAS("Ganancias"),
+	MEDIDAS("Medidas");
 
 	private final String name;
 

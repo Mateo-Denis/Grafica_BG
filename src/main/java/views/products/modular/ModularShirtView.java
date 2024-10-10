@@ -1,11 +1,14 @@
 package views.products.modular;
 
+import org.javatuples.Pair;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularShirtView extends JPanel implements IModularCategoryView {
 	private JRadioButton tshirtRadioButton;
@@ -27,6 +30,14 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 		shirtButtonGroup.add(chombaRadioButton);
 		initListeners();
 	}
+	@Override
+	public void loadComboBoxValues() {
+		ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(TELAS);
+		for (Pair<String, Double> pair : list) {
+			materialComboBox.addItem(pair.getValue0());
+		}
+	}
+
 	@Override
 	public JPanel getContainerPanel() {
 		return containerPanel;
@@ -81,19 +92,18 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 			return "Remera";
 		else if (chombaRadioButton.isSelected())
 			return "Chomba";
-		else
-			return "Musculosa";
 
+		return null;
 	}
 
 	private String getShirtTypeSelected() {
 		String shirt;
 		if(tshirtRadioButton.isSelected()) {
-			shirt = "Tela para manga corta";
+			shirt = "Tela para remera manga corta";
 		} else if(longSleeveRadioButton.isSelected()) {
-			shirt = "Tela para manga larga";
+			shirt = "Tela para remera manga larga";
 		}else {
-			shirt = "Tela para musculosa";
+			shirt = "Tela para remera musculosa";
 		}
 		return shirt;
 	}

@@ -76,6 +76,11 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 		return relevantInformation;
 	}
 
+	@Override
+	public void loadComboBoxValues() {
+
+	}
+
 	private String getJacketMaterialSelected() {
 		String jacket;
 		if (cottonRadioButton.isSelected()) {

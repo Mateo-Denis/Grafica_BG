@@ -1,12 +1,16 @@
 package views.products.modular;
 
 import lombok.Getter;
+import org.javatuples.Pair;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static utils.databases.SettingsTableNames.MEDIDAS;
+import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
@@ -66,6 +70,19 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 		relevantInformation.add(getFlagComboBoxSelection());
 		relevantInformation.add(getSizeComboBoxSelection());
 		return relevantInformation;
+	}
+
+	@Override
+	public void loadComboBoxValues() {
+		ArrayList<Pair<String, Double>> clothList = presenter.getTableAsArrayList(TELAS);
+		for (Pair<String, Double> pair : clothList) {
+			clothComboBox.addItem(pair.getValue0());
+		}
+
+		ArrayList<Pair<String, Double>> sizeList = presenter.getTableAsArrayList(MEDIDAS);
+		for (Pair<String, Double> pair : sizeList) {
+			sizeComboBox.addItem(pair.getValue0());
+		}
 	}
 
 	private String getFlagComboBoxSelection() {

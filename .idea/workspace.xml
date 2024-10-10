@@ -11,14 +11,54 @@
   <component name="ChangeListManager">
     <list default="true" id="b33a72e2-4c97-489a-9da1-0a517c1ff431" name="Changes" comment="Last commit 14-8-24 before meeting graficabg women">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" beforeDir="false" afterPath="$PROJECT_DIR$/GRAFICA_BAHIA_DATABASE.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/models/settings/SettingsModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/models/settings/SettingsModel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/presenters/product/ProductCreatePresenter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/utils/CategoryParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/utils/CategoryParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/utils/databases/SettingsDatabaseConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/utils/databases/SettingsDatabaseConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/utils/databases/SettingsTableNames.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/utils/databases/SettingsTableNames.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/ProductCreateView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/IModularCategoryView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/IModularCategoryView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCanvasView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCanvasView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCapView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCapView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularClothView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularClothView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularCupView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularFlagView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularJacketView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularPrintingView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularPrintingView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularShirtView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularShirtView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularSweaterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/products/modular/ModularVinylView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/views/settings/SettingsView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/settings/SettingsModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/IProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/CategoryParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/CategoryParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsTableNames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/databases/SettingsTableNames.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/ProductCreateView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/IModularCategoryView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCanvasView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularClothView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularCupView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularFlagView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularJacketView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularPrintingView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularShirtView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularSweaterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/products/modular/ModularVinylView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/views/settings/SettingsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,36 +172,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.testingMain.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "177",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "268",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/mateo/Downloads/PRUEBAS.db",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.testingMain.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;177&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;315&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mateo/Downloads/PRUEBAS.db&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\gongi\OneDrive\Escritorio\manualMerge\grafica_backuptest\src\main\java\PdfFormater" />
@@ -364,7 +404,8 @@
       <workItem from="1728505872077" duration="1030000" />
       <workItem from="1728507353883" duration="22015000" />
       <workItem from="1728531826422" duration="1847000" />
-      <workItem from="1728533810092" duration="4933000" />
+      <workItem from="1728533810092" duration="9723000" />
+      <workItem from="1728543577616" duration="759000" />
     </task>
     <task id="LOCAL-00001" summary="Creación de otras views. Restan aún las siguientes:&#10;* budgetCreateView">
       <option name="closed" value="true" />
@@ -470,26 +511,22 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>232</line>
+          <line>240</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
+          <line>179</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>162</line>
+          <line>166</line>
           <properties class="presenters.product.ProductCreatePresenter" method="calculatePrice">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/presenters/product/ProductCreatePresenter.java</url>
-          <line>62</line>
-          <properties class="presenters.product.ProductCreatePresenter" method="onUpdatePriceButtonClicked">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

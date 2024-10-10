@@ -1,14 +1,17 @@
 package views.products.modular;
 
+import org.javatuples.Pair;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.LONAS;
+
 public class ModularCanvasView extends JPanel implements IModularCategoryView{
 	private ProductCreatePresenter presenter;
-	private JPanel panel1;
+	private JPanel containerPanel;
 	private JComboBox canvasComboBox;
 
 	public ModularCanvasView(ProductCreatePresenter presenter) {
@@ -17,7 +20,7 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 	}
 	@Override
 	public JPanel getContainerPanel() {
-		return null;
+		return containerPanel;
 	}
 
 	@Override
@@ -55,6 +58,14 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 		ArrayList<String> relevantInformation = new ArrayList<>();
 		relevantInformation.add(getCanvasComboBoxSelection());
 		return relevantInformation;
+	}
+
+	@Override
+	public void loadComboBoxValues() {
+		ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(LONAS);
+		for (Pair<String, Double> pair : list) {
+			canvasComboBox.addItem(pair.getValue0());
+		}
 	}
 
 	private String getCanvasComboBoxSelection() {

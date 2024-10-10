@@ -73,6 +73,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         //JPanel selectedView = getCorrespondingModularView(category);
         IModularCategoryView selectedView = getCorrespondingModularView(category);
         if (selectedView != null && selectedView.getContainerPanel() != null) {
+            System.out.println("selectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedViewselectedView");
             modularView = selectedView;
             modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
             selectedView.getContainerPanel().setVisible(true);
@@ -90,17 +91,21 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         Map<String, IModularCategoryView> panelesCategorias = getCategoryPanelsMap();
 
         for (String categoria : panelesCategorias.keySet()) {
+
             if (parseCategory(categoria).equals(category)) {
+                System.out.println(panelesCategorias.get(categoria));
                 correspondingModularView = panelesCategorias.get(categoria);
                 break;
             }
         }
+        System.out.println(correspondingModularView);
         return correspondingModularView;
     }
 
     public Map<String, IModularCategoryView> getCategoryPanelsMap() {
         String directoryPath = "src/main/java/views/products/modular";
         List<String> nombresDeModulars = textUtils.getFileNamesInDirectory(directoryPath);
+
         nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
 //        for(String nombre : nombresDeModulars){
 //            System.out.println(nombre);
@@ -162,6 +167,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         updatePriceButton.addActionListener(e -> productCreatePresenter.onUpdatePriceButtonClicked());
     }
 
+
     @Override
     public void setPresenter(StandardPresenter productCreatePresenter) {
         this.productCreatePresenter = (ProductCreatePresenter) productCreatePresenter;
@@ -174,6 +180,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         }
     }
 
+    public JComboBox<String> getCategoryComboBox() {
+        return categoryComboBox;
+    }
 
     public IModularCategoryView getModularView() {
         return modularView;

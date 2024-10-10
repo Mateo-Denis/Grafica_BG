@@ -16,4 +16,6 @@ public interface IModularCategoryView{
     double getPrice();
 
     ArrayList<String> getRelevantInformation();
+
+	void loadComboBoxValues();
 }

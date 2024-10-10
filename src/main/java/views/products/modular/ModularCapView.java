@@ -67,7 +67,20 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     public ArrayList<String> getRelevantInformation() {
         ArrayList<String> relevantInformation = new ArrayList<>();
         relevantInformation.add(getSelectedRadioButton());
+        relevantInformation.add(hasVisorStamp());
         return relevantInformation;
+    }
+
+    @Override
+    public void loadComboBoxValues() {
+
+    }
+    private String hasVisorStamp(){
+        if(visorStampRadioButton.isSelected()){
+            return "Gorra con estampa en el visor";
+        } else {
+            return "";
+        }
     }
 
     private String getSelectedRadioButton(){
@@ -75,10 +88,10 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
             return "Gorra Blanca";
         } else if(sublimatedRadioButton.isSelected()){
             return "Gorra Sublimada";
-        } else if(visorStampRadioButton.isSelected()){
-            return "Gorra con estampa en el visor";
+        } else {
+            return "";
         }
-        return "";
+
     }
 
     //@Override

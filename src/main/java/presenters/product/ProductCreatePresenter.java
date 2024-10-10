@@ -50,10 +50,11 @@ public class ProductCreatePresenter extends StandardPresenter {
         this.productCreateView.comboBoxListenerSet(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 String selectedCategory = productCreateView.getProductCategory();
+
                 productCreateView.showSelectedView(selectedCategory);
 
-                modularView = productCreateView.getCorrespondingModularView(selectedCategory);
-
+                modularView = productCreateView.getModularView();
+                modularView.loadComboBoxValues();
                 updatePriceField(modularView.getPrice());
             }
         });
@@ -159,6 +160,10 @@ public class ProductCreatePresenter extends StandardPresenter {
         System.out.println("Adult selected");
     }
 
+    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName){
+        return settingsModel.getModularValues(tableName);
+    }
+
     public double calculatePrice(String productCategory) {
         double totalPrice = 0.0;
         double profit = 0.0;
@@ -177,7 +182,11 @@ public class ProductCreatePresenter extends StandardPresenter {
                 double capPrice = getIndividualPrice(PRENDAS, info.get(0));
                 profit = getProfitFor("Gorras");
 
-                totalPrice = (capPrice * profit);
+                if(info.get(1).equals("Gorra con estampa en el visor")){
+                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha gorras");
+                }
+
+                totalPrice += (capPrice * profit);
             }
             case "cloth" -> {
 
@@ -194,8 +203,8 @@ public class ProductCreatePresenter extends StandardPresenter {
 
                 totalPrice = (cupPrice * profit);
 
-                if(info.get(1).equals("Sobre taza")){
-                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Sobre taza");
+                if(info.get(1).equals("Bajada de plancha tazas")){
+                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha tazas");
                 }
             }
             case "flag" ->{

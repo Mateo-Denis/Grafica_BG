@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class ModularVinylView extends JPanel implements IModularCategoryView {
 	private JComboBox frostedComboBox;
-	private JPanel panel1;
+	private JPanel containerPanel;
 	private JLabel frostedLabel;
-	private JRadioButton radioButton1;
-	private JRadioButton radioButton2;
+	private JRadioButton impresiónUVRadioButton;
+	private JRadioButton impresiónEcosolventeRadioButton;
 	private JComboBox baseComboBox;
 	private JLabel baseLabel;
 	private ProductCreatePresenter presenter;
@@ -22,7 +22,7 @@ public class ModularVinylView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public JPanel getContainerPanel() {
-		return null;
+		return containerPanel;
 	}
 
 	@Override
@@ -58,5 +58,10 @@ public class ModularVinylView extends JPanel implements IModularCategoryView {
 	@Override
 	public ArrayList<String> getRelevantInformation() {
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void loadComboBoxValues() {
+
 	}
 }

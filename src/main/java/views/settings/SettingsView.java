@@ -36,6 +36,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 	private JPanel canvasValuesPanel;
 	private JPanel profitValuesPanel;
 	private JTable profitValuesTable;
+	private JPanel measuresPanel;
+	private JTable measuresValuesTable;
 	private SettingsPresenter settingsPresenter;
 
 
@@ -170,6 +172,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 			case VINILOS -> vinylValuesTable;
 			case LONAS -> canvasValuesTable;
 			case GANANCIAS -> profitValuesTable;
+			case MEDIDAS -> measuresValuesTable;
 		};
 	}
 	@Override

@@ -14,7 +14,7 @@ public class CategoryParser {
 			case "Jacket":
 				return "Campera";
 			case "Printing":
-				return "Impresión";
+				return "Impresion";
 			case "Shirt":
 				return "Remera";
 			case "Sweater":
