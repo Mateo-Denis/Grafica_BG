@@ -108,10 +108,9 @@ public class CategoryModel implements ICategoryModel {
     }
 
     @Override
-    public ArrayList<String> getCategoryAttributesNames(String categoryID) {
+    public ArrayList<String> getCategoryAttributesNames(int categoryID) {
         try {
-            int id = categoriesDBConnection.getCategoryID(categoryID);
-            return categoriesDBConnection.getCategoryAttributesNames(id);
+            return categoriesDBConnection.getCategoryAttributesNames(categoryID);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -130,7 +129,9 @@ public class CategoryModel implements ICategoryModel {
     }
 
     @Override
-    public void addProductAttributes(int productID, ArrayList<String> attributesNames, ArrayList<String> attributesValues) {
+    public void addProductAttributes(int productID, int categoryID, ArrayList<String> attributesValues) {
+
+        ArrayList<String> attributesNames = getCategoryAttributesNames(categoryID);
         if (attributesNames.size() == attributesValues.size()) {
             String attributeName;
             int attributeID;

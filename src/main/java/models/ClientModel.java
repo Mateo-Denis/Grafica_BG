@@ -1,11 +1,11 @@
 package models;
 
+import models.listeners.failed.ClientSearchFailureListener;
+import models.listeners.successful.ClientSearchSuccessListener;
 import models.listeners.failed.CitiesFetchingFailureListener;
 import models.listeners.failed.ClientCreationFailureListener;
 import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
-import models.listeners.failed.ClientSearchFailureListener;
-import models.listeners.successful.ClientSearchSuccessListener;
 import models.listeners.failed.ClientCreationEmptyFieldListener;
 import utils.Client;
 import utils.databases.ClientsDatabaseConnection;

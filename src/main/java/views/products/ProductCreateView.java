@@ -3,10 +3,11 @@ package views.products;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import views.ToggleableView;
+import views.products.modular.IModularCategoryView;
 import utils.NumberInputVerifier;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
-import views.ToggleableView;
 import presenters.StandardPresenter;
 import presenters.product.ProductCreatePresenter;
 import presenters.categories.ModularCategoriesPresenter;
@@ -22,7 +23,6 @@ import java.util.List;
 import models.CategoryModel;
 import java.util.Map;
 import utils.TextUtils;
-import views.products.modular.IModularCategoryView;
 
 import static utils.CategoryParser.parseCategory;
 
@@ -135,7 +135,37 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     public String getProductCategory() {
         System.out.println((String) categoryComboBox.getSelectedItem());
-        return (String) categoryComboBox.getSelectedItem();
+        String s = (String) categoryComboBox.getSelectedItem();
+        return s;
+    }
+
+    @Override
+    public String getProductCategoryEnglish(){
+        String s = (String) categoryComboBox.getSelectedItem();
+        switch (s) {
+            case "Taza":
+                return "Cup";
+            case "Gorra":
+                return "Cap";
+            case "Buzo":
+                return "Sweater";
+            case "Remera":
+                return "Shirt";
+            case "Tela":
+                return "Cloth";
+            case "Campera":
+                return "Jacket";
+            case "Bandera":
+                return "Flag";
+            case "Impresion":
+                return "Printing";
+            case "Vinilo":
+                return "Vinyl";
+            case "Lona":
+                return "Canvas";
+            default:
+                return s;
+        }
     }
 
     @Override

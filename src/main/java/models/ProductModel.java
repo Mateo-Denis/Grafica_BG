@@ -1,8 +1,8 @@
 package models;
 
 import models.listeners.failed.ProductCreationFailureListener;
-import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.failed.ProductSearchFailureListener;
+import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
 import utils.databases.AttributesDatabaseConnection;

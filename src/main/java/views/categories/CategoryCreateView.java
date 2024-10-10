@@ -1,7 +1,6 @@
 package views.categories;
 
 import presenters.StandardPresenter;
-import presenters.product.ProductCreatePresenter;
 import views.ToggleableView;
 import presenters.categories.CategoryCreatePresenter;
 

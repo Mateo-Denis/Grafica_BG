@@ -16,8 +16,10 @@ public interface ICategoryModel {
     void addCategorySearchSuccessListener(CategorySearchSuccessListener listener);
     void addCategorySearchFailureListener(CategorySearchFailureListener listener);
     List<String> getCategoriesName();
-    ArrayList<String> getCategoryAttributesNames(String productCategory);
-    void addProductAttributes(int productID, ArrayList<String> attributesNames, ArrayList<String> attributesValues);
+    void addProductAttributes(int productID, int categoryID, ArrayList<String> attributesValues);
+
+    ArrayList<String> getCategoryAttributesNames(int categoryID);
+
     void addAttributes(String categoryName, ArrayList<String> attributesNames);
     int getCategoryID(String categoryName);
 }

@@ -5,8 +5,8 @@ import javax.swing.text.AbstractDocument;
 
 import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
-import utils.NumberInputVerifier;
 import views.ToggleableView;
+import utils.NumberInputVerifier;
 
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;

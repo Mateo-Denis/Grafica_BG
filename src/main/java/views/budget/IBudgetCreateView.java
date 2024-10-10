@@ -1,7 +1,8 @@
 package views.budget;
 import presenters.budget.BudgetCreatePresenter;
-import utils.Product;
 import views.IToggleableView;
+import utils.Product;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ItemListener;

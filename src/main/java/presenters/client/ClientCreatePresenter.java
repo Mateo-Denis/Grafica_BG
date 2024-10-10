@@ -2,7 +2,7 @@ package presenters.client;
 
 import models.IClientModel;
 import presenters.StandardPresenter;
-import views.client.*;
+import views.client.IClientCreateView;
 
 import javax.swing.*;
 

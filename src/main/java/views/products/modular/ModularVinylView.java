@@ -64,4 +64,9 @@ public class ModularVinylView extends JPanel implements IModularCategoryView {
 	public void loadComboBoxValues() {
 
 	}
+
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		return new ArrayList<>();
+	}
 }

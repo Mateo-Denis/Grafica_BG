@@ -11,6 +11,9 @@ import java.util.Map;
 public interface IProductCreateView extends IToggleableView {
     String getProductName();
     String getProductCategory();
+
+    String getProductCategoryEnglish();
+
     double getProductPrice();
 
     void setProductPriceField(String productPrice);

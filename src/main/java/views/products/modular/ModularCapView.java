@@ -75,6 +75,18 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     public void loadComboBoxValues() {
 
     }
+
+    @Override
+    public ArrayList<String> getExhaustiveInformation() {
+        ArrayList<String> information = new ArrayList<>();
+
+        information.add(whiteFrontRadioButton.isSelected() ? "Si" : "No");
+        information.add(sublimatedRadioButton.isSelected() ? "Si" : "No");
+        information.add(visorStampRadioButton.isSelected() ? "Si" : "No");
+
+        return information;
+    }
+
     private String hasVisorStamp(){
         if(visorStampRadioButton.isSelected()){
             return "Gorra con estampa en el visor";

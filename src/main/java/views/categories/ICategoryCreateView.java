@@ -1,6 +1,7 @@
 package views.categories;
 
 import views.IToggleableView;
+
 import javax.swing.*;
 
 public interface ICategoryCreateView extends IToggleableView {

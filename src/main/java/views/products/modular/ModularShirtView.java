@@ -119,4 +119,17 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 		relevantInformation.add(getMaterialSelected());
 		return relevantInformation;
 	}
+
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> information = new ArrayList<>();
+
+		information.add(tshirtRadioButton.isSelected() ? "Si" : "No");
+		information.add(chombaRadioButton.isSelected() ? "Si" : "No");
+		information.add(tankTopRadioButton.isSelected() ? "Si" : "No");
+		information.add(shortSleeveRadioButton.isSelected() ? "Si" : "No");
+		information.add(longSleeveRadioButton.isSelected() ? "Si" : "No");
+		information.add(getShirtMaterialSelected());
+
+		return information;
+	}
 }

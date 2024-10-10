@@ -81,6 +81,19 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 
 	}
 
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> information = new ArrayList<>();
+
+		information.add(cottonRadioButton.isSelected() ? "Si" : "No");
+		information.add(sportRadioButton.isSelected() ? "Si" : "No");
+		information.add(kettenRadioButton.isSelected() ? "Si" : "No");
+		information.add(adultRadioButton.isSelected() ? "Si" : "No");
+		information.add(kidRadioButton.isSelected() ? "Si" : "No");
+
+		return information;
+	}
+
 	private String getJacketMaterialSelected() {
 		String jacket;
 		if (cottonRadioButton.isSelected()) {

@@ -1,16 +1,14 @@
 package presenters.settings;
 
 import models.settings.ISettingsModel;
-import org.javatuples.Pair;
 import presenters.StandardPresenter;
+import org.javatuples.Pair;
 import utils.databases.SettingsTableNames;
 import views.settings.ISettingsView;
 
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static utils.MessageTypes.SETTINGS_SAVE_FAILURE;
 import static utils.MessageTypes.SETTINGS_SAVE_SUCCESS;

@@ -86,4 +86,13 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 			clothComboBox.addItem(pair.getValue0());
 		}
 	}
+
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> information = new ArrayList<>();
+
+		information.add(getClothComboBoxSelection());
+
+		return information;
+	}
 }

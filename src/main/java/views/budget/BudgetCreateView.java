@@ -2,14 +2,13 @@ package views.budget;
 
 import presenters.StandardPresenter;
 import presenters.budget.BudgetCreatePresenter;
+import views.ToggleableView;
 import utils.NumberInputVerifier;
 import utils.Product;
-import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;

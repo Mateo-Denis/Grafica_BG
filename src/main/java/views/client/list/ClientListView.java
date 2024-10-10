@@ -1,6 +1,5 @@
 package views.client.list;
 
-import java.awt.*;
 import presenters.StandardPresenter;
 import views.ToggleableView;
 import presenters.client.ClientListPresenter;

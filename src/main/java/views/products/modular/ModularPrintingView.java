@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.MEDIDAS;
-import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularPrintingView extends JPanel implements IModularCategoryView{
 	private JPanel containerPanel;
@@ -75,6 +74,16 @@ public class ModularPrintingView extends JPanel implements IModularCategoryView{
 		for (Pair<String, Double> pair : list) {
 			sizeComboBox.addItem(pair.getValue0());
 		}
+	}
+
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> information = new ArrayList<>();
+
+		information.add(getPrintingComboBoxSelection());
+
+		return information;
+
 	}
 
 	private String getPrintingComboBoxSelection() {

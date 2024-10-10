@@ -1,7 +1,6 @@
 package presenters;
 
 import views.IToggleableView;
-import views.ToggleableView;
 
 public abstract class StandardPresenter {
 

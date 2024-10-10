@@ -1,9 +1,9 @@
 package models;
 
-import utils.Product;
-import utils.databases.ProductsDatabaseConnection;
 import models.listeners.failed.ProductListOpeningFailureListener;
 import models.listeners.successful.ProductListOpeningSuccessListener;
+import utils.Product;
+import utils.databases.ProductsDatabaseConnection;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

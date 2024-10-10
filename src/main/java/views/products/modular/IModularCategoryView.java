@@ -18,4 +18,6 @@ public interface IModularCategoryView{
     ArrayList<String> getRelevantInformation();
 
 	void loadComboBoxValues();
+
+    ArrayList<String> getExhaustiveInformation();
 }

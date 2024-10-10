@@ -1,6 +1,5 @@
 package views.budget.modify;
 
-import presenters.budget.BudgetCreatePresenter;
 import utils.Product;
 import views.IToggleableView;
 

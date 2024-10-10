@@ -19,8 +19,6 @@ import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
 import views.products.modular.*;
 
-import javax.swing.*;
-
 public class ProductCreatePresenter extends StandardPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
@@ -92,10 +90,10 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public void onCreateButtonClicked() {
         productCreateView.setWorkingStatus();
-        String categoryName = productCreateView.getProductCategory();
+        String categoryName = productCreateView.getProductCategoryEnglish();
         int categoryID = categoryModel.getCategoryID(categoryName);
-        IModularCategoryView modularView = productCreateView.getCorrespondingModularView(categoryName);
-
+        //IModularCategoryView modularView = productCreateView.getCorrespondingModularView(categoryName);
+        modularView = productCreateView.getModularView();
         if(modularView == null || productCreateView.getProductName().equals("")){
             if(modularView == null) {
                 productCreateView.showMessage(MISSING_MODULAR_VIEW);
@@ -103,25 +101,27 @@ public class ProductCreatePresenter extends StandardPresenter {
                 productCreateView.showMessage(MISSING_PRODUCT_NAME);
             }
         } else {
-            Map<String,String> allAttributes = modularView.getModularAttributes();
-            ArrayList<String> attributesNames = new ArrayList<>();
-
-            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
-                attributesNames.add(entry.getKey());
-            }
-
-            ArrayList<String> attributesValues = new ArrayList<>();
-            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
-                attributesValues.add(entry.getValue());
-            }
-
+//            Map<String,String> allAttributes = modularView.getModularAttributes();
+//            ArrayList<String> attributesNames = new ArrayList<>();
+//
+//            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
+//                attributesNames.add(entry.getKey());
+//            }
+//
+//            ArrayList<String> attributesValues = new ArrayList<>();
+//            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
+//                attributesValues.add(entry.getValue());
+//            }
+//
             int productID = productModel.createProduct(
                     productCreateView.getProductName(),
                     productCreateView.getProductPrice(),
                     categoryID);
+//
+//            categoryModel.addAttributes(categoryName, attributesNames);
 
-            categoryModel.addAttributes(categoryName, attributesNames);
-            categoryModel.addProductAttributes(productID, attributesNames, attributesValues);
+            ArrayList<String> attributesValues = modularView.getExhaustiveInformation();
+            categoryModel.addProductAttributes(productID, categoryID, attributesValues);
         }
 
         productCreateView.setWaitingStatus();
@@ -166,7 +166,7 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public double calculatePrice(String productCategory) {
         double totalPrice = 0.0;
-        double profit = 0.0;
+        double profit;
         ArrayList<String> info = modularView.getRelevantInformation();
         switch (productCategory) {
             case "canvas" -> {

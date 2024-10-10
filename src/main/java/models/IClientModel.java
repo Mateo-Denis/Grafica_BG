@@ -1,12 +1,12 @@
 package models;
 
-import models.listeners.failed.CitiesFetchingFailureListener;
 import models.listeners.failed.ClientCreationEmptyFieldListener;
-import models.listeners.failed.ClientCreationFailureListener;
 import models.listeners.failed.ClientSearchFailureListener;
+import models.listeners.successful.ClientSearchSuccessListener;
+import models.listeners.failed.CitiesFetchingFailureListener;
+import models.listeners.failed.ClientCreationFailureListener;
 import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
-import models.listeners.successful.ClientSearchSuccessListener;
 import utils.Client;
 
 import java.util.ArrayList;

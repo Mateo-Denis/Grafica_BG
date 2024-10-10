@@ -1,15 +1,16 @@
 package main;
 
 
-import static PdfFormater.SamplePDFCreation.*;
-
 //import icm.sphynx.MyStyles;
 //import icm.sphynx.ui.metro.tools.MetroUIComponent;
 import com.formdev.flatlaf.FlatLightLaf;
 import models.*;
 import models.settings.ISettingsModel;
 import models.settings.SettingsModel;
-import presenters.budget.*;
+import presenters.budget.BudgetCreatePresenter;
+import presenters.budget.BudgetListPresenter;
+import presenters.budget.BudgetModifyPresenter;
+import presenters.budget.BudgetSearchPresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
@@ -32,8 +33,7 @@ import views.budget.list.BudgetListView;
 import views.categories.CategoryCreateView;
 import views.home.IHomeView;
 import views.home.HomeView;
-import views.settings.ISettingsView;
-import views.settings.SettingsView;
+		import views.settings.SettingsView;
 
 public class Main {
     public static void main(String[] args) {

@@ -14,8 +14,6 @@ import org.reflections.Reflections;
 import presenters.product.ProductCreatePresenter;
 import views.products.modular.IModularCategoryView;
 
-import java.lang.reflect.Method;
-
 public class TextUtils {
 
     public String extractor(String text) {

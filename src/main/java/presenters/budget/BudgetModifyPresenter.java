@@ -2,8 +2,11 @@ package presenters.budget;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import models.*;
+
+import models.IBudgetModel;
 import models.IBudgetModifyModel;
+import models.ICategoryModel;
+import models.IProductModel;
 import presenters.StandardPresenter;
 import utils.Client;
 import utils.MessageTypes;

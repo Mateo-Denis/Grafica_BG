@@ -84,6 +84,21 @@ public class ModularSweaterView extends JPanel implements IModularCategoryView {
 
 	}
 
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> information = new ArrayList<>();
+
+		information.add(cottonRadioButton.isSelected() ? "Si" : "No");
+		information.add(sportRadioButton.isSelected() ? "Si" : "No");
+		information.add(kettenRadioButton.isSelected() ? "Si" : "No");
+		information.add(roundNeckRadioButton.isSelected() ? "Si" : "No");
+		information.add(hoodieRadioButton.isSelected() ? "Si" : "No");
+		information.add(adultRadioButton.isSelected() ? "Si" : "No");
+		information.add(kidRadioButton.isSelected() ? "Si" : "No");
+
+		return information;
+	}
+
 	private String getSweaterSizeSelected() {
 		String size;
 		if (adultRadioButton.isSelected()) {

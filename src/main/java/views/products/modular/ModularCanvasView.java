@@ -68,6 +68,15 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 		}
 	}
 
+	@Override
+	public ArrayList<String> getExhaustiveInformation() {
+		ArrayList<String> relevantInformation = new ArrayList<>();
+
+		relevantInformation.add(getCanvasComboBoxSelection());
+
+		return relevantInformation;
+	}
+
 	private String getCanvasComboBoxSelection() {
 		return (String) canvasComboBox.getSelectedItem();
 	}
