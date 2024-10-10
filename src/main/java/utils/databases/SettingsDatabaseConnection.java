@@ -19,6 +19,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		createModularTable(connection, IMPRESIONES);
 		createModularTable(connection, VINILOS);
 		createModularTable(connection, LONAS);
+		createModularTable(connection, GANANCIAS);
 	}
 
 	private void createModularTable(Connection connection, SettingsTableNames tableName) {

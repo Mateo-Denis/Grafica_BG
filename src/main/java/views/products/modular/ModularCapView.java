@@ -60,17 +60,18 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public double getPrice() {
-        double finalPrice = 0;
-        if(sublimatedRadioButton.isSelected()){
-            finalPrice += 10;
-        }else {
-            finalPrice += 5;
-        }
-        if(visorStampRadioButton.isSelected()){
-            finalPrice += 7;
-        }
+        return presenter.calculatePrice("cap");
+    }
 
-        return finalPrice;
+    public String getSelectedRadioButton(){
+        if(whiteFrontRadioButton.isSelected()){
+            return "Gorra Blanca";
+        } else if(sublimatedRadioButton.isSelected()){
+            return "Gorra Sublimada";
+        } else if(visorStampRadioButton.isSelected()){
+            return "Gorra con estampa en el visor";
+        }
+        return "";
     }
 
     //@Override

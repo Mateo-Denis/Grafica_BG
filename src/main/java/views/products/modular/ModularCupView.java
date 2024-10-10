@@ -64,7 +64,20 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return presenter.calculatePrice("cup");
+	}
+
+	public String getCupMaterial() {
+		if(ceramicRadioButton.isSelected()){
+			return "Taza Ceramica";
+		} else if(plasticRadioButton.isSelected()){
+			return "Taza Plastico";
+		}
+		return "unreachable";
+	}
+
+	public boolean isSublimated() {
+		return sublimatedRadioButton.isSelected();
 	}
 
 }

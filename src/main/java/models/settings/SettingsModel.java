@@ -46,6 +46,7 @@ public class SettingsModel implements ISettingsModel {
 		list.add(IMPRESIONES);
 		list.add(VINILOS);
 		list.add(LONAS);
+		list.add(GANANCIAS);
 		return list;
 	}
 

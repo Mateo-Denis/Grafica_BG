@@ -86,7 +86,7 @@ public class Main {
 
         ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel);
         ClientListPresenter clientListPresenter = new ClientListPresenter(clientListView, clientListModel);
-        ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel);
+        ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel, settingsModel);
         ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);
         CategoryCreatePresenter categoryCreatePresenter = new CategoryCreatePresenter(categoryCreateView);
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);

@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class ModularCanvasView extends JPanel implements IModularCategoryView{
 	private ProductCreatePresenter presenter;
+	private JPanel panel1;
+	private JComboBox canvasComboBox;
+
 	public ModularCanvasView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		initListeners();
@@ -44,6 +47,10 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 
 	@Override
 	public double getPrice() {
-		return 0;
+		return presenter.calculatePrice("canvas");
+	}
+
+	public String getCanvasComboBoxSelection() {
+		return (String) canvasComboBox.getSelectedItem();
 	}
 }

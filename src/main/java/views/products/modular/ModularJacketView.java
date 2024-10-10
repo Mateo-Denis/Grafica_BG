@@ -67,4 +67,8 @@ public class ModularJacketView extends JPanel implements IModularCategoryView {
 	public double getPrice() {
 		return 0;
 	}
+
+	public String getJacketComboBoxSelection() {
+
+	}
 }

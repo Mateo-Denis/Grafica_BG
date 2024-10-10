@@ -2,9 +2,12 @@ package presenters.product;
 
 import static utils.CategoryParser.parseCategory;
 import static utils.MessageTypes.*;
+import static utils.databases.SettingsTableNames.*;
 
 import models.IProductModel;
 import models.ICategoryModel;
+import models.settings.ISettingsModel;
+import org.javatuples.Pair;
 import presenters.StandardPresenter;
 
 import java.awt.event.ItemEvent;
@@ -12,20 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import utils.price.formula.Formula;
+import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
-import views.products.modular.IModularCategoryView;
-
+import views.products.modular.*;
 
 public class ProductCreatePresenter extends StandardPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
+    private final ISettingsModel settingsModel;
     private IModularCategoryView modularView;
 
-    public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel) {
+    public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.productCreateView = productCreateView;
-        view = productCreateView;
+		this.settingsModel = settingsModel;
+		view = productCreateView;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
         cargarCategorias();
@@ -130,5 +134,105 @@ public class ProductCreatePresenter extends StandardPresenter {
 
     public void onAdultRadioButtonClicked() {
         System.out.println("Adult selected");
+    }
+
+    public double calculatePrice(String productCategory) {
+        double totalPrice = 0.0;
+        double profit = 0.0;
+        switch (productCategory) {
+            case "canvas" -> {
+                ModularCanvasView instanceView = (ModularCanvasView) modularView;
+                String selectedCanvas = instanceView.getCanvasComboBoxSelection();
+
+                double canvasPrice = getIndividualPrice(LONAS, selectedCanvas);
+                profit = getProfitFor("Lonas");
+
+                totalPrice = (canvasPrice * profit);
+            }
+            case "cap" -> {
+                ModularCapView instanceView = (ModularCapView) modularView;
+                String selectedCap = instanceView.getSelectedRadioButton();
+
+                double capPrice = getIndividualPrice(PRENDAS, selectedCap);
+                profit = getProfitFor("Gorras");
+
+                totalPrice = (capPrice * profit);
+            }
+            case "cloth" -> {
+
+                ModularClothView instanceView = (ModularClothView) modularView;
+                String selectedTela = instanceView.getClothComboBoxSelection();
+
+                double clothPrice = getIndividualPrice(TELAS, selectedTela);
+                profit = getProfitFor("Telas");
+
+                totalPrice = (clothPrice * profit);
+            }
+            case "cup" -> {
+                ModularCupView instanceView = (ModularCupView) modularView;
+                String selectedCup = instanceView.getCupMaterial();
+
+                double cupPrice = getIndividualPrice(GENERAL, selectedCup);
+                profit = getProfitFor("Tazas");
+
+                totalPrice = (cupPrice * profit);
+
+                if(instanceView.isSublimated()){
+                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Sobre taza");
+                }
+            }
+            case "flag" ->{
+                ModularFlagView instanceView = (ModularFlagView) modularView;
+                String selectedFlag = instanceView.getFlagComboBoxSelection();
+
+                double flagPrice = getIndividualPrice(TELAS, selectedFlag);
+                profit = getProfitFor("Banderas");
+
+                String selectedSize = instanceView.getSizeComboBoxSelection();
+                double sizePriceMultiplier = getIndividualPrice(TELAS, selectedSize);
+
+                totalPrice = (flagPrice * sizePriceMultiplier);
+
+                totalPrice += getIndividualPrice(GENERAL, "Costurera Bandera");
+
+                totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Sobre bandera");
+
+                totalPrice *= profit;
+            }
+            case "jacket" -> {
+                ModularJacketView instanceView = (ModularJacketView) modularView;
+                String selectedJacket = instanceView.getJacketComboBoxSelection();
+
+                double jacketPrice = getIndividualPrice(PRENDAS, selectedJacket);
+                profit = getProfitFor("Chamarras");
+
+                totalPrice = (jacketPrice * profit);
+            }
+
+        }
+        return totalPrice;
+    }
+
+    private double getIndividualPrice(SettingsTableNames tableName, String selectedValue){
+        ArrayList<Pair<String, Double>> telas = settingsModel.getModularValues(tableName);
+        double individualPrice = 0.0;
+        for (Pair<String, Double> tela : telas) {
+            if (tela.getValue0().equals(selectedValue)) {
+                individualPrice = tela.getValue1();
+            }
+        }
+        return individualPrice;
+    }
+
+    private double getProfitFor(String category){
+        double profit = 0.0;
+        ArrayList<Pair<String, Double>> ganancias = settingsModel.getModularValues(GANANCIAS);
+        for (Pair<String, Double> ganancia : ganancias) {
+            if(ganancia.getValue0().equals(category)){
+                profit = ganancia.getValue1();
+                break;
+            }
+        }
+        return profit;
     }
 }

@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import lombok.Getter;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
@@ -13,9 +14,11 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 	private JLabel clothLabel;
 	private JComboBox sizeComboBox;
 	private JLabel sizeLabel;
-    private JTextField textField1;
-    private ArrayList<String> radioValues = new ArrayList<>();
+	@Getter
+	private ArrayList<String> radioValues = new ArrayList<>();
+	@Getter
 	private Map<String,String> comboBoxValues = new HashMap<>();
+	@Getter
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
 	public ModularFlagView(ProductCreatePresenter presenter) {
@@ -31,18 +34,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 	@Override
 	public void initListeners() {
 
-	}
-
-	public Map<String, String> getComboBoxValues() {
-		return comboBoxValues;
-	}
-
-	public Map<String, String> getTextFieldValues() {
-		return textFieldValues;
-	}
-
-	public ArrayList<String> getRadioValues() {
-		return radioValues;
 	}
 
 	@Override
@@ -67,5 +58,13 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 	@Override
 	public double getPrice() {
 		return 0;
+	}
+
+	public String getFlagComboBoxSelection() {
+		return (String) clothComboBox.getSelectedItem();
+	}
+
+	public String getSizeComboBoxSelection() {
+		return (String) sizeComboBox.getSelectedItem();
 	}
 }
