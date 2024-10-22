@@ -38,8 +38,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel createButtonContainer;
     private JButton createButton;
     private JPanel modularContainer;
-	private JButton updatePriceButton;
-	private JComboBox<String> subCategoryComboBox;
+    private JButton updatePriceButton;
+    private JComboBox<String> subCategoryComboBox;
     private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
     private CategoryModel categoryModel;
@@ -58,7 +58,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
-        windowFrame.setSize(600, 400);
+        windowFrame.setSize(1030,530);
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setResizable(false);
         ((AbstractDocument) productPriceField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         modularContainer.setLayout(new BorderLayout());
         modularMap = getCategoryPanelsMap();
