@@ -26,14 +26,13 @@ public class ProductCreatePresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final ISettingsModel settingsModel;
     private IModularCategoryView modularView;
-    private ModularCanvasView canvasView;
     private ModularCapView capView;
     private ModularClothView clothView;
     private ModularCupView cupView;
     private ModularFlagView flagView;
     private ModularPrintingView printingView;
     private ModularClothesView shirtView;
-    private ModularVinylView vinylView;
+
 
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
@@ -52,14 +51,11 @@ public class ProductCreatePresenter extends StandardPresenter {
                 modularView = productCreateView.getModularView();
                 modularView.loadComboBoxValues();
                 updatePriceField(modularView.getPrice());
+                setModularPrices();
             }
         });
 
-        setModularPrices();
 
-        if(modularView != null) {
-            modularView.setPriceTextFields();
-        }
     }
 
     public void onUpdatePriceButtonClicked() {
@@ -170,117 +166,117 @@ public class ProductCreatePresenter extends StandardPresenter {
         double totalPrice = 0.0;
         double profit;
         ArrayList<String> info = modularView.getRelevantInformation();
-        switch (productCategory) {
-            case "canvas" -> {
-
-
-                double canvasPrice = getIndividualPrice(LONAS, info.get(0));
-                profit = getProfitFor("Lonas");
-
-                totalPrice = (canvasPrice * profit);
-            }
-            case "cap" -> {
-
-                double capPrice = getIndividualPrice(PRENDAS, info.get(0));
-                profit = getProfitFor("Gorras");
-
-                if (info.get(1).equals("Gorra con estampa en el visor")) {
-                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha gorras");
-                }
-
-                totalPrice += (capPrice * profit);
-            }
-            case "cloth" -> {
-
-                double clothPrice = getIndividualPrice(TELAS, info.get(0));
-                profit = getProfitFor("Telas");
-
-                totalPrice = (clothPrice * profit);
-            }
-            case "cup" -> {
-
-
-                double cupPrice = getIndividualPrice(GENERAL, info.get(0));
-                profit = getProfitFor("Tazas");
-
-                totalPrice = (cupPrice * profit);
-
-                if (info.get(1).equals("Bajada de plancha tazas")) {
-                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha tazas");
-                }
-            }
-            case "flag" -> {
-
-                double flagPrice = getIndividualPrice(TELAS, info.get(0));
-                profit = getProfitFor("Banderas");
-
-                double sizePriceMultiplier = getIndividualPrice(TELAS, info.get(1));
-
-                totalPrice = (flagPrice * sizePriceMultiplier);
-
-                totalPrice += getIndividualPrice(GENERAL, "Costurera Bandera");
-
-                totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Sobre bandera");
-
-                totalPrice *= profit;
-            }
-            case "jacket" -> {
-
-                double jacketPrice = getIndividualPrice(PRENDAS, info.get(0));
-                profit = getProfitFor("Camperas");
-
-                double jacketSize = getIndividualPrice(PRENDAS, info.get(1));
-
-                totalPrice = (jacketPrice * jacketSize * profit);
-            }
-            case "printing" -> {
-
-                double printingPrice = getIndividualPrice(IMPRESIONES, info.get(0));
-                profit = getProfitFor("Impresiones");
-
-                totalPrice = (printingPrice * profit);
-            }
-            case "shirt" -> {
-
-                double shirtPrice = getIndividualPrice(PRENDAS, info.get(0));
-                profit = getProfitFor("Remeras");
-
-                double shirtSizePrice = getIndividualPrice(PRENDAS, info.get(1));
-
-                double materialCost = getIndividualPrice(TELAS, info.get(2));
-
-                totalPrice = ((shirtPrice + (shirtSizePrice * materialCost)) * profit);
-            }
-            case "sweater" -> {
-
-                double sweaterPrice = getIndividualPrice(PRENDAS, info.get(0));
-                profit = getProfitFor("Buzos");
-
-                double sweaterSize = getIndividualPrice(PRENDAS, info.get(1));
-
-                totalPrice = (sweaterPrice * sweaterSize * profit);
-            }
-            case "vinyl" -> {
-//                ArrayList<String> info = modularView.getRelevantInformation();
-//                ModularVinylView instanceView = (ModularVinylView) modularView;
-//                String selectedVinyl = instanceView.getVinylComboBoxSelection();
+//        switch (productCategory) {
+//            case "canvas" -> {
 //
-//                double vinylPrice = getIndividualPrice(TELAS, selectedVinyl);
-//                profit = getProfitFor("Vinilos");
 //
-//                totalPrice = (vinylPrice * profit);
-            }
-
-        }
+//                double canvasPrice = getIndividualPrice(LONAS, info.get(0));
+//                profit = getProfitFor("Lonas");
+//
+//                totalPrice = (canvasPrice * profit);
+//            }
+//            case "cap" -> {
+//
+//                double capPrice = getIndividualPrice(PRENDAS, info.get(0));
+//                profit = getProfitFor("Gorras");
+//
+//                if (info.get(1).equals("Gorra con estampa en el visor")) {
+//                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha gorras");
+//                }
+//
+//                totalPrice += (capPrice * profit);
+//            }
+//            case "cloth" -> {
+//
+//                double clothPrice = getIndividualPrice(TELAS, info.get(0));
+//                profit = getProfitFor("Telas");
+//
+//                totalPrice = (clothPrice * profit);
+//            }
+//            case "cup" -> {
+//
+//
+//                double cupPrice = getIndividualPrice(GENERAL, info.get(0));
+//                profit = getProfitFor("Tazas");
+//
+//                totalPrice = (cupPrice * profit);
+//
+//                if (info.get(1).equals("Bajada de plancha tazas")) {
+//                    totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha tazas");
+//                }
+//            }
+//            case "flag" -> {
+//
+//                double flagPrice = getIndividualPrice(TELAS, info.get(0));
+//                profit = getProfitFor("Banderas");
+//
+//                double sizePriceMultiplier = getIndividualPrice(TELAS, info.get(1));
+//
+//                totalPrice = (flagPrice * sizePriceMultiplier);
+//
+//                totalPrice += getIndividualPrice(GENERAL, "Costurera Bandera");
+//
+//                totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Sobre bandera");
+//
+//                totalPrice *= profit;
+//            }
+//            case "jacket" -> {
+//
+//                double jacketPrice = getIndividualPrice(PRENDAS, info.get(0));
+//                profit = getProfitFor("Camperas");
+//
+//                double jacketSize = getIndividualPrice(PRENDAS, info.get(1));
+//
+//                totalPrice = (jacketPrice * jacketSize * profit);
+//            }
+//            case "printing" -> {
+//
+//                double printingPrice = getIndividualPrice(IMPRESIONES, info.get(0));
+//                profit = getProfitFor("Impresiones");
+//
+//                totalPrice = (printingPrice * profit);
+//            }
+//            case "shirt" -> {
+//
+//                double shirtPrice = getIndividualPrice(PRENDAS, info.get(0));
+//                profit = getProfitFor("Remeras");
+//
+//                double shirtSizePrice = getIndividualPrice(PRENDAS, info.get(1));
+//
+//                double materialCost = getIndividualPrice(TELAS, info.get(2));
+//
+//                totalPrice = ((shirtPrice + (shirtSizePrice * materialCost)) * profit);
+//            }
+//            case "sweater" -> {
+//
+//                double sweaterPrice = getIndividualPrice(PRENDAS, info.get(0));
+//                profit = getProfitFor("Buzos");
+//
+//                double sweaterSize = getIndividualPrice(PRENDAS, info.get(1));
+//
+//                totalPrice = (sweaterPrice * sweaterSize * profit);
+//            }
+//            case "vinyl" -> {
+////                ArrayList<String> info = modularView.getRelevantInformation();
+////                ModularVinylView instanceView = (ModularVinylView) modularView;
+////                String selectedVinyl = instanceView.getVinylComboBoxSelection();
+////
+////                double vinylPrice = getIndividualPrice(TELAS, selectedVinyl);
+////                profit = getProfitFor("Vinilos");
+////
+////                totalPrice = (vinylPrice * profit);
+//            }
+//
+//        }
         return totalPrice;
     }
 
-    private double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
-        ArrayList<Pair<String, Double>> telas = settingsModel.getModularValues(tableName);
+    public double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
+        ArrayList<Pair<String, Double>> rows = settingsModel.getModularValues(tableName);
         double individualPrice = 0.0;
-        for (Pair<String, Double> tela : telas) {
-            if (tela.getValue0().equals(selectedValue)) {
-                individualPrice = tela.getValue1();
+        for (Pair<String, Double> row : rows) {
+            if (row.getValue0().equals(selectedValue)) {
+                individualPrice = row.getValue1();
             }
         }
         return individualPrice;

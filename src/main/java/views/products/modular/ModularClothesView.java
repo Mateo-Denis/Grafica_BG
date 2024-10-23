@@ -73,9 +73,9 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
-		ButtonGroup shirtButtonGroup = new ButtonGroup();
-		shirtButtonGroup.add(tshirtRadioButton);
-		shirtButtonGroup.add(chombaRadioButton);
+//		ButtonGroup shirtButtonGroup = new ButtonGroup();
+//		shirtButtonGroup.add(tshirtRadioButton);
+//		shirtButtonGroup.add(chombaRadioButton);
 
 		initListeners();
 	}
@@ -85,6 +85,11 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		for (Pair<String, Double> pair : list) {
 			materialComboBox.addItem(pair.getValue0());
 		}
+	}
+
+	@Override
+	public void loadTextFieldsValues() {
+
 	}
 
 	@Override
@@ -135,25 +140,25 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 
 	private String getShirtMaterialSelected() {
-		System.out.println(tshirtRadioButton.getModel().isSelected());
+//		System.out.println(tshirtRadioButton.getModel().isSelected());
+//
+//		if (tshirtRadioButton.isSelected())
+//			return "Remera";
+//		else if (chombaRadioButton.isSelected())
+//			return "Chomba";
 
-		if (tshirtRadioButton.isSelected())
-			return "Remera";
-		else if (chombaRadioButton.isSelected())
-			return "Chomba";
-
-		return null;
+		return "null";
 	}
 
 	private String getShirtTypeSelected() {
-		String shirt;
-		if(tshirtRadioButton.isSelected()) {
-			shirt = "Tela para remera manga corta";
-		} else if(longSleeveRadioButton.isSelected()) {
-			shirt = "Tela para remera manga larga";
-		}else {
-			shirt = "Tela para remera musculosa";
-		}
+		String shirt = "null";
+//		if(tshirtRadioButton.isSelected()) {
+//			shirt = "Tela para remera manga corta";
+//		} else if(longSleeveRadioButton.isSelected()) {
+//			shirt = "Tela para remera manga larga";
+//		}else {
+//			shirt = "Tela para remera musculosa";
+//		}
 		return shirt;
 	}
 
@@ -172,16 +177,17 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	public ArrayList<String> getExhaustiveInformation() {
 		ArrayList<String> information = new ArrayList<>();
 
-		information.add(tshirtRadioButton.isSelected() ? "Si" : "No");
+/*		information.add(tshirtRadioButton.isSelected() ? "Si" : "No");
 		information.add(chombaRadioButton.isSelected() ? "Si" : "No");
 		information.add(tankTopRadioButton.isSelected() ? "Si" : "No");
 		information.add(shortSleeveRadioButton.isSelected() ? "Si" : "No");
 		information.add(longSleeveRadioButton.isSelected() ? "Si" : "No");
-		information.add(getShirtMaterialSelected());
+		information.add(getShirtMaterialSelected());*/
 
 		return information;
 	}
 
+	@Override
 	public void setPriceTextFields() {
 		profitTextField.setText(String.valueOf(presenter.getProfitFor("Prendas")));
 		printingMetersPriceTextField.setText(String.valueOf(presenter.getPrintingPriceFor("Prenda")));

@@ -113,6 +113,7 @@ public class Main {
         settingsPresenter.start();
 
         clientCreateView.start();
+        //clientCreateView.setPresenter(clientCreatePresenter);
         clientSearchView.start();
         productCreateView.start();
         productSearchView.start();

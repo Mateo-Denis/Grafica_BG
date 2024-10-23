@@ -67,6 +67,11 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     }
 
     @Override
+    public void loadTextFieldsValues() {
+
+    }
+
+    @Override
     public ArrayList<String> getExhaustiveInformation() {
         return null;
     }

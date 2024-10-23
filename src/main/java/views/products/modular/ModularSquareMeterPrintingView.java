@@ -97,6 +97,11 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     }
 
     @Override
+    public void loadTextFieldsValues() {
+
+    }
+
+    @Override
     public ArrayList<String> getExhaustiveInformation() {
         return null;
     }

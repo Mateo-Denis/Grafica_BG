@@ -8,6 +8,7 @@ package utils;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import org.reflections.Reflections;
@@ -159,6 +160,10 @@ public class TextUtils {
 
                 // Agregar la instancia a la lista
                 modularList.add(instance);
+            } catch (InvocationTargetException e) {
+                Throwable cause = e.getCause();
+                System.err.println("Constructor threw an exception: " + cause);
+                cause.printStackTrace();
 
             } catch (Exception e) {
                 e.printStackTrace();

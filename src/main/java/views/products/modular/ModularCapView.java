@@ -43,12 +43,20 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private ArrayList<String> radioValues = new ArrayList<>();
     private Map<String,String> comboBoxValues = new HashMap<>();
     private Map<String,String> textFieldValues = new HashMap<>();
+    private double plankLoweringPrice;
+    private double printingMetersPrice;
     private ProductCreatePresenter presenter;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         initListeners();
     }
 
+    public void loadTextFieldsValues() {
+        plankLoweringPrice = presenter.getPlankLoweringPrice("Gorra");
+        //printingMetersPrice = presenter.getPrintingMetersPrice("Gorra");
+        plankLoweringPriceTextField.setText(String.valueOf(presenter.calculatePrice("plankLowering")));
+        printingMetersPriceTextField.setText(String.valueOf(presenter.calculatePrice("printingMeters")));
+    }
     @Override
     public JPanel getContainerPanel() {
         return containerPanel;

@@ -36,6 +36,7 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
                     "ID_PRODUCTO INTEGER NOT NULL," +
                     "ID_ATRIBUTO INTEGER NOT NULL," +
                     "Valor TEXT NOT NULL," +
+                    "Dependiente BOOLEAN NOT NULL," +
                     "FOREIGN KEY(ID_PRODUCTO) REFERENCES Productos(ID)," +
                     "FOREIGN KEY(ID_ATRIBUTO) REFERENCES Atributos(ID)" +
                     ")";

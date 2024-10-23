@@ -21,6 +21,7 @@ public interface IModularCategoryView{
     ArrayList<String> getRelevantInformation();
 
 	void loadComboBoxValues();
+    void loadTextFieldsValues();
 
     ArrayList<String> getExhaustiveInformation();
 

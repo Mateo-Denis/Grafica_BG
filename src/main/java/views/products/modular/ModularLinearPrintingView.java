@@ -2,11 +2,14 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.databases.SettingsTableNames;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static utils.databases.SettingsTableNames.GENERAL;
 
 public class ModularLinearPrintingView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -24,6 +27,8 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private JTextField profitTextField;
     private JTextField finalPriceTextField;
     private ProductCreatePresenter presenter;
+    private double paperMeterPrice;
+    private double inkByMeterPrice;
 
     public ModularLinearPrintingView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -76,6 +81,11 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     }
 
     @Override
+    public void loadTextFieldsValues() {
+
+    }
+
+    @Override
     public ArrayList<String> getExhaustiveInformation() {
         return null;
     }
@@ -97,6 +107,9 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-
+        paperMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de papel por metro");
+        inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de tinta por metro");
+        paperMeterPriceTextField.setText(String.valueOf(paperMeterPrice));
+        inkByMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
 }

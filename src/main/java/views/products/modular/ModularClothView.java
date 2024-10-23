@@ -99,6 +99,11 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	}
 
 	@Override
+	public void loadTextFieldsValues() {
+
+	}
+
+	@Override
 	public ArrayList<String> getExhaustiveInformation() {
 		ArrayList<String> information = new ArrayList<>();
 
