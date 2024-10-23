@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.*;
+
 public class ModularSquareMeterPrintingView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
     private JPanel leftSideComponentsContainer;
@@ -33,7 +35,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JTextField inkBySquareMeterPriceTextField;
     private JTextField inkBySquareMeterFinalPriceTextField;
     private JPanel dolarPriceContainer;
-    private JTextField dolarPriceTextField;
     private JTextField profitTextField;
     private JPanel profitContainer;
     private JLabel dolarPriceMultiplyLabel;
@@ -43,8 +44,13 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JTextField squareMeterPrintingFinalPriceTextField;
     private JRadioButton UVRadioButton;
     private JRadioButton ecosolventeRadioButton;
+    private JComboBox dollarComboBox;
     private JTextField textField1;
     private ProductCreatePresenter presenter;
+    private double materialMeterSqrPrice;
+    private double inkByMeterPrice;
+    private double profit;
+
 
     public ModularSquareMeterPrintingView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -96,10 +102,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     }
 
-    @Override
-    public void loadTextFieldsValues() {
-
-    }
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {
@@ -123,6 +125,20 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void setPriceTextFields() {
+        materialMeterSqrPrice = presenter.getIndividualPrice(VINILOS, getMaterialComboBoxSelection());
+        if(UVRadioButton.isSelected()){
+            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Tinta UV por metro2");
+        } else {
+            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Tinta ECO por metro2");
+        }
+        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión metro cuadrado");
 
+        profitTextField.setText(String.valueOf(profit));
+        materialSquareMetersPriceTextField.setText(String.valueOf(materialMeterSqrPrice));
+        inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
+    private String getMaterialComboBoxSelection() {
+        return (String) materialComboBox.getSelectedItem();
+    }
+
 }

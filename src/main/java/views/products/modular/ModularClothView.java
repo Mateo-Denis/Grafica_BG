@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static utils.databases.SettingsTableNames.TELAS;
+import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularClothView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
@@ -29,6 +30,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
+	private double profit;
+	private double clothMetersPrice;
 	public ModularClothView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		initListeners();
@@ -99,11 +102,6 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	}
 
 	@Override
-	public void loadTextFieldsValues() {
-
-	}
-
-	@Override
 	public ArrayList<String> getExhaustiveInformation() {
 		ArrayList<String> information = new ArrayList<>();
 
@@ -129,6 +127,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public void setPriceTextFields() {
+		profit = presenter.getIndividualPrice(GANANCIAS, "Telas");
+		clothMetersPrice = presenter.getIndividualPrice(TELAS, getClothComboBoxSelection());
+
+		profitTextField.setText(String.valueOf(profit));
+		clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
 
 	}
+
 }

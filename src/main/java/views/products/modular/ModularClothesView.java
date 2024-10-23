@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static utils.databases.SettingsTableNames.TELAS;
+import static utils.databases.SettingsTableNames.*;
 
 public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private JRadioButton tshirtRadioButton;
@@ -70,6 +70,13 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
+	private double profit;
+	private double printingMetersPrice;
+	private double plankLoweringPrice;
+	private double clothMetersPrice;
+	private double seamstressPrice;
+	private double zipperPrice;
+
 
 	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
@@ -85,11 +92,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		for (Pair<String, Double> pair : list) {
 			materialComboBox.addItem(pair.getValue0());
 		}
-	}
-
-	@Override
-	public void loadTextFieldsValues() {
-
 	}
 
 	@Override
@@ -189,12 +191,19 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public void setPriceTextFields() {
-		profitTextField.setText(String.valueOf(presenter.getProfitFor("Prendas")));
-		printingMetersPriceTextField.setText(String.valueOf(presenter.getPrintingPriceFor("Prenda")));
-		clothMetersPriceTextField.setText(String.valueOf(presenter.getClothPriceFor(getMaterialSelected())));
-		plankLoweringPriceTextField.setText(String.valueOf(presenter.getPlankLoweringPrice("Prenda")));
-		seamstressPriceTextField.setText(String.valueOf(presenter.getServicesPrice("Costurera")));
-		zipperPriceTextField.setText(String.valueOf(presenter.getServicesPrice("Cierre")));
+		profit = presenter.getIndividualPrice(GANANCIAS, "Prendas");
+		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+		plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En prenda");
+		clothMetersPrice = presenter.getIndividualPrice(TELAS, getMaterialSelected());
+		seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera remera");
+		zipperPrice = presenter.getIndividualPrice(SERVICIOS, "Cierre remera");
+
+		profitTextField.setText(String.valueOf(profit));
+		printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
+		clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
+		plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
+		seamstressPriceTextField.setText(String.valueOf(seamstressPrice));
+		zipperPriceTextField.setText(String.valueOf(zipperPrice));
 	}
 
 	@Override

@@ -82,10 +82,6 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     }
 
-    @Override
-    public void loadTextFieldsValues() {
-
-    }
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {

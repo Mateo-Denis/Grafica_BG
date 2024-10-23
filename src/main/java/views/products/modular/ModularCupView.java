@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.*;
+
 public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private JPanel containerPanel;
 	private JPanel leftSideComponentsContainer;
@@ -48,6 +50,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
+	private double cupPrice;
+	private double plankLoweringPrice;
+	private double printingMetersPrice;
+	private double profit;
+
 	public ModularCupView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		initListeners();
@@ -111,19 +118,17 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	}
 
-	@Override
-	public void loadTextFieldsValues() {
-
-	}
 
 	@Override
 	public ArrayList<String> getExhaustiveInformation() {
 		ArrayList<String> information = new ArrayList<>();
+/*
 
 		information.add(ceramicRadioButton.isSelected() ? "Si" : "No");
 		information.add(plasticRadioButton.isSelected() ? "Si" : "No");
 		information.add(whiteRadioButton.isSelected() ? "Si" : "No");
 		information.add(sublimatedRadioButton.isSelected() ? "Si" : "No");
+*/
 
 		return information;
 	}
@@ -145,6 +150,15 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	@Override
 	public void setPriceTextFields() {
+		profit = presenter.getIndividualPrice(GANANCIAS, "Taza");
+		cupPrice = presenter.getIndividualPrice(GENERAL, "Taza");
+		plankLoweringPrice = presenter.getIndividualPrice(GENERAL, "En taza");
+		printingMetersPrice = presenter.getIndividualPrice(GENERAL, "Sublimación");
+
+		printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
+		plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
+		cupPriceTextField.setText(String.valueOf(cupPrice));
+		profitTextField.setText(String.valueOf(profit));
 
 	}
 

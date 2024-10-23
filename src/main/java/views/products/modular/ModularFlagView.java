@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static utils.databases.SettingsTableNames.MEDIDAS;
-import static utils.databases.SettingsTableNames.TELAS;
+import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -68,6 +68,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     @Getter
     private Map<String, String> textFieldValues = new HashMap<>();
     private ProductCreatePresenter presenter;
+    private double profit;
+    private double printingMetersPrice;
+    private double plankLoweringPrice;
+    private double clothSqrMetersPrice;
+    private double seamstressPrice;
+
 
     public ModularFlagView(ProductCreatePresenter presenter) {
         TitledBorder border = BorderFactory.createTitledBorder("<html>Costo de cada bajada<br>de plancha</html>");
@@ -125,16 +131,9 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
             clothComboBox.addItem(pair.getValue0());
         }
 
-        ArrayList<Pair<String, Double>> sizeList = presenter.getTableAsArrayList(MEDIDAS);
-        for (Pair<String, Double> pair : sizeList) {
-            sizeComboBox.addItem(pair.getValue0());
-        }
     }
 
-    @Override
-    public void loadTextFieldsValues() {
 
-    }
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {
@@ -163,6 +162,18 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
+        profit = presenter.getIndividualPrice(GANANCIAS, "Banderas");
+        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En bandera");
+        clothSqrMetersPrice = presenter.getIndividualPrice(TELAS, getFlagComboBoxSelection() + " M2");
+        seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera bandera");
+
+
+        profitTextField.setText(String.valueOf(profit));
+        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
+        metersPriceTextField.setText(String.valueOf(clothSqrMetersPrice));
+        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
+        seamstressPriceTextField.setText(String.valueOf(seamstressPrice));
 
     }
 

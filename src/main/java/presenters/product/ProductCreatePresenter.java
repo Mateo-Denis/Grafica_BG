@@ -30,7 +30,6 @@ public class ProductCreatePresenter extends StandardPresenter {
     private ModularClothView clothView;
     private ModularCupView cupView;
     private ModularFlagView flagView;
-    private ModularPrintingView printingView;
     private ModularClothesView shirtView;
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {

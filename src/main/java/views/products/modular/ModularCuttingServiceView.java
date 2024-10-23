@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.VINILOS;
+
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
     private JPanel vinylsComboBoxContainer;
@@ -20,7 +22,13 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JPanel profitContainer;
     private JLabel cuttingServiceFinalPriceEqualsLabel;
     private JPanel cuttingServiceFinalPriceContainer;
+    private JTextField vinylCostTextField;
+    private JTextField profitTextField;
+    private JTextField textField3;
+    private JTextField textField4;
     private ProductCreatePresenter presenter;
+    private double vinylPrice;
+    private double profit;
 
     public ModularCuttingServiceView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -72,10 +80,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     }
 
-    @Override
-    public void loadTextFieldsValues() {
 
-    }
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {
@@ -99,6 +104,14 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
+        profit = 2;
+        vinylPrice = presenter.getIndividualPrice(VINILOS, getVinylTypeSelected());
 
+        vinylCostTextField.setText(String.valueOf(vinylPrice));
+        profitTextField.setText(String.valueOf(profit));
+    }
+
+    private String getVinylTypeSelected() {
+        return (String) vinylsComboBox.getSelectedItem();
     }
 }

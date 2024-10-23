@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.SERVICIOS;
+
 public class ModularCommonServicesView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
     private JPanel servicesComboBoxContainer;
@@ -15,6 +18,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JComboBox serviceTypeComboBox;
     private JTextField serviceCostTextField;
     private ProductCreatePresenter presenter;
+    private double servicePrice;
 
     public ModularCommonServicesView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -66,10 +70,6 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     }
 
-    @Override
-    public void loadTextFieldsValues() {
-
-    }
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {
@@ -93,6 +93,12 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
+        servicePrice = presenter.getIndividualPrice(SERVICIOS, getServiceTypeSelected());
 
+        serviceCostTextField.setText(String.valueOf(servicePrice));
+    }
+
+    private String getServiceTypeSelected() {
+        return (String) serviceTypeComboBox.getSelectedItem();
     }
 }
