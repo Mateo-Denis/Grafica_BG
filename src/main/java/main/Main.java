@@ -42,7 +42,6 @@ public class Main {
         /*ESTILOSSSSSSSSS
         MyStyles.install(MyStyles.METRO_UI, NewStyles.COLOR_BLACK);
         ESTILOSSSSSSSSS*/
-
         FlatLightLaf.setup();
 
 

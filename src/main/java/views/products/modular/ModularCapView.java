@@ -53,6 +53,9 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     public void loadTextFieldsValues() {
         plankLoweringPrice = presenter.getPlankLoweringPrice("Gorra");
+        //printingMetersPrice = presenter.getPrintingMetersPrice("Gorra");
+        plankLoweringPriceTextField.setText(String.valueOf(presenter.calculatePrice("plankLowering")));
+        printingMetersPriceTextField.setText(String.valueOf(presenter.calculatePrice("printingMeters")));
     }
     @Override
     public JPanel getContainerPanel() {
@@ -92,8 +95,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public double getPrice() {
-        /*return presenter.calculatePrice("cap");*/
-        return 0.0;
+        return presenter.calculatePrice("cap");
     }
 
     @Override
