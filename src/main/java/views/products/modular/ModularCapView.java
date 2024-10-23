@@ -9,16 +9,41 @@ import java.util.Map;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
-    private JRadioButton whiteFrontRadioButton;
-    private JRadioButton sublimatedRadioButton;
-    private JRadioButton visorStampRadioButton;
+    private JPanel leftSideComponentsContainer;
+    private JPanel capPriceContainer;
+    private JTextField capPriceTextField;
+    private JPanel plankLoweringContainer;
+    private JPanel plankLoweringAmountContainer;
+    private JTextField plankLoweringAmountTextField;
+    private JPanel plankLoweringPriceContainer;
+    private JTextField plankLoweringPriceTextField;
+    private JPanel plankLoweringFinalPriceContainer;
+    private JTextField plankLoweringFinalPriceTextField;
+    private JLabel plankLoweringMultiplyLabel;
+    private JLabel plankLoweringEqualsLabel;
+    private JPanel printingContainer;
+    private JPanel printingMetersAmountContainer;
+    private JTextField printingMetersAmountTextField;
+    private JPanel printingMetersPriceContainer;
+    private JTextField printingMetersPriceTextField;
+    private JPanel printingMetersFinalPriceContainer;
+    private JTextField textField6;
+    private JLabel printingMultiplyLabel;
+    private JLabel printingEqualsLabel;
+    private JPanel centerSideComponentsContainer;
+    private JPanel profitContainer;
+    private JTextField profitTextField;
+    private JPanel rightSideComponentsContainer;
+    private JPanel capFinalPriceContainer;
+    private JTextField capFinalPriceTextField;
+    private JLabel profitMultiplyLabel;
+    private JLabel capFinalPriceEqualsLabel;
     private ArrayList<String> radioValues = new ArrayList<>();
     private Map<String,String> comboBoxValues = new HashMap<>();
     private Map<String,String> textFieldValues = new HashMap<>();
     private ProductCreatePresenter presenter;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
-        sublimatedRadioButton.setSelected(true);
         initListeners();
     }
 
@@ -78,37 +103,40 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public ArrayList<String> getExhaustiveInformation() {
-        ArrayList<String> information = new ArrayList<>();
+/*        ArrayList<String> information = new ArrayList<>();
 
         information.add(whiteFrontRadioButton.isSelected() ? "Si" : "No");
         information.add(sublimatedRadioButton.isSelected() ? "Si" : "No");
         information.add(visorStampRadioButton.isSelected() ? "Si" : "No");
 
-        return information;
+        return information;*/
+        return new ArrayList<String>();
     }
 
     private String hasVisorStamp(){
-        if(visorStampRadioButton.isSelected()){
+/*        if(visorStampRadioButton.isSelected()){
             return "Gorra con estampa en el visor";
         } else {
             return "";
-        }
+        }*/
+        return "";
     }
 
     private String getSelectedRadioButton(){
-        if(whiteFrontRadioButton.isSelected()){
+/*        if(whiteFrontRadioButton.isSelected()){
             return "Gorra Blanca";
         } else if(sublimatedRadioButton.isSelected()){
             return "Gorra Sublimada";
         } else {
             return "";
-        }
+        }*/
+        return "";
 
     }
 
     //@Override
     public void initListeners() {
-        whiteFrontRadioButton.addActionListener(e -> {
+/*        whiteFrontRadioButton.addActionListener(e -> {
             System.out.println(whiteFrontRadioButton.isSelected());
             presenter.onModularOptionsClicked(getPrice());
         });
@@ -121,7 +149,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         visorStampRadioButton.addActionListener(e -> {
             System.out.println(visorStampRadioButton.isSelected());
             presenter.onModularOptionsClicked(getPrice());
-        });
+        });*/
     }
 }
 

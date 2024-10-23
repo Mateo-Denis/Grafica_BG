@@ -13,7 +13,6 @@ import presenters.StandardPresenter;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
@@ -32,8 +31,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     private ModularFlagView flagView;
     private ModularJacketView jacketView;
     private ModularPrintingView printingView;
-    private ModularShirtView shirtView;
-    private ModularSweaterView sweaterView;
+    private ModularClothesView shirtView;
     private ModularVinylView vinylView;
 
 

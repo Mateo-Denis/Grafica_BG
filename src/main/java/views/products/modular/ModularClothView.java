@@ -13,7 +13,16 @@ import static utils.databases.SettingsTableNames.TELAS;
 public class ModularClothView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
 	private JComboBox clothComboBox;
-	private JLabel clothLabel;
+	private JPanel clothComboBoxContainer;
+	private JPanel clothMetersContainer;
+	private JPanel clothMetersPriceContainer;
+	private JPanel profitContainer;
+	private JPanel finalPriceContainer;
+	private JLabel profitMultiplyLabel;
+	private JLabel clothFinalPriceEqualsLabel;
+	private JTextField clothMetersPriceTextField;
+	private JTextField profitTextField;
+	private JTextField clothFinalPriceTextField;
 	private ArrayList<String> radioValues = new ArrayList<>();
 	private Map<String,String> comboBoxValues = new HashMap<>();
 	private Map<String,String> textFieldValues = new HashMap<>();

@@ -1,18 +1,16 @@
 package views.products.modular;
 
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.TELAS;
 
-public class ModularShirtView extends JPanel implements IModularCategoryView {
+public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private JRadioButton tshirtRadioButton;
 	private JRadioButton chombaRadioButton;
 	private JComboBox materialComboBox;
@@ -71,7 +69,7 @@ public class ModularShirtView extends JPanel implements IModularCategoryView {
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
 
-	public ModularShirtView(ProductCreatePresenter presenter) {
+	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		ButtonGroup shirtButtonGroup = new ButtonGroup();
 		shirtButtonGroup.add(tshirtRadioButton);
