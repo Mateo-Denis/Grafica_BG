@@ -60,7 +60,7 @@ public class ModularPrintingView extends JPanel implements IModularCategoryView{
 
 	@Override
 	public double getPrice() {
-		return presenter.calculatePrice("printing");
+		return 0.0;
 	}
 
 	@Override

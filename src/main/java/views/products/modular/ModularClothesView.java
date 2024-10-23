@@ -135,7 +135,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public double getPrice() {
-		return presenter.calculatePrice("shirt");
+		return 0.0;
 	}
 
 

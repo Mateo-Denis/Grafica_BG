@@ -80,7 +80,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public double getPrice() {
-		return presenter.calculatePrice("cloth");
+		return 0.0;
 	}
 
 	@Override

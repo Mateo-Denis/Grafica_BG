@@ -95,7 +95,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	@Override
 	public double getPrice() {
-		return presenter.calculatePrice("cup");
+		return 0.0;
 	}
 
 	@Override
