@@ -41,7 +41,6 @@ public class CategoryCreatePresenter extends StandardPresenter {
             }
         });
 
-        this.createCategoryView.setVisible(true);
     }
 
     private void addField() {

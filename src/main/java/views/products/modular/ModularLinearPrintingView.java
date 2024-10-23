@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.GANANCIAS;
 import static utils.databases.SettingsTableNames.GENERAL;
 
 public class ModularLinearPrintingView extends JPanel implements IModularCategoryView {
@@ -29,6 +30,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private ProductCreatePresenter presenter;
     private double paperMeterPrice;
     private double inkByMeterPrice;
+    private double profit;
 
     public ModularLinearPrintingView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -109,6 +111,9 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     public void setPriceTextFields() {
         paperMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de papel por metro");
         inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de tinta por metro");
+        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
+
+        profitTextField.setText(String.valueOf(profit));
         paperMeterPriceTextField.setText(String.valueOf(paperMeterPrice));
         inkByMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }

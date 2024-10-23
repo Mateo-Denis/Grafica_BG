@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.*;
+
 public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
     private JPanel leftSideComponentsContainer;
     private JPanel capPriceContainer;
-    private JTextField capPriceTextField;
+    private JTextField capCostTextField;
     private JPanel plankLoweringContainer;
     private JPanel plankLoweringAmountContainer;
     private JTextField plankLoweringAmountTextField;
@@ -43,20 +45,16 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private ArrayList<String> radioValues = new ArrayList<>();
     private Map<String,String> comboBoxValues = new HashMap<>();
     private Map<String,String> textFieldValues = new HashMap<>();
+    private double capCost;
     private double plankLoweringPrice;
     private double printingMetersPrice;
+    private double profit;
     private ProductCreatePresenter presenter;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         initListeners();
     }
 
-    public void loadTextFieldsValues() {
-        plankLoweringPrice = presenter.getPlankLoweringPrice("Gorra");
-        //printingMetersPrice = presenter.getPrintingMetersPrice("Gorra");
-        plankLoweringPriceTextField.setText(String.valueOf(presenter.calculatePrice("plankLowering")));
-        printingMetersPriceTextField.setText(String.valueOf(presenter.calculatePrice("printingMeters")));
-    }
     @Override
     public JPanel getContainerPanel() {
         return containerPanel;
@@ -140,7 +138,15 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
+        capCost = presenter.getIndividualPrice(GENERAL, "Gorra");
+        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha gorra");
+        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
 
+        profitTextField.setText(String.valueOf(profit));
+        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
+        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
+        capCostTextField.setText(String.valueOf(capCost));
     }
 
     private String hasVisorStamp(){
