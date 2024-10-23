@@ -39,6 +39,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JButton createButton;
     private JPanel modularContainer;
     private JButton updatePriceButton;
+    private JCheckBox priceEditCheckBox;
+    private JButton savePricesButton;
     private JComboBox<String> subCategoryComboBox;
     private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
@@ -109,9 +111,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         List<String> nombresDeModulars = textUtils.getFileNamesInDirectory(directoryPath);
 
         nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
-//        for(String nombre : nombresDeModulars){
-//            System.out.println(nombre);
-//        }
+
         List<String> subStringModulars = new ArrayList<>();
         List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productCreatePresenter);
         Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
@@ -125,6 +125,15 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         for (int i = 0; i < subStringModulars.size(); i++) {
             categoryPanelsMap.put(subStringModulars.get(i), categoryViews.get(i));
         }
+
+        //PRINTING TEST
+        for(String str : subStringModulars) {
+            System.out.println(str);
+        }
+        for(IModularCategoryView imod : categoryViews) {
+            System.out.println(imod);
+        }
+        //PRINTING TEST
 
         return categoryPanelsMap;
     }
@@ -197,6 +206,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     protected void initListeners() {
         createButton.addActionListener(e -> productCreatePresenter.onCreateButtonClicked());
         updatePriceButton.addActionListener(e -> productCreatePresenter.onUpdatePriceButtonClicked());
+        priceEditCheckBox.addActionListener(e -> productCreatePresenter.onEditCheckBoxClicked());
+        savePricesButton.addActionListener(e -> productCreatePresenter.onSavePricesButtonClicked());
     }
 
 
@@ -233,6 +244,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     public void componentsListenerSet(ItemListener listener) {
         IModularCategoryView modularView = getCorrespondingModularView((String) categoryComboBox.getSelectedItem());
         modularCategoriesPresenter.initListeners();
+    }
 
+    public JCheckBox getEditPriceCheckBox() {
+        return priceEditCheckBox;
     }
 }

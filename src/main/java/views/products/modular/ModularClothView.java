@@ -1,11 +1,13 @@
 package views.products.modular;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.TELAS;
@@ -103,5 +105,25 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 		information.add(getClothComboBoxSelection());
 
 		return information;
+	}
+
+	@Override
+	public List<Triplet<String, String, Double>> getModularPrices() {
+		return List.of();
+	}
+
+	@Override
+	public void unlockTextFields() {
+
+	}
+
+	@Override
+	public void blockTextFields() {
+
+	}
+
+	@Override
+	public void setPriceTextFields() {
+
 	}
 }

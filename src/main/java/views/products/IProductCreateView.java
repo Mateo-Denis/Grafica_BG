@@ -28,4 +28,6 @@ public interface IProductCreateView extends IToggleableView {
     Map<String, IModularCategoryView> getCategoryPanelsMap();
     void showSelectedView(String category);
     void componentsListenerSet(ItemListener listener);
+
+    JCheckBox getEditPriceCheckBox();
 }

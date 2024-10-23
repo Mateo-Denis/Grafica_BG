@@ -1,10 +1,12 @@
 package views.products.modular;
 
+import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
@@ -111,6 +113,26 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
         return information;*/
         return new ArrayList<String>();
+    }
+
+    @Override
+    public List<Triplet<String, String, Double>> getModularPrices() {
+        return List.of();
+    }
+
+    @Override
+    public void unlockTextFields() {
+
+    }
+
+    @Override
+    public void blockTextFields() {
+
+    }
+
+    @Override
+    public void setPriceTextFields() {
+
     }
 
     private String hasVisorStamp(){

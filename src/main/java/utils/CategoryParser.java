@@ -15,14 +15,22 @@ public class CategoryParser {
 				return "Campera";
 			case "Printing":
 				return "Impresion";
-			case "Shirt":
-				return "Remera";
+			case "Clothes":
+				return "Prenda";
 			case "Sweater":
 				return "Buzo";
 			case "Vinyl":
 				return "Vinilo";
 			case "Canvas":
 				return "Lona";
+			case "CommonServices":
+				return "Servicios Comunes";
+			case "LinearPrinting":
+				return "Impresion Lineal";
+			case "CuttingService":
+				return "Servicio de Corte";
+			case "SquareMeterPrinting":
+				return "Impresion por Metro Cuadrado";
 			default:
 				return "Unknown";
 		}

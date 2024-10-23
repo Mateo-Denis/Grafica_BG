@@ -2,12 +2,14 @@ package views.products.modular;
 
 import lombok.Getter;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.MEDIDAS;
@@ -137,6 +139,26 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         information.add(getSizeComboBoxSelection());
 
         return information;
+    }
+
+    @Override
+    public List<Triplet<String, String, Double>> getModularPrices() {
+        return List.of();
+    }
+
+    @Override
+    public void unlockTextFields() {
+
+    }
+
+    @Override
+    public void blockTextFields() {
+
+    }
+
+    @Override
+    public void setPriceTextFields() {
+
     }
 
     private String getFlagComboBoxSelection() {

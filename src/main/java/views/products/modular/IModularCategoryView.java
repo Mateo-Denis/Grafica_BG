@@ -1,7 +1,10 @@
 package views.products.modular;
 
+import org.javatuples.Triplet;
+
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface IModularCategoryView{
@@ -20,4 +23,12 @@ public interface IModularCategoryView{
 	void loadComboBoxValues();
 
     ArrayList<String> getExhaustiveInformation();
+
+    List<Triplet<String, String, Double>> getModularPrices();
+
+    void unlockTextFields();
+
+    void blockTextFields();
+
+    void setPriceTextFields();
 }

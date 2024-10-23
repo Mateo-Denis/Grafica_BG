@@ -1,11 +1,13 @@
 package models.settings;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import utils.databases.SettingsDatabaseConnection;
 import utils.databases.SettingsTableNames;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static utils.databases.SettingsTableNames.*;
 
@@ -42,6 +44,11 @@ public class SettingsModel implements ISettingsModel {
 		list.add(GANANCIAS);
 		list.add(MEDIDAS);
 		return list;
+	}
+
+	@Override
+	public void updateModularPrices(List<Triplet<String, String, Double>> modularPrices) throws SQLException {
+		dbConnection.updateModularPrices(modularPrices);
 	}
 
 }

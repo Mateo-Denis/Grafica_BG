@@ -8,9 +8,11 @@ import models.IProductModel;
 import models.ICategoryModel;
 import models.settings.ISettingsModel;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import presenters.StandardPresenter;
 
 import java.awt.event.ItemEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +31,9 @@ public class ProductCreatePresenter extends StandardPresenter {
     private ModularClothView clothView;
     private ModularCupView cupView;
     private ModularFlagView flagView;
-    private ModularJacketView jacketView;
     private ModularPrintingView printingView;
     private ModularClothesView shirtView;
     private ModularVinylView vinylView;
-
 
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
@@ -55,18 +55,22 @@ public class ProductCreatePresenter extends StandardPresenter {
             }
         });
 
+        setModularPrices();
+
+        if(modularView != null) {
+            modularView.setPriceTextFields();
+        }
     }
 
     public void onUpdatePriceButtonClicked() {
-        if(modularView == null){
+        if (modularView == null) {
             productCreateView.showMessage(MISSING_MODULAR_VIEW);
-        }else {
+        } else {
             modularView = productCreateView.getModularView();
 
             updatePriceField(modularView.getPrice());
         }
     }
-
 
 
     public void initListeners() {
@@ -78,7 +82,7 @@ public class ProductCreatePresenter extends StandardPresenter {
         productCreateView.showView();
     }
 
-    public void onModularOptionsClicked(double price){
+    public void onModularOptionsClicked(double price) {
         updatePriceField(price);
     }
 
@@ -92,8 +96,8 @@ public class ProductCreatePresenter extends StandardPresenter {
         int categoryID = categoryModel.getCategoryID(categoryName);
         //IModularCategoryView modularView = productCreateView.getCorrespondingModularView(categoryName);
         modularView = productCreateView.getModularView();
-        if(modularView == null || productCreateView.getProductName().equals("")){
-            if(modularView == null) {
+        if (modularView == null || productCreateView.getProductName().equals("")) {
+            if (modularView == null) {
                 productCreateView.showMessage(MISSING_MODULAR_VIEW);
             } else {
                 productCreateView.showMessage(MISSING_PRODUCT_NAME);
@@ -158,7 +162,7 @@ public class ProductCreatePresenter extends StandardPresenter {
         System.out.println("Adult selected");
     }
 
-    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName){
+    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName) {
         return settingsModel.getModularValues(tableName);
     }
 
@@ -180,7 +184,7 @@ public class ProductCreatePresenter extends StandardPresenter {
                 double capPrice = getIndividualPrice(PRENDAS, info.get(0));
                 profit = getProfitFor("Gorras");
 
-                if(info.get(1).equals("Gorra con estampa en el visor")){
+                if (info.get(1).equals("Gorra con estampa en el visor")) {
                     totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha gorras");
                 }
 
@@ -201,11 +205,11 @@ public class ProductCreatePresenter extends StandardPresenter {
 
                 totalPrice = (cupPrice * profit);
 
-                if(info.get(1).equals("Bajada de plancha tazas")){
+                if (info.get(1).equals("Bajada de plancha tazas")) {
                     totalPrice += getIndividualPrice(BAJADA_PLANCHA, "Bajada de plancha tazas");
                 }
             }
-            case "flag" ->{
+            case "flag" -> {
 
                 double flagPrice = getIndividualPrice(TELAS, info.get(0));
                 profit = getProfitFor("Banderas");
@@ -271,7 +275,7 @@ public class ProductCreatePresenter extends StandardPresenter {
         return totalPrice;
     }
 
-    private double getIndividualPrice(SettingsTableNames tableName, String selectedValue){
+    private double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
         ArrayList<Pair<String, Double>> telas = settingsModel.getModularValues(tableName);
         double individualPrice = 0.0;
         for (Pair<String, Double> tela : telas) {
@@ -282,15 +286,123 @@ public class ProductCreatePresenter extends StandardPresenter {
         return individualPrice;
     }
 
-    private double getProfitFor(String category){
+    public double getProfitFor(String category) {
         double profit = 0.0;
         ArrayList<Pair<String, Double>> ganancias = settingsModel.getModularValues(GANANCIAS);
         for (Pair<String, Double> ganancia : ganancias) {
-            if(ganancia.getValue0().equals(category)){
+            if (ganancia.getValue0().equals(category)) {
                 profit = ganancia.getValue1();
                 break;
             }
         }
         return profit;
+    }
+
+    public double getClothPriceFor(String material) {
+        ArrayList<Pair<String, Double>> clothPrices = settingsModel.getModularValues(TELAS);
+        double correctClothPrice = 0.0;
+
+        for (Pair<String, Double> cloth : clothPrices) {
+            if (cloth.getValue0().equals(material)) {
+                correctClothPrice = cloth.getValue1();
+                break;
+            }
+        }
+        return correctClothPrice;
+    }
+
+    private void setModularPrices() {
+        if(modularView != null) {
+            modularView.setPriceTextFields();
+        }
+    }
+
+    public void onEditCheckBoxClicked() {
+        IModularCategoryView catView = modularView;
+
+        if (catView != null) {
+            if (!productCreateView.getEditPriceCheckBox().isSelected()) {
+                catView.blockTextFields();
+            } else {
+                catView.unlockTextFields();
+            }
+        }
+    }
+
+    public void onSavePricesButtonClicked() {
+        List<Triplet<String, String, Double>> modularPricesList;
+        if (modularView != null) {
+            try {
+                modularPricesList = modularView.getModularPrices();
+                settingsModel.updateModularPrices(modularPricesList);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public double getPrintingPriceFor(String category) {
+        ArrayList<Pair<String, Double>> printingPrices = settingsModel.getModularValues(IMPRESIONES);
+        double correctPrintingPrice = 0.0;
+        for (Pair<String, Double> printing : printingPrices) {
+            switch (category) {
+                case "Prenda" -> {
+                    if (printing.getValue0().equals("En sublimación")) {
+                        correctPrintingPrice = printing.getValue1();
+                    }
+                }
+            }
+        }
+        return correctPrintingPrice;
+    }
+
+    public double getServicesPrice(String service) {
+        ArrayList<Pair<String, Double>> servicePrices = settingsModel.getModularValues(SERVICIOS);
+        double correctServicePrice = 0.0;
+        for (Pair<String, Double> serviceP : servicePrices) {
+            switch (service) {
+                case "Costurera" -> {
+                    if (serviceP.getValue0().equals("Costurera")) {
+                        correctServicePrice = serviceP.getValue1();
+                    }
+                }
+                case "Cierre" -> {
+                    if (serviceP.getValue0().equals("Cierre")) {
+                        correctServicePrice = serviceP.getValue1();
+                    }
+                }
+            }
+        }
+        return correctServicePrice;
+    }
+
+    public double getPlankLoweringPrice(String category) {
+        ArrayList<Pair<String, Double>> plankLoweringPrices = settingsModel.getModularValues(BAJADA_PLANCHA);
+        double correctPlankLoweringPrice = 0.0;
+        for (Pair<String, Double> price : plankLoweringPrices) {
+            switch (category) {
+                case "Prenda" -> {
+                    if (price.getValue0().equals("Bajada de plancha prendas")) {
+                        correctPlankLoweringPrice = price.getValue1();
+                    }
+                }
+                case "Bandera" -> {
+                    if (price.getValue0().equals("Bajada de plancha banderas")) {
+                        correctPlankLoweringPrice = price.getValue1();
+                    }
+                }
+                case "Gorra" -> {
+                    if (price.getValue0().equals("Bajada de plancha gorras")) {
+                        correctPlankLoweringPrice = price.getValue1();
+                    }
+                }
+                case "Taza" -> {
+                    if (price.getValue0().equals("Bajada de plancha tazas")) {
+                        correctPlankLoweringPrice = price.getValue1();
+                    }
+                }
+            }
+        }
+        return correctPlankLoweringPrice;
     }
 }

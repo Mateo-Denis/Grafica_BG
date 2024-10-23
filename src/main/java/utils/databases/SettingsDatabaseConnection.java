@@ -1,9 +1,11 @@
 package utils.databases;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import static utils.databases.SettingsTableNames.*;
 
@@ -90,5 +92,32 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 
 		pstmt.executeBatch(); // Execute the batch of SQL statements
 		conn.commit();        // Commit the transaction
+	}
+
+	public void updateModularPrices(List<Triplet<String, String, Double>> modularPrices) throws SQLException {
+
+		List<String> tableNames = new ArrayList<>();
+
+		for(Triplet<String, String, Double> item : modularPrices){
+			String tableName = item.getValue0();
+			tableNames.add(tableName);
+		}
+
+		for(String tableName : tableNames){
+			String sql = "INSERT OR REPLACE INTO " + tableName + " (Campo, Valor) VALUES (?, ?)";
+			Connection conn = connect();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			conn.setAutoCommit(false); // Disable auto-commit for batch execution
+			pstmt.setQueryTimeout(QUERY_TIMEOUT);
+			for(Triplet<String, String, Double> item : modularPrices){
+				if(item.getValue0().equals(tableName)){
+					pstmt.setString(1, item.getValue1());
+					pstmt.setDouble(2, item.getValue2());
+					pstmt.addBatch();                   // Add to batch
+				}
+			}
+			pstmt.executeBatch(); // Execute the batch of SQL statements
+			conn.commit();        // Commit the transaction
+		}
 	}
 }

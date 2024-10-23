@@ -1,10 +1,12 @@
 package views.products.modular;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.LONAS;
@@ -18,6 +20,7 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 		this.presenter = presenter;
 		initListeners();
 	}
+
 	@Override
 	public JPanel getContainerPanel() {
 		return containerPanel;
@@ -75,6 +78,26 @@ public class ModularCanvasView extends JPanel implements IModularCategoryView{
 		relevantInformation.add(getCanvasComboBoxSelection());
 
 		return relevantInformation;
+	}
+
+	@Override
+	public List<Triplet<String, String, Double>> getModularPrices() {
+		return List.of();
+	}
+
+	@Override
+	public void unlockTextFields() {
+
+	}
+
+	@Override
+	public void blockTextFields() {
+
+	}
+
+	@Override
+	public void setPriceTextFields() {
+
 	}
 
 	private String getCanvasComboBoxSelection() {

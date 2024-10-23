@@ -1,11 +1,13 @@
 package views.products.modular;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.TELAS;
@@ -180,10 +182,13 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		return information;
 	}
 
-/*	public void setPriceTextFields() {
-		profitTextField.setText(String.valueOf(presenter.getProfitFor("Remeras")));
-		printingMetersPriceTextField.setText(String.valueOf(presenter.getPrintingPriceFor("Remeras")));
-		clothMetersAmountTextField.setText(String.valueOf(presenter.getClothPriceFor("Set")));
+	public void setPriceTextFields() {
+		profitTextField.setText(String.valueOf(presenter.getProfitFor("Prendas")));
+		printingMetersPriceTextField.setText(String.valueOf(presenter.getPrintingPriceFor("Prenda")));
+		clothMetersPriceTextField.setText(String.valueOf(presenter.getClothPriceFor(getMaterialSelected())));
+		plankLoweringPriceTextField.setText(String.valueOf(presenter.getPlankLoweringPrice("Prenda")));
+		seamstressPriceTextField.setText(String.valueOf(presenter.getServicesPrice("Costurera")));
+		zipperPriceTextField.setText(String.valueOf(presenter.getServicesPrice("Cierre")));
 	}
 
 	@Override
@@ -191,6 +196,9 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		clothMetersAmountTextField.setEnabled(false);
 		printingMetersPriceTextField.setEnabled(false);
 		profitTextField.setEnabled(false);
+		plankLoweringPriceTextField.setEnabled(false);
+		seamstressPriceTextField.setEnabled(false);
+		zipperPriceTextField.setEnabled(false);
 	}
 
 	@Override
@@ -198,21 +206,30 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		clothMetersAmountTextField.setEnabled(true);
 		printingMetersPriceTextField.setEnabled(true);
 		profitTextField.setEnabled(true);
+		plankLoweringPriceTextField.setEnabled(true);
+		seamstressPriceTextField.setEnabled(true);
+		zipperPriceTextField.setEnabled(true);
 	}
 
 	@Override
 	public List<Triplet<String, String, Double>> getModularPrices() {
-		double actualMetersPrice = clothMetersAmountTextField.getText().isEmpty() ? 0 : Double.parseDouble(clothMetersAmountTextField.getText());
+		double actualMetersPrice = clothMetersPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(clothMetersAmountTextField.getText());
 		double actualPrintingPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(printingMetersPriceTextField.getText());
 		double actualProfit = profitTextField.getText().isEmpty() ? 0 : Double.parseDouble(profitTextField.getText());
+		double actualSeamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(seamstressPriceTextField.getText());
+		double actualZipperPrice = zipperPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(zipperPriceTextField.getText());
+		double actualPlankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(plankLoweringPriceTextField.getText());
+		String actualClothSelected = (String) materialComboBox.getSelectedItem();
+
 		List<Triplet<String, String, Double>> modularPrices = new ArrayList<>();
 
-		modularPrices.add(new Triplet<>("TELAS", "Set", actualMetersPrice));
+		modularPrices.add(new Triplet<>("TELAS", actualClothSelected, actualMetersPrice));
 		modularPrices.add(new Triplet<>("IMPRESIONES", "En sublimación", actualPrintingPrice));
-		modularPrices.add(new Triplet<>("GANANCIAS", "Remeras", actualProfit));
+		modularPrices.add(new Triplet<>("GANANCIAS", "Prendas", actualProfit));
+		modularPrices.add(new Triplet<>("SERVICIOS", "Costurera", actualSeamstressPrice));
+		modularPrices.add(new Triplet<>("SERVICIOS", "Cierre", actualZipperPrice));
+		modularPrices.add(new Triplet<>("SERVICIOS", "Bajada de plancha", actualPlankLoweringPrice));
 
 		return modularPrices;
-	}*/
-
-
+	}
 }
