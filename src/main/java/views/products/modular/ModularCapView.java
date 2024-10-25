@@ -74,52 +74,8 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     }
 
     @Override
-    public Map<String,String> getModularAttributes() {
-        Map<String,String> attributes = new HashMap<>();
-
-        for(Map.Entry<String,String> entry : comboBoxValues.entrySet()){
-            attributes.put(entry.getKey(), entry.getValue());
-        }
-
-        for(Map.Entry<String,String> entry : textFieldValues.entrySet()){
-            attributes.put(entry.getKey(), entry.getValue());
-        }
-
-        for(String value : radioValues){
-            attributes.put(" ", value);
-        }
-
-        return attributes;
-    }
-
-    @Override
-    public double getPrice() {
-        return 0;
-    }
-
-    @Override
-    public ArrayList<String> getRelevantInformation() {
-        ArrayList<String> relevantInformation = new ArrayList<>();
-        relevantInformation.add(getSelectedRadioButton());
-        relevantInformation.add(hasVisorStamp());
-        return relevantInformation;
-    }
-
-    @Override
     public void loadComboBoxValues() {
 
-    }
-
-    @Override
-    public ArrayList<String> getExhaustiveInformation() {
-/*        ArrayList<String> information = new ArrayList<>();
-
-        information.add(whiteFrontRadioButton.isSelected() ? "Si" : "No");
-        information.add(sublimatedRadioButton.isSelected() ? "Si" : "No");
-        information.add(visorStampRadioButton.isSelected() ? "Si" : "No");
-
-        return information;*/
-        return new ArrayList<String>();
     }
 
     @Override
@@ -150,43 +106,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         capCostTextField.setText(String.valueOf(capCost));
     }
 
-    private String hasVisorStamp(){
-/*        if(visorStampRadioButton.isSelected()){
-            return "Gorra con estampa en el visor";
-        } else {
-            return "";
-        }*/
-        return "";
-    }
-
-    private String getSelectedRadioButton(){
-/*        if(whiteFrontRadioButton.isSelected()){
-            return "Gorra Blanca";
-        } else if(sublimatedRadioButton.isSelected()){
-            return "Gorra Sublimada";
-        } else {
-            return "";
-        }*/
-        return "";
-
-    }
-
-    //@Override
     public void initListeners() {
-/*        whiteFrontRadioButton.addActionListener(e -> {
-            System.out.println(whiteFrontRadioButton.isSelected());
-            presenter.onModularOptionsClicked(getPrice());
-        });
-
-        sublimatedRadioButton.addActionListener(e -> {
-            System.out.println(sublimatedRadioButton.isSelected());
-            presenter.onModularOptionsClicked(getPrice());
-        });
-
-        visorStampRadioButton.addActionListener(e -> {
-            System.out.println(visorStampRadioButton.isSelected());
-            presenter.onModularOptionsClicked(getPrice());
-        });*/
     }
 }
 

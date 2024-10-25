@@ -8,21 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface IModularCategoryView{
+
     JPanel getContainerPanel();
-    //ArrayList<String> getModularAttributes();
     void initListeners();
+
     Map<String,String> getComboBoxValues();
+
     Map<String,String> getTextFieldValues();
+
     ArrayList<String> getRadioValues();
-    Map<String,String> getModularAttributes();
-
-    double getPrice();
-
-    ArrayList<String> getRelevantInformation();
 
 	void loadComboBoxValues();
-
-    ArrayList<String> getExhaustiveInformation();
 
     List<Triplet<String, String, Double>> getModularPrices();
 

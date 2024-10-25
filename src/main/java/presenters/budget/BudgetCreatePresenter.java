@@ -120,7 +120,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             }
             budgetCreateView.setProductStringTableValueAt(rowCount, 0, product.getName());
             budgetCreateView.setProductStringTableValueAt(rowCount, 1, product.getDescription());
-            budgetCreateView.setProductDoubleTableValueAt(rowCount, 2, product.getPrice());
+            budgetCreateView.setProductDoubleTableValueAt(rowCount, 2, 0.0);
             budgetCreateView.setProductStringTableValueAt(rowCount, 3, productCategoryName);
             rowCount++;
         }
@@ -182,7 +182,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 products.put(amount, productName);
                 productMeasures.add(measures);
                 productObservations.add(observation);
-                double productPrice = product.getPrice();
+                double productPrice = 0.0;
                 double totalPrice = productPrice * amount;
                 rows.add(new Row(productName + " || " + observation, amount, measures, productPrice, totalPrice));
 
@@ -266,7 +266,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
-                    productPrice = (double) product.getPrice() * productAmountInt;
+                    productPrice = 0.0 * productAmountInt;
                     budgetCreateView.setPreviewDoubleTableValueAt(1, 4, productPrice);
                     rowCountOnPreviewTable = 2;
                     updateTextArea(sb, priceTextArea, true);
@@ -278,7 +278,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
-                    productPrice = product.getPrice() * productAmountInt;
+                    productPrice = 0.0 * productAmountInt;
                     budgetCreateView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
                     updateTextArea(sb, priceTextArea, true);
                     rowCountOnPreviewTable++;
@@ -336,7 +336,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 budgetCreateView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
                 productIDToEdit = productModel.getProductID(productNameToEdit);
                 Product productToEdit = productModel.getOneProduct(productIDToEdit);
-                productPriceToEdit = productToEdit.getPrice() * productAmountIntToEdit;
+                productPriceToEdit = 0.0 * productAmountIntToEdit;
                 budgetCreateView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
                 updateTextArea(sb, priceTextArea, false);
                 budgetCreateView.getPreviewTable().setEnabled(true);

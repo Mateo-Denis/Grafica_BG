@@ -63,7 +63,7 @@ public class ProductListPresenter extends StandardPresenter {
                 productListView.setIntTableValueAt(rowCount, 0, productID);
                 productListView.setStringTableValueAt(rowCount, 1, product.getName());
                 productListView.setStringTableValueAt(rowCount, 2, product.getDescription());
-                productListView.setDoubleTableValueAt(rowCount, 3, product.getPrice());
+                productListView.setDoubleTableValueAt(rowCount, 3, 0.0);
                 productListView.setStringTableValueAt(rowCount, 4, productCategoryName);
                 rowCount++;
         }

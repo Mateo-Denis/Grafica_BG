@@ -63,29 +63,8 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     }
 
     @Override
-    public Map<String, String> getModularAttributes() {
-        return Map.of();
-    }
-
-    @Override
-    public double getPrice() {
-        return 0;
-    }
-
-    @Override
-    public ArrayList<String> getRelevantInformation() {
-        return null;
-    }
-
-    @Override
     public void loadComboBoxValues() {
 
-    }
-
-
-    @Override
-    public ArrayList<String> getExhaustiveInformation() {
-        return null;
     }
 
     @Override

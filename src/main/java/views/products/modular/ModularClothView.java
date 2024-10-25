@@ -58,39 +58,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 		return radioValues;
 	}
 
-	@Override
-	public Map<String,String> getModularAttributes() {
-		Map<String,String> attributes = new HashMap<>();
-
-		for(Map.Entry<String,String> entry : comboBoxValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(Map.Entry<String,String> entry : textFieldValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(String value : radioValues){
-			attributes.put(" ", value);
-		}
-
-		return attributes;
-	}
-
 	private String getClothComboBoxSelection() {
 		return (String) clothComboBox.getSelectedItem();
-	}
-
-	@Override
-	public double getPrice() {
-		return 0.0;
-	}
-
-	@Override
-	public ArrayList<String> getRelevantInformation() {
-		ArrayList<String> relevantInformation = new ArrayList<>();
-		relevantInformation.add(getClothComboBoxSelection());
-		return relevantInformation;
 	}
 
 	@Override
@@ -99,15 +68,6 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 		for (Pair<String, Double> pair : list) {
 			clothComboBox.addItem(pair.getValue0());
 		}
-	}
-
-	@Override
-	public ArrayList<String> getExhaustiveInformation() {
-		ArrayList<String> information = new ArrayList<>();
-
-		information.add(getClothComboBoxSelection());
-
-		return information;
 	}
 
 	@Override

@@ -116,30 +116,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		return radioValues;
 	}
 
-	@Override
-	public Map<String,String> getModularAttributes() {
-		Map<String,String> attributes = new HashMap<>();
-
-		for(Map.Entry<String,String> entry : comboBoxValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(Map.Entry<String,String> entry : textFieldValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(String value : radioValues){
-			attributes.put(" ", value);
-		}
-
-		return attributes;
-	}
-
-	@Override
-	public double getPrice() {
-		return 0.0;
-	}
-
 
 	private String getShirtMaterialSelected() {
 //		System.out.println(tshirtRadioButton.getModel().isSelected());
@@ -166,27 +142,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	private String getMaterialSelected() {
 		return (String) materialComboBox.getSelectedItem();
-	}
-
-	public ArrayList<String> getRelevantInformation() {
-		ArrayList<String> relevantInformation = new ArrayList<>();
-		relevantInformation.add(getShirtMaterialSelected());
-		relevantInformation.add(getShirtTypeSelected());
-		relevantInformation.add(getMaterialSelected());
-		return relevantInformation;
-	}
-
-	public ArrayList<String> getExhaustiveInformation() {
-		ArrayList<String> information = new ArrayList<>();
-
-/*		information.add(tshirtRadioButton.isSelected() ? "Si" : "No");
-		information.add(chombaRadioButton.isSelected() ? "Si" : "No");
-		information.add(tankTopRadioButton.isSelected() ? "Si" : "No");
-		information.add(shortSleeveRadioButton.isSelected() ? "Si" : "No");
-		information.add(longSleeveRadioButton.isSelected() ? "Si" : "No");
-		information.add(getShirtMaterialSelected());*/
-
-		return information;
 	}
 
 	@Override

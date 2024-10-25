@@ -192,7 +192,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productMeasure = productMeasures.get(measuresIndex);
             productID = productModel.getProductID(productName);
             Product product = productModel.getOneProduct(productID);
-            productPrice = product.getPrice() * productAmount;
+            productPrice = 0.0 * productAmount;
             budgetModifyView.setPreviewStringTableValueAt(productIndex, 1, productName);
             budgetModifyView.setPreviewIntTableValueAt(productIndex, 2, productAmount);
             if (!productMeasure.equals("") && !productObservation.equals("")) {
@@ -320,7 +320,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
-                    productPrice = (double) product.getPrice() * productAmountInt;
+                    productPrice = (double) 0.0 * productAmountInt;
                     budgetModifyView.setPreviewDoubleTableValueAt(1, 4, productPrice);
                     rowCountOnPreviewTable = 2;
                     updateTextArea(sb, priceTextArea, true);
@@ -332,7 +332,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
                     budgetModifyView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
-                    productPrice = product.getPrice() * productAmountInt;
+                    productPrice = 0.0 * productAmountInt;
                     budgetModifyView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
                     updateTextArea(sb, priceTextArea, true);
                     rowCountOnPreviewTable++;
@@ -387,7 +387,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 budgetModifyView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
                 productIDToEdit = productModel.getProductID(productNameToEdit);
                 Product productToEdit = productModel.getOneProduct(productIDToEdit);
-                productPriceToEdit = productToEdit.getPrice() * productAmountIntToEdit;
+                productPriceToEdit = 0.0 * productAmountIntToEdit;
                 budgetModifyView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
                 budgetModifyView.getPreviewTable().setEnabled(true);
             }
@@ -523,7 +523,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             }
             budgetModifyView.setProductStringTableValueAt(rowCount, 0, product.getName());
             budgetModifyView.setProductStringTableValueAt(rowCount, 1, product.getDescription());
-            budgetModifyView.setProductDoubleTableValueAt(rowCount, 2, product.getPrice());
+            budgetModifyView.setProductDoubleTableValueAt(rowCount, 2, 0.0);
             budgetModifyView.setProductStringTableValueAt(rowCount, 3, productCategoryName);
             rowCount++;
         }

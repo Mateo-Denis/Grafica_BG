@@ -47,7 +47,6 @@ public class ProductCreatePresenter extends StandardPresenter {
 
                 modularView = productCreateView.getModularView();
                 modularView.loadComboBoxValues();
-                updatePriceField(modularView.getPrice());
                 setModularPrices();
             }
         });
@@ -60,8 +59,6 @@ public class ProductCreatePresenter extends StandardPresenter {
             productCreateView.showMessage(MISSING_MODULAR_VIEW);
         } else {
             modularView = productCreateView.getModularView();
-
-            updatePriceField(modularView.getPrice());
         }
     }
 
@@ -105,14 +102,6 @@ public class ProductCreatePresenter extends StandardPresenter {
             }*/
 
             //categoryModel.addAttributes(categoryName, attributesNames);
-
-            int productID = productModel.createProduct(
-                    productCreateView.getProductName(),
-                    productCreateView.getProductPrice(),
-                    categoryID);
-
-            ArrayList<String> attributesValues = modularView.getExhaustiveInformation();
-            categoryModel.addProductAttributes(productID, categoryID, attributesValues);
         }
 
         productCreateView.setWaitingStatus();
@@ -144,31 +133,6 @@ public class ProductCreatePresenter extends StandardPresenter {
         return individualPrice;
     }
 
-    public double getProfitFor(String category) {
-        double profit = 0.0;
-        ArrayList<Pair<String, Double>> ganancias = settingsModel.getModularValues(GANANCIAS);
-        for (Pair<String, Double> ganancia : ganancias) {
-            if (ganancia.getValue0().equals(category)) {
-                profit = ganancia.getValue1();
-                break;
-            }
-        }
-        return profit;
-    }
-
-    public double getClothPriceFor(String material) {
-        ArrayList<Pair<String, Double>> clothPrices = settingsModel.getModularValues(TELAS);
-        double correctClothPrice = 0.0;
-
-        for (Pair<String, Double> cloth : clothPrices) {
-            if (cloth.getValue0().equals(material)) {
-                correctClothPrice = cloth.getValue1();
-                break;
-            }
-        }
-        return correctClothPrice;
-    }
-
     private void setModularPrices() {
         if(modularView != null) {
             modularView.setPriceTextFields();
@@ -197,70 +161,5 @@ public class ProductCreatePresenter extends StandardPresenter {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public double getPrintingPriceFor(String category) {
-        ArrayList<Pair<String, Double>> printingPrices = settingsModel.getModularValues(IMPRESIONES);
-        double correctPrintingPrice = 0.0;
-        for (Pair<String, Double> printing : printingPrices) {
-            switch (category) {
-                case "Prenda" -> {
-                    if (printing.getValue0().equals("En sublimación")) {
-                        correctPrintingPrice = printing.getValue1();
-                    }
-                }
-            }
-        }
-        return correctPrintingPrice;
-    }
-
-    public double getServicesPrice(String service) {
-        ArrayList<Pair<String, Double>> servicePrices = settingsModel.getModularValues(SERVICIOS);
-        double correctServicePrice = 0.0;
-        for (Pair<String, Double> serviceP : servicePrices) {
-            switch (service) {
-                case "Costurera" -> {
-                    if (serviceP.getValue0().equals("Costurera")) {
-                        correctServicePrice = serviceP.getValue1();
-                    }
-                }
-                case "Cierre" -> {
-                    if (serviceP.getValue0().equals("Cierre")) {
-                        correctServicePrice = serviceP.getValue1();
-                    }
-                }
-            }
-        }
-        return correctServicePrice;
-    }
-
-    public double getPlankLoweringPrice(String category) {
-        ArrayList<Pair<String, Double>> plankLoweringPrices = settingsModel.getModularValues(BAJADA_PLANCHA);
-        double correctPlankLoweringPrice = 0.0;
-        for (Pair<String, Double> price : plankLoweringPrices) {
-            switch (category) {
-                case "Prenda" -> {
-                    if (price.getValue0().equals("Bajada de plancha prendas")) {
-                        correctPlankLoweringPrice = price.getValue1();
-                    }
-                }
-                case "Bandera" -> {
-                    if (price.getValue0().equals("Bajada de plancha banderas")) {
-                        correctPlankLoweringPrice = price.getValue1();
-                    }
-                }
-                case "Gorra" -> {
-                    if (price.getValue0().equals("Bajada de plancha gorras")) {
-                        correctPlankLoweringPrice = price.getValue1();
-                    }
-                }
-                case "Taza" -> {
-                    if (price.getValue0().equals("Bajada de plancha tazas")) {
-                        correctPlankLoweringPrice = price.getValue1();
-                    }
-                }
-            }
-        }
-        return correctPlankLoweringPrice;
     }
 }

@@ -93,56 +93,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     }
 
     @Override
-    public Map<String, String> getModularAttributes() {
-        Map<String, String> attributes = new HashMap<>();
-
-        for (Map.Entry<String, String> entry : comboBoxValues.entrySet()) {
-            attributes.put(entry.getKey(), entry.getValue());
-        }
-
-        for (Map.Entry<String, String> entry : textFieldValues.entrySet()) {
-            attributes.put(entry.getKey(), entry.getValue());
-        }
-
-        for (String value : radioValues) {
-            attributes.put(" ", value);
-        }
-
-        return attributes;
-    }
-
-    @Override
-    public double getPrice() {
-        return 0.0;
-    }
-
-    @Override
-    public ArrayList<String> getRelevantInformation() {
-        ArrayList<String> relevantInformation = new ArrayList<>();
-        relevantInformation.add(getFlagComboBoxSelection());
-        relevantInformation.add(getSizeComboBoxSelection());
-        return relevantInformation;
-    }
-
-    @Override
     public void loadComboBoxValues() {
         ArrayList<Pair<String, Double>> clothList = presenter.getTableAsArrayList(TELAS);
         for (Pair<String, Double> pair : clothList) {
             clothComboBox.addItem(pair.getValue0());
         }
 
-    }
-
-
-
-    @Override
-    public ArrayList<String> getExhaustiveInformation() {
-        ArrayList<String> information = new ArrayList<>();
-
-        information.add(getFlagComboBoxSelection());
-        information.add(getSizeComboBoxSelection());
-
-        return information;
     }
 
     @Override
@@ -165,7 +121,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         profit = presenter.getIndividualPrice(GANANCIAS, "Banderas");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En bandera");
-        clothSqrMetersPrice = presenter.getIndividualPrice(TELAS, getFlagComboBoxSelection() + " M2");
+        clothSqrMetersPrice = presenter.getIndividualPrice(TELAS, getFlagComboBoxSelection());
         seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera bandera");
 
 

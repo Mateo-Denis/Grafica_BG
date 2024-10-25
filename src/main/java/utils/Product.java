@@ -24,10 +24,6 @@ public class Product {
         return description;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
     public int getCategoryID() {
         return categoryID;
     }

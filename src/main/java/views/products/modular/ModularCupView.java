@@ -82,55 +82,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	}
 
 	@Override
-	public Map<String,String> getModularAttributes() {
-		Map<String,String> attributes = new HashMap<>();
-
-		for(Map.Entry<String,String> entry : comboBoxValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(Map.Entry<String,String> entry : textFieldValues.entrySet()){
-			attributes.put(entry.getKey(), entry.getValue());
-		}
-
-		for(String value : radioValues){
-			attributes.put(" ", value);
-		}
-
-		return attributes;
-	}
-
-	@Override
-	public double getPrice() {
-		return 0.0;
-	}
-
-	@Override
-	public ArrayList<String> getRelevantInformation() {
-		ArrayList<String> relevantInformation = new ArrayList<>();
-		relevantInformation.add(getCupMaterial());
-		relevantInformation.add(isSublimated());
-		return relevantInformation;
-	}
-
-	@Override
 	public void loadComboBoxValues() {
 
-	}
-
-
-	@Override
-	public ArrayList<String> getExhaustiveInformation() {
-		ArrayList<String> information = new ArrayList<>();
-/*
-
-		information.add(ceramicRadioButton.isSelected() ? "Si" : "No");
-		information.add(plasticRadioButton.isSelected() ? "Si" : "No");
-		information.add(whiteRadioButton.isSelected() ? "Si" : "No");
-		information.add(sublimatedRadioButton.isSelected() ? "Si" : "No");
-*/
-
-		return information;
 	}
 
 	@Override
