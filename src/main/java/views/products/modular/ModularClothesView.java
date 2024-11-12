@@ -1,8 +1,10 @@
 package views.products.modular;
 
+import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -66,16 +68,21 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private JTextField finalPriceTextField;
 	private JLabel shirt;
 	private JCheckBox editPriceCheckBox;
+	@Getter
 	private ArrayList<String> radioValues = new ArrayList<>();
+	@Getter
 	private Map<String,String> comboBoxValues = new HashMap<>();
+	@Getter
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
+
 	private double profit;
 	private double printingMetersPrice;
 	private double plankLoweringPrice;
 	private double clothMetersPrice;
 	private double seamstressPrice;
 	private double zipperPrice;
+
 
 
 	public ModularClothesView(ProductCreatePresenter presenter) {
@@ -104,16 +111,43 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	}
 
-	public Map<String, String> getComboBoxValues() {
-		return comboBoxValues;
-	}
+	@Override
+	public void calculateDependantPrices() {
+		try {
+			float clothMetersAmount = Float.parseFloat(clothMetersAmountTextField.getText());
+			float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
+			float plankLoweringAmount = Float.parseFloat(plankLoweringAmountTextField.getText());
+			float seamstressCost = Float.parseFloat(seamstressPriceTextField.getText());
+			float clothMetersPrice = Float.parseFloat(clothMetersPriceTextField.getText());
+			float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
+			float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
 
-	public Map<String, String> getTextFieldValues() {
-		return textFieldValues;
-	}
+			float zipperCost = 0;
+			if(zipperAddingCheckBox.isSelected()) {
+				zipperCost = Float.parseFloat(zipperPriceTextField.getText());
+			}
 
-	public ArrayList<String> getRadioValues() {
-		return radioValues;
+
+			float clothMetersFinalPrice = clothMetersAmount * clothMetersPrice;
+			float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
+			float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
+			float profit = Float.parseFloat(profitTextField.getText());
+			if(zipperAddingCheckBox.isSelected()) {
+				seamstressCost = seamstressCost + zipperCost;
+			}
+
+			clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
+			printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
+			plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
+			seamstressPriceTextField.setText(String.valueOf(seamstressCost));
+			finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice +
+					plankLoweringFinalPrice + seamstressCost) * profit));
+
+		} catch (NumberFormatException | NullPointerException e) {
+			showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+		}
+
+
 	}
 
 

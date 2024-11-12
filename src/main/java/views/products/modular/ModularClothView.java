@@ -3,6 +3,7 @@ package views.products.modular;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -43,6 +44,19 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public void initListeners() {
+
+	}
+
+	@Override
+	public void calculateDependantPrices() {
+		try {
+			float clothMeters = Float.parseFloat(clothMetersPriceTextField.getText());
+			float profit = Float.parseFloat(profitTextField.getText());
+
+			clothFinalPriceTextField.setText(String.valueOf(clothMeters * profit));
+		}catch (NumberFormatException | NullPointerException e){
+			showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+		}
 
 	}
 

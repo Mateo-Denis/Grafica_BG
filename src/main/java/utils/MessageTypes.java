@@ -58,20 +58,11 @@ public enum MessageTypes {
     BUDGET_CREATION_FAILURE("Error al crear el presupuesto"
             , "Ha ocurrido un error al intentar crear el presupuesto."
             , JOptionPane.ERROR_MESSAGE),
-    EMPTY_RATING_SAVE_ATTEMPT("Error while saving rating"
-            , "Cannot save a rating for an empty page. Please search for a page first."
+    FLOAT_PARSING_ERROR("Formato numérico requerido"
+            , "Se esperaba un número para el campo ingresado."
             , JOptionPane.ERROR_MESSAGE),
-    EMPTY_PAGE_SAVE_ATTEMPT("Error while saving page"
-            , "Cannot save an empty page. Please search for a page first."
-            , JOptionPane.ERROR_MESSAGE),
-    ACCESS_FAILURE("Error while accessing database"
-            , "An error occurred while accessing the database"
-            , JOptionPane.ERROR_MESSAGE),
-    PAGE_DELETE_SUCCESS("Page deleted successfully"
-            , "The page was successfully deleted from the database"
-            , JOptionPane.INFORMATION_MESSAGE),
-    PAGE_DELETE_FAILURE("Error while deleting page"
-            , "An error occurred while deleting the page from the database"
+    INT_PARSING_ERROR("Formato numérico entero requerido"
+            , "Se esperaba un número entero para el campo ingresado."
             , JOptionPane.ERROR_MESSAGE),
     MISSING_MODULAR_VIEW("Error creando el producto"
             , "POR FAVOR SELECCIONE UNA CATEGORÍA"

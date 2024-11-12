@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 import utils.databases.SettingsTableNames;
 
 import javax.swing.*;
@@ -45,6 +46,22 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     @Override
     public void initListeners() {
 
+    }
+
+    @Override
+    public void calculateDependantPrices() {
+
+        try {
+            float paperMeterPrice = Float.parseFloat(paperMeterPriceTextField.getText());
+            float inkByMeterPrice = Float.parseFloat(inkByMeterPriceTextField.getText());
+            float profit = Float.parseFloat(profitTextField.getText());
+
+            float finalPrice = paperMeterPrice + inkByMeterPrice + profit;
+            finalPriceTextField.setText(String.valueOf(finalPrice));
+
+        }catch (NumberFormatException | NullPointerException e){
+            showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+        }
     }
 
     @Override

@@ -36,6 +36,11 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     }
 
     @Override
+    public void calculateDependantPrices() {
+
+    }
+
+    @Override
     public Map<String, String> getComboBoxValues() {
         return Map.of();
     }

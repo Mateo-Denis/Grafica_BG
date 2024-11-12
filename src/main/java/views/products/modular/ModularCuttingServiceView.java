@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JPanel cuttingServiceFinalPriceContainer;
     private JTextField vinylCostTextField;
     private JTextField profitTextField;
-    private JTextField textField3;
-    private JTextField textField4;
+    private JTextField vinylMetersAmount;
+    private JTextField cuttingServiceFinalPriceTextField;
     private ProductCreatePresenter presenter;
     private double vinylPrice;
     private double profit;
@@ -43,6 +44,19 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     @Override
     public void initListeners() {
 
+    }
+
+    @Override
+    public void calculateDependantPrices() {
+        try {
+            float vinylMeters = Float.parseFloat(vinylMetersAmount.getText());
+            float vinylCost = Float.parseFloat(vinylCostTextField.getText());
+            float profit = Float.parseFloat(profitTextField.getText());
+
+            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylMeters * vinylCost * profit));
+        }catch (NumberFormatException | NullPointerException e){
+            showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+        }
     }
 
     @Override

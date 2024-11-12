@@ -2,8 +2,12 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +36,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel printingMetersPriceContainer;
     private JTextField printingMetersPriceTextField;
     private JPanel printingMetersFinalPriceContainer;
-    private JTextField textField6;
+    private JTextField printingMetersFinalPriceTextField;
     private JLabel printingMultiplyLabel;
     private JLabel printingEqualsLabel;
     private JPanel centerSideComponentsContainer;
@@ -95,6 +99,9 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
+        plankLoweringAmountTextField.setText("0");
+        printingMetersAmountTextField.setText("0");
+
         capCost = presenter.getIndividualPrice(GENERAL, "Gorra");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
@@ -107,6 +114,64 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     }
 
     public void initListeners() {
+
+        ArrayList<JTextField> textFields = new ArrayList<>();
+
+        textFields.add(capCostTextField);
+        textFields.add(plankLoweringAmountTextField);
+        textFields.add(plankLoweringPriceTextField);
+        textFields.add(printingMetersAmountTextField);
+        textFields.add(printingMetersPriceTextField);
+        textFields.add(profitTextField);
+
+        for (JTextField textField : textFields) {
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+
+            });
+        }
+
     }
+
+    @Override
+    public void calculateDependantPrices() {
+        try {
+            int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
+            try{
+                float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
+                float capCost = Float.parseFloat(capCostTextField.getText());
+                float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
+                float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
+                float profit = Float.parseFloat(profitTextField.getText());
+
+                float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
+                float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
+
+                plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
+                printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
+                capFinalPriceTextField.setText(String.valueOf((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * profit));
+
+
+            }catch (NumberFormatException | NullPointerException e){
+                showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+            }
+        }catch (NumberFormatException | NullPointerException e){
+            showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
+        }
+
+    }
+
 }
 

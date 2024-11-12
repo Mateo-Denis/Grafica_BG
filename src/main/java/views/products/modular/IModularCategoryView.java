@@ -1,6 +1,7 @@
 package views.products.modular;
 
 import org.javatuples.Triplet;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -11,6 +12,12 @@ public interface IModularCategoryView{
 
     JPanel getContainerPanel();
     void initListeners();
+    void calculateDependantPrices();
+    default void showMessage(MessageTypes messageType, JPanel containerPanelWrapper) {
+        JOptionPane.showMessageDialog(containerPanelWrapper, messageType.getMessage()
+                , messageType.getTitle()
+                , messageType.getMessageType());
+    }
 
     Map<String,String> getComboBoxValues();
 

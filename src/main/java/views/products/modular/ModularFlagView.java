@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -30,7 +31,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JTextField metersPriceTextField;
     private JLabel measuresPriceEqualsLabel;
     private JPanel clothFinalPriceContainer;
-    private JTextField finalPriceTextField;
+    private JTextField clothFinalPriceTextField;
     private JPanel plankLoweringContainer;
     private JPanel plankLoweringAmountContainer;
     private JPanel plankLoweringPriceContainer;
@@ -89,6 +90,42 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void initListeners() {
+
+    }
+
+    @Override
+    public void calculateDependantPrices() {
+        try{
+            int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
+            try{
+                float height = Float.parseFloat(heightTextField.getText());
+                float width = Float.parseFloat(widthTextField.getText());
+                float metersPrice = Float.parseFloat(metersPriceTextField.getText());
+                float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
+                float seamstressPrice = Float.parseFloat(seamstressPriceTextField.getText());
+                float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
+                float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
+                float profit = Float.parseFloat(profitTextField.getText());
+
+                float clothPrice = height * width * metersPrice;
+                float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
+                float printingMetersPriceTotal = printingMetersAmount * printingMetersPrice;
+
+                float flagFinalPrice = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * profit;
+
+
+                plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringPriceTotal));
+                printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersPriceTotal));
+                clothFinalPriceTextField.setText(String.valueOf(clothPrice));
+                flagFinalPriceTextField.setText(String.valueOf(flagFinalPrice));
+
+            }catch (NumberFormatException | NullPointerException e){
+                showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+            }
+        }catch (NumberFormatException | NullPointerException e){
+            showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
+        }
+
 
     }
 

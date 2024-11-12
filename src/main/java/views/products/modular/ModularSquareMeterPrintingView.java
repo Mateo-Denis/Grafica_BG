@@ -2,11 +2,13 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static utils.databases.SettingsTableNames.*;
 
@@ -68,6 +70,31 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     }
 
     @Override
+    public void calculateDependantPrices() {
+        try {
+            float materialSquareMetersAmount = Float.parseFloat(materialSquareMetersAmountTextField.getText());
+            float materialSquareMetersPrice = Float.parseFloat(materialSquareMetersPriceTextField.getText());
+            float inkBySquareMeterPrice = Float.parseFloat(inkBySquareMeterPriceTextField.getText());
+            float dollarPrice = Float.parseFloat((String) Objects.requireNonNull(dollarComboBox.getSelectedItem()));
+            float profit = Float.parseFloat(profitTextField.getText());
+
+
+
+            float materialPrice = materialSquareMetersAmount * materialSquareMetersPrice;
+            float inkPrice = materialSquareMetersAmount * inkBySquareMeterPrice;
+            float finalPrice = (materialPrice + inkPrice) * dollarPrice * profit;
+
+            materialSquareMetersFinalPriceTextField.setText(String.valueOf(materialPrice));
+            inkBySquareMeterFinalPriceTextField.setText(String.valueOf(inkPrice));
+            squareMeterPrintingFinalPriceTextField.setText(String.valueOf(finalPrice));
+
+        } catch (NumberFormatException | NullPointerException e) {
+            showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+
+        }
+    }
+
+    @Override
     public Map<String, String> getComboBoxValues() {
         return Map.of();
     }
@@ -104,6 +131,11 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void setPriceTextFields() {
+
+        materialSquareMetersFinalPriceTextField.setText(String.valueOf(0));
+        inkBySquareMeterFinalPriceTextField.setText(String.valueOf(0));
+        squareMeterPrintingFinalPriceTextField.setText(String.valueOf(0));
+
         materialMeterSqrPrice = presenter.getIndividualPrice(VINILOS, getMaterialComboBoxSelection());
         if(UVRadioButton.isSelected()){
             inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Tinta UV por metro2");

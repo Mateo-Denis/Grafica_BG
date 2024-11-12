@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.MessageTypes;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private JTextField plankLoweringFinalPriceTextField;
 	private JTextField printingMetersAmountTextField;
 	private JTextField printingMetersPriceTextField;
-	private JTextField textField6;
+	private JTextField printingMetersFinalPriceTextField;
 	private JLabel printingMultiplyLabel;
 	private JLabel printingEqualsLabel;
 	private JRadioButton ceramicRadioButton;
@@ -67,6 +68,33 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	@Override
 	public void initListeners() {
 
+	}
+
+	@Override
+	public void calculateDependantPrices() {
+		try {
+			int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
+			try{
+				float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
+				float profit = Float.parseFloat(profitTextField.getText());
+				float cupPrice = Float.parseFloat(cupPriceTextField.getText());
+				float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
+				float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
+
+				float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
+				float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
+				float cupFinalPrice = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * profit;
+
+				plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
+				printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
+				cupFinalPriceTextField.setText(String.valueOf(cupFinalPrice));
+
+			}catch (NumberFormatException | NullPointerException e){
+				showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+			}
+		} catch (NumberFormatException | NullPointerException e) {
+			showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
+		}
 	}
 
 	public Map<String, String> getComboBoxValues() {
