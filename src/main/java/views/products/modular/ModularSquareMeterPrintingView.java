@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static utils.databases.SettingsTableNames.*;
 
@@ -72,13 +71,11 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     @Override
     public void calculateDependantPrices() {
         try {
-            float materialSquareMetersAmount = Float.parseFloat(materialSquareMetersAmountTextField.getText());
-            float materialSquareMetersPrice = Float.parseFloat(materialSquareMetersPriceTextField.getText());
-            float inkBySquareMeterPrice = Float.parseFloat(inkBySquareMeterPriceTextField.getText());
-            float dollarPrice = Float.parseFloat((String) Objects.requireNonNull(dollarComboBox.getSelectedItem()));
-            float profit = Float.parseFloat(profitTextField.getText());
-
-
+            float materialSquareMetersAmount = materialSquareMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(materialSquareMetersAmountTextField.getText());
+            float materialSquareMetersPrice = materialSquareMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(materialSquareMetersPriceTextField.getText());
+            float inkBySquareMeterPrice = inkBySquareMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkBySquareMeterPriceTextField.getText());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : Float.parseFloat((String) dollarComboBox.getSelectedItem());
+            float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
             float materialPrice = materialSquareMetersAmount * materialSquareMetersPrice;
             float inkPrice = materialSquareMetersAmount * inkBySquareMeterPrice;
@@ -90,7 +87,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
-
         }
     }
 

@@ -55,6 +55,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private double plankLoweringPrice;
 	private double printingMetersPrice;
 	private double profit;
+	private boolean initialization;
 
 	public ModularCupView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
@@ -73,13 +74,13 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	@Override
 	public void calculateDependantPrices() {
 		try {
-			int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
-			try{
-				float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
-				float profit = Float.parseFloat(profitTextField.getText());
-				float cupPrice = Float.parseFloat(cupPriceTextField.getText());
-				float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
-				float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
+			int plankLoweringAmount = plankLoweringAmountTextField.getText().isEmpty() ? 0 : Integer.parseInt(plankLoweringAmountTextField.getText());
+			try {
+				float printingMetersAmount = printingMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersAmountTextField.getText());
+				float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+				float cupPrice = cupPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(cupPriceTextField.getText());
+				float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
+				float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
 
 				float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
 				float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
@@ -89,7 +90,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 				printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
 				cupFinalPriceTextField.setText(String.valueOf(cupFinalPrice));
 
-			}catch (NumberFormatException | NullPointerException e){
+			} catch (NumberFormatException | NullPointerException e) {
 				showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
 			}
 		} catch (NumberFormatException | NullPointerException e) {

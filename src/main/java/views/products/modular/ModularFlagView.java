@@ -74,6 +74,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private double plankLoweringPrice;
     private double clothSqrMetersPrice;
     private double seamstressPrice;
+    private boolean initialization;
 
 
     public ModularFlagView(ProductCreatePresenter presenter) {
@@ -95,17 +96,17 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void calculateDependantPrices() {
-        try{
-            int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
-            try{
-                float height = Float.parseFloat(heightTextField.getText());
-                float width = Float.parseFloat(widthTextField.getText());
-                float metersPrice = Float.parseFloat(metersPriceTextField.getText());
-                float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
-                float seamstressPrice = Float.parseFloat(seamstressPriceTextField.getText());
-                float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
-                float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
-                float profit = Float.parseFloat(profitTextField.getText());
+        try {
+            int plankLoweringAmount = plankLoweringAmountTextField.getText().isEmpty() ? 0 : Integer.parseInt(plankLoweringAmountTextField.getText());
+            try {
+                float height = heightTextField.getText().isEmpty() ? 0 : Float.parseFloat(heightTextField.getText());
+                float width = widthTextField.getText().isEmpty() ? 0 : Float.parseFloat(widthTextField.getText());
+                float metersPrice = metersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(metersPriceTextField.getText());
+                float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
+                float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
+                float printingMetersAmount = printingMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersAmountTextField.getText());
+                float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
+                float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
                 float clothPrice = height * width * metersPrice;
                 float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
@@ -113,20 +114,17 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
                 float flagFinalPrice = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * profit;
 
-
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringPriceTotal));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersPriceTotal));
                 clothFinalPriceTextField.setText(String.valueOf(clothPrice));
                 flagFinalPriceTextField.setText(String.valueOf(flagFinalPrice));
 
-            }catch (NumberFormatException | NullPointerException e){
+            } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
             }
-        }catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
         }
-
-
     }
 
     @Override

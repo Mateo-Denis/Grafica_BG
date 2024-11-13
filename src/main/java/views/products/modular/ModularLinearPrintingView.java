@@ -3,7 +3,6 @@ package views.products.modular;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.MessageTypes;
-import utils.databases.SettingsTableNames;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private double paperMeterPrice;
     private double inkByMeterPrice;
     private double profit;
+    private boolean initialization;
 
     public ModularLinearPrintingView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -50,16 +50,15 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     @Override
     public void calculateDependantPrices() {
-
         try {
-            float paperMeterPrice = Float.parseFloat(paperMeterPriceTextField.getText());
-            float inkByMeterPrice = Float.parseFloat(inkByMeterPriceTextField.getText());
-            float profit = Float.parseFloat(profitTextField.getText());
+            float paperMeterPrice = paperMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(paperMeterPriceTextField.getText());
+            float inkByMeterPrice = inkByMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkByMeterPriceTextField.getText());
+            float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
             float finalPrice = paperMeterPrice + inkByMeterPrice + profit;
             finalPriceTextField.setText(String.valueOf(finalPrice));
 
-        }catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
     }

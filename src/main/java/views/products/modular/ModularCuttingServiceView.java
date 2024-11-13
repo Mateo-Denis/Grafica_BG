@@ -30,6 +30,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private ProductCreatePresenter presenter;
     private double vinylPrice;
     private double profit;
+    private boolean initialization;
 
     public ModularCuttingServiceView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
@@ -49,12 +50,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     @Override
     public void calculateDependantPrices() {
         try {
-            float vinylMeters = Float.parseFloat(vinylMetersAmount.getText());
-            float vinylCost = Float.parseFloat(vinylCostTextField.getText());
-            float profit = Float.parseFloat(profitTextField.getText());
+            float vinylMeters = vinylMetersAmount.getText().isEmpty() ? 0 : Float.parseFloat(vinylMetersAmount.getText());
+            float vinylCost = vinylCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(vinylCostTextField.getText());
+            float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
             cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylMeters * vinylCost * profit));
-        }catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
     }

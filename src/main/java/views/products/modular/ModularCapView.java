@@ -7,7 +7,6 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,10 +54,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private double plankLoweringPrice;
     private double printingMetersPrice;
     private ProductCreatePresenter presenter;
+    private boolean initialization;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         initListeners();
     }
+
 
     @Override
     public JPanel getContainerPanel() {
@@ -99,9 +100,6 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-        plankLoweringAmountTextField.setText("0");
-        printingMetersAmountTextField.setText("0");
-
         capCost = presenter.getIndividualPrice(GENERAL, "Gorra");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
@@ -134,27 +132,24 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
-
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
-
             });
         }
-
     }
 
     @Override
     public void calculateDependantPrices() {
         try {
-            int plankLoweringAmount = Integer.parseInt(plankLoweringAmountTextField.getText());
-            try{
-                float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
-                float capCost = Float.parseFloat(capCostTextField.getText());
-                float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
-                float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
-                float profit = Float.parseFloat(profitTextField.getText());
+            int plankLoweringAmount = plankLoweringAmountTextField.getText().isEmpty() ? 0 : Integer.parseInt(plankLoweringAmountTextField.getText());
+            try {
+                float printingMetersAmount = printingMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersAmountTextField.getText());
+                float capCost = capCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(capCostTextField.getText());
+                float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
+                float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
+                float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
@@ -163,15 +158,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 capFinalPriceTextField.setText(String.valueOf((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * profit));
 
-
-            }catch (NumberFormatException | NullPointerException e){
+            } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
             }
-        }catch (NumberFormatException | NullPointerException e){
+        } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
         }
-
     }
-
 }
 

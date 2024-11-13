@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static utils.databases.SettingsTableNames.*;
 import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularCommonServicesView extends JPanel implements IModularCategoryView {
@@ -19,6 +18,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JTextField serviceCostTextField;
     private ProductCreatePresenter presenter;
     private double servicePrice;
+    private boolean initialization;
 
     public ModularCommonServicesView(ProductCreatePresenter presenter) {
         this.presenter = presenter;

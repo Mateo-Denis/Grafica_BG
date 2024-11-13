@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.*;
-import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularClothView extends JPanel implements IModularCategoryView {
 	private JPanel containerPanel;
@@ -33,6 +32,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	private ProductCreatePresenter presenter;
 	private double profit;
 	private double clothMetersPrice;
+	private boolean initialization;
+
 	public ModularClothView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		initListeners();
@@ -50,14 +51,13 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	@Override
 	public void calculateDependantPrices() {
 		try {
-			float clothMeters = Float.parseFloat(clothMetersPriceTextField.getText());
-			float profit = Float.parseFloat(profitTextField.getText());
+			float clothMeters = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
+			float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
 			clothFinalPriceTextField.setText(String.valueOf(clothMeters * profit));
-		}catch (NumberFormatException | NullPointerException e){
+		} catch (NumberFormatException | NullPointerException e) {
 			showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
 		}
-
 	}
 
 	public Map<String, String> getComboBoxValues() {

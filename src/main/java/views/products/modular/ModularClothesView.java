@@ -7,6 +7,8 @@ import presenters.product.ProductCreatePresenter;
 import utils.MessageTypes;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,21 +53,16 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private JPanel otherFieldsContainer;
 	private JPanel seamstressPriceContainer;
 	private JTextField seamstressPriceTextField;
-	private JPanel zipperContainer;
-	private JTextField zipperPriceTextField;
-	private JCheckBox zipperAddingCheckBox;
-	private JLabel otherFieldsAddingLabel;
-	private JLabel otherFieldsEqualsLabel;
+	private JPanel seamstressTypeContainer;
 	private JTextField plankLoweringAmountTextField;
 	private JTextField plankLoweringPriceTextField;
 	private JTextField plankLoweringFinalPriceTextField;
-	private JPanel otherFieldsFinalPriceContainer;
-	private JTextField otherFieldsFinalPriceTextField;
 	private JPanel profitContainer;
 	private JLabel profitMultiplyLabel;
 	private JPanel finalPriceContainer;
 	private JLabel finalPriceEqualsLabel;
 	private JTextField finalPriceTextField;
+	private JComboBox seamstressTypeComboBox;
 	private JLabel shirt;
 	private JCheckBox editPriceCheckBox;
 	@Getter
@@ -75,15 +72,13 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	@Getter
 	private Map<String,String> textFieldValues = new HashMap<>();
 	private ProductCreatePresenter presenter;
+	private boolean isCalculating = false;
 
 	private double profit;
 	private double printingMetersPrice;
 	private double plankLoweringPrice;
 	private double clothMetersPrice;
 	private double seamstressPrice;
-	private double zipperPrice;
-
-
 
 	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
@@ -95,9 +90,14 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	}
 	@Override
 	public void loadComboBoxValues() {
-		ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(TELAS);
-		for (Pair<String, Double> pair : list) {
-			materialComboBox.addItem(pair.getValue0());
+		ArrayList<Pair<String, Double>> materialsList = presenter.getTableAsArrayList(TELAS);
+		ArrayList<Pair<String, Double>> seamstressList = presenter.getTableAsArrayList(GENERAL);
+
+		for (Pair<String, Double> pair : materialsList) {
+			if(pair.getValue0().contains("LINEAL")) materialComboBox.addItem(pair.getValue0());
+		}
+		for (Pair<String, Double> pair : seamstressList) {
+			if(pair.getValue0().contains("Costurera")) seamstressTypeComboBox.addItem(pair.getValue0());
 		}
 	}
 
@@ -108,70 +108,67 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	@Override
 	public void initListeners() {
+		ArrayList<JTextField> textFields = new ArrayList<>();
+
+		textFields.add(clothMetersAmountTextField);
+		textFields.add(clothMetersPriceTextField);
+		textFields.add(plankLoweringAmountTextField);
+		textFields.add(plankLoweringPriceTextField);
+		textFields.add(printingMetersAmountTextField);
+		textFields.add(printingMetersPriceTextField);
+		textFields.add(seamstressPriceTextField);
+		textFields.add(profitTextField);
+
+		for (JTextField textField : textFields) {
+			textField.getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					calculateDependantPrices();
+				}
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					calculateDependantPrices();
+				}
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					calculateDependantPrices();
+				}
+			});
+		}
+
 
 	}
 
 	@Override
 	public void calculateDependantPrices() {
 		try {
-			float clothMetersAmount = Float.parseFloat(clothMetersAmountTextField.getText());
-			float printingMetersAmount = Float.parseFloat(printingMetersAmountTextField.getText());
-			float plankLoweringAmount = Float.parseFloat(plankLoweringAmountTextField.getText());
-			float seamstressCost = Float.parseFloat(seamstressPriceTextField.getText());
-			float clothMetersPrice = Float.parseFloat(clothMetersPriceTextField.getText());
-			float printingMetersPrice = Float.parseFloat(printingMetersPriceTextField.getText());
-			float plankLoweringPrice = Float.parseFloat(plankLoweringPriceTextField.getText());
-
-			float zipperCost = 0;
-			if(zipperAddingCheckBox.isSelected()) {
-				zipperCost = Float.parseFloat(zipperPriceTextField.getText());
-			}
-
+			if (isCalculating) return;
+			isCalculating = true;
+			float clothMetersAmount = clothMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersAmountTextField.getText());
+			float printingMetersAmount = printingMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersAmountTextField.getText());
+			float plankLoweringAmount = plankLoweringAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringAmountTextField.getText());
+			float clothMetersPrice = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
+			float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
+			float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
 
 			float clothMetersFinalPrice = clothMetersAmount * clothMetersPrice;
 			float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
 			float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
-			float profit = Float.parseFloat(profitTextField.getText());
-			if(zipperAddingCheckBox.isSelected()) {
-				seamstressCost = seamstressCost + zipperCost;
-			}
+			float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-			clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
-			printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-			plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
-			seamstressPriceTextField.setText(String.valueOf(seamstressCost));
-			finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice +
-					plankLoweringFinalPrice + seamstressCost) * profit));
+			SwingUtilities.invokeLater(() -> {
+				clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
+				printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
+				plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
+				float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
+				finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * profit));
+				isCalculating = false;
+			});
 
 		} catch (NumberFormatException | NullPointerException e) {
 			showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+			isCalculating = false;
 		}
-
-
-	}
-
-
-	private String getShirtMaterialSelected() {
-//		System.out.println(tshirtRadioButton.getModel().isSelected());
-//
-//		if (tshirtRadioButton.isSelected())
-//			return "Remera";
-//		else if (chombaRadioButton.isSelected())
-//			return "Chomba";
-
-		return "null";
-	}
-
-	private String getShirtTypeSelected() {
-		String shirt = "null";
-//		if(tshirtRadioButton.isSelected()) {
-//			shirt = "Tela para remera manga corta";
-//		} else if(longSleeveRadioButton.isSelected()) {
-//			shirt = "Tela para remera manga larga";
-//		}else {
-//			shirt = "Tela para remera musculosa";
-//		}
-		return shirt;
 	}
 
 	private String getMaterialSelected() {
@@ -184,15 +181,15 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
 		plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En prenda");
 		clothMetersPrice = presenter.getIndividualPrice(TELAS, getMaterialSelected());
-		seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera remera");
-		zipperPrice = presenter.getIndividualPrice(SERVICIOS, "Cierre remera");
+		String seamstressType = (String) seamstressTypeComboBox.getSelectedItem();
+		seamstressPrice = presenter.getIndividualPrice(SERVICIOS, seamstressType);
+		String profitText = String.valueOf(profit);
 
-		profitTextField.setText(String.valueOf(profit));
+		profitTextField.setText(profitText);
 		printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
 		clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
 		plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
 		seamstressPriceTextField.setText(String.valueOf(seamstressPrice));
-		zipperPriceTextField.setText(String.valueOf(zipperPrice));
 	}
 
 	@Override
@@ -202,7 +199,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		profitTextField.setEnabled(false);
 		plankLoweringPriceTextField.setEnabled(false);
 		seamstressPriceTextField.setEnabled(false);
-		zipperPriceTextField.setEnabled(false);
 	}
 
 	@Override
@@ -212,7 +208,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		profitTextField.setEnabled(true);
 		plankLoweringPriceTextField.setEnabled(true);
 		seamstressPriceTextField.setEnabled(true);
-		zipperPriceTextField.setEnabled(true);
 	}
 
 	@Override
@@ -221,17 +216,15 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		double actualPrintingPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(printingMetersPriceTextField.getText());
 		double actualProfit = profitTextField.getText().isEmpty() ? 0 : Double.parseDouble(profitTextField.getText());
 		double actualSeamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(seamstressPriceTextField.getText());
-		double actualZipperPrice = zipperPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(zipperPriceTextField.getText());
 		double actualPlankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Double.parseDouble(plankLoweringPriceTextField.getText());
 		String actualClothSelected = (String) materialComboBox.getSelectedItem();
-
+		String actualSeamstressType = (String) seamstressTypeComboBox.getSelectedItem();
 		List<Triplet<String, String, Double>> modularPrices = new ArrayList<>();
 
 		modularPrices.add(new Triplet<>("TELAS", actualClothSelected, actualMetersPrice));
 		modularPrices.add(new Triplet<>("IMPRESIONES", "En sublimación", actualPrintingPrice));
 		modularPrices.add(new Triplet<>("GANANCIAS", "Prendas", actualProfit));
-		modularPrices.add(new Triplet<>("SERVICIOS", "Costurera", actualSeamstressPrice));
-		modularPrices.add(new Triplet<>("SERVICIOS", "Cierre", actualZipperPrice));
+		modularPrices.add(new Triplet<>("SERVICIOS", actualSeamstressType, actualSeamstressPrice));
 		modularPrices.add(new Triplet<>("SERVICIOS", "Bajada de plancha", actualPlankLoweringPrice));
 
 		return modularPrices;

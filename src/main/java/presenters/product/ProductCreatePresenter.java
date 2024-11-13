@@ -50,8 +50,6 @@ public class ProductCreatePresenter extends StandardPresenter {
                 setModularPrices();
             }
         });
-
-
     }
 
     public void onUpdatePriceButtonClicked() {
