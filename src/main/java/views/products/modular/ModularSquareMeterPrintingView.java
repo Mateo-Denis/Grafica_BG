@@ -5,6 +5,8 @@ import presenters.product.ProductCreatePresenter;
 import utils.MessageTypes;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +67,30 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void initListeners() {
+        ArrayList<JTextField> textFields = new ArrayList<>();
 
+        textFields.add(materialSquareMetersAmountTextField);
+        textFields.add(materialSquareMetersPriceTextField);
+        textFields.add(inkBySquareMeterPriceTextField);
+        textFields.add(profitTextField);
+
+
+        for (JTextField textField : textFields) {
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+            });
+        }
     }
 
     @Override

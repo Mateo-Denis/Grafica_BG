@@ -23,6 +23,7 @@ public class ProductModel implements IProductModel {
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
     private final List<ProductSearchFailureListener> productSearchFailureListeners;
+    private int lastProductIDGenerated = 0;
 
     private ArrayList<Product> products;
 

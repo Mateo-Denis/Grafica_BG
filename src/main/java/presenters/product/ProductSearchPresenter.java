@@ -35,9 +35,8 @@ public class ProductSearchPresenter extends StandardPresenter {
             for (Product product : products) {
                 String categoryName = productModel.getCategoryName(product.getCategoryID());
                 productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
-                productSearchView.setStringTableValueAt(rowCount, 1, product.getDescription());
-                productSearchView.setDoubleTableValueAt(rowCount, 2, 0.0);
-                productSearchView.setStringTableValueAt(rowCount, 3, categoryName);
+                productSearchView.setDoubleTableValueAt(rowCount, 1, 0.0);
+                productSearchView.setStringTableValueAt(rowCount, 2, categoryName);
                 rowCount++;
             }
         });

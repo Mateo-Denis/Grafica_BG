@@ -522,9 +522,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 }
             }
             budgetModifyView.setProductStringTableValueAt(rowCount, 0, product.getName());
-            budgetModifyView.setProductStringTableValueAt(rowCount, 1, product.getDescription());
-            budgetModifyView.setProductDoubleTableValueAt(rowCount, 2, 0.0);
-            budgetModifyView.setProductStringTableValueAt(rowCount, 3, productCategoryName);
+            budgetModifyView.setProductDoubleTableValueAt(rowCount, 1, 0.0);
+            budgetModifyView.setProductStringTableValueAt(rowCount, 2, productCategoryName);
             rowCount++;
         }
         categoryComboBox.setSelectedIndex(0);

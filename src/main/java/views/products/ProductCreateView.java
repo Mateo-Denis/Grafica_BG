@@ -183,6 +183,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     public double getProductPrice() {
         return Double.parseDouble(productPriceField.getText());
     }
+
     @Override
     public void setProductPriceField(String productPrice) {
         productPriceField.setText(productPrice);

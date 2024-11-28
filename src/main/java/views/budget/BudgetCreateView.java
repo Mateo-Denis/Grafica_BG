@@ -288,7 +288,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         };
         clientResultTable.setModel(clientsTableModel);
 
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200) {
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Precio", "Categoria"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

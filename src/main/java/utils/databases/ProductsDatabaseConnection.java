@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import utils.Product;
 
@@ -31,13 +32,12 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
 
     public int insertProduct(String nombre, double precio, int categoriaID) throws SQLException {
         int idGenerado = -1;
-        String sql = "INSERT INTO Productos(Nombre, Descripcion, Precio, Categoria_ID) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO Productos(Nombre, Precio, Categoria_ID) VALUES(?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
-            pstmt.setString(2, " ");
-            pstmt.setDouble(3, precio);
-            pstmt.setInt(4, categoriaID);
+            pstmt.setDouble(2, precio);
+            pstmt.setInt(3, categoriaID);
             //pstmt.executeUpdate();
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
@@ -74,7 +74,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (resultSet.next()) {
                 Product product = new Product(
                         resultSet.getString("Nombre"),
-                        resultSet.getString("Descripcion"),
                         resultSet.getDouble("Precio"),
                         resultSet.getInt("Categoria_ID")
                 );
@@ -183,10 +182,9 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (rs.next()) {
                 int categoryID= rs.getInt("Categoria_ID");
                 String productName = rs.getString("Nombre");
-                String productDescription = rs.getString("Descripcion");
                 double productPrice = rs.getDouble("Precio");
 
-                products.add(new Product(productName, productDescription, productPrice, categoryID));
+                products.add(new Product(productName, productPrice, categoryID));
             }
         }
 
@@ -207,7 +205,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (resultSet.next()) {
                 product = new Product(
                         resultSet.getString("Nombre"),
-                        resultSet.getString("Descripcion"),
                         resultSet.getDouble("Precio"),
                         resultSet.getInt("Categoria_ID")
                 );
@@ -216,6 +213,19 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             pstmt.close();
             conn.close();
             return product;
+        }
+    }
+
+    public void insertProductWithAttributes(String productID, String attributeID, String value) {
+        String SQL = "INSERT INTO PRODUCTO_CON_ATRIBUTO (ID_PRODUCTO, ID_ATRIBUTO, VALOR) VALUES (?, ?, ?)";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setInt(1, Integer.parseInt(productID));
+            pstmt.setInt(2, Integer.parseInt(attributeID));
+            pstmt.setString(3, value);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

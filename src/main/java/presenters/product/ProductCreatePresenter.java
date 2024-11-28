@@ -15,6 +15,7 @@ import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
@@ -74,10 +75,10 @@ public class ProductCreatePresenter extends StandardPresenter {
     }
 
     public void onCreateButtonClicked() {
+        Map<String, Double> attributes;
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategoryEnglish();
         int categoryID = categoryModel.getCategoryID(categoryName);
-        //IModularCategoryView modularView = productCreateView.getCorrespondingModularView(categoryName);
         modularView = productCreateView.getModularView();
         if (modularView == null || productCreateView.getProductName().equals("")) {
             if (modularView == null) {
@@ -86,20 +87,9 @@ public class ProductCreatePresenter extends StandardPresenter {
                 productCreateView.showMessage(MISSING_PRODUCT_NAME);
             }
         } else {
-
-/*            Map<String,String> allAttributes = modularView.getModularAttributes();
-            ArrayList<String> attributesNames = new ArrayList<>();
-
-            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
-                attributesNames.add(entry.getKey());
-            }
-
-            ArrayList<String> attributesValues = new ArrayList<>();
-            for(Map.Entry<String, String> entry : allAttributes.entrySet()) {
-                attributesValues.add(entry.getValue());
-            }*/
-
-            //categoryModel.addAttributes(categoryName, attributesNames);
+            String productName = productCreateView.getProductName();
+            double productPrice = productCreateView.getProductPrice();
+            int productID = productModel.createProduct(productName, productPrice, categoryID);
         }
 
         productCreateView.setWaitingStatus();
@@ -132,7 +122,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     }
 
     private void setModularPrices() {
-        if(modularView != null) {
+        if (modularView != null) {
             modularView.setPriceTextFields();
         }
     }
