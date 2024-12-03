@@ -52,6 +52,12 @@ public enum MessageTypes {
     BUDGET_SEARCH_FAILURE("Error al buscar el presupuesto"
             , "Ha ocurrido un error al intentar buscar el presupuesto."
             , JOptionPane.ERROR_MESSAGE),
+    BUDGET_DELETE_SUCCESS("Presupuesto eliminado con éxito",
+            "El presupuesto fue eliminado de la base de datos correctamente.",
+            JOptionPane.INFORMATION_MESSAGE),
+    BUDGET_DELETE_FAILURE("Error al eliminar el presupuesto",
+            "Ha ocurrido un error al intentar eliminar el presupuesto.",
+            JOptionPane.ERROR_MESSAGE),
     BUDGET_CREATION_SUCCESS("Presupuesto creado con éxito"
             , "El presupuesto fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),

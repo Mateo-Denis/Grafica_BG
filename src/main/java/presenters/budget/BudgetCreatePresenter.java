@@ -91,7 +91,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 clientName = clientTableModel.getValueAt(selectedRow, 1).toString();
                 clientType = clientTableModel.getValueAt(selectedRow, 5).toString();
                 budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName);
-                budgetCreateView.setPreviewStringTableValueAt(0, 5, clientType);
+                budgetCreateView.setPreviewStringTableValueAt(0, 6, clientType);
                 globalClientID = budgetModel.getClientID(clientName);
                 clientSelectedCheckBox.setSelected(true);
             } else {
@@ -148,44 +148,38 @@ public class BudgetCreatePresenter extends StandardPresenter {
             ArrayList<String> productObservations = new ArrayList<>();
             ArrayList<String> productMeasures = new ArrayList<>();
 
-            String productCellValue = "";
+            String productMeasuresText = "";
+            String productObservationsText = "";
+            String measureCellValue = "";
+            String observationCellValue = "";
             String productName = "";
             int amount = 0;
-            String measures = "";
-            String observation = "";
             String budgetName = budgetCreateView.getPreviewStringTableValueAt(0, 0);
             double finalPrice = 0;
 
             for (int i = 1; i < rowCountOnPreviewTable; i++) {
-                productCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 3); // VALOR DE LA COLUMNA DE MEDIDAS/OBSERVACIONES
                 productName = budgetCreateView.getPreviewStringTableValueAt(i, 1);
+                amount = budgetCreateView.getPreviewIntTableValueAt(i, 2);
+                measureCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 3);
+                observationCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 4);
 
-                if (!productCellValue.equals("") && productCellValue != null) { // SI LA COLUMNA NO ESTÁ VACIA
-                    if (productCellValue.contains("Medidas:") && productCellValue.contains("Observaciones:")) { // SI CONTIENE MEDIDAS Y OBSERVACIONES
-                        measures = productCellValue.substring(productCellValue.indexOf("Medidas: ") + 9, productCellValue.indexOf(" || Observaciones: "));
-                        observation = productCellValue.substring(productCellValue.indexOf("Observaciones: ") + 14);
-                    } else if (productCellValue.contains("Medidas:") && !productCellValue.contains("Observaciones:")) {
-                        measures = productCellValue.substring(productCellValue.indexOf("Medidas: ") + 9);
-                        observation = "";
-                    } else if (productCellValue.contains("Observaciones:") && !productCellValue.contains("Medidas:")) {
-                        observation = productCellValue.substring(productCellValue.indexOf("Observaciones: ") + 14);
-                        measures = "";
-                    } else {
-                        measures = "";
-                        observation = "";
-                    }
+                if (!measureCellValue.isEmpty()) {
+                    productMeasuresText = measureCellValue;
+                    productMeasures.add(productMeasuresText);
                 }
 
-                amount = (int) budgetCreateView.getPreviewTable().getValueAt(i, 2);
-                Product product = productModel.getOneProduct(productModel.getProductID(productName));
-                products.put(amount, productName);
-                productMeasures.add(measures);
-                productObservations.add(observation);
-                double productPrice = 0.0;
-                double totalPrice = productPrice * amount;
-                rows.add(new Row(productName + " || " + observation, amount, measures, productPrice, totalPrice));
+                if (!observationCellValue.isEmpty()) {
+                    productObservationsText = observationCellValue;
+                    productObservations.add(productObservationsText);
+                }
 
-                finalPrice += totalPrice;
+                products.put(i, productName);
+
+//                Row row = new Row(productName, amount, productMeasuresText, productObservationsText);
+//                rows.add(row);
+//                double totalPrice =
+//
+//                finalPrice += totalPrice;
             }
 
             budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
@@ -212,8 +206,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productName = "";
         String productMeasures = "";
         String productObservations = "";
-        String textToPut = "";
         String productAmountStr = "";
+        String measureText = "";
+        String observationText = "";
         int productAmountInt = 1;
         int productID = -1;
         double productPrice = -1;
@@ -248,25 +243,25 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 }
 
                 if (!productMeasures.equals("") && !productObservations.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
-                    textToPut = "Medidas: " + productMeasures + " || Observaciones: " + productObservations;
+                    measureText = "Medidas: " + productMeasures;
+                    observationText = " || Observaciones: " + productObservations;
                 } else if (!productMeasures.equals("")) { // INGRESÓ MEDIDAS
-                    textToPut = "Medidas: " + productMeasures;
+                    measureText = "Medidas: " + productMeasures;
                 } else if (!productObservations.equals("")) { // INGRESÓ OBSERVACIONES
-                    textToPut = "Observaciones: " + productObservations;
-                } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
-                    textToPut = "-";
+                    observationText = "Observaciones: " + productObservations;
                 }
 
                 if (budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
 
                     budgetCreateView.setPreviewStringTableValueAt(1, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
                     budgetCreateView.setPreviewIntTableValueAt(1, 2, productAmountInt); //INSERTA EN LA COLUMNA DE CANTIDAD
-                    budgetCreateView.setPreviewStringTableValueAt(1, 3, textToPut); //INSERTA EN LA COLUMNA DE PRODUCTO
+                    budgetCreateView.setPreviewStringTableValueAt(1, 3, measureText); //INSERTA EN LA COLUMNA DE MEDIDAS
+                    budgetCreateView.setPreviewStringTableValueAt(1, 4, observationText); //INSERTA EN LA COLUMNA DE OBSERVACIONES
 
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
                     productPrice = 0.0 * productAmountInt;
-                    budgetCreateView.setPreviewDoubleTableValueAt(1, 4, productPrice);
+                    budgetCreateView.setPreviewDoubleTableValueAt(1, 5, productPrice);
                     rowCountOnPreviewTable = 2;
                     updateTextArea(sb, priceTextArea, true);
 
@@ -274,11 +269,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
                     budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
                     budgetCreateView.setPreviewIntTableValueAt(rowCountOnPreviewTable, 2, productAmountInt);
-                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, textToPut);
+                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, measureText);
+                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 4, observationText);
                     productID = productModel.getProductID(productName);
                     Product product = productModel.getOneProduct(productID);
                     productPrice = 0.0 * productAmountInt;
-                    budgetCreateView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 4, productPrice);
+                    budgetCreateView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 5, productPrice);
                     updateTextArea(sb, priceTextArea, true);
                     rowCountOnPreviewTable++;
 

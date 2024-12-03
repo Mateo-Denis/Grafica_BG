@@ -69,15 +69,19 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void deleteOneBudget() {
         int budgetID = getOneBudgetID();
-        if (budgetID != -1 && budgetID != 0) {
+        int budgetNumber = budgetSearchView.getSelectedBudgetNumber();
+        String budgetName = budgetSearchView.getSelectedBudgetName();
+        if (budgetNumber != 0 && budgetID != -1 && budgetID != 0) {
             budgetModel.deleteOneBudget(budgetID);
-            budgetModel.deleteBudgetProducts(budgetSearchView.getSelectedBudgetName(), budgetSearchView.getSelectedBudgetNumber(), budgetID, false);
+            budgetModel.deleteBudgetProducts(budgetName, budgetNumber, budgetID, false);
             budgetSearchView.setWorkingStatus();
             budgetSearchView.clearTable();
             String budgetSearch = budgetSearchView.getSearchText();
             budgetModel.queryBudgets(budgetSearch);
             budgetSearchView.deselectAllRows();
             budgetSearchView.setWaitingStatus();
+        } else {
+            budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);
         }
     }
 
@@ -105,9 +109,9 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public int getOneBudgetID() {
         int selectedRow = budgetSearchView.getBudgetResultTable().getSelectedRow();
-        if (selectedRow != -1) {
+        int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
+        if (selectedRow != -1 && selectedBudgetNumber != 0) {
             String selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
-            int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
             return budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
         }
         return -1;

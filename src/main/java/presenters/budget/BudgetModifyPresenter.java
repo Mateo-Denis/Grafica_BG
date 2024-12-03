@@ -158,8 +158,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
     public void setModifyView(int budgetNumber, int selectedBudgetRow, Multimap<Integer, String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
-        budgetModifyView.showView();
-        budgetModifyView.getClientSelectedCheckBox().setSelected(true);
+        budgetModifyView.showView(); //MUESTRO LA VISTA
+        budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
         rowCountOnPreviewTable = budgetModifyView.countNonEmptyCells(budgetModifyView.getPreviewTable(), 1) + 1;
         JTextArea textArea = budgetModifyView.getPriceTextArea();
         StringBuilder sb = budgetModifyView.getStringBuilder();

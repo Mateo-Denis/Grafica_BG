@@ -12,7 +12,7 @@ import views.ToggleableView;
 import java.util.ArrayList;
 
 
-public class BudgetSearchView extends ToggleableView implements IBudgetSearchView{
+public class BudgetSearchView extends ToggleableView implements IBudgetSearchView {
     private JPanel containerPanel;
     private JPanel budgetSearchContainer;
     private JTextField searchField;
@@ -43,7 +43,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         this.budgetModifyPresenter = budgetModifyPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(850,580);
+        windowFrame.setSize(850, 580);
         windowFrame.setResizable(false);
 
         initListeners();
@@ -114,14 +114,18 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public int getSelectedBudgetNumber() {
         int budgetNumber = 0;
+        Object budgetNumberObj = budgetResultTable.getValueAt(getSelectedTableRow(), 3);
         try {
-            String budgetNumberStr = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 3);
-            budgetNumber = Integer.parseInt(budgetNumberStr);
-            return budgetNumber;
+            String budgetNumberStr = (String) budgetNumberObj;
+            if (budgetNumberStr == null) {
+                JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                budgetNumber = Integer.parseInt(budgetNumberStr);
+            }
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return 0;
+        return budgetNumber;
     }
 
     @Override
