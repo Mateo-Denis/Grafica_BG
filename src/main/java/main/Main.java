@@ -63,7 +63,7 @@ public class Main {
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
-        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB, categoriesDB);
+        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB);
         ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
         IProductListModel productListModel = new ProductListModel(productsDB);
         IClientListModel clientListModel = new ClientListModel(clientsDB);
@@ -93,7 +93,7 @@ public class Main {
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
         ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(productSearchView, productModel, categoryModel);
         ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
-        BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(budgetCreateView, budgetModel, categoryModel, productModel);
+        BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(budgetCreateView, budgetModel, productModel, categoryModel);
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModifyModel, categoryModel, budgetModel, productModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel);

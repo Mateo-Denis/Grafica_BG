@@ -62,8 +62,8 @@ public class BudgetSearchPresenter extends StandardPresenter {
         int[] selectedRows = budgetSearchView.getBudgetResultTable().getSelectedRows();
         if (selectedRows.length == 1) {
             deleteOneBudget();
-        } else if (selectedRows.length > 1) {
-            deleteMultipleBudgets();
+        } else {
+            budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);
         }
     }
 
@@ -83,28 +83,6 @@ public class BudgetSearchPresenter extends StandardPresenter {
         } else {
             budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);
         }
-    }
-
-    public void deleteMultipleBudgets() {
-        ArrayList<Integer> budgetIDs = new ArrayList<>();
-        ArrayList<Integer> selectedBudgetNumbers = budgetSearchView.getMultipleSelectedBudgetNumbers();
-        ArrayList<String> selectedBudgetNames = budgetSearchView.getMultipleSelectedBudgetNames();
-        int selectedRows[] = budgetSearchView.getBudgetResultTable().getSelectedRows();
-        for (int i = 0; i < selectedRows.length; i++) {
-            System.out.println("Selected budget: " + selectedBudgetNames.get(i));
-            String budgetName = selectedBudgetNames.get(i);
-            int budgetNumber = selectedBudgetNumbers.get(i);
-            int budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
-            budgetIDs.add(budgetID);
-            budgetModel.deleteBudgetProducts(budgetName, budgetID, budgetNumber, false);
-        }
-        budgetModel.deleteMultipleBudgets(budgetIDs);
-        budgetSearchView.setWorkingStatus();
-        budgetSearchView.clearTable();
-        String budgetSearch = budgetSearchView.getSearchText();
-        budgetModel.queryBudgets(budgetSearch);
-        budgetSearchView.deselectAllRows();
-        budgetSearchView.setWaitingStatus();
     }
 
     public int getOneBudgetID() {

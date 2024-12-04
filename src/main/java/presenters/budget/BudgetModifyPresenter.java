@@ -148,7 +148,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             oldBudgetID = budgetModel.getBudgetID(budgetNumber, oldClientName);
             System.out.println("ID DEL VIEJO BUDGET: " + oldBudgetID);
             budgetModel.createBudget(newClientName, date, newClientType, budgetNumber);
-            newBudgetID = budgetModel.getMaxBudgetID();
+            //newBudgetID = budgetModel.getMaxBudgetID();
             System.out.println("ID DEL NUEVO BUDGET: " + newBudgetID);
             budgetModel.saveProducts(newBudgetID, products, productObservations, productMeasures);
             budgetModel.deleteBudgetProducts(oldClientName, oldBudgetID, budgetNumber, true);

@@ -69,6 +69,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             ArrayList<Product> products = new ArrayList<>();
             while (resultSet.next()) {
                 Product product = new Product(
+                        resultSet.getInt("ID"),
                         resultSet.getString("Nombre"),
                         resultSet.getInt("Categoria_ID")
                 );
@@ -153,10 +154,11 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                int productID = rs.getInt("ID");
                 int categoryID= rs.getInt("Categoria_ID");
                 String productName = rs.getString("Nombre");
 
-                products.add(new Product(productName, categoryID));
+                products.add(new Product(productID, productName, categoryID));
             }
         }
 
@@ -176,6 +178,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             Product product = null;
             while (resultSet.next()) {
                 product = new Product(
+                        resultSet.getInt("ID"),
                         resultSet.getString("Nombre"),
                         resultSet.getInt("Categoria_ID")
                 );

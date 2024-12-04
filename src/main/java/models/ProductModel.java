@@ -42,7 +42,7 @@ public class ProductModel implements IProductModel {
 
     public int createProduct(String productName, double productPrice, int categoryID) {
         try {
-            int productID = productsDBConnection.insertProduct(productName, productPrice, categoryID);
+            int productID = productsDBConnection.insertProduct(productName, categoryID);
             notifyProductCreationSuccess();
             return productID;
         } catch (Exception e) {
