@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import utils.Product;
 
@@ -17,8 +16,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         String productSQL = "CREATE TABLE IF NOT EXISTS Productos (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Nombre TEXT NOT NULL," +
-                "Descripción TEXT," +
-                "Precio REAL NOT NULL," +
                 "Categoria_ID INTEGER NOT NULL," +
                 "FOREIGN KEY(Categoria_ID) REFERENCES Categorias(ID)" +
                 ")";
@@ -30,14 +27,13 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public int insertProduct(String nombre, double precio, int categoriaID) throws SQLException {
+    public int insertProduct(String nombre, int categoriaID) throws SQLException {
         int idGenerado = -1;
-        String sql = "INSERT INTO Productos(Nombre, Precio, Categoria_ID) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO Productos(Nombre, Categoria_ID) VALUES(?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
-            pstmt.setDouble(2, precio);
-            pstmt.setInt(3, categoriaID);
+            pstmt.setInt(2, categoriaID);
             //pstmt.executeUpdate();
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
@@ -74,7 +70,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (resultSet.next()) {
                 Product product = new Product(
                         resultSet.getString("Nombre"),
-                        resultSet.getDouble("Precio"),
                         resultSet.getInt("Categoria_ID")
                 );
                 products.add(product);
@@ -85,28 +80,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             conn.close();
             return products;
         }
-
-
-/*        try (Connection conn = connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, "%" + searchText + "%");
-            ResultSet resultSet = pstmt.executeQuery();
-            ArrayList<Product> products = new ArrayList<>();
-            while (resultSet.next()) {
-                Product product = new Product(
-                        resultSet.getString("Nombre"),
-                        resultSet.getString("Descripcion"),
-                        resultSet.getDouble("Precio"),
-                        resultSet.getInt("Categoria_ID")
-                );
-                products.add(product);
-            }
-
-            resultSet.close();
-            pstmt.close();
-            conn.close();
-            return products;
-        }*/
     }
 
     public int getCategoryID(String productName) throws SQLException {
@@ -182,9 +155,8 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (rs.next()) {
                 int categoryID= rs.getInt("Categoria_ID");
                 String productName = rs.getString("Nombre");
-                double productPrice = rs.getDouble("Precio");
 
-                products.add(new Product(productName, productPrice, categoryID));
+                products.add(new Product(productName, categoryID));
             }
         }
 
@@ -205,7 +177,6 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
             while (resultSet.next()) {
                 product = new Product(
                         resultSet.getString("Nombre"),
-                        resultSet.getDouble("Precio"),
                         resultSet.getInt("Categoria_ID")
                 );
             }

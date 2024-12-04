@@ -97,20 +97,6 @@ public class ProductModel implements IProductModel {
         }
     }
 
-/*    @Override
-    public void deleteAllVisibleProducts(ArrayList<String> visibleProductNames) {
-        List<Integer> visibleProductIDs = new ArrayList<>();
-        for (String productName : visibleProductNames) {
-            visibleProductIDs.add(getProductID(productName));
-        }
-        try {
-            productsDBConnection.deleteOneProductFromDB(visibleProductIDs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
-
     @Override
     public void addProductCreationSuccessListener(ProductCreationSuccessListener listener) {
         productCreationSuccessListeners.add(listener);
