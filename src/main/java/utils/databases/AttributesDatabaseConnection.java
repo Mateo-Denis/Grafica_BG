@@ -47,8 +47,8 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public int getAttributeID(String attribute) {
-        String sql = "SELECT ID FROM Atributos WHERE Nombre = ?";
+    public int getAttributeID(String attribute, int categoryID) {
+        String sql = "SELECT ID FROM Atributos WHERE Nombre = ? AND ID_CATEGORIA = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, attribute);

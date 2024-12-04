@@ -137,7 +137,7 @@ public class CategoryModel implements ICategoryModel {
             int attributeID;
             for (int i = 0; i < attributesNames.size(); i++) {
                 attributeName = attributesNames.get(i);
-                attributeID = attributesDBConnection.getAttributeID(attributeName);
+                attributeID = attributesDBConnection.getAttributeID(attributeName, categoryID);
                 attributesDBConnection.insertProductAttributeRow(productID, attributeID, attributesValues.get(i));
             }
         } else {
