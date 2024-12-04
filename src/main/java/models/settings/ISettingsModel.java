@@ -15,7 +15,6 @@ public interface ISettingsModel {
 
 	void updateModularValue(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException;
 
-
 	ArrayList<SettingsTableNames> getTableNames();
 
 	void updateModularPrices(List<Triplet<String, String, Double>> modularPrices) throws SQLException;
