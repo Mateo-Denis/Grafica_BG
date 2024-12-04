@@ -1,23 +1,23 @@
 package presenters.budget;
 
-import presenters.StandardPresenter;
+import static utils.MessageTypes.*;
 import models.IBudgetModel;
-import views.budget.IBudgetSearchView;
-import views.budget.IBudgetCreateView;
+import presenters.StandardPresenter;
 import utils.Budget;
+import views.budget.IBudgetCreateView;
+import views.budget.IBudgetSearchView;
 
 import java.util.ArrayList;
 
-//IMPORT DE SHAREDMODEL PARA EL UPDATE DE COMBOBOX
 
-import static utils.MessageTypes.*;
-
+// BudgetSearchPresenter CLASS
 public class BudgetSearchPresenter extends StandardPresenter {
     private final IBudgetSearchView budgetSearchView;
     private final IBudgetModel budgetModel;
     private final IBudgetCreateView budgetCreateView;
     private BudgetCreatePresenter budgetCreatePresenter;
 
+    // CONSTRUCTOR
     public BudgetSearchPresenter(IBudgetSearchView budgetSearchView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel) {
         this.budgetSearchView = budgetSearchView;
         this.budgetCreateView = budgetCreateView;
@@ -25,6 +25,16 @@ public class BudgetSearchPresenter extends StandardPresenter {
         this.budgetModel = budgetModel;
     }
 
+
+
+
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+
+
+
+
+    //  LISTENERS
     @Override
     protected void initListeners() {
         budgetModel.addBudgetSearchSuccessListener(() -> {
@@ -42,6 +52,9 @@ public class BudgetSearchPresenter extends StandardPresenter {
         budgetModel.addBudgetSearchFailureListener(() -> budgetSearchView.showMessage(BUDGET_SEARCH_FAILURE));
     }
 
+
+
+
     public void onSearchButtonClicked() {
         budgetSearchView.setWorkingStatus();
         String budgetSearch = budgetSearchView.getSearchText();
@@ -50,13 +63,22 @@ public class BudgetSearchPresenter extends StandardPresenter {
         budgetSearchView.setWaitingStatus();
     }
 
+
+
+
     public void onCleanTableButtonClicked() {
         budgetSearchView.clearTable();
     }
 
+
+
+
     public void onHomeSearchBudgetButtonClicked() {
         budgetSearchView.showView();
     }
+
+
+
 
     public void onDeleteButtonClicked() {
         int[] selectedRows = budgetSearchView.getBudgetResultTable().getSelectedRows();
@@ -69,11 +91,15 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void deleteOneBudget() {
         int budgetID = getOneBudgetID();
+        System.out.println("Budget ID: " + budgetID);
         int budgetNumber = budgetSearchView.getSelectedBudgetNumber();
+        System.out.println("Budget Number: " + budgetNumber);
         String budgetName = budgetSearchView.getSelectedBudgetName();
+        System.out.println("Budget Name: " + budgetName);
+
         if (budgetNumber != 0 && budgetID != -1 && budgetID != 0) {
             budgetModel.deleteOneBudget(budgetID);
-            budgetModel.deleteBudgetProducts(budgetName, budgetNumber, budgetID, false);
+            budgetModel.deleteBudgetProducts(budgetName, budgetID, budgetNumber);
             budgetSearchView.setWorkingStatus();
             budgetSearchView.clearTable();
             String budgetSearch = budgetSearchView.getSearchText();
@@ -85,13 +111,22 @@ public class BudgetSearchPresenter extends StandardPresenter {
         }
     }
 
+
+
+
     public int getOneBudgetID() {
         int selectedRow = budgetSearchView.getBudgetResultTable().getSelectedRow();
-        int selectedBudgetNumber = budgetSearchView.getSelectedBudgetNumber();
-        if (selectedRow != -1 && selectedBudgetNumber != 0) {
-            String selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
-            return budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
+        String selectedBudgetName = "";
+        int selectedBudgetNumber = -1;
+        int budgetId = -1;
+
+        if (selectedRow != -1) {
+            selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
+            if(selectedBudgetName != null && !selectedBudgetName.isEmpty()) {
+                selectedBudgetNumber = Integer.parseInt(budgetSearchView.getStringValueAt(selectedRow, 3));
+                budgetId = budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);
+            }
         }
-        return -1;
+        return budgetId;
     }
 }

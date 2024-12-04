@@ -7,6 +7,7 @@ import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
+import utils.MessageTypes;
 import views.ToggleableView;
 
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     }
 
     @Override
+    public void setPresenter(StandardPresenter budgetSearchPresenter) {
+        this.budgetSearchPresenter = (BudgetSearchPresenter) budgetSearchPresenter;
+    }
+
+    @Override
     protected void wrapContainer() {
         containerPanelWrapper = containerPanel;
     }
@@ -68,7 +74,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
         //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
-        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(this.getBudgetResultTable(), this.getSelectedTableRow(), getSelectedBudgetNumber()));
+        //modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(this.getBudgetResultTable(), this.getSelectedTableRow(), getSelectedBudgetNumber()));
+    }
+
+    public void setStringTableValueAt(int row, int col, String value) {
+        budgetResultTable.setValueAt(value, row, col);
     }
 
     @Override
@@ -77,19 +87,10 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         searchField.setText("");
     }
 
-    @Override
-    public void setPresenter(StandardPresenter budgetSearchPresenter) {
-        this.budgetSearchPresenter = (BudgetSearchPresenter) budgetSearchPresenter;
-    }
-
-    @Override
     public String getSearchText() {
         return searchField.getText();
     }
 
-    public void setStringTableValueAt(int row, int col, String value) {
-        budgetResultTable.setValueAt(value, row, col);
-    }
 
     public void clearTable() {
         for (int row = 0; row < budgetResultTable.getRowCount(); row++) {
@@ -102,13 +103,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public String getSelectedBudgetName() {
         String budgetName = "";
-        try {
+        int selectedRow = getSelectedTableRow();
+        if (selectedRow != -1) {
             budgetName = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 0);
-            return budgetName;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return null;
+        return budgetName;
     }
 
     @Override
@@ -117,13 +116,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         Object budgetNumberObj = budgetResultTable.getValueAt(getSelectedTableRow(), 3);
         try {
             String budgetNumberStr = (String) budgetNumberObj;
-            if (budgetNumberStr == null) {
-                JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
+            if (budgetNumberStr != null && !budgetNumberStr.isEmpty()) {
                 budgetNumber = Integer.parseInt(budgetNumberStr);
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún presupuesto seleccionado.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         return budgetNumber;
     }
@@ -184,3 +181,5 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         return modifyButton;
     }
 }
+
+

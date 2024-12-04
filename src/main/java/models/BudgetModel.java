@@ -228,9 +228,9 @@ public class BudgetModel implements IBudgetModel {
 
 
 
-    public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber, boolean updating) {
+    public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber) {
         try {
-            budgetsDBConnection.deleteBudgetProducts(budgetName, budgetID, budgetNumber, updating);
+            budgetsDBConnection.deleteBudgetProducts(budgetName, budgetID, budgetNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }

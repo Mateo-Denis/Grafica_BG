@@ -257,15 +257,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
-    public void deleteBudgetProducts(String budgetName, int oldBudgetID, int budgetNumber, boolean updating) throws SQLException {
-        int budgetID = -1;
-
-        if(updating){
-            budgetID = oldBudgetID;
-        } else {
-            budgetID = getBudgetID(budgetName, budgetNumber);
-        }
-
+    public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber) throws SQLException {
         String sql = "DELETE FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
