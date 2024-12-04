@@ -1,5 +1,6 @@
 package utils;
 
+import lombok.Getter;
 import org.javatuples.Pair;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.InstancedAttributesDatabaseConnection;
@@ -10,22 +11,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Product {
-    private int ID;
-    private String name;
-    private int categoryID;
+    private final int ID;
+    @Getter
+    private final String name;
+    @Getter
+    private final int categoryID;
     private SettingsDatabaseConnection settingsDBConnection;
 
-    public Product(String name, int categoryID) {
+    public Product(int id, String name, int categoryID) {
         this.name = name;
         this.categoryID = categoryID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getCategoryID() {
-        return categoryID;
+        this.ID = id;
     }
 
     public double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
