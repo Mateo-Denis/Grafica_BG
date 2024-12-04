@@ -1,194 +1,74 @@
 package presenters.budget;
 
+//IMPORTS FROM PRESENTERS PACKAGE
 
-import PdfFormater.Row;
 import PdfFormater.SamplePDFCreation;
-import lombok.Setter;
-import models.IProductModel;
-import presenters.StandardPresenter;
-import models.IBudgetModel;
-import models.ICategoryModel;
-import views.budget.IBudgetCreateView;
-import utils.Client;
-import utils.MessageTypes;
-import utils.Product;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import presenters.StandardPresenter;
 
+//IMPORTS FROM UTILS PACKAGE
+import utils.*;
+import utils.Client;
+import utils.Product;
+import utils.MessageTypes.*;
+
+//IMPORTS FROM VIEWS PACKAGE
+import views.budget.BudgetCreateView;
+import views.budget.IBudgetCreateView;
+
+//IMPORTS FROM MODELS PACKAGE
+import models.ICategoryModel;
+import models.IBudgetModel;
+import models.IProductModel;
+
+//IMPORTS FROM JAVA
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static utils.MessageTypes.*;
+
+//  --------> BUDGET CREATE PRESENTER CLASS STARTS HERE <-------------
+//  --------> BUDGET CREATE PRESENTER CLASS STARTS HERE <-------------
 
 public class BudgetCreatePresenter extends StandardPresenter {
     private final IBudgetCreateView budgetCreateView;
     private final IBudgetModel budgetModel;
-    private final ICategoryModel categoryModel;
-    @Setter
-    private int rowCountOnPreviewTable = 1;
     private final IProductModel productModel;
+    private final ICategoryModel categoryModel;
+
     private ArrayList<Client> globalClientsList;
     private int globalClientID = -1;
-    private int budgetNumber = -1;
+    private int productsRowCountOnPreviewTable = 1; // ROW COUNT ON PREVIEW TABLE
+
     private boolean editingProduct = false;
 
-    public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, ICategoryModel categoryModel, IProductModel productModel) {
+    public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
+                                 ICategoryModel categoryModel)
+    {
         this.budgetCreateView = budgetCreateView;
         view = budgetCreateView;
         this.budgetModel = budgetModel;
-        this.categoryModel = categoryModel;
         this.productModel = productModel;
+        this.categoryModel = categoryModel;
+
         cargarCategorias();
         cargarCiudades();
-        budgetNumber = budgetModel.getNextBudgetNumber();
     }
 
+
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+
+    // LISTENERS:
     @Override
     protected void initListeners() {
-        budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(BUDGET_CREATION_SUCCESS));
-        budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(BUDGET_CREATION_FAILURE));
+        budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_FAILURE));
+        budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS));
     }
 
-    public void onHomeCreateBudgetButtonClicked() {
 
-        budgetCreateView.showView();
-    }
-
-    public void onSearchClientButtonClicked() {
-        String city = (String) budgetCreateView.getCitiesComboBox().getSelectedItem();
-        String name = budgetCreateView.getBudgetClientName();
-        int clientID = -1;
-        if (city.equals("Seleccione una ciudad")) {
-            city = "";
-        }
-        globalClientsList = budgetModel.getClients(name, city);
-        ArrayList<Client> clients = budgetModel.getClients(name, city);
-        budgetCreateView.clearClientTable();
-        int rowCount = 0;
-        for (Client client : clients) {
-            clientID = budgetModel.getClientID(client.getName());
-
-            budgetCreateView.setClientIntTableValueAt(rowCount, 0, clientID);
-            budgetCreateView.setClientStringTableValueAt(rowCount, 1, client.getName());
-            budgetCreateView.setClientStringTableValueAt(rowCount, 2, client.getAddress());
-            budgetCreateView.setClientStringTableValueAt(rowCount, 3, client.getCity());
-            budgetCreateView.setClientStringTableValueAt(rowCount, 4, client.getPhone());
-            budgetCreateView.setClientStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
-            rowCount++;
-        }
-    }
-
-    public void onAddClientButtonClicked() {
-        int selectedRow = budgetCreateView.getClientTableSelectedRow();
-        String clientName = "";
-        String clientType = "";
-        JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox();
-        DefaultTableModel clientTableModel = budgetCreateView.getClientResultTableModel();
-
-        if (selectedRow != -1) {
-            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().equals("")) {
-                clientName = clientTableModel.getValueAt(selectedRow, 1).toString();
-                clientType = clientTableModel.getValueAt(selectedRow, 5).toString();
-                budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName);
-                budgetCreateView.setPreviewStringTableValueAt(0, 6, clientType);
-                globalClientID = budgetModel.getClientID(clientName);
-                clientSelectedCheckBox.setSelected(true);
-            } else {
-                budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
-            }
-        } else {
-            budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED);
-        }
-    }
-
-    public void onSearchProductButtonClicked() {
-        String productName = budgetCreateView.getProductsTextField().getText();
-        List<String> categoriesName = categoryModel.getCategoriesName();
-        JComboBox categoryComboBox = budgetCreateView.getCategoriesComboBox();
-        String selectedCategory = (String) categoryComboBox.getSelectedItem();
-        ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory);
-        String productCategoryName = "";
-        budgetCreateView.clearProductTable();
-        int rowCount = 0;
-        for (Product product : products) {
-            int categoryID = product.getCategoryID();
-            for (String categoryName : categoriesName) {
-                if (categoryModel.getCategoryID(categoryName) == categoryID) {
-                    productCategoryName = categoryName;
-                }
-            }
-            budgetCreateView.setProductStringTableValueAt(rowCount, 0, product.getName());
-            budgetCreateView.setProductDoubleTableValueAt(rowCount, 1, 0.0);
-            budgetCreateView.setProductStringTableValueAt(rowCount, 2, productCategoryName);
-            rowCount++;
-        }
-        categoryComboBox.setSelectedIndex(0);
-    }
-
-    public void onCreateButtonClicked() {
-        int budgetID = -1;
-        budgetNumber = budgetModel.getNextBudgetNumber();
-        budgetCreateView.setWorkingStatus();
-        ArrayList<Client> oneClientList = budgetModel.getOneClient(globalClientID);
-        ArrayList<Row> rows = new ArrayList<>();
-
-        if (onEmptyFields(0, 1)) {
-            budgetCreateView.showMessage(BUDGET_CREATION_EMPTY_COLUMN);
-        } else {
-            budgetModel.createBudget(
-                    budgetCreateView.getPreviewStringTableValueAt(0, 0),
-                    budgetCreateView.getBudgetDate(),
-                    oneClientList.get(0).isClient() ? "Cliente" : "Particular",
-                    budgetNumber
-            );
-            budgetCreateView.showMessage(BUDGET_CREATION_SUCCESS);
-
-            Multimap<Integer, String> products = ArrayListMultimap.create();
-            ArrayList<String> productObservations = new ArrayList<>();
-            ArrayList<String> productMeasures = new ArrayList<>();
-
-            String productMeasuresText = "";
-            String productObservationsText = "";
-            String measureCellValue = "";
-            String observationCellValue = "";
-            String productName = "";
-            int amount = 0;
-            String budgetName = budgetCreateView.getPreviewStringTableValueAt(0, 0);
-            double finalPrice = 0;
-
-            for (int i = 1; i < rowCountOnPreviewTable; i++) {
-                productName = budgetCreateView.getPreviewStringTableValueAt(i, 1);
-                amount = budgetCreateView.getPreviewIntTableValueAt(i, 2);
-                measureCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 3);
-                observationCellValue = budgetCreateView.getPreviewStringTableValueAt(i, 4);
-
-                if (!measureCellValue.isEmpty()) {
-                    productMeasuresText = measureCellValue;
-                    productMeasures.add(productMeasuresText);
-                }
-
-                if (!observationCellValue.isEmpty()) {
-                    productObservationsText = observationCellValue;
-                    productObservations.add(productObservationsText);
-                }
-
-                products.put(i, productName);
-
-//                Row row = new Row(productName, amount, productMeasuresText, productObservationsText);
-//                rows.add(row);
-//                double totalPrice =
-//
-//                finalPrice += totalPrice;
-            }
-
-            budgetID = budgetModel.getBudgetID(budgetNumber, budgetName);
-            budgetModel.saveProducts(budgetID, products, productObservations, productMeasures);
-            SamplePDFCreation.createPDF(false, oneClientList.get(0), budgetNumber, rows, finalPrice);
-            budgetCreateView.setWaitingStatus();
-            budgetCreateView.getWindowFrame().dispose();
-        }
-    }
 
     private void cargarCategorias() {
         List<String> categorias = categoryModel.getCategoriesName();
@@ -201,151 +81,342 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
 
-    public void onAddProductButtonClicked() {
-        int selectedProductRow = budgetCreateView.getProductTableSelectedRow();
-        String productName = "";
-        String productMeasures = "";
-        String productObservations = "";
-        String productAmountStr = "";
-        String measureText = "";
-        String observationText = "";
-        int productAmountInt = 1;
-        int productID = -1;
-        double productPrice = -1;
-        JTextArea priceTextArea = budgetCreateView.getPriceTextArea();
-        StringBuilder sb = budgetCreateView.getStringBuilder();
-        JTable productsTable = budgetCreateView.getProductsResultTable();
 
-        if (selectedProductRow != -1 || editingProduct) {
+    // START METHOD:
+    public void onHomeCreateBudgetButtonClicked() {
+        globalClientID = -1;
+        productsRowCountOnPreviewTable = 1;
+        editingProduct = false;
+        budgetCreateView.showView();
+    }
 
-            if (!editingProduct) {
-                productName = budgetCreateView.getProductStringTableValueAt(selectedProductRow, 0);
-                productObservations = budgetCreateView.getObservationsTextField().getText();
-                productMeasures = budgetCreateView.getMeasuresTextField().getText();
-                productAmountStr = budgetCreateView.getAmountTextField().getText();
 
-                if (productAmountStr.equals("")) { // NO INGRESÓ CANTIDAD
-                    productAmountInt = 1;
-                } else { // INGRESÓ CANTIDAD
-                    productAmountInt = Integer.parseInt(productAmountStr);
+    // IF THE SEARCH PRODUCTS BUTTON IS CLICKED:
+    public void OnSearchProductButtonClicked() {
+        String productName = budgetCreateView.getProductsTextField().getText(); // PRODUCT NAME SEARCHED
+        List<String> categoriesName = categoryModel.getCategoriesName(); // GET CATEGORIES NAMES
+        JComboBox categoryComboBox = budgetCreateView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
+        String selectedCategory = (String) categoryComboBox.getSelectedItem(); // GET SELECTED CATEGORY
+        ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory); // GET PRODUCTS BY NAME AND CATEGORY
+        String productCategoryName = ""; // PRODUCT CATEGORY NAME STRING VARIABLE
+        budgetCreateView.clearProductTable(); // CLEAR PRODUCT TABLE
+        int rowCount = 0; // ROW COUNT VARIABLE
+
+        // SUPER LOOP THROUGH PRODUCTS
+        for (Product product : products) {
+            int categoryID = product.getCategoryID(); // GET CATEGORY ID
+
+            // INNER LOOP THROUGH CATEGORIES NAMES
+            for (String categoryName : categoriesName) {
+                if (categoryModel.getCategoryID(categoryName) == categoryID) { // IF CATEGORY ID MATCHES
+                    productCategoryName = categoryName; // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
+            }
 
-                if (productObservations.equals("")) { // NO INGRESÓ OBSERVACIONES
-                    productObservations = "";
-                } else { // INGRESÓ OBSERVACIONES
-                    productObservations = productObservations.trim();
-                }
+            budgetCreateView.setProductStringTableValueAt(rowCount, 0, product.getName()); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 0, PRODUCT NAME
+            budgetCreateView.setProductStringTableValueAt(rowCount, 1, productCategoryName); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 2, PRODUCT CATEGORY NAME
+            rowCount++; // INCREMENT ROW COUNT
+        }
+        categoryComboBox.setSelectedIndex(0);
+    }
 
-                if (productMeasures.equals("")) { // NO INGRESÓ MEDIDAS
-                    productMeasures = "";
-                } else { // INGRESÓ MEDIDAS
-                    productMeasures = productMeasures.trim();
-                }
 
-                if (!productMeasures.equals("") && !productObservations.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
-                    measureText = "Medidas: " + productMeasures;
-                    observationText = " || Observaciones: " + productObservations;
-                } else if (!productMeasures.equals("")) { // INGRESÓ MEDIDAS
-                    measureText = "Medidas: " + productMeasures;
-                } else if (!productObservations.equals("")) { // INGRESÓ OBSERVACIONES
-                    observationText = "Observaciones: " + productObservations;
-                }
 
-                if (budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1) == 0) { //NO HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+    public void onClientSelectedCheckBoxClicked() {
+        JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox();
+        if (clientSelectedCheckBox.isSelected()) {
+            budgetCreateView.setSecondPanelsVisibility();
+        } else {
+            budgetCreateView.setInitialPanelsVisibility();
+        }
+    }
 
-                    budgetCreateView.setPreviewStringTableValueAt(1, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
-                    budgetCreateView.setPreviewIntTableValueAt(1, 2, productAmountInt); //INSERTA EN LA COLUMNA DE CANTIDAD
-                    budgetCreateView.setPreviewStringTableValueAt(1, 3, measureText); //INSERTA EN LA COLUMNA DE MEDIDAS
-                    budgetCreateView.setPreviewStringTableValueAt(1, 4, observationText); //INSERTA EN LA COLUMNA DE OBSERVACIONES
 
-                    productID = productModel.getProductID(productName);
-                    Product product = productModel.getOneProduct(productID);
-                    productPrice = 0.0 * productAmountInt;
-                    budgetCreateView.setPreviewDoubleTableValueAt(1, 5, productPrice);
-                    rowCountOnPreviewTable = 2;
-                    updateTextArea(sb, priceTextArea, true);
 
-                } else { //HAY CELDAS CON CONTENIDO EN LA TABLA DE PREVIEW
+    // IF THE SEARCH CLIENT BUTTON IS CLICKED:
+    public void OnSearchClientButtonClicked() {
+        String city = "";
+        city = (String) budgetCreateView.getCitiesComboBox().getSelectedItem(); // GET CITY
+        String name = budgetCreateView.getBudgetClientName(); // GET BUDGET CLIENT NAME
+        int clientID = -1; // CLIENT ID VARIABLE
 
-                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 1, productName);
-                    budgetCreateView.setPreviewIntTableValueAt(rowCountOnPreviewTable, 2, productAmountInt);
-                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 3, measureText);
-                    budgetCreateView.setPreviewStringTableValueAt(rowCountOnPreviewTable, 4, observationText);
-                    productID = productModel.getProductID(productName);
-                    Product product = productModel.getOneProduct(productID);
-                    productPrice = 0.0 * productAmountInt;
-                    budgetCreateView.setPreviewDoubleTableValueAt(rowCountOnPreviewTable, 5, productPrice);
-                    updateTextArea(sb, priceTextArea, true);
-                    rowCountOnPreviewTable++;
+        // IF CITY IS "SELECCIONE UNA CIUDAD"
+        if (city.equals("Seleccione una ciudad")) {
+            city = ""; // SET CITY TO EMPTY STRING
+        }
 
-                }
+
+        globalClientsList = budgetModel.getClients(name, city); // GLOBAL VARIABLE -> GET CLIENTS BY NAME AND CITY
+        ArrayList<Client> clients = budgetModel.getClients(name, city); // LOCAL VARIABLE -> GET CLIENTS BY NAME AND CITY
+        budgetCreateView.clearClientTable(); // CLEAR CLIENT TABLE
+        int rowCount = 0; // ROW COUNT VARIABLE
+
+        // LOOP THROUGH CLIENTS
+        for (Client client : clients) {
+            clientID = budgetModel.getClientID(client.getName()); // GET CLIENT ID
+
+            // SET CLIENT TABLE VALUES
+            budgetCreateView.setClientIntTableValueAt(rowCount, 0, clientID);
+            budgetCreateView.setClientStringTableValueAt(rowCount, 1, client.getName());
+            budgetCreateView.setClientStringTableValueAt(rowCount, 2, client.getAddress());
+            budgetCreateView.setClientStringTableValueAt(rowCount, 3, client.getCity());
+            budgetCreateView.setClientStringTableValueAt(rowCount, 4, client.getPhone());
+            budgetCreateView.setClientStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
+            rowCount++; // INCREMENT ROW COUNT
+        }
+    }
+
+
+    // IF THE ADD CLIENT BUTTON IS CLICKED:
+    public void onAddClientButtonClicked() {
+        int selectedRow = budgetCreateView.getClientTableSelectedRow(); // GET SELECTED ROW
+        String clientName = ""; // CLIENT NAME STRING VARIABLE
+        String clientType = ""; // CLIENT TYPE STRING VARIABLE
+        JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox(); // GET CLIENT SELECTED CHECK BOX
+        DefaultTableModel clientTableModel = budgetCreateView.getClientResultTableModel(); // GET CLIENT RESULT TABLE MODEL
+
+        // IF SELECTED ROW IS NOT -1 (NOT EMPTY)
+        if (selectedRow != -1) {
+            // IF CLIENT NAME IS NOT NULL AND NOT EMPTY
+            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().equals("")) {
+                clientName = clientTableModel.getValueAt(selectedRow, 1).toString(); // GET CLIENT NAME FROM TABLE MODEL
+                clientType = clientTableModel.getValueAt(selectedRow, 5).toString(); // GET CLIENT TYPE FROM TABLE MODEL
+                budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName); // SET PREVIEW STRING TABLE VALUE AT 0, 0, CLIENT NAME
+                budgetCreateView.setPreviewStringTableValueAt(0, 6, clientType); // SET PREVIEW STRING TABLE VALUE AT 0, 6, CLIENT TYPE
+                globalClientID = budgetModel.getClientID(clientName); // SET GLOBAL CLIENT ID TO CLIENT ID
+                clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
             } else {
+                budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
+            }
+        } else {
+            budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
+        }
+    }
+
+
+    public void onCreateButtonClicked() {
+        List<String[]> budgetData = budgetCreateView.getPreviewTableFilledRowsData();
+
+        // BUDGET DATA LIST
+        String budgetClientName = ""; // BUDGET CLIENT NAME VARIABLE
+        String budgetClientType = ""; // BUDGET CLIENT TYPE VARIABLE
+        String budgetDate = budgetCreateView.getBudgetDate(); // BUDGET DATE
+        int budgetNumber = budgetModel.getNextBudgetNumber(); // BUDGET NUMBER
+        int budgetID = -1;
+
+        List<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
+        List<Double> productsPrice = new ArrayList<>(); // PRODUCTS PRICE LIST
+        List<Integer> productsAmount = new ArrayList<>(); // PRODUCTS AMOUNT LIST
+        ArrayList<String> productsMeasure = new ArrayList<>(); // PRODUCTS MEASURE LIST
+        ArrayList<String> productsObservations = new ArrayList<>(); // PRODUCTS OBSERVATIONS LIST
+        Multimap<Integer, String> products = ArrayListMultimap.create(); // PRODUCTS MULTIMAP
+
+        // LOOP THROUGH BUDGET DATA
+        for (int i = 0; i < budgetData.size(); i++) {
+
+
+            if (i == 0) {
+                System.out.println("ROW: " + i);
+
+                budgetClientName = budgetData.get(i)[0]; // SET BUDGET CLIENT NAME TO BUDGET DATA AT I, 0
+                System.out.println("BUDGET CLIENT NAME: " + budgetClientName);
+                budgetClientType = budgetData.get(i)[1]; // SET BUDGET CLIENT TYPE TO BUDGET DATA AT I, 6
+                System.out.println("BUDGET CLIENT TYPE: " + budgetClientType);
+
+
+            } else {
+                System.out.println("ROW: " + i);
+
+                productsName.add(budgetData.get(i)[0]); // ADD BUDGET DATA AT I, 0 TO PRODUCTS NAME LIST
+                System.out.println("PRODUCT NAME: " + budgetData.get(i)[0]);
+
+                System.out.println("PRODUCT AMOUNT: " + budgetData.get(i)[1]);
+                productsAmount.add(Integer.parseInt(budgetData.get(i)[1])); // ADD BUDGET DATA AT I, 2 TO PRODUCTS AMOUNT LIST
+
+                productsMeasure.add(budgetData.get(i)[2]); // ADD BUDGET DATA AT I, 3 TO PRODUCTS MEASURE LIST
+                System.out.println("PRODUCT MEASURE: " + budgetData.get(i)[3]);
+
+                productsObservations.add(budgetData.get(i)[3]); // ADD BUDGET DATA AT I, 4 TO PRODUCTS OBSERVATIONS LIST
+                System.out.println("PRODUCT OBSERVATIONS: " + budgetData.get(i)[4]);
+
+                if(budgetData.get(i)[4].isEmpty()) { // IF BUDGET DATA AT I, 5 IS EMPTY (PRICE)
+                    System.out.println("PRODUCT PRICE: 0.0");
+                    productsPrice.add(0.0); // ADD 0.0 TO PRODUCTS PRICE LIST
+                } else{
+                    System.out.println("PRODUCT PRICE: " + Double.parseDouble(budgetData.get(i)[4]));
+                    productsPrice.add(Double.parseDouble(budgetData.get(i)[4])); // ADD BUDGET DATA AT I, 1 TO PRODUCTS PRICE LIST
+                }
+            }
+        }
+
+        // LOOP THROUGH PRODUCTS NAME
+        for (int i = 0; i < productsName.size(); i++) {
+            products.put(productsAmount.get(i), productsName.get(i)); // PUT I, PRODUCTS NAME AT I
+        }
+
+
+        //TRY TO INSERT THE BUDGET INTO THE BUDGETS TABLE
+        if(onEmptyFields(0, 1)) {
+            budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_FAILURE);
+        } else {
+            // CREATE BUDGET
+            budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber);
+            budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
+
+            //INSERT THE PRODUCTS INTO THE BUDGET_PRODUCTS TABLE
+            budgetID = budgetModel.getBudgetID(budgetNumber, budgetClientName);
+            budgetModel.saveProducts(budgetID, products, productsObservations, productsMeasure);
+
+            budgetCreateView.restartWindow(); // RESTART WINDOW
+            budgetCreateView.getWindowFrame().dispose(); // CLOSE WINDOW
+        }
+
+        //PDF CREATION
+        //SamplePDFCreation.createPDF(false, oneClientList.get(0), budgetNumber, rows, finalPrice);
+
+        //SET WAITING STATUS
+        budgetCreateView.setWaitingStatus();
+    }
+
+
+
+
+    public Product GetSelectedProductFromProductsTable() {
+        int selectedProductRow = budgetCreateView.getProductTableSelectedRow();
+        Product product = null;
+
+        if (selectedProductRow != -1) {
+            String productName = budgetCreateView.getProductStringTableValueAt(selectedProductRow, 0);
+            product = productModel.getOneProduct(productModel.getProductID(productName));
+        }
+
+        return product;
+    }
+
+
+
+
+    public void EditProductOnPreviewTable(List<String> productRowData, int row) {
+        String productName = productRowData.get(0);
+        String productAmountStr = productRowData.get(1);
+        String productMeasures = productRowData.get(2);
+        String productObservations = productRowData.get(3);
+
+        budgetCreateView.setPreviewStringTableValueAt(row, 1, productName);
+        budgetCreateView.setPreviewStringTableValueAt(row, 2, productAmountStr);
+        budgetCreateView.setPreviewStringTableValueAt(row, 3, productMeasures);
+        budgetCreateView.setPreviewStringTableValueAt(row, 4, productObservations);
+    }
+
+
+
+
+    public void AddProductToPreviewTable(Product product, int row) {
+
+        String productName = product.getName();
+        String productAmountStr = budgetCreateView.getAmountTextField().getText();
+        String productMeasures = budgetCreateView.getMeasuresTextField().getText();
+        String productObservations = budgetCreateView.getObservationsTextField().getText();
+
+        if(productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
+            productAmountStr = "1";
+        }
+
+        budgetCreateView.setPreviewStringTableValueAt(row, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
+        budgetCreateView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
+        budgetCreateView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
+        budgetCreateView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
+    }
+
+
+
+
+    public List<String> GetProductFromPreviewTable(int row) {
+        List<String> productRowData = new ArrayList<>();
+        String productName = budgetCreateView.getPreviewStringTableValueAt(row, 1);
+        String productAmount = budgetCreateView.getPreviewStringTableValueAt(row, 2);
+        String productMeasures = budgetCreateView.getPreviewStringTableValueAt(row, 3);
+        String productObservations = budgetCreateView.getPreviewStringTableValueAt(row, 4);
+
+        productRowData.add(productName);
+        productRowData.add(productAmount);
+        productRowData.add(productMeasures);
+        productRowData.add(productObservations);
+
+        return productRowData;
+    }
+
+
+
+
+    public void onAddProductButtonClicked() {
+        Product product; // PRODUCT VARIABLE
+        int selectedProductRow = budgetCreateView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
+        int productAmountInt = 1; // PRODUCT AMOUNT INT
+        int productID = -1; // PRODUCT ID
+        double productPrice = -1; // PRODUCT PRICE
+        JTextArea priceTextArea = budgetCreateView.getPriceTextArea(); // PRICE TEXT AREA
+        StringBuilder sb = budgetCreateView.getStringBuilder(); // STRING BUILDER
+        JTable productsTable = budgetCreateView.getProductsResultTable(); // PRODUCTS TABLE
+
+        // IF SELECTED PRODUCT ROW IS NOT -1 (NOT EMPTY)
+        if (selectedProductRow != -1) {
+            product = GetSelectedProductFromProductsTable(); // GET SELECTED PRODUCT FROM PRODUCTS TABLE
+
+            // IF BOOLEAN GLOBAL VARIABLE "editingProduct" IS FALSE
+            if (!editingProduct) {
+                AddProductToPreviewTable(product, productsRowCountOnPreviewTable);
+                productsRowCountOnPreviewTable++;
+            } else {
+                EditProductOnPreviewTable(GetProductFromPreviewTable(selectedProductRow), selectedProductRow);
                 editingProduct = false;
-                System.out.println("SE DESACTIVÓ EL BOOLEAN DE EDITANDO PRODUCTO.");
-                int previewTableSelectedRow = budgetCreateView.getPreviewTable().getSelectedRow();
-                int productTableSelectedRow = productsTable.getSelectedRow();
-                String productNameToEdit = budgetCreateView.getPreviewStringTableValueAt(previewTableSelectedRow, 1);
-                String productMeasuresToEdit = budgetCreateView.getMeasuresTextField().getText();
-                String productObservationsToEdit = budgetCreateView.getObservationsTextField().getText();
-                String textToPutToEdit = "";
-                String productAmountStrToEdit = budgetCreateView.getAmountTextField().getText();
-                int productAmountIntToEdit = 1;
-                int productIDToEdit = -1;
-                double productPriceToEdit = -1;
-
-                if (productTableSelectedRow != -1) {
-                    System.out.println("Hay un producto seleccionado en la tabla PRODUCTOS");
-                    productNameToEdit = productsTable.getValueAt(productTableSelectedRow, 0).toString();
-                }
-
-                if (productAmountStrToEdit.equals("")) { // NO INGRESÓ CANTIDAD
-                    productAmountIntToEdit = 1;
-                } else { // INGRESÓ CANTIDAD
-                    productAmountIntToEdit = Integer.parseInt(productAmountStrToEdit);
-                }
-
-                if (productObservationsToEdit.equals("")) { // NO INGRESÓ OBSERVACIONES
-                    productObservationsToEdit = "";
-                } else { // INGRESÓ OBSERVACIONES
-                    productObservationsToEdit = productObservationsToEdit.trim();
-                }
-
-                if (productMeasuresToEdit.equals("")) { // NO INGRESÓ MEDIDAS
-                    productMeasuresToEdit = "";
-                } else { // INGRESÓ MEDIDAS
-                    productMeasuresToEdit = productMeasuresToEdit.trim();
-                }
-
-                if (!productMeasuresToEdit.equals("") && !productObservationsToEdit.equals("")) { // INGRESÓ MEDIDAS Y OBSERVACIONES
-                    textToPutToEdit = "Medidas: " + productMeasuresToEdit + " || Observaciones: " + productObservationsToEdit;
-                } else if (!productMeasuresToEdit.equals("")) { // INGRESÓ MEDIDAS
-                    textToPutToEdit = "Medidas: " + productMeasuresToEdit;
-                } else if (!productObservationsToEdit.equals("")) { // INGRESÓ OBSERVACIONES
-                    textToPutToEdit = "Observaciones: " + productObservationsToEdit;
-                } else { // NO INGRESÓ MEDIDAS NI OBSERVACIONES
-                    textToPutToEdit = "";
-                }
-
-                budgetCreateView.setPreviewStringTableValueAt(previewTableSelectedRow, 1, productNameToEdit);
-                budgetCreateView.setPreviewIntTableValueAt(previewTableSelectedRow, 2, productAmountIntToEdit);
-                budgetCreateView.setPreviewStringTableValueAt(previewTableSelectedRow, 3, textToPutToEdit);
-                productIDToEdit = productModel.getProductID(productNameToEdit);
-                Product productToEdit = productModel.getOneProduct(productIDToEdit);
-                productPriceToEdit = 0.0 * productAmountIntToEdit;
-                budgetCreateView.setPreviewDoubleTableValueAt(previewTableSelectedRow, 4, productPriceToEdit);
-                updateTextArea(sb, priceTextArea, false);
-                budgetCreateView.getPreviewTable().setEnabled(true);
             }
         }
     }
 
-    public void setearFecha() {
-        String fecha = (String) budgetCreateView.getBudgetDate();
-        //budgetCreateView.setPreviewStringTableValueAt(0, 4, fecha);
+
+
+
+    public void onPreviewTableDoubleClickedRow(int clickedRow) {
+        String productName = "";
+        String productMeasures = "";
+        String productObservations = "";
+        int productAmount = 0;
+        int productID = -1;
+        Object observations = "";
+        Object measures = "";
+
+        if (clickedRow != -1 && clickedRow != 0) {
+            System.out.println("SE ACTIVO EL BOOLEAN DE EDITANDO PRODUCTO.");
+            editingProduct = true;
+            JTable productTable = budgetCreateView.getProductsResultTable();
+            productTable.clearSelection();
+            budgetCreateView.getPreviewTable().setEnabled(false);
+            productAmount = (int) budgetCreateView.getPreviewTable().getValueAt(clickedRow, 2);
+            measures = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 3);
+            observations = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 4);
+        }
+
+        budgetCreateView.setAmountTextField(productAmount);
+        budgetCreateView.setMeasuresTextField(productMeasures);
+        budgetCreateView.setObservationsTextField(productObservations);
     }
 
-    public void setearNumeroDePresupuesto() {
-        //budgetCreateView.setPreviewIntTableValueAt(0, 6, new Random().nextInt(1000));
+
+    public void onDeleteProductButtonClicked() {
+        budgetCreateView.getProductsResultTable().clearSelection();
+        int selectedRow = budgetCreateView.getPreviewTable().getSelectedRow();
+        if (selectedRow != -1) {
+            StringBuilder sb = budgetCreateView.getStringBuilder();
+            JTextArea priceTextArea = budgetCreateView.getPriceTextArea();
+            budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
+
+            if(productsRowCountOnPreviewTable > 1)
+            {
+                productsRowCountOnPreviewTable--;
+            }
+            //updateTextArea(sb, priceTextArea, false);
+        }
     }
 
     public boolean onEmptyFields(int clientNameColumn, int productColumn) {
@@ -360,104 +431,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return anyEmpty;
     }
 
-    public void onDeleteProductButtonClicked() {
-        budgetCreateView.getProductsResultTable().clearSelection();
-        int selectedRow = budgetCreateView.getPreviewTable().getSelectedRow();
-        if (selectedRow != -1) {
-            StringBuilder sb = budgetCreateView.getStringBuilder();
-            JTextArea priceTextArea = budgetCreateView.getPriceTextArea();
-            budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
-            rowCountOnPreviewTable--;
-            updateTextArea(sb, priceTextArea, false);
-        }
-    }
 
-    public void onPreviewTableDoubleClickedRow(int clickedRow) {
-        String productName = "";
-        String productMeasures = "";
-        String productObservations = "";
-        int productAmount = 0;
-        int productID = -1;
-        Object observationsMeasures = "";
 
-        if (clickedRow != -1 && clickedRow != 0) {
-            System.out.println("SE ACTIVO EL BOOLEAN DE EDITANDO PRODUCTO.");
-            editingProduct = true;
-            JTable productTable = budgetCreateView.getProductsResultTable();
-            productTable.clearSelection();
-            budgetCreateView.getPreviewTable().setEnabled(false);
-            productAmount = (int) budgetCreateView.getPreviewTable().getValueAt(clickedRow, 2);
-            observationsMeasures = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 3);
 
-            if (observationsMeasures != null && !observationsMeasures.equals("")) {
-                if (observationsMeasures.toString().contains("Medidas:") && observationsMeasures.toString().contains("Observaciones:")) {
-                    productMeasures = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Medidas: ") + 9, observationsMeasures.toString().indexOf(" || Observaciones: "));
-                    productObservations = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Observaciones: ") + 14);
-                } else if (observationsMeasures.toString().contains("Medidas:")) {
-                    productMeasures = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Medidas: ") + 9);
-                    productObservations = "";
-                } else if (observationsMeasures.toString().contains("Observaciones:")) {
-                    productObservations = observationsMeasures.toString().substring(observationsMeasures.toString().indexOf("Observaciones: ") + 14);
-                    productMeasures = "";
-                } else {
-                    productMeasures = "";
-                    productObservations = "";
-                }
-            }
-
-            budgetCreateView.setAmountTextField(productAmount);
-            budgetCreateView.setMeasuresTextField(productMeasures);
-            budgetCreateView.setObservationsTextField(productObservations);
-        }
-    }
-
-    public void onClientSelectedCheckBoxClicked() {
-        JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox();
-        if (clientSelectedCheckBox.isSelected()) {
-            budgetCreateView.setSecondPanelsVisibility();
-        } else {
-            budgetCreateView.setInitialPanelsVisibility();
-        }
-    }
-
-    public void updateTextArea(StringBuilder stb, JTextArea textArea, boolean adding) {
-        double totalPrice = 0;
-        int productAmount = 0;
-        int selectedProductRowIndex = budgetCreateView.getProductTableSelectedRow();
-        double productPrice = 0;
-        int filledCells = budgetCreateView.countNonEmptyCells(budgetCreateView.getPreviewTable(), 1);
-        stb.setLength(0);
-        if (adding) { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE AGREGÓ UN PRODUCTO:
-            productPrice = (double) budgetCreateView.getProductsResultTable().getValueAt(selectedProductRowIndex, 2); // EL PRECIO DEL PRODUCTO ES EL PRECIO DE LA TABLA DE PRODUCTOS DE LA FILA SELECCIONADA
-            if (filledCells == 0) { // SI NO HAY NINGUN PRODUCTO EN LA PREVIEW TABLE:
-                if (selectedProductRowIndex != -1) { // SI SE SELECCIONÓ UN PRODUCTO DE LA TABLA DE PRODUCTOS:
-                    if (budgetCreateView.getAmountTextField().getText().equals("")) { // SI NO SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
-                        productAmount = 1; // SE PONE CANTIDAD 1 POR DEFECTO
-                    } else {// SI SE ESPECIFICÓ LA CANTIDAD DE PRODUCTOS A AGREGAR:
-                        productAmount = Integer.parseInt(budgetCreateView.getAmountTextField().getText()); // SE CAPTURA LA CANTIDAD DE PRODUCTOS A AGREGAR
-                    }
-                    totalPrice += productPrice * productAmount; // SE AGREGA LA CANTIDAD * PRECIO AL PRECIO TOTAL
-                } else { // SI NO SE SELECCIONÓ NINGUN PRODUCTO DE LA TABLA DE PRODUCTOS:
-                    totalPrice = 0; // EL PRECIO TOTAL ES 0
-                }
-            } else { // SI YA HAY PRODUCTOS EN LA PREVIEW TABLE:
-                for (int i = 1; i <= filledCells; i++) { // SE RECORREN LAS FILAS DE LA PREVIEW TABLE
-                    productPrice = (double) budgetCreateView.getPreviewTable().getValueAt(i, 4);
-                    totalPrice += productPrice;
-                }
-            }
-        } else { // SI SE ESTA HACIENDO UPDATE DEL PRECIO PORQUE SE ELIMINÓ UN PRODUCTO:
-            if (filledCells == 0) {
-                totalPrice = 0;
-            } else {
-                for (int i = 1; i <= filledCells; i++) {
-                    productPrice = (double) budgetCreateView.getPreviewTable().getValueAt(i, 4);
-                    totalPrice += productPrice;
-                }
-            }
-        }
-
-        stb.append("\nPrecio Total: $").append(String.format("%.2f", totalPrice));
-        textArea.setText(stb.toString());
-    }
+    // ---------> METHODS AND FUNCTIONS END HERE <-------------
+    // ---------> METHODS AND FUNCTIONS END HERE <-------------
 }
+
+
+
+

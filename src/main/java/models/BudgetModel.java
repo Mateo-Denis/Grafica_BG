@@ -1,97 +1,80 @@
 package models;
 
-import models.listeners.failed.BudgetCreationFailureListener;
-import models.listeners.failed.BudgetSearchFailureListener;
-import models.listeners.successful.BudgetCreationSuccessListener;
-import models.listeners.successful.BudgetSearchSuccessListener;
-import utils.Budget;
-import utils.Client;
-import utils.Product;
-import utils.databases.BudgetsDatabaseConnection;
-import utils.databases.CategoriesDatabaseConnection;
-import utils.databases.ClientsDatabaseConnection;
-import utils.databases.ProductsDatabaseConnection;
-import com.google.common.collect.Multimap;
-
-import java.sql.SQLException;
 import java.util.*;
 
+import com.google.common.collect.Multimap;
+import models.listeners.failed.*;
+import models.listeners.successful.*;
+import utils.Budget;
+import utils.Client;
+import utils.MessageTypes;
+import utils.Product;
+import utils.databases.BudgetsDatabaseConnection;
+import utils.databases.ClientsDatabaseConnection;
+import utils.databases.ProductsDatabaseConnection;
+
+import javax.swing.*;
+
+
 public class BudgetModel implements IBudgetModel {
-    private final BudgetsDatabaseConnection budgetsDBConnection;
-    private final ProductsDatabaseConnection productsDBConnection;
-    private final ClientsDatabaseConnection clientsDBConnection;
-    private final CategoriesDatabaseConnection categoriesDBConnection;
+    // LISTENERS FOR BUDGET CREATION SUCCESS AND FAILURE
     private final List<BudgetCreationSuccessListener> budgetCreationSuccessListeners;
     private final List<BudgetCreationFailureListener> budgetCreationFailureListeners;
     private final List<BudgetSearchSuccessListener> budgetSearchSuccessListeners;
     private final List<BudgetSearchFailureListener> budgetSearchFailureListeners;
 
+    // DATABASE CONNECTIONS
+    private final BudgetsDatabaseConnection budgetsDBConnection;
+    private final ProductsDatabaseConnection productsDBConnection;
+    private final ClientsDatabaseConnection clientsDBConnection;
 
+    // BUDGETS
     private ArrayList<Budget> budgets;
 
-    public BudgetModel(BudgetsDatabaseConnection budgetsDBConnection, ProductsDatabaseConnection productsDBConnection, ClientsDatabaseConnection clientsDBConnection, CategoriesDatabaseConnection categoriesDBConnection) {
+
+
+    // CONSTRUCTOR
+    public BudgetModel(BudgetsDatabaseConnection budgetsDBConnection,
+                       ProductsDatabaseConnection productsDBConnection,
+                       ClientsDatabaseConnection clientsDBConnection)
+    {
+        // INITIALIZE LISTENERS
+        this.budgetCreationSuccessListeners = new LinkedList<>();
+        this.budgetCreationFailureListeners = new LinkedList<>();
+        this.budgetSearchSuccessListeners = new LinkedList<>();
+        this.budgetSearchFailureListeners = new LinkedList<>();
+
+        // INITIALIZE DATABASE CONNECTIONS
         this.budgetsDBConnection = budgetsDBConnection;
         this.productsDBConnection = productsDBConnection;
         this.clientsDBConnection = clientsDBConnection;
-        this.categoriesDBConnection = categoriesDBConnection;
-
-        budgets = new ArrayList<>();
-
-        this.budgetCreationSuccessListeners = new LinkedList<>();
-        this.budgetCreationFailureListeners = new LinkedList<>();
-
-        this.budgetSearchSuccessListeners = new LinkedList<>();
-        this.budgetSearchFailureListeners = new LinkedList<>();
     }
 
-    @Override
-    public void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber) {
-        try {
-            budgetsDBConnection.insertBudget(budgetName, budgetDate, budgetClientType, budgetNumber);
-            notifyBudgetCreationSuccess();
-        } catch (Exception e) {
-            notifyBudgetCreationFailure();
-        }
-    }
+
+
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+    // ---------> METHODS AND FUNCTIONS START HERE <-------------
+
+
 
     @Override
-    public void addBudgetCreationSuccessListener(BudgetCreationSuccessListener listener) {
+    public void addBudgetCreationSuccessListener(BudgetCreationSuccessListener listener) { // ADD BUDGET CREATION SUCCESS LISTENER
         budgetCreationSuccessListeners.add(listener);
     }
 
     @Override
-    public void addBudgetCreationFailureListener(BudgetCreationFailureListener listener) {
+    public void addBudgetCreationFailureListener(BudgetCreationFailureListener listener) { // ADD BUDGET CREATION FAILURE LISTENER
         budgetCreationFailureListeners.add(listener);
     }
 
     @Override
-    public void addBudgetSearchSuccessListener(BudgetSearchSuccessListener listener) {
+    public void addBudgetSearchSuccessListener(BudgetSearchSuccessListener listener) { // ADD BUDGET SEARCH SUCCESS LISTENER
         budgetSearchSuccessListeners.add(listener);
     }
 
     @Override
-    public void addBudgetSearchFailureListener(BudgetSearchFailureListener listener) {
+    public void addBudgetSearchFailureListener(BudgetSearchFailureListener listener) { // ADD BUDGET SEARCH FAILURE LISTENER
         budgetSearchFailureListeners.add(listener);
-    }
-
-/*    @Override
-    public void queryBudgets(String budgetSearch) {
-        try {
-            budgets = budgetsDBConnection.getBudgets(budgetSearch);
-            notifyBudgetSearchSuccess();
-        } catch (Exception e) {
-            notifyBudgetSearchFailure();
-        }
-    }*/
-
-    @Override
-    public void queryBudgets(String budgetSearch) {
-        try {
-            budgets = budgetsDBConnection.getBudgets(budgetSearch);
-            notifyBudgetSearchSuccess();
-        } catch (Exception e) {
-            notifyBudgetSearchFailure();
-        }
     }
 
     private void notifyBudgetCreationSuccess() {
@@ -118,34 +101,9 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    @Override
-    public ArrayList<Budget> getLastBudgetsQuery() {
-        return budgets;
-    }
 
-    @Override
-    public ArrayList<String> getProductNamesByCategory(String category) {
 
-        try {
-            ArrayList<Product> products = productsDBConnection.getAllProducts();
-            ArrayList<String> productNames = new ArrayList<>();
-            String categoryName = "";
-            int categoryID = 0;
-            for (Product product : products) {
-                categoryID = product.getCategoryID();
-                categoryName = categoriesDBConnection.getCategoryName(categoryID);
-                if (categoryName.equals(category)) {
-                    productNames.add(product.getName());
-                }
-            }
-            return productNames;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
-    }
-
+    // GET PRODUCTS
     public ArrayList<Product> getProducts(String productName, String productCategory) {
         try {
             return productsDBConnection.getProducts(productName, productCategory);
@@ -155,16 +113,8 @@ public class BudgetModel implements IBudgetModel {
         return new ArrayList<>();
     }
 
-    @Override
-    public ArrayList<String> getCitiesName() {
-        try {
-            return clientsDBConnection.getCities();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
-    }
 
+    // GET CLIENTS
     @Override
     public ArrayList<Client> getClients(String name, String city) {
         try {
@@ -175,6 +125,54 @@ public class BudgetModel implements IBudgetModel {
         return new ArrayList<>();
     }
 
+
+    // GET CLIENT ID
+    public int getClientID(String clientName) {
+        try {
+            return clientsDBConnection.getClientID(clientName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+
+    //CREATE BUDGET:
+    @Override
+    public void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber) {
+        try {
+            budgetsDBConnection.insertBudget(budgetName, budgetDate, budgetClientType, budgetNumber);
+        } catch (Exception e) {
+            notifyBudgetCreationFailure();
+        }
+    }
+
+
+    //GET NEXT BUDGET NUMBER:
+    public int getNextBudgetNumber() {
+        try {
+            return budgetsDBConnection.getNextBudgetNumber();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+
+    //SAVE BUDGET PRODUCTS ON BUDGET_PRODUCTS TABLE:
+    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
+        try {
+            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    //GET BUDGET ID:
     @Override
     public int getBudgetID(int budgetNumber, String budgetName) {
         try {
@@ -185,6 +183,38 @@ public class BudgetModel implements IBudgetModel {
         return -1;
     }
 
+
+    // GET CITIES NAME
+    @Override
+    public ArrayList<String> getCitiesName() {
+        try {
+            return clientsDBConnection.getCities();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+
+    // GET LAST BUDGETS QUERY
+    @Override
+    public ArrayList<Budget> getLastBudgetsQuery() {
+        return budgets;
+    }
+
+    @Override
+    public void queryBudgets(String budgetSearch) {
+        try {
+            budgets = budgetsDBConnection.getBudgets(budgetSearch);
+            notifyBudgetSearchSuccess();
+        } catch (Exception e) {
+            notifyBudgetSearchFailure();
+        }
+    }
+
+
+
+
     @Override
     public void deleteOneBudget(int budgetID) {
         try {
@@ -194,22 +224,9 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    @Override
-    public void deleteMultipleBudgets(ArrayList<Integer> budgetIDs) {
-        try {
-            budgetsDBConnection.deleteMultipleBudgets(budgetIDs);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
 
-    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
-        try {
-            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
+
 
     public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber, boolean updating) {
         try {
@@ -219,51 +236,6 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-    @Override
-    public ArrayList<Client> getOneClient(int clientID) {
-        try {
-            return clientsDBConnection.getOneClient(clientID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
-    }
-
-    public int getClientID(String clientName) {
-        try {
-            return clientsDBConnection.getClientID(clientName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    @Override
-    public int getBudgetNumber(int budgetID) {
-        try {
-            return budgetsDBConnection.getBudgetNumber(budgetID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public int getNextBudgetNumber() {
-        try {
-            return budgetsDBConnection.getNextBudgetNumber();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    @Override
-    public int getMaxBudgetID() {
-        try {
-            return budgetsDBConnection.getMaxBudgetID();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 1;
-    }
+    // ---------> METHODS AND FUNCTIONS END HERE <-------------
+    // ---------> METHODS AND FUNCTIONS END HERE <-------------
 }

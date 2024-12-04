@@ -109,13 +109,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     protected void initListeners() {
         budgetCreateButton.addActionListener(e -> {
             budgetCreatePresenter.onCreateButtonClicked();
-            restartWindow();
         });
-        productSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchProductButtonClicked());
+        productSearchButton.addActionListener(e -> budgetCreatePresenter.OnSearchProductButtonClicked());
         addProductButton.addActionListener(e -> budgetCreatePresenter.onAddProductButtonClicked());
         deleteProductButton.addActionListener(e -> budgetCreatePresenter.onDeleteProductButtonClicked());
         addClientButton.addActionListener(e -> budgetCreatePresenter.onAddClientButtonClicked());
-        clientSearchButton.addActionListener(e -> budgetCreatePresenter.onSearchClientButtonClicked());
+        clientSearchButton.addActionListener(e -> budgetCreatePresenter.OnSearchClientButtonClicked());
         clientSelectedCheckBox.addItemListener(e -> budgetCreatePresenter.onClientSelectedCheckBoxClicked());
         budgetPreviewingTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -163,6 +162,59 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceTextArea.setText(sb.toString());
         setInitialPanelsVisibility();
         clearView();
+    }
+
+    public List<String[]> getPreviewTableFilledRowsData() {
+        List<String[]> filledRowsData = new ArrayList<>();
+        String[] dataArray;
+
+        String budgetClientName = "";
+        String budgetProductName = "";
+        int budgetProductAmount = 1;
+        String budgetProductMeasures = "";
+        String budgetProductObservations = "";
+        double budgetProductPrice = -1.0;
+        String budgetClientType = "";
+
+        int filledRows = getFilledRowsCount(budgetPreviewingTable);
+
+
+
+        for (int row = 0; row <= filledRows; row++) {
+            if(row == 0){
+                budgetClientName = (String) budgetPreviewingTable.getValueAt(row, 0);
+                budgetClientType = (String) budgetPreviewingTable.getValueAt(row, 6);
+                dataArray = new String[]{budgetClientName, budgetClientType};
+                filledRowsData.add(dataArray);
+            } else {
+                Object selectedProductName = budgetPreviewingTable.getValueAt(row, 1);
+                Object selectedProductAmount = budgetPreviewingTable.getValueAt(row, 2);
+                Object selectedProductMeasures = budgetPreviewingTable.getValueAt(row, 3);
+                Object selectedProductObservations = budgetPreviewingTable.getValueAt(row, 4);
+                Object selectedProductPrice = budgetPreviewingTable.getValueAt(row, 5);
+
+                if(selectedProductName != null && !selectedProductName.equals("")) {
+                    budgetProductName = (String) selectedProductName;
+                }
+                if(selectedProductAmount != null && !selectedProductAmount.equals("")) {
+                    budgetProductAmount = Integer.parseInt((String) selectedProductAmount);
+                }
+                if(selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
+                    budgetProductMeasures = (String) selectedProductMeasures;
+                }
+                if(selectedProductObservations != null && !selectedProductObservations.equals("")) {
+                    budgetProductObservations = (String) selectedProductObservations;
+                }
+                if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
+                    budgetProductPrice = (double) selectedProductPrice;
+                }
+
+                dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
+                filledRowsData.add(dataArray);
+
+            }
+        }
+        return filledRowsData;
     }
 
     @Override
@@ -288,7 +340,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         };
         clientResultTable.setModel(clientsTableModel);
 
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Precio", "Categoria"}, 200) {
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

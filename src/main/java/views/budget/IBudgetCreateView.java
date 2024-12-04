@@ -71,4 +71,6 @@ public interface IBudgetCreateView extends IToggleableView {
     StringBuilder getStringBuilder();
     JTextArea getTextArea();
     JFrame getWindowFrame();
+    List<String[]> getPreviewTableFilledRowsData();
+    void restartWindow();
 }
