@@ -127,24 +127,6 @@ public class CategoryModel implements ICategoryModel {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void addProductAttributes(int productID, int categoryID, ArrayList<String> attributesValues) {
-
-        ArrayList<String> attributesNames = getCategoryAttributesNames(categoryID);
-        if (attributesNames.size() == attributesValues.size()) {
-            String attributeName;
-            int attributeID;
-            for (int i = 0; i < attributesNames.size(); i++) {
-                attributeName = attributesNames.get(i);
-                attributeID = attributesDBConnection.getAttributeID(attributeName, categoryID);
-                attributesDBConnection.insertProductAttributeRow(productID, attributeID, attributesValues.get(i));
-            }
-        } else {
-            System.out.println("The lists are not of the same size.");
-        }
-    }
-
     public int getCategoryID(String categoryName) {
         try {
             return categoriesDBConnection.getCategoryID(categoryName);

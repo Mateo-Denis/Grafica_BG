@@ -29,7 +29,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
 
     public int insertProduct(String nombre, int categoriaID) {
         int idGenerado = -1;
-        String sql = "INSERT INTO Productos(Nombre, Categoria_ID) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO Productos(Nombre, Categoria_ID) VALUES(?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);

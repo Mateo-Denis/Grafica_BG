@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
@@ -193,16 +194,16 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	}
 
 	@Override
-	public ArrayList<String> getAttributes() {
-		ArrayList<String> attributes = new ArrayList<>();
-		attributes.add("T1A");
-		attributes.add("T1B");
-		attributes.add("T2A");
-		attributes.add("T2B");
-		attributes.add("T3A");
-		attributes.add("T3B");
-		attributes.add("COSTURERA");
-		attributes.add("GANANCIA");
+	public ArrayList<Attribute> getAttributes() {
+		ArrayList<Attribute> attributes = new ArrayList<>();
+		attributes.add(new Attribute("T1A", printingMetersAmountTextField.getText()));
+		attributes.add(new Attribute("T1B", printingMetersPriceTextField.getText()));
+		attributes.add(new Attribute("T2A", clothMetersAmountTextField.getText()));
+		attributes.add(new Attribute("T2B", clothMetersPriceTextField.getText()));
+		attributes.add(new Attribute("T3A", plankLoweringAmountTextField.getText()));
+		attributes.add(new Attribute("T3B", plankLoweringPriceTextField.getText()));
+		attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
+		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
 	}
 

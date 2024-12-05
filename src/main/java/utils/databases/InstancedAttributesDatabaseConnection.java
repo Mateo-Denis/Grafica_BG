@@ -29,9 +29,9 @@ public class InstancedAttributesDatabaseConnection extends DatabaseConnection{
 			pstmt.setInt(1, productID);
 			pstmt.setInt(2, attributeID);
 			pstmt.setString(3, value);
-			pstmt.execute(sql);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al crear el producto.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error al instanciar los atributos del producto.", "Error", JOptionPane.ERROR_MESSAGE);
 			System.out.println(e.getMessage());
 		}
 	}

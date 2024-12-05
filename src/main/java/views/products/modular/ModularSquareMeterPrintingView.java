@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
@@ -154,12 +155,12 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     }
 
     @Override
-    public ArrayList<String> getAttributes() {
-        ArrayList<String> attributes = new ArrayList<>();
-        attributes.add("T1A");
-        attributes.add("T2A");
-        attributes.add("DOLLAR");
-        attributes.add("GANANCIA");
+    public ArrayList<Attribute> getAttributes() {
+        ArrayList<Attribute> attributes = new ArrayList<>();
+        attributes.add(new Attribute("T1A", materialSquareMetersPriceTextField.getText()));
+        attributes.add(new Attribute("T2A", inkBySquareMeterPriceTextField.getText()));
+        attributes.add(new Attribute("DOLLAR", dollarValueTextField.getText()));
+        attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
     }
 

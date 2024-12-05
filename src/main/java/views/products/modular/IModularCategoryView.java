@@ -1,6 +1,7 @@
 package views.products.modular;
 
 import org.javatuples.Triplet;
+import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
@@ -35,5 +36,5 @@ public interface IModularCategoryView{
 
     void setPriceTextFields();
 
-	ArrayList<String> getAttributes();
+	ArrayList<Attribute> getAttributes();
 }

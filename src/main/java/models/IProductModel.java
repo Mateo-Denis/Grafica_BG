@@ -4,6 +4,7 @@ import models.listeners.failed.ProductCreationFailureListener;
 import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
+import utils.Attribute;
 import utils.Product;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public interface IProductModel {
     void deleteMultipleProducts(List<Integer> productIDs);
     //void deleteAllVisibleProducts(ArrayList<String> visibleProductNames);
     String getCategoryName(int categoryID);
+
+    void instantiateProductAttributes(int productID, ArrayList<Attribute> attributes, int categoryID);
+
     int getCategoryID(String categoryName);
     Product getOneProduct(int productID);
 }

@@ -3,6 +3,7 @@ package views.products.modular;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
@@ -133,10 +134,10 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	}
 
 	@Override
-	public ArrayList<String> getAttributes() {
-		ArrayList<String> attributes = new ArrayList<>();
-		attributes.add("T1A");
-		attributes.add("GANANCIA");
+	public ArrayList<Attribute> getAttributes() {
+		ArrayList<Attribute> attributes = new ArrayList<>();
+		attributes.add(new Attribute("T1A", clothMetersPriceTextField.getText()));
+		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
 	}
 

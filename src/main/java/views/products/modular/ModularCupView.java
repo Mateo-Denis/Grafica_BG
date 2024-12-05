@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
@@ -173,28 +174,15 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	}
 
 	@Override
-	public ArrayList<String> getAttributes() {
-		ArrayList<String> attributes = new ArrayList<>();
-		attributes.add("T1A");
-		attributes.add("T1B");
-		attributes.add("T2A");
-		attributes.add("T2B");
-		attributes.add("TAZA");
-		attributes.add("GANANCIA");
+	public ArrayList<Attribute> getAttributes() {
+		ArrayList<Attribute> attributes = new ArrayList<>();
+		attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText()));
+		attributes.add(new Attribute("T1B", plankLoweringPriceTextField.getText()));
+		attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
+		attributes.add(new Attribute("T2B", printingMetersPriceTextField.getText()));
+		attributes.add(new Attribute("TAZA", cupPriceTextField.getText()));
+		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
-	}
-
-	private String getCupMaterial() {
-		if(ceramicRadioButton.isSelected()){
-			return "Taza Ceramica";
-		} else if(plasticRadioButton.isSelected()){
-			return "Taza Plastico";
-		}
-		return "unreachable";
-	}
-
-	private String isSublimated() {
-		return sublimatedRadioButton.isSelected() ? "Sublimado" : "Blanco";
 	}
 
 }

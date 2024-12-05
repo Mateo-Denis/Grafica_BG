@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import utils.Attribute;
 import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
 import views.products.modular.*;
@@ -70,7 +71,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     }
 
     public void onCreateButtonClicked() {
-        ArrayList<String> attributeNames;
+        ArrayList<Attribute> instancedAttribute;
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategoryEnglish();
         int categoryID = categoryModel.getCategoryID(categoryName);
@@ -86,9 +87,9 @@ public class ProductCreatePresenter extends StandardPresenter {
             double productPrice = productCreateView.getProductPrice();
             int productID = productModel.createProduct(productName, productPrice, categoryID);
 
-            attributeNames = modularView.getAttributes();
+            instancedAttribute = modularView.getAttributes();
 
-
+            productModel.instantiateProductAttributes(productID, instancedAttribute, categoryID);
 
         }
 

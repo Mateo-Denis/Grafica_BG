@@ -2,6 +2,7 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import utils.Attribute;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -105,9 +106,9 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     }
 
     @Override
-    public ArrayList<String> getAttributes() {
-        ArrayList<String> attributes = new ArrayList<>();
-        attributes.add("SERVICIO");
+    public ArrayList<Attribute> getAttributes() {
+        ArrayList<Attribute> attributes = new ArrayList<>();
+        attributes.add(new Attribute("SERVICIO", serviceCostTextField.getText()));
         return attributes;
     }
 

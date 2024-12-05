@@ -4,6 +4,7 @@ import models.listeners.failed.ProductCreationFailureListener;
 import models.listeners.failed.ProductSearchFailureListener;
 import models.listeners.successful.ProductCreationSuccessListener;
 import models.listeners.successful.ProductSearchSuccessListener;
+import utils.Attribute;
 import utils.Product;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
@@ -58,10 +59,13 @@ public class ProductModel implements IProductModel {
         return -1;
     }
 
-    public void instantiateProductAttributes(int productID, ArrayList<Integer> attributeIDList, ArrayList<String> valueList) {
-        for(int i = 0; i < attributeIDList.size(); i++) {
-            instancedAttributesDBConnection.insertProductAttribute(productID, attributeIDList.get(i), valueList.get(i));
-        }
+    @Override
+    public void instantiateProductAttributes(int productID, ArrayList<Attribute> attributes, int categoryID) {
+        int attributeID;
+        for (Attribute attribute : attributes) {
+			attributeID = attributesDBConnection.insertAttributeRow(attribute.getName(), categoryID);
+            instancedAttributesDBConnection.insertProductAttribute(productID, attributeID, attribute.getValue());
+		}
     }
 
     public int getCategoryID(String productCategory) {
