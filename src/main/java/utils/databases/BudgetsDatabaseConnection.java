@@ -156,9 +156,11 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) throws SQLException {
+    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> productObservations,
+                             ArrayList<String> productMeasures, ArrayList<Double> productPrices) throws SQLException {
         int observationsIndex = 0;
         int measuresIndex = 0;
+        int priceIndex = 0;
 
         System.out.println("PRODUCTOS A INSERTAR: (METODO DEL BUDGETSDBCONNECTION CLASS)");
         for(Map.Entry<Integer, String> entry : products.entries()){
@@ -166,7 +168,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
 
 
-        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS, PRECIO) VALUES(?, ?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         for (Map.Entry<Integer, String> entry : products.entries()) {
@@ -178,10 +180,12 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
             pstmt.setInt(3, productAmount);
             pstmt.setString(4, productObservations.get(observationsIndex));
             pstmt.setString(5, productMeasures.get(measuresIndex));
+            pstmt.setDouble(6, productPrices.get(priceIndex));
 
             pstmt.executeUpdate();
             observationsIndex++;
             measuresIndex++;
+            priceIndex++;
         }
         pstmt.close();
         conn.close();
@@ -239,6 +243,22 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         return measures;
     }
 
+    public ArrayList<Double> getProductPrices(String budgetName, int budgetNumber) throws SQLException {
+        ArrayList<Double> prices = new ArrayList<>();
+        String sql = "SELECT PRECIO FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        int budgetID = getBudgetID(budgetName, budgetNumber);
+        pstmt.setInt(1, budgetID);
+        ResultSet resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            prices.add(resultSet.getDouble("PRECIO"));
+        }
+        pstmt.close();
+        conn.close();
+        return prices;
+    }
+
     public void updateBudgetTable(String clientName, String date, String clientType, int budgetNumber) {
         String deleteSQL = "DELETE FROM Presupuestos WHERE Numero_presupuesto = ?";
         String insertSQL = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto) VALUES(?, ?, ?, ?)";
@@ -275,6 +295,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
             ResultSet resultSet = pstmt.executeQuery();
             ArrayList<String> selectedBudgetData = new ArrayList<>();
             while (resultSet.next()) {
+                selectedBudgetData.add(String.valueOf(resultSet.getInt("ID")));
                 selectedBudgetData.add(resultSet.getString("Nombre_Cliente"));
                 selectedBudgetData.add(resultSet.getString("Fecha"));
                 selectedBudgetData.add(resultSet.getString("Tipo_Cliente"));

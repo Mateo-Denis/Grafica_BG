@@ -68,4 +68,6 @@ public interface IBudgetModifyView extends IToggleableView {
     void setAmountTextField(int productsAmount);
     void restartWindow();
     DefaultTableModel getClientResultTableModel();
+    int getFilledRowsCount(JTable table);
+    JFrame getWindowFrame();
 }

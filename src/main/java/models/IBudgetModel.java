@@ -19,12 +19,13 @@ public interface IBudgetModel {
     int getClientID(String clientName);
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
     int getNextBudgetNumber();
-    void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures);
+    void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);
     int getBudgetID(int budgetNumber, String budgetName);
     ArrayList<String> getCitiesName();
     ArrayList<Budget> getLastBudgetsQuery();
     void queryBudgets(String budgetSearch);
     void deleteOneBudget(int budgetID);
     void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber);
+    int getMaxBudgetID();
 
 }

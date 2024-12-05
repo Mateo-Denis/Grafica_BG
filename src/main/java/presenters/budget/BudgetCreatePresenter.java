@@ -2,7 +2,6 @@ package presenters.budget;
 
 //IMPORTS FROM PRESENTERS PACKAGE
 
-import PdfFormater.SamplePDFCreation;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import presenters.StandardPresenter;
@@ -11,10 +10,8 @@ import presenters.StandardPresenter;
 import utils.*;
 import utils.Client;
 import utils.Product;
-import utils.MessageTypes.*;
 
 //IMPORTS FROM VIEWS PACKAGE
-import views.budget.BudgetCreateView;
 import views.budget.IBudgetCreateView;
 
 //IMPORTS FROM MODELS PACKAGE
@@ -205,9 +202,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         int budgetID = -1;
 
         List<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
-        List<Double> productsPrice = new ArrayList<>(); // PRODUCTS PRICE LIST
+        ArrayList<Double> productsPrices = new ArrayList<>(); // PRODUCTS PRICE LIST
         List<Integer> productsAmount = new ArrayList<>(); // PRODUCTS AMOUNT LIST
-        ArrayList<String> productsMeasure = new ArrayList<>(); // PRODUCTS MEASURE LIST
+        ArrayList<String> productsMeasures = new ArrayList<>(); // PRODUCTS MEASURE LIST
         ArrayList<String> productsObservations = new ArrayList<>(); // PRODUCTS OBSERVATIONS LIST
         Multimap<Integer, String> products = ArrayListMultimap.create(); // PRODUCTS MULTIMAP
 
@@ -233,7 +230,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 System.out.println("PRODUCT AMOUNT: " + budgetData.get(i)[1]);
                 productsAmount.add(Integer.parseInt(budgetData.get(i)[1])); // ADD BUDGET DATA AT I, 2 TO PRODUCTS AMOUNT LIST
 
-                productsMeasure.add(budgetData.get(i)[2]); // ADD BUDGET DATA AT I, 3 TO PRODUCTS MEASURE LIST
+                productsMeasures.add(budgetData.get(i)[2]); // ADD BUDGET DATA AT I, 3 TO PRODUCTS MEASURE LIST
                 System.out.println("PRODUCT MEASURE: " + budgetData.get(i)[3]);
 
                 productsObservations.add(budgetData.get(i)[3]); // ADD BUDGET DATA AT I, 4 TO PRODUCTS OBSERVATIONS LIST
@@ -241,10 +238,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
                 if(budgetData.get(i)[4].isEmpty()) { // IF BUDGET DATA AT I, 5 IS EMPTY (PRICE)
                     System.out.println("PRODUCT PRICE: 0.0");
-                    productsPrice.add(0.0); // ADD 0.0 TO PRODUCTS PRICE LIST
+                    productsPrices.add(0.0); // ADD 0.0 TO PRODUCTS PRICE LIST
                 } else{
                     System.out.println("PRODUCT PRICE: " + Double.parseDouble(budgetData.get(i)[4]));
-                    productsPrice.add(Double.parseDouble(budgetData.get(i)[4])); // ADD BUDGET DATA AT I, 1 TO PRODUCTS PRICE LIST
+                    productsPrices.add(Double.parseDouble(budgetData.get(i)[4])); // ADD BUDGET DATA AT I, 1 TO PRODUCTS PRICE LIST
                 }
             }
         }
@@ -265,7 +262,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
             //INSERT THE PRODUCTS INTO THE BUDGET_PRODUCTS TABLE
             budgetID = budgetModel.getBudgetID(budgetNumber, budgetClientName);
-            budgetModel.saveProducts(budgetID, products, productsObservations, productsMeasure);
+            budgetModel.saveProducts(budgetID, products, productsObservations, productsMeasures, productsPrices);
 
             budgetCreateView.restartWindow(); // RESTART WINDOW
             budgetCreateView.getWindowFrame().dispose(); // CLOSE WINDOW
@@ -317,6 +314,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productAmountStr = budgetCreateView.getAmountTextField().getText();
         String productMeasures = budgetCreateView.getMeasuresTextField().getText();
         String productObservations = budgetCreateView.getObservationsTextField().getText();
+        Double productPrice = 0.0;
 
         if(productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
@@ -326,6 +324,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
         budgetCreateView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetCreateView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
+        budgetCreateView.setPreviewStringTableValueAt(row, 5, productPrice.toString()); //INSERTA EN LA COLUMNA DE PRECIO
     }
 
 

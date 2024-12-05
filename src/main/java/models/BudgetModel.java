@@ -7,13 +7,10 @@ import models.listeners.failed.*;
 import models.listeners.successful.*;
 import utils.Budget;
 import utils.Client;
-import utils.MessageTypes;
 import utils.Product;
 import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
-
-import javax.swing.*;
 
 
 public class BudgetModel implements IBudgetModel {
@@ -162,9 +159,9 @@ public class BudgetModel implements IBudgetModel {
 
 
     //SAVE BUDGET PRODUCTS ON BUDGET_PRODUCTS TABLE:
-    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures) {
+    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices) {
         try {
-            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures);
+            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures, productPrices);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -212,7 +209,14 @@ public class BudgetModel implements IBudgetModel {
         }
     }
 
-
+    public int getMaxBudgetID() {
+        try {
+            return budgetsDBConnection.getMaxBudgetID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
 
     @Override

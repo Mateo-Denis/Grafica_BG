@@ -23,6 +23,15 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         }
     }
 
+    public ArrayList<Double> getProductPrices(int budgetNumber, String budgetName) {
+        try {
+            return budgetsDBConnection.getProductPrices(budgetName, budgetNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
     @Override
     public ArrayList<String> getProductObservations(int budgetNumber, String budgetName) {
         try {
