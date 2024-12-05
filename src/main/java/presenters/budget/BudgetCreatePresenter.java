@@ -364,7 +364,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
             // IF BOOLEAN GLOBAL VARIABLE "editingProduct" IS FALSE
             if (!editingProduct) {
-                AddProductToPreviewTable(product, productsRowCountOnPreviewTable);
+                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
                 productsRowCountOnPreviewTable++;
             } else {
                 EditProductOnPreviewTable(GetProductFromPreviewTable(selectedProductRow), selectedProductRow);
@@ -408,11 +408,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
         if (selectedRow != -1) {
             StringBuilder sb = budgetCreateView.getStringBuilder();
             JTextArea priceTextArea = budgetCreateView.getPriceTextArea();
-            budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
 
-            if(productsRowCountOnPreviewTable > 1)
+            if(productsRowCountOnPreviewTable >= 1)
             {
+                budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
                 productsRowCountOnPreviewTable--;
+
             }
             //updateTextArea(sb, priceTextArea, false);
         }

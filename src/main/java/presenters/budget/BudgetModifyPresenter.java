@@ -232,7 +232,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
 
     public void onAddProductButtonClicked() {
-        Product product; // PRODUCT VARIABLE
+        Product product; // PRODUCT VARIABLE // ROW COUNT
         int selectedProductRow = budgetModifyView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
         int productAmountInt = 1; // PRODUCT AMOUNT INT
         int productID = -1; // PRODUCT ID
@@ -247,7 +247,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
             // IF BOOLEAN GLOBAL VARIABLE "editingProduct" IS FALSE
             if (!editingProduct) {
-                AddProductToPreviewTable(product, productsRowCountOnPreviewTable);
+                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
                 productsRowCountOnPreviewTable++;
             } else {
                 EditProductOnPreviewTable(GetProductFromPreviewTable(selectedProductRow), selectedProductRow);
@@ -289,10 +289,12 @@ public class BudgetModifyPresenter extends StandardPresenter {
         if (selectedRow != -1) {
             StringBuilder sb = budgetModifyView.getStringBuilder();
             JTextArea priceTextArea = budgetModifyView.getPriceTextArea();
-            budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
 
-            if (productsRowCountOnPreviewTable > 1) {
+            if (productsRowCountOnPreviewTable >= 1) {
+                System.out.println("ROW COUNT ON PREVIEW TABLE PREVIOUS DELETE: " + productsRowCountOnPreviewTable);
+                budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
                 productsRowCountOnPreviewTable--;
+                System.out.println("ROW COUNT ON PREVIEW TABLE AFTER DELETE: " + productsRowCountOnPreviewTable);
             }
             //updateTextArea(sb, priceTextArea, false);
         }
@@ -428,7 +430,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         if (anyEmpty) {
             budgetModifyView.showMessage(MessageTypes.BUDGET_CREATION_EMPTY_COLUMN);
         } else {
-            for (int row = 1; row < productsRowCountOnPreviewTable; row++) {
+            for (int row = 1; row <= productsRowCountOnPreviewTable; row++) {
                 productName = budgetModifyView.getPreviewStringTableValueAt(row, 1);
                 productAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(row, 2));
                 productMeasure = budgetModifyView.getPreviewStringTableValueAt(row, 3);

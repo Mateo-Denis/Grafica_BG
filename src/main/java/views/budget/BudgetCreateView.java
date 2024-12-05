@@ -206,7 +206,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                     budgetProductObservations = (String) selectedProductObservations;
                 }
                 if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
-                    budgetProductPrice = (double) selectedProductPrice;
+                    budgetProductPrice = Double.parseDouble((String) selectedProductPrice);
                 }
 
                 dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
