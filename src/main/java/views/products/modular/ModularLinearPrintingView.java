@@ -132,4 +132,13 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         paperMeterPriceTextField.setText(String.valueOf(paperMeterPrice));
         inkByMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
+
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("T1A");
+        attributes.add("T2A");
+        attributes.add("GANANCIA");
+        return attributes;
+    }
 }

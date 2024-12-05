@@ -198,6 +198,21 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     }
 
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("T1A");
+        attributes.add("T1B");
+        attributes.add("T1C");
+        attributes.add("T2A");
+        attributes.add("T2B");
+        attributes.add("T3A");
+        attributes.add("T3B");
+        attributes.add("COSTURERA");
+        attributes.add("GANANCIA");
+        return attributes;
+    }
+
     private String getFlagComboBoxSelection() {
         return (String) clothComboBox.getSelectedItem();
     }

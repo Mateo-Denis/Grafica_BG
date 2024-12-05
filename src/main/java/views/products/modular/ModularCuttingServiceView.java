@@ -18,16 +18,13 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JPanel vinylsComboBoxContainer;
     private JPanel vinylMetersContainer;
     private JComboBox vinylsComboBox;
-    private JPanel vinylMetersAmountContainer;
     private JPanel vinylMetersPriceContainer;
-    private JLabel vinylMetersMultiplyLabel;
     private JLabel vinylProfitMultiplyLabel;
     private JPanel profitContainer;
     private JLabel cuttingServiceFinalPriceEqualsLabel;
     private JPanel cuttingServiceFinalPriceContainer;
     private JTextField vinylCostTextField;
     private JTextField profitTextField;
-    private JTextField vinylMetersAmount;
     private JTextField cuttingServiceFinalPriceTextField;
     private ProductCreatePresenter presenter;
     private double vinylPrice;
@@ -48,7 +45,6 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     public void initListeners() {
         ArrayList<JTextField> textFields = new ArrayList<>();
 
-        textFields.add(vinylMetersAmount);
         textFields.add(vinylCostTextField);
         textFields.add(profitTextField);
 
@@ -74,11 +70,11 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     @Override
     public void calculateDependantPrices() {
         try {
-            float vinylMeters = vinylMetersAmount.getText().isEmpty() ? 0 : Float.parseFloat(vinylMetersAmount.getText());
+
             float vinylCost = vinylCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(vinylCostTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylMeters * vinylCost * profit));
+            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylCost * profit));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
@@ -126,6 +122,14 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
         vinylCostTextField.setText(String.valueOf(vinylPrice));
         profitTextField.setText(String.valueOf(profit));
+    }
+
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("T1A");
+        attributes.add("GANANCIA");
+        return attributes;
     }
 
     private String getVinylTypeSelected() {

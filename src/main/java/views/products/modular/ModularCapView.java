@@ -111,6 +111,18 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         capCostTextField.setText(String.valueOf(capCost));
     }
 
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("T1A");
+        attributes.add("T1B");
+        attributes.add("T2A");
+        attributes.add("T2B");
+        attributes.add("GORRA");
+        attributes.add("GANANCIA");
+        return attributes;
+    }
+
     public void initListeners() {
 
         ArrayList<JTextField> textFields = new ArrayList<>();

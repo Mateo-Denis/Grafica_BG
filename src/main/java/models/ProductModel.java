@@ -7,6 +7,7 @@ import models.listeners.successful.ProductSearchSuccessListener;
 import utils.Product;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
+import utils.databases.InstancedAttributesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public class ProductModel implements IProductModel {
     private final AttributesDatabaseConnection attributesDBConnection;
     private final ProductsDatabaseConnection productsDBConnection;
     private final CategoriesDatabaseConnection categoriesDBConnection;
+    private final InstancedAttributesDatabaseConnection instancedAttributesDBConnection;
     private final List<ProductCreationSuccessListener> productCreationSuccessListeners;
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
@@ -27,11 +29,16 @@ public class ProductModel implements IProductModel {
 
     private ArrayList<Product> products;
 
-    public ProductModel(ProductsDatabaseConnection dbConnection, AttributesDatabaseConnection attributesDBConnection, CategoriesDatabaseConnection categoriesDBConnection) {
+    public ProductModel(ProductsDatabaseConnection dbConnection,
+                        AttributesDatabaseConnection attributesDBConnection,
+                        CategoriesDatabaseConnection categoriesDBConnection,
+                        InstancedAttributesDatabaseConnection instancedAttributesDBConnection) {
+
         this.productsDBConnection = dbConnection;
         this.attributesDBConnection = attributesDBConnection;
         this.categoriesDBConnection = categoriesDBConnection;
-        products = new ArrayList<>();
+		this.instancedAttributesDBConnection = instancedAttributesDBConnection;
+		products = new ArrayList<>();
 
         this.productCreationSuccessListeners = new LinkedList<>();
         this.productCreationFailureListeners = new LinkedList<>();
@@ -49,6 +56,12 @@ public class ProductModel implements IProductModel {
             notifyProductCreationFailure();
         }
         return -1;
+    }
+
+    public void instantiateProductAttributes(int productID, ArrayList<Integer> attributeIDList, ArrayList<String> valueList) {
+        for(int i = 0; i < attributeIDList.size(); i++) {
+            instancedAttributesDBConnection.insertProductAttribute(productID, attributeIDList.get(i), valueList.get(i));
+        }
     }
 
     public int getCategoryID(String productCategory) {

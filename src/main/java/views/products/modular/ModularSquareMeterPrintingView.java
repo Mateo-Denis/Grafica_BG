@@ -21,26 +21,14 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JPanel materialSquareMetersContainer;
     private JPanel inkBySquareMeterContainer;
     private JComboBox materialComboBox;
-    private JPanel materialSquareMetersTextFieldContainer;
     private JPanel materialSquareMetersPriceContainer;
-    private JPanel materialSquareMetersFinalPriceContainer;
-    private JLabel materialSquareMetersMultiplyLabel;
-    private JLabel materialSquareMeters;
-    private JTextField materialSquareMetersAmountTextField;
     private JTextField materialSquareMetersPriceTextField;
-    private JTextField materialSquareMetersFinalPriceTextField;
     private JPanel inkBySquareMeterPriceContainer;
-    private JPanel inkBySquareMeterFinalPriceContainer;
-    private JLabel materialSquareMetersAmountLabel;
-    private JLabel materialSquareMeterInkAmountLabel;
-    private JLabel inkBySquareMeterMultiplyLabel;
-    private JLabel inkBySquareMeterEqualsLabel;
     private JTextField inkBySquareMeterPriceTextField;
-    private JTextField inkBySquareMeterFinalPriceTextField;
-    private JPanel dolarPriceContainer;
+    private JPanel dollarPriceContainer;
     private JTextField profitTextField;
     private JPanel profitContainer;
-    private JLabel dolarPriceMultiplyLabel;
+    private JLabel dollarPriceMultiplyLabel;
     private JLabel profitMultiplyLabel;
     private JLabel finalPriceEqualsLabel;
     private JPanel squareMeterPrintingFinalPriceContainer;
@@ -48,7 +36,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JRadioButton UVRadioButton;
     private JRadioButton ecosolventeRadioButton;
     private JComboBox dollarComboBox;
-    private JTextField textField1;
+    private JTextField dollarValueTextField;
     private ProductCreatePresenter presenter;
     private double materialMeterSqrPrice;
     private double inkByMeterPrice;
@@ -69,7 +57,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     public void initListeners() {
         ArrayList<JTextField> textFields = new ArrayList<>();
 
-        textFields.add(materialSquareMetersAmountTextField);
         textFields.add(materialSquareMetersPriceTextField);
         textFields.add(inkBySquareMeterPriceTextField);
         textFields.add(profitTextField);
@@ -96,18 +83,16 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     @Override
     public void calculateDependantPrices() {
         try {
-            float materialSquareMetersAmount = materialSquareMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(materialSquareMetersAmountTextField.getText());
+
             float materialSquareMetersPrice = materialSquareMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(materialSquareMetersPriceTextField.getText());
             float inkBySquareMeterPrice = inkBySquareMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkBySquareMeterPriceTextField.getText());
             float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : Float.parseFloat((String) dollarComboBox.getSelectedItem());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            float materialPrice = materialSquareMetersAmount * materialSquareMetersPrice;
-            float inkPrice = materialSquareMetersAmount * inkBySquareMeterPrice;
-            float finalPrice = (materialPrice + inkPrice) * dollarPrice * profit;
 
-            materialSquareMetersFinalPriceTextField.setText(String.valueOf(materialPrice));
-            inkBySquareMeterFinalPriceTextField.setText(String.valueOf(inkPrice));
+
+            float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * profit;
+            dollarValueTextField.setText(String.valueOf(dollarPrice));
             squareMeterPrintingFinalPriceTextField.setText(String.valueOf(finalPrice));
 
         } catch (NumberFormatException | NullPointerException e) {
@@ -153,8 +138,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     @Override
     public void setPriceTextFields() {
 
-        materialSquareMetersFinalPriceTextField.setText(String.valueOf(0));
-        inkBySquareMeterFinalPriceTextField.setText(String.valueOf(0));
         squareMeterPrintingFinalPriceTextField.setText(String.valueOf(0));
 
         materialMeterSqrPrice = presenter.getIndividualPrice(VINILOS, getMaterialComboBoxSelection());
@@ -169,6 +152,17 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         materialSquareMetersPriceTextField.setText(String.valueOf(materialMeterSqrPrice));
         inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
+
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("T1A");
+        attributes.add("T2A");
+        attributes.add("DOLLAR");
+        attributes.add("GANANCIA");
+        return attributes;
+    }
+
     private String getMaterialComboBoxSelection() {
         return (String) materialComboBox.getSelectedItem();
     }

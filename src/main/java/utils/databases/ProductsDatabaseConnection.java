@@ -27,14 +27,13 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public int insertProduct(String nombre, int categoriaID) throws SQLException {
+    public int insertProduct(String nombre, int categoriaID) {
         int idGenerado = -1;
         String sql = "INSERT INTO Productos(Nombre, Categoria_ID) VALUES(?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
             pstmt.setInt(2, categoriaID);
-            //pstmt.executeUpdate();
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
                 // Intenta obtener las claves generadas (el ID del producto)

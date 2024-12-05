@@ -27,11 +27,6 @@ public class ProductCreatePresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final ISettingsModel settingsModel;
     private IModularCategoryView modularView;
-    private ModularCapView capView;
-    private ModularClothView clothView;
-    private ModularCupView cupView;
-    private ModularFlagView flagView;
-    private ModularClothesView shirtView;
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.productCreateView = productCreateView;
@@ -75,7 +70,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     }
 
     public void onCreateButtonClicked() {
-        Map<String, Double> attributes;
+        ArrayList<String> attributeNames;
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategoryEnglish();
         int categoryID = categoryModel.getCategoryID(categoryName);
@@ -90,6 +85,11 @@ public class ProductCreatePresenter extends StandardPresenter {
             String productName = productCreateView.getProductName();
             double productPrice = productCreateView.getProductPrice();
             int productID = productModel.createProduct(productName, productPrice, categoryID);
+
+            attributeNames = modularView.getAttributes();
+
+
+
         }
 
         productCreateView.setWaitingStatus();

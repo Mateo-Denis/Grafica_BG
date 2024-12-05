@@ -172,6 +172,18 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	}
 
+	@Override
+	public ArrayList<String> getAttributes() {
+		ArrayList<String> attributes = new ArrayList<>();
+		attributes.add("T1A");
+		attributes.add("T1B");
+		attributes.add("T2A");
+		attributes.add("T2B");
+		attributes.add("TAZA");
+		attributes.add("GANANCIA");
+		return attributes;
+	}
+
 	private String getCupMaterial() {
 		if(ceramicRadioButton.isSelected()){
 			return "Taza Ceramica";

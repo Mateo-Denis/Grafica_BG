@@ -34,4 +34,6 @@ public interface IModularCategoryView{
     void blockTextFields();
 
     void setPriceTextFields();
+
+	ArrayList<String> getAttributes();
 }

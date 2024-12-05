@@ -104,6 +104,13 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         serviceCostTextField.setText(String.valueOf(servicePrice));
     }
 
+    @Override
+    public ArrayList<String> getAttributes() {
+        ArrayList<String> attributes = new ArrayList<>();
+        attributes.add("SERVICIO");
+        return attributes;
+    }
+
     private String getServiceTypeSelected() {
         return (String) serviceTypeComboBox.getSelectedItem();
     }

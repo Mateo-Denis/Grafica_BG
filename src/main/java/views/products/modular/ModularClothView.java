@@ -132,4 +132,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
 	}
 
+	@Override
+	public ArrayList<String> getAttributes() {
+		ArrayList<String> attributes = new ArrayList<>();
+		attributes.add("T1A");
+		attributes.add("GANANCIA");
+		return attributes;
+	}
+
 }
