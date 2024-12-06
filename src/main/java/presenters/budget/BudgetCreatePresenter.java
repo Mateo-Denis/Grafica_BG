@@ -37,7 +37,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     private ArrayList<Client> globalClientsList;
     private int globalClientID = -1;
-    private int productsRowCountOnPreviewTable = 1; // ROW COUNT ON PREVIEW TABLE
+    private int productsRowCountOnPreviewTable = 0; // ROW COUNT ON PREVIEW TABLE
 
     private boolean editingProduct = false;
 
@@ -82,7 +82,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     // START METHOD:
     public void onHomeCreateBudgetButtonClicked() {
         globalClientID = -1;
-        productsRowCountOnPreviewTable = 1;
+        productsRowCountOnPreviewTable = 0;
         editingProduct = false;
         budgetCreateView.showView();
     }
