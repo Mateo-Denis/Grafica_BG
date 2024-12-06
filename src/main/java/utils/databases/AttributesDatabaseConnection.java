@@ -18,8 +18,9 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
             String attributeSQL = "CREATE TABLE IF NOT EXISTS Atributos (" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "Nombre TEXT NOT NULL," +
-                    "ID_CATEGORIA INTEGER NOT NULL," +
-                    "FOREIGN KEY(ID_CATEGORIA) REFERENCES Categorias(ID)" +
+                    "ID_PRODUCTO INTEGER NOT NULL," +
+                    "VALOR VARCHAR(255)," +
+                    "FOREIGN KEY(ID_PRODUCTO) REFERENCES Productos(ID)" +
                     ")";
             stmt.setQueryTimeout(QUERY_TIMEOUT);
             stmt.execute(attributeSQL);
@@ -28,37 +29,31 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
         }
     }
 
-
-    public int getAttributeID(String attribute, int categoryID) {
-        String sql = "SELECT ID FROM Atributos WHERE Nombre = ? AND ID_CATEGORIA = ?";
+    public void insertAttributeRow(String attribute, int productID, String value) {
+        String sql = "INSERT INTO Atributos(Nombre, ID_PRODUCTO, VALOR) VALUES(?, ?, ?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, attribute);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("ID");
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return -1;
-    }
-
-    public int insertAttributeRow(String attribute, int categoryID) {
-        String sql = "INSERT INTO Atributos(Nombre, ID_CATEGORIA) VALUES(?, ?)";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, attribute);
-            pstmt.setInt(2, categoryID);
+            pstmt.setInt(2, productID);
+            pstmt.setString(3, value);
             pstmt.executeUpdate();
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return -1;
     }
+
+    public String getAttributeValue(int id, String attributeName) {
+        String sql = "SELECT VALOR FROM Atributos WHERE ID_PRODUCTO = ? AND Nombre = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.setString(2, attributeName);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.getString("VALOR");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

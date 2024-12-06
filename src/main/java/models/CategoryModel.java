@@ -121,7 +121,7 @@ public class CategoryModel implements ICategoryModel {
         try {
             int categoryID = categoriesDBConnection.getCategoryID(categoryName);
             for (String attribute : attributes) {
-                attributesDBConnection.insertAttributeRow(attribute, categoryID);
+//                attributesDBConnection.insertAttributeRow(attribute, categoryID);
             }
         } catch (SQLException e) {
             e.printStackTrace();

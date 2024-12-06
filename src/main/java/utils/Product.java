@@ -3,7 +3,6 @@ package utils;
 import lombok.Getter;
 import org.javatuples.Pair;
 import utils.databases.AttributesDatabaseConnection;
-import utils.databases.InstancedAttributesDatabaseConnection;
 import utils.databases.SettingsDatabaseConnection;
 import utils.databases.SettingsTableNames;
 
@@ -37,34 +36,25 @@ public class Product {
 
     public double calculateRealTimePrice() {
         AttributesDatabaseConnection attributesDBConnection = new AttributesDatabaseConnection();
-        InstancedAttributesDatabaseConnection instancedAttributesDBConnection = new InstancedAttributesDatabaseConnection();
         settingsDBConnection = new SettingsDatabaseConnection();
 
         switch (categoryID) {
             case 1:{
 
-                int t1aID = attributesDBConnection.getAttributeID("T1A", categoryID);
-                int t1bID = attributesDBConnection.getAttributeID("T1B", categoryID);
-                int t2aID = attributesDBConnection.getAttributeID("T2A", categoryID);
-                int t2bID = attributesDBConnection.getAttributeID("T2B", categoryID);
-                int cup = attributesDBConnection.getAttributeID("TAZA", categoryID);
-                int profit = attributesDBConnection.getAttributeID("GANANCIA", categoryID);
-
-
-                double t1aV = Double.parseDouble(instancedAttributesDBConnection.getAttributeValue(ID, t1aID));
+                double t1aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T1A"));
 
                 double t1bV;
-                String t1bS = instancedAttributesDBConnection.getAttributeValue(ID, t1bID);
+                String t1bS = attributesDBConnection.getAttributeValue(ID, "T1B");
                 if(Objects.equals(t1bS, "###")){
                     t1bV = getIndividualPrice(SettingsTableNames.BAJADA_PLANCHA, "En taza");
                 }else {
                     t1bV = Double.parseDouble(t1bS);
                 }
 
-                double t2aV = Double.parseDouble(instancedAttributesDBConnection.getAttributeValue(ID, t2aID));
+                double t2aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T2A"));
 
                 double t2bV;
-                String t2bS = instancedAttributesDBConnection.getAttributeValue(ID, t2bID);
+                String t2bS = attributesDBConnection.getAttributeValue(ID, "T2B");
                 if(Objects.equals(t2bS, "###")){
                     t2bV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de Sublimación");
                 }else {
@@ -72,7 +62,7 @@ public class Product {
                 }
 
                 double cupV;
-                String cupS = instancedAttributesDBConnection.getAttributeValue(ID, cup);
+                String cupS = attributesDBConnection.getAttributeValue(ID, "TAZA");
                 if(Objects.equals(cupS, "###")) {
                     cupV = getIndividualPrice(SettingsTableNames.GENERAL, "Taza");
                 }else {
@@ -80,7 +70,7 @@ public class Product {
                 }
 
                 double profitV;
-                String profitS = instancedAttributesDBConnection.getAttributeValue(ID, profit);
+                String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
                     profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Taza");
                 }else {
@@ -91,13 +81,6 @@ public class Product {
                 return ((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profitV;
             }
             case 2:
-                int t1aID = attributesDBConnection.getAttributeID("T1A", categoryID);
-                int t1bID = attributesDBConnection.getAttributeID("T1B", categoryID);
-                int t2aID = attributesDBConnection.getAttributeID("T2A", categoryID);
-                int t2bID = attributesDBConnection.getAttributeID("T2B", categoryID);
-
-
-
 
                 return 20;
             case 3:

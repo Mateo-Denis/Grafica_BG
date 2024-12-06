@@ -8,7 +8,6 @@ import utils.Attribute;
 import utils.Product;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.CategoriesDatabaseConnection;
-import utils.databases.InstancedAttributesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 
 import java.sql.SQLException;
@@ -21,24 +20,19 @@ public class ProductModel implements IProductModel {
     private final AttributesDatabaseConnection attributesDBConnection;
     private final ProductsDatabaseConnection productsDBConnection;
     private final CategoriesDatabaseConnection categoriesDBConnection;
-    private final InstancedAttributesDatabaseConnection instancedAttributesDBConnection;
     private final List<ProductCreationSuccessListener> productCreationSuccessListeners;
     private final List<ProductCreationFailureListener> productCreationFailureListeners;
     private final List<ProductSearchSuccessListener> productSearchSuccessListeners;
     private final List<ProductSearchFailureListener> productSearchFailureListeners;
-    private int lastProductIDGenerated = 0;
-
     private ArrayList<Product> products;
 
     public ProductModel(ProductsDatabaseConnection dbConnection,
                         AttributesDatabaseConnection attributesDBConnection,
-                        CategoriesDatabaseConnection categoriesDBConnection,
-                        InstancedAttributesDatabaseConnection instancedAttributesDBConnection) {
+                        CategoriesDatabaseConnection categoriesDBConnection) {
 
         this.productsDBConnection = dbConnection;
         this.attributesDBConnection = attributesDBConnection;
         this.categoriesDBConnection = categoriesDBConnection;
-		this.instancedAttributesDBConnection = instancedAttributesDBConnection;
 		products = new ArrayList<>();
 
         this.productCreationSuccessListeners = new LinkedList<>();
@@ -61,10 +55,8 @@ public class ProductModel implements IProductModel {
 
     @Override
     public void instantiateProductAttributes(int productID, ArrayList<Attribute> attributes, int categoryID) {
-        int attributeID;
         for (Attribute attribute : attributes) {
-			attributeID = attributesDBConnection.insertAttributeRow(attribute.getName(), categoryID);
-            instancedAttributesDBConnection.insertProductAttribute(productID, attributeID, attribute.getValue());
+			attributesDBConnection.insertAttributeRow(attribute.getName(), productID, attribute.getValue());
 		}
     }
 

@@ -58,13 +58,11 @@ public class Main {
         budgetsDB.loadDatabase();
         AttributesDatabaseConnection attributesDB = new AttributesDatabaseConnection();
         attributesDB.loadDatabase();
-        InstancedAttributesDatabaseConnection instancedAttributesDB = new InstancedAttributesDatabaseConnection();
-        instancedAttributesDB.loadDatabase();
         SettingsDatabaseConnection settingsDB = new SettingsDatabaseConnection();
         settingsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
-        IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB, instancedAttributesDB);
+        IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
         IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB);
         ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
         IProductListModel productListModel = new ProductListModel(productsDB);
