@@ -171,8 +171,8 @@ public class ClientModel implements IClientModel{
 	}
 
 	@Override
-	public int getClientID(String clientName) {
-		return dbConnection.getClientID(clientName);
+	public int getClientID(String clientName, String clientType) {
+		return dbConnection.getClientID(clientName, clientType);
 	}
 
 	public void notifyClientCreationEmptyField() {

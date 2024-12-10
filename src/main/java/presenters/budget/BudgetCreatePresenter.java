@@ -2,6 +2,7 @@ package presenters.budget;
 
 //IMPORTS FROM PRESENTERS PACKAGE
 
+import PdfFormater.Row;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import presenters.StandardPresenter;
@@ -138,6 +139,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     // IF THE SEARCH CLIENT BUTTON IS CLICKED:
     public void OnSearchClientButtonClicked() {
         String city = "";
+        String clientType = "";
         city = (String) budgetCreateView.getCitiesComboBox().getSelectedItem(); // GET CITY
         String name = budgetCreateView.getBudgetClientName(); // GET BUDGET CLIENT NAME
         int clientID = -1; // CLIENT ID VARIABLE
@@ -155,7 +157,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
         // LOOP THROUGH CLIENTS
         for (Client client : clients) {
-            clientID = budgetModel.getClientID(client.getName()); // GET CLIENT ID
+            clientType = "Cliente";
+
+            if(!client.isClient()) {
+                clientType = "Particular";
+            }
+
+            clientID = budgetModel.getClientID(client.getName(), clientType); // GET CLIENT ID
 
             // SET CLIENT TABLE VALUES
             budgetCreateView.setClientIntTableValueAt(rowCount, 0, clientID);
@@ -185,7 +193,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 clientType = clientTableModel.getValueAt(selectedRow, 5).toString(); // GET CLIENT TYPE FROM TABLE MODEL
                 budgetCreateView.setPreviewStringTableValueAt(0, 0, clientName); // SET PREVIEW STRING TABLE VALUE AT 0, 0, CLIENT NAME
                 budgetCreateView.setPreviewStringTableValueAt(0, 6, clientType); // SET PREVIEW STRING TABLE VALUE AT 0, 6, CLIENT TYPE
-                globalClientID = budgetModel.getClientID(clientName); // SET GLOBAL CLIENT ID TO CLIENT ID
+                globalClientID = budgetModel.getClientID(clientName, clientType); // SET GLOBAL CLIENT ID TO CLIENT ID
                 clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
             } else {
                 budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
@@ -273,9 +281,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
             budgetCreateView.getWindowFrame().dispose(); // CLOSE WINDOW
         }
 
-        //PDF CREATION
-        //SamplePDFCreation.createPDF(false, oneClientList.get(0), budgetNumber, rows, finalPrice);
-
         //SET WAITING STATUS
         budgetCreateView.setWaitingStatus();
     }
@@ -295,6 +300,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return product;
     }
 
+
+
     public double GetSelectedTotalPrice(int selectedPreviewRow) {
         double totalPrice = 0.0;
         if (selectedPreviewRow != -1) {
@@ -302,7 +309,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
         return totalPrice;
     }
-
 
 
 
@@ -348,7 +354,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
 
     //PARA CUANDO SE CREA EL PRESUPUESTO
-    public List<String> GetProductFromPreviewTable(int row) {
+    public List<String> GetOneProductFromPreviewTable(int row) {
         List<String> productRowData = new ArrayList<>();
         String productName = budgetCreateView.getPreviewStringTableValueAt(row, 1);
         String productAmount = budgetCreateView.getPreviewStringTableValueAt(row, 2);
@@ -363,8 +369,21 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return productRowData;
     }
 
+    public List<List<String>> GetAllProductsFromPreviewTable()
+    {
+        List<List<String>> productRowData = new ArrayList<>();
+        List<String> oneProduct = new ArrayList<>();
+        for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
+            oneProduct = GetOneProductFromPreviewTable(i);
+            productRowData.add(oneProduct);
+        }
+        return productRowData;
+    }
 
-
+    public Client GetOneClientByID(int clientID)
+    {
+        return budgetModel.GetOneClientByID(clientID);
+    }
 
     public void onAddProductButtonClicked() {
         Product product; // PRODUCT VARIABLE
@@ -379,7 +398,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
                 productsRowCountOnPreviewTable++;
             } else {
-                EditProductOnPreviewTable(GetProductFromPreviewTable(selectedProductRow), selectedProductRow);
+                EditProductOnPreviewTable(GetOneProductFromPreviewTable(selectedProductRow), selectedProductRow);
                 editingProduct = false;
             }
         }
@@ -467,6 +486,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
         stb.setLength(0);
         stb.append("Precio total: $").append(globalBudgetTotalPrice);
         textArea.setText(stb.toString());
+    }
+
+    public void CreatePDF(ArrayList<Row> rows)
+    {
+        Row row;
+
     }
 
 

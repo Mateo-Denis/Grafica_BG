@@ -40,5 +40,5 @@ public interface IClientModel {
 
 	void deleteMultipleClients(List<Integer> clientIDs);
 
-	int getClientID(String clientName);
+	int getClientID(String clientName, String clientType);
 }

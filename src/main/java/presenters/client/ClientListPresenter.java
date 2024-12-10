@@ -43,12 +43,20 @@ public class ClientListPresenter extends StandardPresenter {
 
     public void setClientsOnTable() {
         ArrayList<Client> clients = clientListModel.getClientsFromDB();
+        String clientType = "";
         int rowCount = 0;
         int clientID = 0;
 
         for (Client client : clients) {
+            clientType = "Cliente";
+
+            if(!client.isClient())
+            {
+                clientType = "Particular";
+            }
+
             try {
-                clientID = clientsDatabaseConnection.getClientID(client.getName());
+                clientID = clientsDatabaseConnection.getClientID(client.getName(), clientType);
                 System.out.println(client.getName());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,7 +67,7 @@ public class ClientListPresenter extends StandardPresenter {
             clientListView.setStringTableValueAt(rowCount, 2, client.getAddress());
             clientListView.setStringTableValueAt(rowCount, 3, client.getCity());
             clientListView.setStringTableValueAt(rowCount, 4, client.getPhone());
-            clientListView.setStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
+            clientListView.setStringTableValueAt(rowCount, 5, clientType);
             rowCount++;
 
         }

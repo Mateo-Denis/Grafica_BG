@@ -14,9 +14,10 @@ public interface IBudgetModel {
     void addBudgetSearchSuccessListener(BudgetSearchSuccessListener listener);
     void addBudgetSearchFailureListener(BudgetSearchFailureListener listener);
 
+    Client GetOneClientByID(int clientID);
     ArrayList<Product> getProducts(String productName, String productCategory);
     ArrayList<Client> getClients(String name, String city);
-    int getClientID(String clientName);
+    int getClientID(String clientName, String clientType);
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
     int getNextBudgetNumber();
     void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);

@@ -113,6 +113,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     // IF THE SEARCH CLIENT BUTTON IS CLICKED:
     public void OnSearchClientButtonClicked() {
         String city = "";
+        String clientType = "";
         city = (String) budgetModifyView.getCitiesComboBox().getSelectedItem(); // GET CITY
         String name = budgetModifyView.getBudgetClientName(); // GET BUDGET CLIENT NAME
         int clientID = -1; // CLIENT ID VARIABLE
@@ -129,7 +130,13 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         // LOOP THROUGH CLIENTS
         for (Client client : clients) {
-            clientID = budgetModel.getClientID(client.getName()); // GET CLIENT ID
+            clientType = "Cliente";
+
+            if(!client.isClient()) {
+                clientType = "Particular";
+            }
+
+            clientID = budgetModel.getClientID(client.getName(), clientType); // GET CLIENT ID
 
             // SET CLIENT TABLE VALUES
             budgetModifyView.setClientIntTableValueAt(rowCount, 0, clientID);
@@ -137,7 +144,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModifyView.setClientStringTableValueAt(rowCount, 2, client.getAddress());
             budgetModifyView.setClientStringTableValueAt(rowCount, 3, client.getCity());
             budgetModifyView.setClientStringTableValueAt(rowCount, 4, client.getPhone());
-            budgetModifyView.setClientStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
+            budgetModifyView.setClientStringTableValueAt(rowCount, 5, clientType);
             rowCount++; // INCREMENT ROW COUNT
         }
     }
@@ -159,7 +166,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 clientType = clientTableModel.getValueAt(selectedRow, 5).toString(); // GET CLIENT TYPE FROM TABLE MODEL
                 budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName); // SET PREVIEW STRING TABLE VALUE AT 0, 0, CLIENT NAME
                 budgetModifyView.setPreviewStringTableValueAt(0, 6, clientType); // SET PREVIEW STRING TABLE VALUE AT 0, 6, CLIENT TYPE
-                globalClientID = budgetModel.getClientID(clientName); // SET GLOBAL CLIENT ID TO CLIENT ID
+                globalClientID = budgetModel.getClientID(clientName, clientType); // SET GLOBAL CLIENT ID TO CLIENT ID
                 clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
             } else {
                 budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED

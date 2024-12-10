@@ -16,6 +16,9 @@ public enum MessageTypes {
     CLIENT_NOT_SELECTED("Cliente no seleccionado"
             , "Por favor, seleccione un cliente de la tabla para poder continuar."
             , JOptionPane.ERROR_MESSAGE),
+    CLIENT_DELETION_FAILURE ("Error al eliminar el cliente"
+            , "Ha ocurrido un error al intentar eliminar el cliente."
+            , JOptionPane.ERROR_MESSAGE),
     CITY_FETCH_FAILURE("Error al consultar las ciudades"
             , "Ha ocurrido un error al consultar las ciudades en la base de datos."
             , JOptionPane.ERROR_MESSAGE),
@@ -39,6 +42,9 @@ public enum MessageTypes {
             , JOptionPane.ERROR_MESSAGE),
     MISSING_PRODUCT_NAME("Nombre de producto faltante"
             , "Por favor, ingrese un nombre para el producto."
+            , JOptionPane.ERROR_MESSAGE),
+    PRODUCT_DELETION_FAILURE ("Error al eliminar el producto"
+            , "Ha ocurrido un error al intentar eliminar el producto."
             , JOptionPane.ERROR_MESSAGE),
     SUBCATEGORY_CREATION_SUCCESS("SubCategoria creada con éxito"
             , "La subcategoria fue agregada a la base de datos correctamente."

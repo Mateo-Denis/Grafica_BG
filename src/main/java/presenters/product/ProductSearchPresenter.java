@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.MessageTypes.PRODUCT_DELETION_FAILURE;
 import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 
 public class ProductSearchPresenter extends StandardPresenter {
@@ -45,18 +46,6 @@ public class ProductSearchPresenter extends StandardPresenter {
 
     }
 
-/*    public void onSearchButtonClicked() {
-        productSearchView.setWorkingStatus();
-
-        String searchedName = productSearchView.getNameSearchText();
-
-        productSearchView.clearView();
-
-        productModel.queryProducts(searchedName);
-
-        productSearchView.setWaitingStatus();
-    }*/
-
     public void onSearchButtonClicked() {
         productSearchView.clearView();
         String productName = productSearchView.getNameSearchText();
@@ -77,6 +66,8 @@ public class ProductSearchPresenter extends StandardPresenter {
             deleteOneProduct();
         } else if(selectedRows.length > 1) {
             deleteMultipleProducts();
+        } else {
+            productSearchView.showMessage(PRODUCT_DELETION_FAILURE);
         }
     }
 

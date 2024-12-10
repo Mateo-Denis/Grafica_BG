@@ -124,9 +124,9 @@ public class BudgetModel implements IBudgetModel {
 
 
     // GET CLIENT ID
-    public int getClientID(String clientName) {
+    public int getClientID(String clientName, String clientType) {
         try {
-            return clientsDBConnection.getClientID(clientName);
+            return clientsDBConnection.getClientID(clientName, clientType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,6 +229,14 @@ public class BudgetModel implements IBudgetModel {
     }
 
 
+    public Client GetOneClientByID(int clientID) {
+        try {
+            return clientsDBConnection.getOneClient(clientID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 

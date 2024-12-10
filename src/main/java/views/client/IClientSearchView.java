@@ -30,4 +30,10 @@ public interface IClientSearchView extends IToggleableView {
 
 	void clearView();
 
+	String getClientStringTableValueAt(int row, int col);
+
+	int getClientIntTableValueAt(int row, int col);
+
+	Double getClientDoubleTableValueAt(int row, int col);
+
 }

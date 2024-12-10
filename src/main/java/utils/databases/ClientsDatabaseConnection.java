@@ -127,11 +127,12 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
         return new ArrayList<>();
     }
 
-    public int getClientID(String clientName) {
-        String sql = "SELECT ID FROM Clientes WHERE Nombre = ?";
+    public int getClientID(String clientName, String clientType) {
+        String sql = "SELECT ID FROM Clientes WHERE Nombre = ? AND TipoCliente = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, clientName);
+            pstmt.setString(2, clientType);
             try (ResultSet resultSet = pstmt.executeQuery()) {
                 return resultSet.getInt("ID");
             }
@@ -169,28 +170,25 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
         JOptionPane.showMessageDialog(null, "Clientes eliminados con éxito!");
     }
 
-    public ArrayList<Client> getOneClient(int clientID) {
+    public Client getOneClient(int clientID) {
         String sql = "SELECT * FROM Clientes WHERE ID = ?";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, clientID);
             try (ResultSet resultSet = pstmt.executeQuery()) {
-                ArrayList<Client> clients = new ArrayList<>();
-                while (resultSet.next()) {
-                    Client client = new Client(
+                if (resultSet.next()) {
+                    return new Client(
                             resultSet.getString("Nombre"),
                             resultSet.getString("Direccion"),
                             resultSet.getString("Localidad"),
                             resultSet.getString("Telefono"),
                             resultSet.getString("TipoCliente").equals("Cliente")
                     );
-                    clients.add(client);
                 }
-                return clients;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return null;
     }
 }

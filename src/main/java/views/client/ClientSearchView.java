@@ -143,4 +143,17 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     public JTable getClientResultTable() {
         return clientResultTable;
     }
+
+    public Double getClientDoubleTableValueAt(int row, int col) {
+        return (Double) clientResultTable.getValueAt(row, col);
+    }
+
+    public int getClientIntTableValueAt(int row, int col) {
+        return (int) clientResultTable.getValueAt(row, col);
+    }
+
+    public String getClientStringTableValueAt(int row, int col) {
+        return (String) clientResultTable.getValueAt(row, col);
+    }
+
 }

@@ -85,13 +85,14 @@ public class ClientSearchPresenter extends StandardPresenter {
 		int[] selectedRows = clientSearchView.getClientResultTable().getSelectedRows();
 		if(selectedRows.length == 1) {
 			deleteOneClient();
-		} else if(selectedRows.length > 1) {
-			deleteMultipleClients();
+		} else {
+			clientSearchView.showMessage(CLIENT_DELETION_FAILURE);
 		}
 	}
 
 	public void deleteOneClient() {
-		int oneClientID = getOneClientID();
+		int selectedRow = clientSearchView.getSelectedTableRow();
+		int oneClientID = getOneClientID(selectedRow);
 		if (oneClientID != -1 && oneClientID != 0) {
 			clientModel.deleteOneClient(oneClientID);
 			clientSearchView.setWorkingStatus();
@@ -105,33 +106,19 @@ public class ClientSearchPresenter extends StandardPresenter {
 		}
 	}
 
-	public void deleteMultipleClients() {
-		ArrayList<Integer> clientIDs = new ArrayList<>();
-		ArrayList<String> selectedClientNames = clientSearchView.getMultipleSelectedClientNames();
-		int[] selectedRows = clientSearchView.getClientResultTable().getSelectedRows();
-		for(int i = 0; i < selectedRows.length; i++) {
-			String selectedClientName = selectedClientNames.get(i);
-			int clientID = clientModel.getClientID(selectedClientName);
-			clientIDs.add(clientID);
+	public int getOneClientID(int selectedRow) {
+		String clientName = clientSearchView.getClientStringTableValueAt(selectedRow, 0);
+		String clientType = clientSearchView.getClientStringTableValueAt(selectedRow, 4);
+		int clientID = -1;
+
+		if(selectedRow != -1 && !clientName.isEmpty() && !clientType.isEmpty()) {
+			if(clientType.equals("Cliente")) {
+				clientID = clientModel.getClientID(clientName, "Cliente");
+			} else {
+				clientID = clientModel.getClientID(clientName, "Particular");
+			}
 		}
 
-			clientModel.deleteMultipleClients(clientIDs);
-			clientSearchView.setWorkingStatus();
-			clientSearchView.clearView();
-			String searchedName = clientSearchView.getnameSearchText();
-			String searchedCity = clientSearchView.getSelectedCity();
-			if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
-			clientModel.queryClients(searchedName, searchedCity);
-			clientSearchView.deselectAllRows();
-			clientSearchView.setWaitingStatus();
-		}
-
-	public int getOneClientID() {
-		int selectedRow = clientSearchView.getClientResultTable().getSelectedRow();
-		if(selectedRow != -1) {
-			String selectedClientName = (String) clientSearchView.getSelectedClientName();
-			return clientModel.getClientID(selectedClientName);
-		}
-		return -1;
+		return clientID;
 	}
 }
