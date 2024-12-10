@@ -34,7 +34,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private int globalClientID = -1;
     private int globalBudgetNumber = -1;
     private String oldClientName = "";
-    double globalBudgetTotalPrice = 0.0;
+    private double globalBudgetTotalPrice = 0.0;
+    private Product editedProduct;
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel) {
@@ -131,7 +132,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         for (Client client : clients) {
             clientType = "Cliente";
 
-            if(!client.isClient()) {
+            if (!client.isClient()) {
                 clientType = "Particular";
             }
 
@@ -189,16 +190,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    public void EditProductOnPreviewTable(List<String> productRowData, int row) {
-        String productName = productRowData.get(0);
-        String productAmountStr = productRowData.get(1);
-        String productMeasures = productRowData.get(2);
-        String productObservations = productRowData.get(3);
-
-        budgetModifyView.setPreviewStringTableValueAt(row, 1, productName);
-        budgetModifyView.setPreviewStringTableValueAt(row, 2, productAmountStr);
-        budgetModifyView.setPreviewStringTableValueAt(row, 3, productMeasures);
-        budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations);
+    public void FinishProductEditingOnPreviewTable() {
+        editingProduct = false;
+        editedProduct = null;
+        budgetModifyView.getPreviewTable().clearSelection();
+        budgetModifyView.getPreviewTable().setEnabled(true);
     }
 
 
@@ -223,7 +219,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
         budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(oneItemProductPrice)); //INSERTA EN LA COLUMNA DE PRECIO
 
-        updateTextArea(true, false, totalItemsPrice);
+        if(!editingProduct)
+        {updateTextArea(true, false, totalItemsPrice);}
     }
 
 
@@ -239,38 +236,73 @@ public class BudgetModifyPresenter extends StandardPresenter {
         productRowData.add(productMeasures);
         productRowData.add(productObservations);
 
+        for (String data : productRowData) {
+            System.out.println("DATA: " + data);
+        }
+
         return productRowData;
     }
 
 
     public void onAddProductButtonClicked() {
-        Product product; // PRODUCT VARIABLE // ROW COUNT
+        Product product; // PRODUCT VARIABLE
         int selectedProductRow = budgetModifyView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
+        int selectedPreviewRow = budgetModifyView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
-        // IF SELECTED PRODUCT ROW IS NOT -1 (NOT EMPTY)
         if (selectedProductRow != -1) {
-            product = GetSelectedProductFromProductsTable(); // GET SELECTED PRODUCT FROM PRODUCTS TABLE
-
-            // IF BOOLEAN GLOBAL VARIABLE "editingProduct" IS FALSE
-            if (!editingProduct) {
+            if(!editingProduct){
+                product = GetSelectedProductFromProductsTable();
                 AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
                 productsRowCountOnPreviewTable++;
+            }
+        } else {
+            EditProduct(editedProduct, selectedPreviewRow);
+            FinishProductEditingOnPreviewTable();
+        }
+
+    }
+
+    private void EditProduct(Product product, int selectedRow)
+    {
+        System.out.println("GLOBAL PRICE: " + globalBudgetTotalPrice);
+
+        int initialProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
+        double initialProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
+        double removePrice = initialProductAmount * initialProductPrice;
+        System.out.println("REMOVE PRICE: " + removePrice);
+
+        AddProductToPreviewTable(product, selectedRow);
+
+        int finalProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
+        double finalProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
+        double addingPrice = finalProductAmount * finalProductPrice;
+        System.out.println("ADDING PRICE: " + addingPrice);
+
+        double finalPriceEdit = addingPrice - removePrice;
+        System.out.println("FINAL PRICE EDIT: " + finalPriceEdit);
+
+        if (finalPriceEdit != 0) {
+            if (finalPriceEdit > 0) {
+                updateTextArea(true, false, finalPriceEdit);
             } else {
-                EditProductOnPreviewTable(GetProductFromPreviewTable(selectedProductRow), selectedProductRow);
-                editingProduct = false;
+                finalPriceEdit = finalPriceEdit * -1;
+                System.out.println("FINAL FINAL PRICE EDIT: " + finalPriceEdit);
+                updateTextArea(false, false, finalPriceEdit);
             }
         }
     }
 
 
     public void onPreviewTableDoubleClickedRow(int clickedRow) {
-        String productName = "";
         String productMeasures = "";
         String productObservations = "";
+        String productName = "";
         int productAmount = 0;
         int productID = -1;
-        Object observations = "";
-        Object measures = "";
+        Object productNameObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 1);
+        Object productObservationsObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 4);
+        Object productMeasuresObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 3);
+        Object productAmountObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 2);
 
         if (clickedRow != -1 && clickedRow != 0) {
             System.out.println("SE ACTIVO EL BOOLEAN DE EDITANDO PRODUCTO.");
@@ -278,9 +310,14 @@ public class BudgetModifyPresenter extends StandardPresenter {
             JTable productTable = budgetModifyView.getProductsResultTable();
             productTable.clearSelection();
             budgetModifyView.getPreviewTable().setEnabled(false);
-            productAmount = (int) budgetModifyView.getPreviewTable().getValueAt(clickedRow, 2);
-            measures = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 3);
-            observations = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 4);
+
+            productName = (String) productNameObject;
+            productAmount = Integer.parseInt((String) productAmountObject);
+            productMeasures = (String) productMeasuresObject;
+            productObservations = (String) productObservationsObject;
+            productID = productModel.getProductID(productName);
+
+            editedProduct = productModel.getOneProduct(productID);
         }
 
         budgetModifyView.setAmountTextField(productAmount);
@@ -296,8 +333,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         double totalSelectedPrice = 0.0;
 
         if (selectedRow != -1) {
-            if (productsRowCountOnPreviewTable >= 1)
-            {
+            if (productsRowCountOnPreviewTable >= 1) {
                 totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
                 budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
                 productsRowCountOnPreviewTable--;
@@ -326,19 +362,18 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return anyEmpty;
     }
 
-    public int GetGlobalBudgetNumer()
-    {
+    public int GetGlobalBudgetNumer() {
         return globalBudgetNumber;
     }
 
 
-    public void onModifySearchViewButtonClicked(int budgetNumber)
-    {
+    public void onModifySearchViewButtonClicked(int budgetNumber) {
         budgetModifyView.setWorkingStatus();
 
         productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
         globalBudgetNumber = budgetNumber;
         editingProduct = false;
+        editedProduct = null;
         oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
         budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
         ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
@@ -359,16 +394,14 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setWaitingStatus();
     }
 
-    public double GetBudgetTotalPrice(Multimap<Integer,String> products)
-    {
+    public double GetBudgetTotalPrice(Multimap<Integer, String> products) {
         ArrayList<Double> prices = getProductPrices(globalBudgetNumber, oldClientName);
         ArrayList<String> productNames = new ArrayList<>();
         ArrayList<String> productAmounts = new ArrayList<>();
         double totalPrice = 0.0;
         int productIndex = 0;
 
-        for(Map.Entry<Integer, String> entry : products.entries())
-        {
+        for (Map.Entry<Integer, String> entry : products.entries()) {
             productNames.add(entry.getValue());
             productAmounts.add(Integer.toString(entry.getKey()));
             System.out.println("PRODUCT NAME: " + entry.getValue());
@@ -376,9 +409,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         }
 
         for (int row = 1; row <= products.size(); row++) {
-        String productAmount = productAmounts.get(productIndex);
-//           System.out.println("PRODUCT AMOUNT: " + productAmount);
-//           System.out.println("PRODUCT PRICE: " + prices.get(productIndex));
+            String productAmount = productAmounts.get(productIndex);
             double productPrice = prices.get(productIndex) * Integer.parseInt(productAmount);
             totalPrice += productPrice;
             productIndex++;
@@ -387,18 +418,15 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return totalPrice;
     }
 
-    public ArrayList<Double> getProductPrices(int budgetNumber, String budgetName)
-    {
+    public ArrayList<Double> getProductPrices(int budgetNumber, String budgetName) {
         return budgetModifyModel.getProductPrices(budgetNumber, budgetName);
     }
 
-    public ArrayList<String> getProductObservations(int budgetNumber, String budgetName)
-    {
+    public ArrayList<String> getProductObservations(int budgetNumber, String budgetName) {
         return budgetModifyModel.getProductObservations(budgetNumber, budgetName);
     }
 
-    public ArrayList<String> getProductsMeasures(int budgetNumber, String budgetName)
-    {
+    public ArrayList<String> getProductsMeasures(int budgetNumber, String budgetName) {
         return budgetModifyModel.getProductMeasures(budgetNumber, budgetName);
     }
 
@@ -413,8 +441,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         double productPrice = 0.0;
         int productIndex = 0;
 
-        for(Map.Entry<Integer, String> entry : products.entries())
-        {
+        for (Map.Entry<Integer, String> entry : products.entries()) {
             productNames.add(entry.getValue());
             productAmounts.add(Integer.toString(entry.getKey()));
         }
@@ -500,13 +527,17 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModel.saveProducts(newBudgetID, products, productObservations, productMeasures, productPrices);
             budgetModel.deleteBudgetProducts(oldClientName, oldBudgetID, globalBudgetNumber);
 
+            if(editingProduct)
+            {FinishProductEditingOnPreviewTable();}
+
+            budgetModifyView.showMessage(MessageTypes.BUDGET_MODIFY_SUCCESS);
 
             budgetModifyView.hideView();
+            budgetModifyView.getWindowFrame().dispose();
         }
     }
 
-    public ArrayList<Object> GetTextAreaAndStringBuilder()
-    {
+    public ArrayList<Object> GetTextAreaAndStringBuilder() {
         ArrayList<Object> textAreaAndStringBuilder = new ArrayList<>();
         textAreaAndStringBuilder.add(budgetModifyView.getPriceTextArea());
         textAreaAndStringBuilder.add(budgetModifyView.getStringBuilder());
@@ -518,11 +549,12 @@ public class BudgetModifyPresenter extends StandardPresenter {
         JTextArea textArea = (JTextArea) textAreaAndStringBuilder.get(0);
         StringBuilder stb = (StringBuilder) textAreaAndStringBuilder.get(1);
 
-        if(!start){
-            if(adding){
+        if (!start) {
+            if (adding) {
+                System.out.println("ADDING PRICE: " + productPrice);
                 globalBudgetTotalPrice += productPrice;
-            }
-            else{
+            } else {
+                System.out.println("REMOVING PRICE: " + productPrice);
                 globalBudgetTotalPrice -= productPrice;
             }
         }
@@ -534,6 +566,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    // ---------> METHODS AND FUNCTIONS END HERE <-------------
-    // ---------> METHODS AND FUNCTIONS END HERE <-------------
+// ---------> METHODS AND FUNCTIONS END HERE <-------------
+// ---------> METHODS AND FUNCTIONS END HERE <-------------
 }

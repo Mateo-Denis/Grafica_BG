@@ -70,6 +70,12 @@ public enum MessageTypes {
     BUDGET_CREATION_FAILURE("Error al crear el presupuesto"
             , "Ha ocurrido un error al intentar crear el presupuesto."
             , JOptionPane.ERROR_MESSAGE),
+    BUDGET_MODIFY_SUCCESS("Presupuesto modificado con éxito"
+            , "El presupuesto fue modificado en la base de datos correctamente."
+            , JOptionPane.INFORMATION_MESSAGE),
+    BUDGET_MODIFY_FAILURE("Error al modificar el presupuesto"
+            , "Ha ocurrido un error al intentar modificar el presupuesto."
+            , JOptionPane.ERROR_MESSAGE),
     FLOAT_PARSING_ERROR("Formato numérico requerido"
             , "Se esperaba un número para el campo ingresado."
             , JOptionPane.ERROR_MESSAGE),

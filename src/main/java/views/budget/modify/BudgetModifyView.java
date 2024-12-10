@@ -425,6 +425,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         return productTable.getSelectedRow();
     }
 
+    public int getPreviewTableSelectedRow() {
+        return budgetPreviewTable.getSelectedRow();
+    }
+
     public JTable getClientResultTable() {
         return clientResultTable;
     }
