@@ -427,6 +427,10 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return productResultTable.getSelectedRow();
     }
 
+    public int getPreviewTableSelectedRow() {
+        return budgetPreviewingTable.getSelectedRow();
+    }
+
     public JTable getClientResultTable() {
         return clientResultTable;
     }

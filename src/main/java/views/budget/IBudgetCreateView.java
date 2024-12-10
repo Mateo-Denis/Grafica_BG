@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IBudgetCreateView extends IToggleableView {
+    int getPreviewTableSelectedRow();
     String getBudgetClientName();
     String getBudgetDate();
     String getBudgetClientType();

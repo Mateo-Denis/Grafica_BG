@@ -322,7 +322,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         super.start();
         clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
         clientResultTable.setModel(clientsTableModel);
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Precio", "Categoria"}, 200);
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria"}, 200);
         productTable.setModel(productsTableModel);
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio", "Cliente / Particular"}, 200) {
             @Override
