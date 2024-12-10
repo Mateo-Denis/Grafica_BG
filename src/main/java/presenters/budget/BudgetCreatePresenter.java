@@ -2,9 +2,12 @@ package presenters.budget;
 
 //IMPORTS FROM PRESENTERS PACKAGE
 
+import PdfFormater.IPdfConverter;
+import PdfFormater.PdfConverter;
 import PdfFormater.Row;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import models.*;
 import presenters.StandardPresenter;
 
 //IMPORTS FROM UTILS PACKAGE
@@ -16,15 +19,13 @@ import utils.Product;
 import views.budget.IBudgetCreateView;
 
 //IMPORTS FROM MODELS PACKAGE
-import models.ICategoryModel;
-import models.IBudgetModel;
-import models.IProductModel;
 
 //IMPORTS FROM JAVA
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import PdfFormater.PdfConverter;
 
 
 //  --------> BUDGET CREATE PRESENTER CLASS STARTS HERE <-------------
@@ -35,6 +36,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private final IBudgetModel budgetModel;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
+    private static final IPdfConverter pdfConverter = new PdfConverter();
 
     double globalBudgetTotalPrice = 0.0;
     private ArrayList<Client> globalClientsList;
@@ -206,6 +208,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void onCreateButtonClicked() {
         List<String[]> budgetData = budgetCreateView.getPreviewTableFilledRowsData();
+        Client client;
+        ArrayList<Row> tableContent = new ArrayList<>();
 
         // BUDGET DATA LIST
         String budgetClientName = ""; // BUDGET CLIENT NAME VARIABLE
@@ -277,6 +281,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
             budgetID = budgetModel.getBudgetID(budgetNumber, budgetClientName);
             budgetModel.saveProducts(budgetID, products, productsObservations, productsMeasures, productsPrices);
 
+            //PDF CREATION
+            client = GetOneClientByID(budgetClientName, budgetClientType);
+            tableContent = GetAllProductsFromPreviewTable();
+            GeneratePDF(client, tableContent, budgetNumber);
+
+
             budgetCreateView.restartWindow(); // RESTART WINDOW
             budgetCreateView.getWindowFrame().dispose(); // CLOSE WINDOW
         }
@@ -285,7 +295,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.setWaitingStatus();
     }
 
-
+    public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber){
+        try {
+            pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public Product GetSelectedProductFromProductsTable() {
@@ -346,7 +362,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
         budgetCreateView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetCreateView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
-        budgetCreateView.setPreviewStringTableValueAt(row, 5, String.valueOf(totalItemsPrice)); //INSERTA EN LA COLUMNA DE PRECIO
+        budgetCreateView.setPreviewStringTableValueAt(row, 5, String.valueOf(oneItemProductPrice)); //INSERTA EN LA COLUMNA DE PRECIO
 
         updateTextArea(true, totalItemsPrice);
     }
@@ -369,19 +385,31 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return productRowData;
     }
 
-    public List<List<String>> GetAllProductsFromPreviewTable()
+    public ArrayList<Row> GetAllProductsFromPreviewTable()
     {
-        List<List<String>> productRowData = new ArrayList<>();
+        ArrayList<Row> productRowData = new ArrayList<>();
         List<String> oneProduct = new ArrayList<>();
+
+        Product product;
+        double productPrice = 0.0;
+        double totalPrice = 0.0;
+        Row row;
+
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
-            productRowData.add(oneProduct);
+            product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
+            productPrice = product.calculateRealTimePrice();
+            totalPrice = productPrice / Integer.parseInt(oneProduct.get(1));
+
+            row = new Row("", Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
+            productRowData.add(row);
         }
         return productRowData;
     }
 
-    public Client GetOneClientByID(int clientID)
+    public Client GetOneClientByID(String clientName, String clientType)
     {
+        int clientID = budgetModel.getClientID(clientName, clientType);
         return budgetModel.GetOneClientByID(clientID);
     }
 

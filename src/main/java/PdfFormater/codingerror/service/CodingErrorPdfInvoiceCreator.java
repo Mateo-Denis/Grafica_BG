@@ -4,7 +4,6 @@ import PdfFormater.Row;
 import PdfFormater.codingerror.model.*;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceGray;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.geom.PageSize;
@@ -123,7 +122,7 @@ public class CodingErrorPdfInvoiceCreator {
     public List<Product> formatProductsToProductsList(ArrayList<Row> rows){
         List<Product> productList=new ArrayList<>();
         for(Row row:rows){
-            productList.add(new Product(row.getDescription(),row.getQuantity(),row.getDimensions(),row.getPrice(),row.getTotal()));
+            productList.add(new Product(row.getDescription(),row.getQuantity(),row.getMeasures(), "", row.getPrice(),row.getTotal()));
         }
         return productList;
     }

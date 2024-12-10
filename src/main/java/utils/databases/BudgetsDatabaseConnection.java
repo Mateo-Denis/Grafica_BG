@@ -201,7 +201,6 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         ResultSet resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
             Product product = productsDBConnection.getOneProduct(resultSet.getInt("ID_PRODUCTO"));
-            int productID = resultSet.getInt("ID_PRODUCTO");
             int productAmount = resultSet.getInt("CANTIDAD");
             String productName = product.getName();
             products.put(productAmount, productName);

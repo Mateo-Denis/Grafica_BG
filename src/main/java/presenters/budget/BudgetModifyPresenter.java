@@ -15,7 +15,6 @@ import models.IBudgetModifyModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -222,9 +221,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
         budgetModifyView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
-        budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(totalItemsPrice)); //INSERTA EN LA COLUMNA DE PRECIO
+        budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(oneItemProductPrice)); //INSERTA EN LA COLUMNA DE PRECIO
 
-        updateTextArea(true, totalItemsPrice);
+        updateTextArea(true, false, totalItemsPrice);
     }
 
 
@@ -302,7 +301,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
                 budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
                 productsRowCountOnPreviewTable--;
-                updateTextArea(false, totalSelectedPrice);
+                updateTextArea(false, false, totalSelectedPrice);
             }
         }
     }
@@ -327,30 +326,65 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return anyEmpty;
     }
 
+    public int GetGlobalBudgetNumer()
+    {
+        return globalBudgetNumber;
+    }
 
-    public void onModifySearchViewButtonClicked(JTable table, int selectedRow, int budgetNumber)
+
+    public void onModifySearchViewButtonClicked(int budgetNumber)
     {
         budgetModifyView.setWorkingStatus();
 
         productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
         globalBudgetNumber = budgetNumber;
-        globalBudgetTotalPrice = 0.0;
         editingProduct = false;
         oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
         budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
         ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
         String budgetClientName = budgetClientData.get(1);
-
+        double budgetTotalPrice = 0.0;
 
         ArrayList<String> productMeasures = getProductsMeasures(budgetNumber, budgetClientName);
         ArrayList<String> productObservations = getProductObservations(budgetNumber, budgetClientName);
         ArrayList<Double> productPrices = getProductPrices(budgetNumber, budgetClientName);
-        Multimap<Integer, String> products = getSavedProduct(budgetNumber, budgetClientName);
+        Multimap<Integer, String> products = budgetModifyModel.getSavedProducts(budgetNumber, budgetClientName);
 
+        globalBudgetTotalPrice = 0.0;
         setModifyView(products, productObservations, productMeasures, budgetNumber, productPrices);
+        updateTextArea(true, true, globalBudgetTotalPrice);
+
 
         budgetModifyView.showView();
         budgetModifyView.setWaitingStatus();
+    }
+
+    public double GetBudgetTotalPrice(Multimap<Integer,String> products)
+    {
+        ArrayList<Double> prices = getProductPrices(globalBudgetNumber, oldClientName);
+        ArrayList<String> productNames = new ArrayList<>();
+        ArrayList<String> productAmounts = new ArrayList<>();
+        double totalPrice = 0.0;
+        int productIndex = 0;
+
+        for(Map.Entry<Integer, String> entry : products.entries())
+        {
+            productNames.add(entry.getValue());
+            productAmounts.add(Integer.toString(entry.getKey()));
+            System.out.println("PRODUCT NAME: " + entry.getValue());
+            System.out.println("PRODUCT AMOUNT: " + entry.getKey());
+        }
+
+        for (int row = 1; row <= products.size(); row++) {
+        String productAmount = productAmounts.get(productIndex);
+//           System.out.println("PRODUCT AMOUNT: " + productAmount);
+//           System.out.println("PRODUCT PRICE: " + prices.get(productIndex));
+            double productPrice = prices.get(productIndex) * Integer.parseInt(productAmount);
+            totalPrice += productPrice;
+            productIndex++;
+        }
+
+        return totalPrice;
     }
 
     public ArrayList<Double> getProductPrices(int budgetNumber, String budgetName)
@@ -366,10 +400,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
     public ArrayList<String> getProductsMeasures(int budgetNumber, String budgetName)
     {
         return budgetModifyModel.getProductMeasures(budgetNumber, budgetName);
-    }
-
-    public Multimap<Integer,String> getSavedProduct(int budgetNumber, String budgetName) {
-        return budgetModifyModel.getSavedProducts(budgetNumber, budgetName);
     }
 
     public void SetProductsInPreviewTable(ArrayList<Double> prices, Multimap<Integer, String> products, ArrayList<String> measures, ArrayList<String> observations) {
@@ -421,6 +451,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         String budgetClientType = budgetData.get(3);
         SetClientInPreviewTable(budgetclientName, budgetClientType);
         SetProductsInPreviewTable(prices, products, measures, observations);
+        globalBudgetTotalPrice = GetBudgetTotalPrice(products);
     }
 
 
@@ -482,17 +513,20 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return textAreaAndStringBuilder;
     }
 
-    public void updateTextArea(boolean adding, double productPrice) {
+    public void updateTextArea(boolean adding, boolean start, double productPrice) {
         ArrayList<Object> textAreaAndStringBuilder = GetTextAreaAndStringBuilder();
         JTextArea textArea = (JTextArea) textAreaAndStringBuilder.get(0);
         StringBuilder stb = (StringBuilder) textAreaAndStringBuilder.get(1);
 
-        if(adding){
-            globalBudgetTotalPrice += productPrice;
+        if(!start){
+            if(adding){
+                globalBudgetTotalPrice += productPrice;
+            }
+            else{
+                globalBudgetTotalPrice -= productPrice;
+            }
         }
-        else{
-            globalBudgetTotalPrice -= productPrice;
-        }
+
 
         stb.setLength(0);
         stb.append("Precio total: $").append(globalBudgetTotalPrice);

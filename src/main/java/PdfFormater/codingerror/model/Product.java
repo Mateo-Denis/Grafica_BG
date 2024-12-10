@@ -6,15 +6,17 @@ import java.util.Optional;
 public class Product {
     private Optional<String> pname;
     private int quantity;
+    private String observations;
     private String dimensions;
     private double priceperpeice;
     private double total;
 
 
-    public Product(String pname, int quantity, String dimensions , double priceperpeice, double total ) {
+    public Product(String pname, int quantity, String dimensions, String observations, double priceperpeice, double total ) {
         this.pname = Optional.ofNullable(pname);
         this.quantity = quantity;
         this.dimensions = dimensions;
+        this.observations = observations;
         this.priceperpeice = priceperpeice;
         this.total = total;
     }
@@ -27,6 +29,14 @@ public class Product {
     }
     public double getTotal(){
         return total;
+    }
+
+    public String getObservations(){
+        return observations;
+    }
+
+    public void setObservations(String observations){
+        this.observations = observations;
     }
 
 
@@ -68,7 +78,7 @@ public class Product {
         return "{" +
                 "pname=" + pname +
                 ", quantity=" + quantity +
-                ", dimensions=" + dimensions +
+                ", measures=" + dimensions +
                 ", priceperpeice=" + priceperpeice +
                 ", total=" + total +
                 '}';

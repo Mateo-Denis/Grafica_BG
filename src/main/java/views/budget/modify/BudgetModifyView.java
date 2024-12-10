@@ -5,6 +5,8 @@ import presenters.budget.BudgetModifyPresenter;
 import utils.NumberInputVerifier;
 import utils.Product;
 import views.ToggleableView;
+import views.budget.BudgetSearchView;
+import views.budget.IBudgetSearchView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -81,8 +83,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         budgetModifyButton.setVisible(true);
         priceTextArea.setEditable(false);
-        sb.append("Productos: ");
-        sb.append("\n");
         sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
         cambiarTamanioFuente(containerPanel, 14);
@@ -124,6 +124,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             @Override
             public void windowClosing(WindowEvent e) {
                 restartWindow();
+                windowFrame.dispose();
+                //budgetModifyPresenter.onModifySearchViewButtonClicked(budgetModifyPresenter.GetGlobalBudgetNumer());
             }
         });
     }
@@ -187,6 +189,16 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         observationsTextField.setText("");
+        clientTextField.setText("");
+        productTextField.setText("");
+        cityComboBox.setSelectedIndex(0);
+        amountTextField.setText("");
+        observationsTextField.setText("");
+        measuresTextField.setText("");
+        clientSelectedCheckBox.setSelected(false);
+        clearPreviewTable();
+        clearClientTable();
+        clearProductTable();
     }
 
     public void restartWindow() {
@@ -324,7 +336,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientResultTable.setModel(clientsTableModel);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria"}, 200);
         productTable.setModel(productsTableModel);
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio", "Cliente / Particular"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
