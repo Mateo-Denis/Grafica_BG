@@ -54,7 +54,11 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     public void start() {
         super.start();
+<<<<<<< Updated upstream
         tableModel = new DefaultTableModel(new Object[]{"Nombre", "Descripción", "Categoría", "Precio"}, 200);
+=======
+        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200);
+>>>>>>> Stashed changes
         productResultTable.setModel(tableModel);
     }
 

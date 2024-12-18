@@ -80,6 +80,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         String productCategoryName = ""; // PRODUCT CATEGORY NAME STRING VARIABLE
         budgetModifyView.clearProductTable(); // CLEAR PRODUCT TABLE
         int rowCount = 0; // ROW COUNT VARIABLE
+        double productPrice = 0.0; // PRODUCT PRICE VARIABLE
 
         // SUPER LOOP THROUGH PRODUCTS
         for (Product product : products) {
@@ -91,9 +92,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
                     productCategoryName = categoryName; // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
             }
-
+            productPrice = product.calculateRealTimePrice();
             budgetModifyView.setProductStringTableValueAt(rowCount, 0, product.getName()); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 0, PRODUCT NAME
             budgetModifyView.setProductStringTableValueAt(rowCount, 1, productCategoryName); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 2, PRODUCT CATEGORY NAME
+            budgetModifyView.setProductStringTableValueAt(rowCount, 2, String.valueOf(productPrice)); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
             rowCount++; // INCREMENT ROW COUNT
         }
         categoryComboBox.setSelectedIndex(0);
@@ -202,22 +204,42 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         String productName = product.getName();
         String productAmountStr = budgetModifyView.getAmountTextField().getText();
-        String productMeasures = budgetModifyView.getMeasuresTextField().getText();
+        String productWidthMeasures = budgetModifyView.getWidthMeasureTextField().getText();
+        String productHeightMeasures = budgetModifyView.getHeightMeasureTextField().getText();
+        boolean unlockedMeasures = CheckMeasureFieldsAreEnabled();
         String productObservations = budgetModifyView.getObservationsTextField().getText();
         double oneItemProductPrice = product.calculateRealTimePrice();
         double totalItemsPrice = 0.0;
+        double settingPrice = 0.0;
 
         if (productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
         }
 
-        totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
+        if(unlockedMeasures){
+            if(productHeightMeasures.isEmpty()){
+                productHeightMeasures = "1";
+            }
+            if(productWidthMeasures.isEmpty()){
+                productWidthMeasures = "1";
+            }
+            int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
+            settingPrice = oneItemProductPrice * meters;
+        } else {
+            productWidthMeasures = "-";
+            productHeightMeasures = "-";
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
+            settingPrice = oneItemProductPrice;
+        }
+
+        String productMeasures = productWidthMeasures + " x " + productHeightMeasures;
 
         budgetModifyView.setPreviewStringTableValueAt(row, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
         budgetModifyView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
         budgetModifyView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
-        budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(oneItemProductPrice)); //INSERTA EN LA COLUMNA DE PRECIO
+        budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(settingPrice)); //INSERTA EN LA COLUMNA DE PRECIO
 
         if(!editingProduct)
         {updateTextArea(true, false, totalItemsPrice);}
@@ -294,11 +316,13 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
 
     public void onPreviewTableDoubleClickedRow(int clickedRow) {
-        String productMeasures = "";
+        String productWidthMeasures = "";
+        String productHeightMeasures = "";
         String productObservations = "";
         String productName = "";
         int productAmount = 0;
         int productID = -1;
+        int multiplierIndex = 0;
         Object productNameObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 1);
         Object productObservationsObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 4);
         Object productMeasuresObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 3);
@@ -311,9 +335,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productTable.clearSelection();
             budgetModifyView.getPreviewTable().setEnabled(false);
 
+            multiplierIndex = ((String) productMeasuresObject).indexOf('x');
             productName = (String) productNameObject;
             productAmount = Integer.parseInt((String) productAmountObject);
-            productMeasures = (String) productMeasuresObject;
+            productWidthMeasures = ((String) productMeasuresObject).substring(0, multiplierIndex - 2);
+            productHeightMeasures = ((String) productMeasuresObject).substring(multiplierIndex + 2);
             productObservations = (String) productObservationsObject;
             productID = productModel.getProductID(productName);
 
@@ -321,7 +347,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         }
 
         budgetModifyView.setAmountTextField(productAmount);
-        budgetModifyView.setMeasuresTextField(productMeasures);
+        budgetModifyView.setWidthMeasureTextField(productWidthMeasures);
+        budgetModifyView.setHeightMeasureTextField(productHeightMeasures);
         budgetModifyView.setObservationsTextField(productObservations);
     }
 
@@ -344,10 +371,26 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public double GetSelectedTotalPrice(int selectedPreviewRow) {
         double totalPrice = 0.0;
+        double oneProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedPreviewRow, 5));
+        int productAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedPreviewRow, 2));
         if (selectedPreviewRow != -1) {
-            totalPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedPreviewRow, 5));
+            totalPrice = oneProductPrice * productAmount;
         }
         return totalPrice;
+    }
+
+    public boolean CheckMeasureFieldsAreEnabled()
+    {
+        JTextField widthMeasureTextField = budgetModifyView.getWidthMeasureTextField();
+        JTextField heightMeasureTextField = budgetModifyView.getHeightMeasureTextField();
+        boolean areUnlocked = false;
+
+        if(widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled())
+        {
+            areUnlocked = true;
+        }
+
+        return areUnlocked;
     }
 
     public boolean onEmptyFields(int clientNameColumn, int productColumn) {
@@ -369,6 +412,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void onModifySearchViewButtonClicked(int budgetNumber) {
         budgetModifyView.setWorkingStatus();
+
+        budgetModifyView.getWidthMeasureTextField().setEnabled(false);
+        budgetModifyView.getHeightMeasureTextField().setEnabled(false);
 
         productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
         globalBudgetNumber = budgetNumber;

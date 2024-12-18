@@ -5,10 +5,10 @@ import presenters.budget.BudgetModifyPresenter;
 import utils.NumberInputVerifier;
 import utils.Product;
 import views.ToggleableView;
-import views.budget.BudgetSearchView;
-import views.budget.IBudgetSearchView;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import java.awt.event.*;
@@ -52,8 +52,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JPanel observationsContainer;
     private JLabel amountLabel;
     private JTextField amountTextField;
-    private JLabel measuresLabel;
-    private JTextField measuresTextField;
+    private JLabel heightMeasureLabel;
+    private JTextField heightMeasureTextField;
     private JTextField observationsTextField;
     private JLabel observationsLabel;
     private JScrollPane productTableScrollPanel;
@@ -67,6 +67,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JButton budgetPreviewButton;
     private JButton budgetModifyButton;
     private JButton deleteProductButton;
+    private JTextField widthMeasureTextField;
+    private JLabel widthMeasureLabel;
     private BudgetModifyPresenter budgetModifyPresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
@@ -81,6 +83,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         budgetModifyButton.setVisible(true);
         priceTextArea.setEditable(false);
         sb.append("Precio total: ");
@@ -88,6 +92,9 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setSize(750,800);
         windowFrame.setResizable(false);
+
+        widthMeasureTextField.setEnabled(false);
+        heightMeasureTextField.setEnabled(false);
 
         clientSearchingContainer.setVisible(false);
     }
@@ -126,6 +133,34 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
                 restartWindow();
                 windowFrame.dispose();
                 //budgetModifyPresenter.onModifySearchViewButtonClicked(budgetModifyPresenter.GetGlobalBudgetNumer());
+            }
+        });
+
+        productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = productTable.getSelectedRow();
+                    if(selectedRow != -1) {
+                        String productCategory = (String) productTable.getValueAt(selectedRow, 1);
+                        if (productCategory.equals("Cloth") || productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
+                            widthMeasureTextField.setText("");
+                            heightMeasureTextField.setText("");
+                            widthMeasureTextField.setEnabled(true);
+                            heightMeasureTextField.setEnabled(true);
+                        } else if(productCategory.equals("LinearPrinting")) {
+                            widthMeasureTextField.setText("");
+                            heightMeasureTextField.setText("");
+                            widthMeasureTextField.setEnabled(false);
+                            heightMeasureTextField.setEnabled(true);
+                        } else {
+                            widthMeasureTextField.setText("");
+                            heightMeasureTextField.setText("");
+                            widthMeasureTextField.setEnabled(false);
+                            heightMeasureTextField.setEnabled(false);
+                        }
+                    }
+                }
             }
         });
     }
@@ -194,8 +229,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         observationsTextField.setText("");
-        measuresTextField.setText("");
+        heightMeasureTextField.setText("");
         clientSelectedCheckBox.setSelected(false);
+        widthMeasureTextField.setEnabled(false);
+        heightMeasureTextField.setEnabled(false);
+        widthMeasureTextField.setText("");
+        heightMeasureTextField.setText("");
         clearPreviewTable();
         clearClientTable();
         clearProductTable();
@@ -206,7 +245,11 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
+        widthMeasureTextField.setText("");
+        heightMeasureTextField.setText("");
         priceTextArea.setText(sb.toString());
+        widthMeasureTextField.setEnabled(false);
+        heightMeasureTextField.setEnabled(false);
         setInitialPanelsVisibility();
         clearView();
     }
@@ -334,7 +377,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         super.start();
         clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
         clientResultTable.setModel(clientsTableModel);
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria"}, 200);
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200);
         productTable.setModel(productsTableModel);
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
@@ -373,11 +416,27 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     public int getFilledRowsCount(JTable table) {
         int rowCount = 0;
         for (int row = 0; row < table.getRowCount(); row++) {
-            if (table.getValueAt(row, 2) != null) {
+            if (table.getValueAt(row, 2) != null && !table.getValueAt(row, 2).toString().isEmpty()) {
                 rowCount++;
             }
         }
         return rowCount;
+    }
+
+    public JTextField getWidthMeasureTextField() {
+        return widthMeasureTextField;
+    }
+    public JTextField getHeightMeasureTextField() {
+        return heightMeasureTextField;
+    }
+
+    @Override
+    public void setWidthMeasureTextField(String productsWidthMeasure) {
+        widthMeasureTextField.setText(productsWidthMeasure);
+    }
+
+    public void setHeightMeasureTextField(String productsHeightMeasure) {
+        heightMeasureTextField.setText(productsHeightMeasure);
     }
 
     public JButton getClientsSearchButton() {
@@ -490,7 +549,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     public JTextField getMeasuresTextField() {
-        return measuresTextField;
+        return heightMeasureTextField;
     }
 
     @Override
@@ -567,7 +626,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     @Override
     public void setMeasuresTextField(String productsMeasure) {
-        measuresTextField.setText(productsMeasure);
+        heightMeasureTextField.setText(productsMeasure);
     }
 
     @Override

@@ -53,7 +53,8 @@ public interface IBudgetCreateView extends IToggleableView {
     JButton getProductSearchButton();
     void setClientOnPreviewTable(String clientName, String clientType);
     JTextField getAmountTextField();
-    JTextField getMeasuresTextField();
+    JTextField getWidthMeasureTextField();
+    JTextField getHeightMeasureTextField();
     JTextField getObservationsTextField();
     int countNonEmptyCells(JTable table, int columnIndex);
     DefaultTableModel getPreviewTableModel();
@@ -61,7 +62,8 @@ public interface IBudgetCreateView extends IToggleableView {
     JTextArea getPriceTextArea();
     void setProductNameTextField(String productsName);
     void setObservationsTextField(String productsPrice);
-    void setMeasuresTextField(String productsMeasure);
+    void setWidthMeasureTextField(String productsWidthMeasure);
+    void setHeightMeasureTextField(String productsHeightMeasure);
     void setAmountTextField(int productsAmount);
     void setTableVisibility(JTable table);
     JCheckBox getClientSelectedCheckBox();

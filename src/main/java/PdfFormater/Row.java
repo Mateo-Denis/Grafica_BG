@@ -7,15 +7,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Row {
-    private String description;
+    private String productName;
     private int quantity;
     private String measures;
     private String observations;
     private double price;
     private double total;
 
-    public Row(String description, int quantity, String measures, String observations, double price, double total){
-        this.description = description;
+    public Row(String productName, int quantity, String measures, String observations, double price, double total){
+        this.productName = productName;
         this.quantity = quantity;
         this.measures = measures;
         this.observations = observations;

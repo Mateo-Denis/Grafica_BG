@@ -122,7 +122,7 @@ public class CodingErrorPdfInvoiceCreator {
     public List<Product> formatProductsToProductsList(ArrayList<Row> rows){
         List<Product> productList=new ArrayList<>();
         for(Row row:rows){
-            productList.add(new Product(row.getDescription(),row.getQuantity(),row.getMeasures(), "", row.getPrice(),row.getTotal()));
+            productList.add(new Product(row.getProductName(),row.getQuantity(),row.getMeasures(), row.getObservations(), row.getPrice(),row.getTotal()));
         }
         return productList;
     }
@@ -136,7 +136,7 @@ public class CodingErrorPdfInvoiceCreator {
 
         //new Paragraph("")
 
-        threeColTable1.addCell(new Cell().add(new Paragraph("Descripción")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER));
+        threeColTable1.addCell(new Cell().add(new Paragraph("AAAAADescripción")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Cantidad")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Dimensiones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Precio")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));

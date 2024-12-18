@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IBudgetModifyView extends IToggleableView {
+    void setHeightMeasureTextField(String height);
+    void setWidthMeasureTextField(String width);
+    JTextField getWidthMeasureTextField();
+    JTextField getHeightMeasureTextField();
     int getPreviewTableSelectedRow();
     String getBudgetClientName();
     String getBudgetDate();

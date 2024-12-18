@@ -207,8 +207,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     protected void initListeners() {
         createButton.addActionListener(e -> productCreatePresenter.onCreateButtonClicked());
         updatePriceButton.addActionListener(e -> productCreatePresenter.onUpdatePriceButtonClicked());
-        priceEditCheckBox.addActionListener(e -> productCreatePresenter.onEditCheckBoxClicked());
-        savePricesButton.addActionListener(e -> productCreatePresenter.onSavePricesButtonClicked());
     }
 
 
