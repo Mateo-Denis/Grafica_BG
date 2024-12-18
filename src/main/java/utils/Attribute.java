@@ -12,7 +12,11 @@ public class Attribute {
 
     public Attribute(String name, String value) {
         this.name = name;
-        this.value = value;
+        if(value.isEmpty()){
+            this.value = "0.0";
+        }else {
+            this.value = value;
+        }
     }
 
 }

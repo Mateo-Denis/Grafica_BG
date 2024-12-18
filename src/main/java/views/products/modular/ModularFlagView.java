@@ -185,7 +185,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     @Override
     public void setPriceTextFields() {
         profit = presenter.getIndividualPrice(GANANCIAS, "Banderas");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En bandera");
         clothSqrMetersPrice = presenter.getIndividualPrice(TELAS, getFlagComboBoxSelection());
         seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera bandera");

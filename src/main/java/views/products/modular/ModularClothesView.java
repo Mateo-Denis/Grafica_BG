@@ -179,7 +179,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	@Override
 	public void setPriceTextFields() {
 		profit = presenter.getIndividualPrice(GANANCIAS, "Prendas");
-		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
 		plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En prenda");
 		clothMetersPrice = presenter.getIndividualPrice(TELAS, getMaterialSelected());
 		String seamstressType = (String) seamstressTypeComboBox.getSelectedItem();

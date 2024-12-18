@@ -65,7 +65,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Taza");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Tazas");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -106,7 +106,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Gorra");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Gorras");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -128,7 +128,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Gorra");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Telas");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -182,7 +182,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Bandera");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Banderas");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -236,7 +236,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Prenda");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Prendas");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -270,7 +270,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Prenda");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Servicio de corte");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
@@ -337,7 +337,7 @@ public class Product {
                 double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
                 if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Impresión lineal");
+                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Impresión metro cuadrado");
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }

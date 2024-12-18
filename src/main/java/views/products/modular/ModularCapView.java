@@ -106,7 +106,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     public void setPriceTextFields() {
         capCost = presenter.getIndividualPrice(GENERAL, "Gorra");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Sublimación");
+        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
 
         profitTextField.setText(String.valueOf(profit));
@@ -129,7 +129,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
 
         String printingMetersPrice = printingMetersPriceTextField.getText();
-        String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Sublimación");
+        String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Metro de Sublimación");
         String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
         attributes.add(new Attribute("T2B", finalPMP));
 

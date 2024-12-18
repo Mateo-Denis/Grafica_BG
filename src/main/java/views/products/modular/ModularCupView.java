@@ -164,8 +164,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	public void setPriceTextFields() {
 		profit = presenter.getIndividualPrice(GANANCIAS, "Taza");
 		cupPrice = presenter.getIndividualPrice(GENERAL, "Taza");
-		plankLoweringPrice = presenter.getIndividualPrice(GENERAL, "En taza");
-		printingMetersPrice = presenter.getIndividualPrice(GENERAL, "Sublimación");
+		plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En taza");
+		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
 
 		printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
 		plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
@@ -187,7 +187,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
 
 		String printingMetersPrice = printingMetersPriceTextField.getText();
-		String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Sublimación");
+		String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Metro de Sublimación");
 		String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
 		attributes.add(new Attribute("T2B", finalPMP));
 
