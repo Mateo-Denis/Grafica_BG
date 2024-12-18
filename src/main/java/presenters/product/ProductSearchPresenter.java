@@ -37,14 +37,8 @@ public class ProductSearchPresenter extends StandardPresenter {
                 String categoryName = productModel.getCategoryName(product.getCategoryID());
                 double price = product.calculateRealTimePrice();
                 productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
-<<<<<<< Updated upstream
-                productSearchView.setDoubleTableValueAt(rowCount, 1, 0.0);
-                productSearchView.setStringTableValueAt(rowCount, 2, categoryName);
-                productSearchView.setDoubleTableValueAt(rowCount, 3, product.calculateRealTimePrice());
-=======
                 productSearchView.setStringTableValueAt(rowCount, 1, categoryName);
                 productSearchView.setDoubleTableValueAt(rowCount, 2, price);
->>>>>>> Stashed changes
                 rowCount++;
             }
         });
