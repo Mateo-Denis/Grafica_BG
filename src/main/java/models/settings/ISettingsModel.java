@@ -18,4 +18,6 @@ public interface ISettingsModel {
 	ArrayList<SettingsTableNames> getTableNames();
 
 	void updateModularPrices(List<Triplet<String, String, Double>> modularPrices) throws SQLException;
+
+	String getModularValue(SettingsTableNames tableName, String selectedValue);
 }

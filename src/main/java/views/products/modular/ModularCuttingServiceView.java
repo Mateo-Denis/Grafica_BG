@@ -129,6 +129,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("T1A", vinylCostTextField.getText()));
+        attributes.add(new Attribute("VINILO", getVinylTypeSelected()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
     }

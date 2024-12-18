@@ -137,6 +137,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	public ArrayList<Attribute> getAttributes() {
 		ArrayList<Attribute> attributes = new ArrayList<>();
 		attributes.add(new Attribute("T1A", clothMetersPriceTextField.getText()));
+		attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
 		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
 	}

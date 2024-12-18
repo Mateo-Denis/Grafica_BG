@@ -120,4 +120,26 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 			conn.commit();        // Commit the transaction
 		}
 	}
+
+	public String getModularValue(SettingsTableNames settingsTableNames, String field) {
+		String sql = "SELECT Valor FROM " + settingsTableNames.getName() + " WHERE Campo = '" + field + "'";
+		try (Connection conn = connect();
+			 Statement stmt = conn.createStatement()) {
+			stmt.setQueryTimeout(QUERY_TIMEOUT);
+			ResultSet resultSet = stmt.executeQuery(sql);
+
+			String value = "";
+			if (resultSet.next()) {
+				value = resultSet.getString("Valor");
+			}
+
+			resultSet.close();
+			stmt.close();
+			conn.close();
+			return value;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return "";
+	}
 }

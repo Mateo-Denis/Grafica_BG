@@ -4,6 +4,7 @@ import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.databases.SettingsDatabaseConnection;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -56,8 +57,10 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private double printingMetersPrice;
     private ProductCreatePresenter presenter;
     private boolean initialization;
+    private SettingsDatabaseConnection settingsDBConnection;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
+        settingsDBConnection = new SettingsDatabaseConnection();
         initListeners();
     }
 
@@ -114,13 +117,31 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public ArrayList<Attribute> getAttributes() {
+
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText()));
-        attributes.add(new Attribute("T1B", plankLoweringPriceTextField.getText()));
+
+        String plankLoweringPrice = plankLoweringPriceTextField.getText();
+        String settingsPLP = settingsDBConnection.getModularValue(BAJADA_PLANCHA, "En gorra");
+        String finalPLP = plankLoweringPrice.equals(settingsPLP) ? "###" : plankLoweringPrice;
+        attributes.add(new Attribute("T1B", finalPLP));
+
         attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
-        attributes.add(new Attribute("T2B", printingMetersPriceTextField.getText()));
-        attributes.add(new Attribute("GORRA", capCostTextField.getText()));
-        attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
+
+        String printingMetersPrice = printingMetersPriceTextField.getText();
+        String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Sublimación");
+        String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
+        attributes.add(new Attribute("T2B", finalPMP));
+
+        String capCost = capCostTextField.getText();
+        String settingsCC = settingsDBConnection.getModularValue(GENERAL, "Gorra");
+        String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
+        attributes.add(new Attribute("GORRA", finalCC));
+
+        String profit = profitTextField.getText();
+        String settingsProfit = settingsDBConnection.getModularValue(GANANCIAS, "Gorras");
+        String finalProfit = profit.equals(settingsProfit) ? "###" : profit;
+        attributes.add(new Attribute("GANANCIA", finalProfit));
         return attributes;
     }
 

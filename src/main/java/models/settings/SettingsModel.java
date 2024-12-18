@@ -51,4 +51,9 @@ public class SettingsModel implements ISettingsModel {
 		dbConnection.updateModularPrices(modularPrices);
 	}
 
+	@Override
+	public String getModularValue(SettingsTableNames tableName, String selectedValue) {
+		return dbConnection.getModularValue(tableName, selectedValue);
+	}
+
 }

@@ -4,6 +4,7 @@ import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.databases.SettingsDatabaseConnection;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -58,10 +59,10 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private double plankLoweringPrice;
 	private double printingMetersPrice;
 	private double profit;
-	private boolean initialization;
-
+	private SettingsDatabaseConnection settingsDBConnection;
 	public ModularCupView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
+		settingsDBConnection = new SettingsDatabaseConnection();
 		initListeners();
 	}
 	@Override
@@ -177,11 +178,29 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	public ArrayList<Attribute> getAttributes() {
 		ArrayList<Attribute> attributes = new ArrayList<>();
 		attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText()));
-		attributes.add(new Attribute("T1B", plankLoweringPriceTextField.getText()));
+
+		String plankLoweringPrice = plankLoweringPriceTextField.getText();
+		String settingsPLP = settingsDBConnection.getModularValue(BAJADA_PLANCHA, "En taza");
+		String finalPLP = plankLoweringPrice.equals(settingsPLP) ? "###" : plankLoweringPrice;
+		attributes.add(new Attribute("T1B", finalPLP));
+
 		attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
-		attributes.add(new Attribute("T2B", printingMetersPriceTextField.getText()));
-		attributes.add(new Attribute("TAZA", cupPriceTextField.getText()));
-		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
+
+		String printingMetersPrice = printingMetersPriceTextField.getText();
+		String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Sublimación");
+		String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
+		attributes.add(new Attribute("T2B", finalPMP));
+
+		String capCost = cupPriceTextField.getText();
+		String settingsCC = settingsDBConnection.getModularValue(GENERAL, "Taza");
+		String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
+		attributes.add(new Attribute("TAZA", finalCC));
+
+		String profit = profitTextField.getText();
+		String settingsProfit = settingsDBConnection.getModularValue(GANANCIAS, "Taza");
+		String finalProfit = profit.equals(settingsProfit) ? "###" : profit;
+		attributes.add(new Attribute("GANANCIA", finalProfit));
+
 		return attributes;
 	}
 

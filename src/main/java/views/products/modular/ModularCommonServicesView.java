@@ -109,6 +109,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("SERVICIO", serviceCostTextField.getText()));
+        attributes.add(new Attribute("TIPO_SERVICIO", getServiceTypeSelected()));
         return attributes;
     }
 

@@ -209,6 +209,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("T2B", plankLoweringPriceTextField.getText()));
         attributes.add(new Attribute("T3A", printingMetersAmountTextField.getText()));
         attributes.add(new Attribute("T3B", printingMetersPriceTextField.getText()));
+        attributes.add(new Attribute("TELA", getFlagComboBoxSelection()));
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;

@@ -11,7 +11,9 @@ public enum SettingsTableNames {
 	VINILOS("Vinilos"),
 	LONAS("Lonas"),
 	GANANCIAS("Ganancias"),
-	MEDIDAS("Medidas");
+	MEDIDAS("Medidas"),
+	MATERIALES("Materiales");
+
 
 	private final String name;
 

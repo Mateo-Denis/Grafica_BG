@@ -203,6 +203,8 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		attributes.add(new Attribute("T3A", plankLoweringAmountTextField.getText()));
 		attributes.add(new Attribute("T3B", plankLoweringPriceTextField.getText()));
 		attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
+		attributes.add(new Attribute("TELA", (String) materialComboBox.getSelectedItem()));
+		attributes.add(new Attribute("TIPO_COSTURERA", (String) seamstressTypeComboBox.getSelectedItem()));
 		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
 	}

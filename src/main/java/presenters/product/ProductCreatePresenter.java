@@ -112,14 +112,7 @@ public class ProductCreatePresenter extends StandardPresenter {
     }
 
     public double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
-        ArrayList<Pair<String, Double>> rows = settingsModel.getModularValues(tableName);
-        double individualPrice = 0.0;
-        for (Pair<String, Double> row : rows) {
-            if (row.getValue0().equals(selectedValue)) {
-                individualPrice = row.getValue1();
-            }
-        }
-        return individualPrice;
+        return Double.parseDouble(settingsModel.getModularValue(tableName, selectedValue));
     }
 
     private void setModularPrices() {

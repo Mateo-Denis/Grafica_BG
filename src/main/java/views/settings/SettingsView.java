@@ -173,6 +173,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 			case LONAS -> canvasValuesTable;
 			case GANANCIAS -> profitValuesTable;
 			case MEDIDAS -> measuresValuesTable;
+			case MATERIALES -> null;
 		};
 	}
 	@Override
