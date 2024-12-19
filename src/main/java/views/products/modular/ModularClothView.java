@@ -9,6 +9,7 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,6 +141,11 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 		attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
 		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
+	}
+
+	@Override
+	public void comboBoxListenerSet(ItemListener listener) {
+		clothComboBox.addItemListener(listener);
 	}
 
 }

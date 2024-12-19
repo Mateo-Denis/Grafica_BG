@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -213,6 +214,11 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
+    }
+
+    @Override
+    public void comboBoxListenerSet(ItemListener listener) {
+        clothComboBox.addItemListener(listener);
     }
 
     private String getFlagComboBoxSelection() {

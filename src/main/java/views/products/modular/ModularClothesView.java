@@ -10,6 +10,7 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -207,6 +208,12 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 		attributes.add(new Attribute("TIPO_COSTURERA", (String) seamstressTypeComboBox.getSelectedItem()));
 		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
 		return attributes;
+	}
+
+	@Override
+	public void comboBoxListenerSet(ItemListener listener) {
+		materialComboBox.addItemListener(listener);
+		seamstressTypeComboBox.addItemListener(listener);
 	}
 
 	@Override

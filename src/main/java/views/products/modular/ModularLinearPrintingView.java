@@ -8,6 +8,7 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -125,8 +126,8 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-        paperMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de papel por metro");
-        inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Costo de tinta por metro");
+        paperMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro de papel");
+        inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro de tinta");
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
 
         profitTextField.setText(String.valueOf(profit));
@@ -141,5 +142,10 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         attributes.add(new Attribute("T2A", inkByMeterPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
+    }
+
+    @Override
+    public void comboBoxListenerSet(ItemListener listener) {
+
     }
 }

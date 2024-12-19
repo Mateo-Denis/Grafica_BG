@@ -5,6 +5,7 @@ import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,4 +38,6 @@ public interface IModularCategoryView{
     void setPriceTextFields();
 
 	ArrayList<Attribute> getAttributes();
+
+    void comboBoxListenerSet(ItemListener listener);
 }

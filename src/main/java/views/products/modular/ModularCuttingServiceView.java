@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
@@ -8,10 +9,12 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.TELAS;
 import static utils.databases.SettingsTableNames.VINILOS;
 
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {
@@ -98,7 +101,10 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void loadComboBoxValues() {
-
+        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(VINILOS);
+        for (Pair<String, Double> pair : list) {
+            vinylsComboBox.addItem(pair.getValue0());
+        }
     }
 
     @Override
@@ -132,6 +138,11 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
         attributes.add(new Attribute("VINILO", getVinylTypeSelected()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
+    }
+
+    @Override
+    public void comboBoxListenerSet(ItemListener listener) {
+        vinylsComboBox.addItemListener(listener);
     }
 
     private String getVinylTypeSelected() {

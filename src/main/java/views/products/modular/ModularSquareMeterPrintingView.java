@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
@@ -8,6 +9,7 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +120,16 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void loadComboBoxValues() {
-
+        ArrayList<Pair<String, Double>> materialLlist = presenter.getTableAsArrayList(VINILOS);
+        ArrayList<Pair<String, Double>> dollarList = presenter.getTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : materialLlist) {
+            materialComboBox.addItem(pair.getValue0());
+        }
+        for (Pair<String, Double> pair : dollarList) {
+            if(pair.getValue0().contains("Dólar")){
+                dollarComboBox.addItem(pair.getValue0());
+            }
+        }
     }
 
     @Override
@@ -143,9 +154,9 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
         materialMeterSqrPrice = presenter.getIndividualPrice(VINILOS, getMaterialComboBoxSelection());
         if(UVRadioButton.isSelected()){
-            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Tinta UV por metro2");
+            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro2 de tinta UV");
         } else {
-            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Tinta ECO por metro2");
+            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro2 de tinta ECO");
         }
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión metro cuadrado");
 
@@ -165,6 +176,12 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         attributes.add(new Attribute("TIPO_DOLAR", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         return attributes;
+    }
+
+    @Override
+    public void comboBoxListenerSet(ItemListener listener) {
+        materialComboBox.addItemListener(listener);
+        dollarComboBox.addItemListener(listener);
     }
 
     private String getMaterialComboBoxSelection() {

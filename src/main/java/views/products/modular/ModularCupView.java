@@ -9,6 +9,7 @@ import utils.databases.SettingsDatabaseConnection;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -162,7 +163,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 
 	@Override
 	public void setPriceTextFields() {
-		profit = presenter.getIndividualPrice(GANANCIAS, "Taza");
+		profit = presenter.getIndividualPrice(GANANCIAS, "Tazas");
 		cupPrice = presenter.getIndividualPrice(GENERAL, "Taza");
 		plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En taza");
 		printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
@@ -202,6 +203,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		attributes.add(new Attribute("GANANCIA", finalProfit));
 
 		return attributes;
+	}
+
+	@Override
+	public void comboBoxListenerSet(ItemListener listener) {
+
 	}
 
 }
