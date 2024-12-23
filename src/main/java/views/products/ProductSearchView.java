@@ -5,6 +5,7 @@ package views.products;
 import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.product.ProductSearchPresenter;
+import utils.CategoryParser;
 import views.ToggleableView;
 
 
@@ -144,7 +145,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public void setCategoriesComboBox(List<String> categorias) {
         categoryComboBox.addItem("Seleccione una categoría");
         for (String categoria : categorias) {
-            categoryComboBox.addItem(categoria);
+            categoryComboBox.addItem(CategoryParser.parseCategory(categoria));
         }
     }
 

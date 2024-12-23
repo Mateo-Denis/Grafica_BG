@@ -4,6 +4,7 @@ package presenters.product;
 import models.ICategoryModel;
 import models.IProductModel;
 import presenters.StandardPresenter;
+import utils.CategoryParser;
 import views.products.IProductSearchView;
 import utils.Product;
 
@@ -37,7 +38,7 @@ public class ProductSearchPresenter extends StandardPresenter {
                 String categoryName = productModel.getCategoryName(product.getCategoryID());
                 double price = product.calculateRealTimePrice();
                 productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
-                productSearchView.setStringTableValueAt(rowCount, 1, categoryName);
+                productSearchView.setStringTableValueAt(rowCount, 1, CategoryParser.parseCategory(categoryName));
                 productSearchView.setDoubleTableValueAt(rowCount, 2, price);
                 rowCount++;
             }

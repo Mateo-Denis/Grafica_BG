@@ -11,26 +11,16 @@ public class CategoryParser {
 				return "Taza";
 			case "Flag":
 				return "Bandera";
-			case "Jacket":
-				return "Campera";
-			case "Printing":
-				return "Impresion";
 			case "Clothes":
 				return "Prenda";
-			case "Sweater":
-				return "Buzo";
-			case "Vinyl":
-				return "Vinilo";
-			case "Canvas":
-				return "Lona";
 			case "CommonServices":
-				return "Servicios Comunes";
+				return "Servicios comunes";
 			case "LinearPrinting":
-				return "Impresion Lineal";
+				return "Impresión lineal";
 			case "CuttingService":
 				return "Servicio de Corte";
 			case "SquareMeterPrinting":
-				return "Impresion por Metro Cuadrado";
+				return "Impresión por Metro Cuadrado";
 			default:
 				return "Unknown";
 		}

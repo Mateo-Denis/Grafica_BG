@@ -89,19 +89,21 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
             float materialSquareMetersPrice = materialSquareMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(materialSquareMetersPriceTextField.getText());
             float inkBySquareMeterPrice = inkBySquareMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkBySquareMeterPriceTextField.getText());
-            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : Float.parseFloat((String) dollarComboBox.getSelectedItem());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-
-
             float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * profit;
+
+            
             dollarValueTextField.setText(String.valueOf(dollarPrice));
             squareMeterPrintingFinalPriceTextField.setText(String.valueOf(finalPrice));
 
-        } catch (NumberFormatException | NullPointerException e) {
-            showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+        } catch (NumberFormatException e) {
+            showMessage(MessageTypes.ERROR_DEBUG, containerPanel);
+        } catch (NullPointerException e) {
+            showMessage(MessageTypes.DEBUG, containerPanel);
         }
-    }
+	}
 
     @Override
     public Map<String, String> getComboBoxValues() {

@@ -7,6 +7,12 @@ public enum MessageTypes {
     CLIENT_CREATION_SUCCESS("Cliente creado con éxito"
             , "El cliente fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),
+    DEBUG("DEBUG"
+            , "CURRENTLY DEBUGGING INFO."
+            , JOptionPane.INFORMATION_MESSAGE),
+    ERROR_DEBUG("ERROR_DEBUG"
+            , "CURRENTLY DEBUGGING ERROR."
+            , JOptionPane.ERROR_MESSAGE),
     CLIENT_CREATION_FAILURE("Error al crear el cliente"
             , "Ha ocurrido un error al intentar crear el cliente."
             , JOptionPane.ERROR_MESSAGE),
