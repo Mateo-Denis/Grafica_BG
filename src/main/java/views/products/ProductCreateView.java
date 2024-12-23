@@ -61,7 +61,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
-        windowFrame.setSize(750,530);
+        windowFrame.setSize(942,530);
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setResizable(false);
         modularContainer.setLayout(new BorderLayout());

@@ -76,7 +76,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
     private DefaultTableModel previewTableModel;
-    private StringBuilder sb = new StringBuilder();
+    private StringBuilder sb;
 
     public BudgetCreateView() {
         windowFrame = new JFrame("Crear Presupuesto");
@@ -84,24 +84,32 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        windowFrame.setSize(590,1010);
+        windowFrame.setSize(610, 1010);
         windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
-        sb.append("Precio Total: ");
-        priceTextArea.setEditable(false);
-        priceTextArea.setText(sb.toString());
+
+
+        if (priceTextArea != null) {
+            priceTextArea.setRows(1);
+            priceTextArea.setSize(100, 100);
+            sb = new StringBuilder();
+            sb.append("Precio Total: ");
+            priceTextArea.setEditable(false);
+            priceTextArea.setText(sb.toString());
+        }
 
         productSearchingContainer.setVisible(false);
-        productModifyButton.setVisible(false);
+        //productModifyButton.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
-        priceContainer.setVisible(false);
+        //priceContainer.setVisible(false);
+        priceTextArea.setVisible(false);
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(750,800);
+        windowFrame.setSize(610, 800);
         windowFrame.setResizable(false);
 
         widthMeasureTextField.setEnabled(false);
@@ -148,14 +156,14 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = productResultTable.getSelectedRow();
-                    if(selectedRow != -1) {
+                    if (selectedRow != -1) {
                         String productCategory = (String) productResultTable.getValueAt(selectedRow, 1);
                         if (productCategory.equals("Cloth") || productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(true);
                             heightMeasureTextField.setEnabled(true);
-                        } else if(productCategory.equals("LinearPrinting")) {
+                        } else if (productCategory.equals("LinearPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(false);
@@ -193,7 +201,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public void restartWindow() {
-        windowFrame.setSize(590,1010);
+        windowFrame.setSize(610, 1010);
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
@@ -219,9 +227,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         int filledRows = getFilledRowsCount(budgetPreviewingTable);
 
 
-
         for (int row = 0; row <= filledRows; row++) {
-            if(row == 0){
+            if (row == 0) {
                 budgetClientName = (String) budgetPreviewingTable.getValueAt(row, 0);
                 budgetClientType = (String) budgetPreviewingTable.getValueAt(row, 6);
                 dataArray = new String[]{budgetClientName, budgetClientType};
@@ -233,19 +240,19 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 Object selectedProductObservations = budgetPreviewingTable.getValueAt(row, 4);
                 Object selectedProductPrice = budgetPreviewingTable.getValueAt(row, 5);
 
-                if(selectedProductName != null && !selectedProductName.equals("")) {
+                if (selectedProductName != null && !selectedProductName.equals("")) {
                     budgetProductName = (String) selectedProductName;
                 }
-                if(selectedProductAmount != null && !selectedProductAmount.equals("")) {
+                if (selectedProductAmount != null && !selectedProductAmount.equals("")) {
                     budgetProductAmount = Integer.parseInt((String) selectedProductAmount);
                 }
-                if(selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
+                if (selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
                     budgetProductMeasures = (String) selectedProductMeasures;
                 }
-                if(selectedProductObservations != null && !selectedProductObservations.equals("")) {
+                if (selectedProductObservations != null && !selectedProductObservations.equals("")) {
                     budgetProductObservations = (String) selectedProductObservations;
                 }
-                if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
+                if (selectedProductPrice != null && !selectedProductPrice.equals("")) {
                     budgetProductPrice = Double.parseDouble((String) selectedProductPrice);
                 }
 
@@ -388,7 +395,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         };
         productResultTable.setModel(productsTableModel);
 
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -534,6 +541,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public JTextField getWidthMeasureTextField() {
         return widthMeasureTextField;
     }
+
     public JTextField getHeightMeasureTextField() {
         return heightMeasureTextField;
     }
@@ -613,10 +621,11 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public void setInitialPanelsVisibility() {
         productSearchingContainer.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
-        priceContainer.setVisible(false);
+        //priceContainer.setVisible(false);
+        priceTextArea.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
-        windowFrame.setSize(750,800);
+        windowFrame.setSize(610, 800);
         windowFrame.setResizable(false);
     }
 
@@ -625,8 +634,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetPreviewContainer.setVisible(true);
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
-        priceContainer.setVisible(true);
-        windowFrame.setSize(750,800);
+        //priceContainer.setVisible(true);
+        priceTextArea.setVisible(true);
+        windowFrame.setSize(770, 800);
         windowFrame.setResizable(false);
     }
 
