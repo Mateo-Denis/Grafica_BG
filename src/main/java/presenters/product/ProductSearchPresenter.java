@@ -51,9 +51,8 @@ public class ProductSearchPresenter extends StandardPresenter {
     public void onSearchButtonClicked() {
         productSearchView.clearView();
         String productName = productSearchView.getNameSearchText();
-        List<String> categoriesName = categoryModel.getCategoriesName();
         JComboBox categoryComboBox = productSearchView.getCategoriesComboBox();
-        String selectedCategory = (String) categoryComboBox.getSelectedItem();
+        String selectedCategory = CategoryParser.getProductCategoryEnglish((String) categoryComboBox.getSelectedItem());
         productModel.queryProducts(productName, selectedCategory);
         String productCategoryName = "";
     }

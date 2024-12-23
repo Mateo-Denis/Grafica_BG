@@ -3,6 +3,7 @@ package views.products;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import utils.Product;
 import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
 import utils.NumberInputVerifier;
@@ -51,6 +52,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private Map<String, JPanel> viewMap;
     private Map<String, IModularCategoryView> modularMap;
     private ModularCategoriesPresenter modularCategoriesPresenter;
+    private int lastProductCreatedID = -1;
 
     public ProductCreateView() {
         windowFrame = new JFrame("Crear Producto");
@@ -160,12 +162,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
                 return s;
         }
     }
-
-    @Override
-    public double getProductPrice() {
-        return Double.parseDouble(productPriceField.getText());
-    }
-
     @Override
     public void setProductPriceField(String productPrice) {
         productPriceField.setText(productPrice);
@@ -186,7 +182,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
 
     @Override
     protected void initListeners() {
-        createButton.addActionListener(e -> productCreatePresenter.onCreateButtonClicked());
+        createButton.addActionListener(e -> lastProductCreatedID = productCreatePresenter.onCreateButtonClicked());
     }
 
 

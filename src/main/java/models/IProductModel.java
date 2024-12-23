@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IProductModel {
-    int createProduct(String productName, double productPrice, int categoryID);
+    int createProduct(String productName, int categoryID);
 
     void addProductCreationSuccessListener(ProductCreationSuccessListener listener);
     void addProductCreationFailureListener(ProductCreationFailureListener listener);

@@ -14,8 +14,6 @@ public interface IProductCreateView extends IToggleableView {
 
     String getProductCategoryEnglish();
 
-    double getProductPrice();
-
     void setProductPriceField(String productPrice);
 
     void setCategorias(List<String> categorias);
