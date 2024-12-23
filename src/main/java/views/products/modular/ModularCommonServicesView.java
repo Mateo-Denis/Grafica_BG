@@ -83,8 +83,9 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(SERVICIOS);
-        for (Pair<String, Double> pair : list) {
+        ArrayList<Pair<String, Double>> serviceList = presenter.getTableAsArrayList(SERVICIOS);
+
+        for (Pair<String, Double> pair : serviceList) {
             serviceTypeComboBox.addItem(pair.getValue0());
         }
     }

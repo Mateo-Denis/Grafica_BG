@@ -84,16 +84,12 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
-//		ButtonGroup shirtButtonGroup = new ButtonGroup();
-//		shirtButtonGroup.add(tshirtRadioButton);
-//		shirtButtonGroup.add(chombaRadioButton);
-
 		initListeners();
 	}
 	@Override
 	public void loadComboBoxValues() {
 		ArrayList<Pair<String, Double>> materialsList = presenter.getTableAsArrayList(TELAS);
-		ArrayList<Pair<String, Double>> seamstressList = presenter.getTableAsArrayList(GENERAL);
+		ArrayList<Pair<String, Double>> seamstressList = presenter.getTableAsArrayList(SERVICIOS);
 
 		for (Pair<String, Double> pair : materialsList) {
 			if(pair.getValue0().contains("LINEAL")) materialComboBox.addItem(pair.getValue0());
