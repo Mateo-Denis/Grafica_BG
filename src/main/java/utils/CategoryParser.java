@@ -25,4 +25,29 @@ public class CategoryParser {
 				return "Unknown";
 		}
 	}
+
+	public static String getProductCategoryEnglish(String category){
+		switch (category) {
+			case "Taza":
+				return "Cup";
+			case "Gorra":
+				return "Cap";
+			case "Prenda":
+				return "Clothes";
+			case "Tela":
+				return "Cloth";
+			case "Bandera":
+				return "Flag";
+			case "Servicios comunes":
+				return "CommonServices";
+			case "Servicio de corte":
+				return "CuttingService";
+			case "Impresión lineal":
+				return "LinearPrinting";
+			case "Impresión en metro cuadrado":
+				return "SquareMeterPrinting";
+			default:
+				return category;
+		}
+	}
 }

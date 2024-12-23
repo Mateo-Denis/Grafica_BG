@@ -94,7 +94,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
             float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * profit;
 
-            
+
             dollarValueTextField.setText(String.valueOf(dollarPrice));
             squareMeterPrintingFinalPriceTextField.setText(String.valueOf(finalPrice));
 
@@ -128,7 +128,8 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             materialComboBox.addItem(pair.getValue0());
         }
         for (Pair<String, Double> pair : dollarList) {
-            if(pair.getValue0().contains("Dólar")){
+            String s = pair.getValue0();
+            if(s.contains("Dólar") || s.contains("Dolar")){
                 dollarComboBox.addItem(pair.getValue0());
             }
         }
@@ -156,9 +157,9 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
         materialMeterSqrPrice = presenter.getIndividualPrice(MATERIALES, getMaterialComboBoxSelection());
         if(UVRadioButton.isSelected()){
-            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro2 de tinta UV");
+            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
         } else {
-            inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro2 de tinta ECO");
+            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");
         }
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión metro cuadrado");
 

@@ -42,7 +42,7 @@ public class ProductModel implements IProductModel {
         this.productSearchFailureListeners = new LinkedList<>();
     }
 
-    public int createProduct(String productName, double productPrice, int categoryID) {
+    public int createProduct(String productName, int categoryID) {
         try {
             int productID = productsDBConnection.insertProduct(productName, categoryID);
             notifyProductCreationSuccess();

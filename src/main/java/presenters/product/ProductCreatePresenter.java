@@ -80,7 +80,8 @@ public class ProductCreatePresenter extends StandardPresenter {
         productCreateView.setProductPriceField(Double.toString(price));
     }
 
-    public void onCreateButtonClicked() {
+    public int onCreateButtonClicked() {
+        int idToReturn = -1;
         ArrayList<Attribute> instancedAttribute;
         productCreateView.setWorkingStatus();
         String categoryName = productCreateView.getProductCategoryEnglish();
@@ -94,17 +95,16 @@ public class ProductCreatePresenter extends StandardPresenter {
             }
         } else {
             String productName = productCreateView.getProductName();
-            double productPrice = productCreateView.getProductPrice();
-            int productID = productModel.createProduct(productName, productPrice, categoryID);
+            int productID = productModel.createProduct(productName, categoryID);
 
             instancedAttribute = modularView.getAttributes();
 
             productModel.instantiateProductAttributes(productID, instancedAttribute, categoryID);
-
+            idToReturn = productID;
         }
 
         productCreateView.setWaitingStatus();
-
+        return idToReturn;
     }
 
 
