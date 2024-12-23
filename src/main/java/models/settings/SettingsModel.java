@@ -35,14 +35,10 @@ public class SettingsModel implements ISettingsModel {
 		list.add(GENERAL);
 		list.add(BAJADA_PLANCHA);
 		list.add(TELAS);
-		list.add(CORTE);
-		list.add(PRENDAS);
 		list.add(SERVICIOS);
 		list.add(IMPRESIONES);
-		list.add(VINILOS);
-		list.add(LONAS);
+		list.add(MATERIALES);
 		list.add(GANANCIAS);
-		list.add(MEDIDAS);
 		return list;
 	}
 

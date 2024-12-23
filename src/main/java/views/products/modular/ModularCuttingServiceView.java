@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static utils.databases.SettingsTableNames.TELAS;
-import static utils.databases.SettingsTableNames.VINILOS;
+import static utils.databases.SettingsTableNames.MATERIALES;
 
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -101,7 +100,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(VINILOS);
+        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(MATERIALES);
         for (Pair<String, Double> pair : list) {
             vinylsComboBox.addItem(pair.getValue0());
         }
@@ -125,7 +124,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     @Override
     public void setPriceTextFields() {
         profit = 2;
-        vinylPrice = presenter.getIndividualPrice(VINILOS, getVinylTypeSelected());
+        vinylPrice = presenter.getIndividualPrice(MATERIALES, getVinylTypeSelected());
 
         vinylCostTextField.setText(String.valueOf(vinylPrice));
         profitTextField.setText(String.valueOf(profit));

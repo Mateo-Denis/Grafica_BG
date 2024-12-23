@@ -280,6 +280,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber) {
         try {
+            if(!client.isClient()){
+                globalBudgetTotalPrice*=1.25;
+            }
             pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,15 +4,10 @@ public enum SettingsTableNames {
 	GENERAL("General"),
 	BAJADA_PLANCHA("Bajada_Plancha"),
 	TELAS("Telas"),
-	CORTE("Corte"),
-	PRENDAS("Prendas"),
 	SERVICIOS("Servicios"),
 	IMPRESIONES("Impresiones"),
-	VINILOS("Vinilos"),
-	LONAS("Lonas"),
-	GANANCIAS("Ganancias"),
-	MEDIDAS("Medidas"),
-	MATERIALES("Materiales");
+	MATERIALES("Materiales"),
+	GANANCIAS("Ganancias");
 
 
 	private final String name;

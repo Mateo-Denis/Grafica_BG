@@ -1,12 +1,10 @@
 package utils;
 
 import lombok.Getter;
-import org.javatuples.Pair;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.SettingsDatabaseConnection;
 import utils.databases.SettingsTableNames;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Product {
@@ -262,7 +260,7 @@ public class Product {
                 double t1aV;
                 String t1aS = attributesDBConnection.getAttributeValue(ID, "T1A");
                 if(Objects.equals(t1aS, "###")) {
-                    t1aV = getIndividualPrice(SettingsTableNames.VINILOS, vinilo);
+                    t1aV = getIndividualPrice(SettingsTableNames.MATERIALES, vinilo);
                 }else {
                     t1aV = Double.parseDouble(t1aS);
                 }

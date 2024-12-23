@@ -122,7 +122,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> materialLlist = presenter.getTableAsArrayList(VINILOS);
+        ArrayList<Pair<String, Double>> materialLlist = presenter.getTableAsArrayList(MATERIALES);
         ArrayList<Pair<String, Double>> dollarList = presenter.getTableAsArrayList(GENERAL);
         for (Pair<String, Double> pair : materialLlist) {
             materialComboBox.addItem(pair.getValue0());
@@ -154,7 +154,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
         squareMeterPrintingFinalPriceTextField.setText(String.valueOf(0));
 
-        materialMeterSqrPrice = presenter.getIndividualPrice(VINILOS, getMaterialComboBoxSelection());
+        materialMeterSqrPrice = presenter.getIndividualPrice(MATERIALES, getMaterialComboBoxSelection());
         if(UVRadioButton.isSelected()){
             inkByMeterPrice = presenter.getIndividualPrice(GENERAL, "Metro2 de tinta UV");
         } else {

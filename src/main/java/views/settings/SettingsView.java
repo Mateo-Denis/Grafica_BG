@@ -9,6 +9,7 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -18,25 +19,21 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 	private JPanel generalValuesPanel;
 	private JPanel clothValuesPanel;
 	private JTable clothValuesTable;
-	private JPanel clothesValuesPanel;
 	private JTable clothesValuesTable;
 	private JButton updateDataButton;
 	private JPanel plankLoweringPanel;
-	private JPanel cutValuesPanel;
 	private JPanel printingValuesPanel;
 	private JTable cutValuesTable;
 	private JTable plankLoweringValuesTable;
 	private JTable serviceValuesTable;
 	private JTable printingValuesTable;
 	private JTable canvasValuesTable;
-	private JTable vinylValuesTable;
+	private JTable materialsValuesTable;
 	private JTable generalValuesTable;
 	private JPanel vinylValuesPanel;
 	private JPanel serviceValuesPanel;
-	private JPanel canvasValuesPanel;
 	private JPanel profitValuesPanel;
 	private JTable profitValuesTable;
-	private JPanel measuresPanel;
 	private JTable measuresValuesTable;
 	private SettingsPresenter settingsPresenter;
 
@@ -52,12 +49,20 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 		initTableListeners(generalValuesTable);
 		initTableListeners(plankLoweringValuesTable);
 		initTableListeners(clothValuesTable);
-		initTableListeners(cutValuesTable);
-		initTableListeners(clothesValuesTable);
 		initTableListeners(serviceValuesTable);
 		initTableListeners(printingValuesTable);
-		initTableListeners(vinylValuesTable);
-		initTableListeners(canvasValuesTable);
+		initTableListeners(materialsValuesTable);
+		initTableListeners(profitValuesTable);
+
+		// Obtener el tamaño de la pantalla
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		// Obtener ancho y alto
+		double screenWidth = screenSize.width * 0.69;
+		double screenHeight = screenSize.height * 0.73;
+
+		windowFrame.setSize((int) screenWidth, (int) screenHeight);
+		windowFrame.setResizable(false);
 
 	}
 	@Override
@@ -94,15 +99,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 			}
 		});
 
-//		table.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyPressed(KeyEvent e) {
-//				if (table.isEditing()) {
-//					table.getCellEditor().stopCellEditing();
-//				}
-//			}
-//		});
-
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -123,16 +119,29 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
 		table.setSelectionBackground(table.getBackground());
 		table.setSelectionForeground(table.getForeground());
-
 		table.setShowGrid(true);
 		table.setGridColor(Color.LIGHT_GRAY);
-
+		AutoResizableColumns(table);
 	}
 
 	@Override
 	public void clearView() {
 
 	}
+
+	public void AutoResizableColumns(JTable table)
+	{
+		for (int column = 0; column < table.getColumnCount(); column++) {
+			int width = 0;
+			for (int row = 0; row < table.getRowCount(); row++) {
+				TableCellRenderer renderer = table.getCellRenderer(row, column);
+				Component comp = table.prepareRenderer(renderer, row, column);
+				width = Math.max(comp.getPreferredSize().width, width);
+			}
+			table.getColumnModel().getColumn(column).setPreferredWidth(width + 10); // Añadir un pequeño margen
+		}
+	}
+
 	@Override
 	public void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> values) {
 		DefaultTableModel model = new DefaultTableModel(new Object[]{"Campo", "Valor"}, 0) {
@@ -165,15 +174,10 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 			case GENERAL -> generalValuesTable;
 			case BAJADA_PLANCHA -> plankLoweringValuesTable;
 			case TELAS -> clothValuesTable;
-			case CORTE -> cutValuesTable;
-			case PRENDAS -> clothesValuesTable;
 			case SERVICIOS -> serviceValuesTable;
 			case IMPRESIONES -> printingValuesTable;
-			case VINILOS -> vinylValuesTable;
-			case LONAS -> canvasValuesTable;
 			case GANANCIAS -> profitValuesTable;
-			case MEDIDAS -> measuresValuesTable;
-			case MATERIALES -> null;
+			case MATERIALES -> materialsValuesTable;
 		};
 	}
 	@Override

@@ -72,6 +72,7 @@ public class HomeView extends JFrame implements IHomeView {
 		this.settingsPresenter = settingsPresenter;
 
 		cambiarTamanioFuente(containerPanel, 14);
+		categoryPanel.setVisible(false);
 		windowFrame.setSize(300,788);
 		windowFrame.setResizable(false);
 

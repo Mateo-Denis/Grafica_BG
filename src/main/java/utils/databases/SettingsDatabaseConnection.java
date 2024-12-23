@@ -15,14 +15,10 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		createModularTable(connection, GENERAL);
 		createModularTable(connection, BAJADA_PLANCHA);
 		createModularTable(connection, TELAS);
-		createModularTable(connection, CORTE);
-		createModularTable(connection, PRENDAS);
 		createModularTable(connection, SERVICIOS);
 		createModularTable(connection, IMPRESIONES);
-		createModularTable(connection, VINILOS);
-		createModularTable(connection, LONAS);
+		createModularTable(connection, MATERIALES);
 		createModularTable(connection, GANANCIAS);
-		createModularTable(connection, MEDIDAS);
 	}
 
 	private void createModularTable(Connection connection, SettingsTableNames tableName) {
