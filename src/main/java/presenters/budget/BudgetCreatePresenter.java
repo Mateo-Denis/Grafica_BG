@@ -382,7 +382,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public ArrayList<Row> GetAllProductsFromPreviewTable() {
         ArrayList<Row> productRowData = new ArrayList<>();
-        List<String> oneProduct = new ArrayList<>();
+        List<String> oneProduct;
 
         Product product;
         double productPrice = 0.0;

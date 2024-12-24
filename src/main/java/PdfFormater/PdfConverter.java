@@ -25,7 +25,7 @@ public class PdfConverter implements IPdfConverter{
             pdfName = billNumber+"_"+ ld +".pdf";
         }
         String imagePath="src/main/resources/BGLogo.png";
-        CodingErrorPdfInvoiceCreator cepdf=new CodingErrorPdfInvoiceCreator(pdfName);
+        CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
         cepdf.createDocument();
 
         //Create Header start
@@ -64,8 +64,8 @@ public class PdfConverter implements IPdfConverter{
         //Product Start
         ProductTableHeader productTableHeader=new ProductTableHeader();
         cepdf.createTableHeader(productTableHeader);
-        List<Product> productList=cepdf.formatProductsToProductsList(tableContent);
-       // productList=cepdf.modifyProductList(productList);
+        List<Product> productList = cepdf.formatProductsToProductsList(tableContent);
+        // productList=cepdf.modifyProductList(productList);
         cepdf.createProduct(productList, total);
         //Product End
 

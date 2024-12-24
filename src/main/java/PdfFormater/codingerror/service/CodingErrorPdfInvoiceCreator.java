@@ -35,8 +35,8 @@ public class CodingErrorPdfInvoiceCreator {
     float twocol=285f;
     float twocol150=twocol+150f;
     float twocolumnWidth[]={twocol150,twocol};
-    float threeColumnWidth[]={threecol,threecol,threecol,threecol, threecol};
-    float fullwidth[]={threecol*4}; //Cambiose
+    float threeColumnWidth[]={threecol, threecol, threecol, threecol, threecol, threecol};
+    float fullwidth[]={threecol*6}; //Cambiose
 
     public CodingErrorPdfInvoiceCreator(String pdfName){
         this.pdfName=pdfName;
@@ -69,13 +69,13 @@ public class CodingErrorPdfInvoiceCreator {
 
     public void createProduct(List<Product> productList, double totalPrice) {
         float threecol=190f;
-        float fullwidth[]={threecol*4}; //Modify?
         Table threeColTable2=new Table(threeColumnWidth);
         for (Product product:productList)
         {
             double total=product.getQuantity()*product.getPriceperpeice();
             threeColTable2.addCell(new Cell().add(new Paragraph(product.getPname().orElse(""))).setBorder(Border.NO_BORDER).setMarginLeft(10f));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getQuantity()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getObservations()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getDimensions()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getPriceperpeice()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
             //threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
@@ -120,7 +120,7 @@ public class CodingErrorPdfInvoiceCreator {
     }*/
 
     public List<Product> formatProductsToProductsList(ArrayList<Row> rows){
-        List<Product> productList=new ArrayList<>();
+        List<Product> productList = new ArrayList<>();
         for(Row row:rows){
             productList.add(new Product(row.getProductName(),row.getQuantity(),row.getMeasures(), row.getObservations(), row.getPrice(),row.getTotal()));
         }
@@ -136,8 +136,9 @@ public class CodingErrorPdfInvoiceCreator {
 
         //new Paragraph("")
 
-        threeColTable1.addCell(new Cell().add(new Paragraph("AAAAADescripción")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER));
+        threeColTable1.addCell(new Cell().add(new Paragraph("Nombre")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Cantidad")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        threeColTable1.addCell(new Cell().add(new Paragraph("Observaciones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Dimensiones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Precio")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         threeColTable1.addCell(new Cell().add(new Paragraph("Total")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
