@@ -36,7 +36,7 @@ public class CodingErrorPdfInvoiceCreator {
     float twocol150=twocol+150f;
     float twocolumnWidth[]={twocol150,twocol};
     float threeColumnWidth[]={threecol, threecol, threecol, threecol, threecol, threecol};
-    float fullwidth[]={threecol*6}; //Cambiose
+    float[] fullwidth = {threecol*6}; //Cambiose
 
     public CodingErrorPdfInvoiceCreator(String pdfName){
         this.pdfName=pdfName;
@@ -63,61 +63,47 @@ public class CodingErrorPdfInvoiceCreator {
         }else {
             pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, new MyFooter(document,TncList,imagePath));
         }
-        
+
         document.close();
     }
 
     public void createProduct(List<Product> productList, double totalPrice) {
-        float threecol=190f;
-        Table threeColTable2=new Table(threeColumnWidth);
+        Table productsTable = new Table(threeColumnWidth);
+
+        productsTable.addCell(new Cell().add(new Paragraph("Nombre")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Cantidad")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Observaciones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Dimensiones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Precio")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Total")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
         for (Product product:productList)
         {
-            double total=product.getQuantity()*product.getPriceperpeice();
-            threeColTable2.addCell(new Cell().add(new Paragraph(product.getPname().orElse(""))).setBorder(Border.NO_BORDER).setMarginLeft(10f));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getQuantity()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getObservations()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getDimensions()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getPriceperpeice()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            //threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-            threeColTable2.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()/*total*/))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
+            productsTable.addCell(new Cell().add(new Paragraph(product.getPname().orElse(""))).setBorder(Border.NO_BORDER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getQuantity()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getObservations()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getDimensions()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getPriceperpeice()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.CENTER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
         }
+        document.add(productsTable);
+        document.add(new Paragraph("\n"));
+        document.add(fullwidthDashedBorder(fullwidth));
 
-        document.add(threeColTable2.setMarginBottom(20f));
-        float onetwo[]={threecol+125f,threecol*2};
-        Table threeColTable4=new Table(onetwo);
-        //new Paragraph();
-        threeColTable4.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER));
-        threeColTable4.addCell(new Cell().add(fullwidthDashedBorder(fullwidth)).setBorder(Border.NO_BORDER));
-        document.add(threeColTable4);
 
-        Table threeColTable3=new Table(threeColumnWidth);
-        threeColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(10f);
-        threeColTable3.addCell(new Cell().add((new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(10f));
-        threeColTable3.addCell(new Cell().add((new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(10f));
-        threeColTable3.addCell(new Cell().add((new Paragraph("Total")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER)));
-        threeColTable3.addCell(new Cell().add((new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f));
+        Table totalTable = new Table(threeColumnWidth);
+        totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("Total")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
 
-        document.add(threeColTable3);
+        document.add(totalTable);
+
         document.add(fullwidthDashedBorder(fullwidth));
         document.add(new Paragraph("\n"));
         document.add(getDividerTable(fullwidth).setBorder(new SolidBorder(new DeviceGray(0.75f),1)).setMarginBottom(15f));
     }
-
-    public float getTotalSum(List<Product> productList) {
-        return  (float)productList.stream().mapToLong((p)-> (long) (p.getQuantity()*p.getPriceperpeice())).sum();
-    }
-
-    /*public List<Product> getDummyProductList()
-    {
-        List<Product> productList=new ArrayList<>();
-        productList.add(new Product("apple",2,159,"LOKO1"));
-        productList.add(new Product("mango",4,205,"LOKO1"));
-        productList.add(new Product("banana",2,90,"LOKO1"));
-        productList.add(new Product("grapes",3,10,"LOKO1"));
-        productList.add(new Product("apple",5,159,"LOKO1"));
-        productList.add(new Product("kiwi",2,90,"LOKO1"));
-        return productList;
-    }*/
 
     public List<Product> formatProductsToProductsList(ArrayList<Row> rows){
         List<Product> productList = new ArrayList<>();
@@ -125,24 +111,6 @@ public class CodingErrorPdfInvoiceCreator {
             productList.add(new Product(row.getProductName(),row.getQuantity(),row.getMeasures(), row.getObservations(), row.getPrice(),row.getTotal()));
         }
         return productList;
-    }
-
-    public void createTableHeader(ProductTableHeader productTableHeader) {
-        Paragraph producPara=new Paragraph("Productos");
-        document.add(producPara.setBold());
-        Table threeColTable1=new Table(threeColumnWidth);
-        //new SolidBorder(new DeviceGray(0.75f),1)
-        threeColTable1.setBackgroundColor(DeviceGray.BLACK,0.7f);
-
-        //new Paragraph("")
-
-        threeColTable1.addCell(new Cell().add(new Paragraph("Nombre")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER));
-        threeColTable1.addCell(new Cell().add(new Paragraph("Cantidad")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-        threeColTable1.addCell(new Cell().add(new Paragraph("Observaciones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-        threeColTable1.addCell(new Cell().add(new Paragraph("Dimensiones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-        threeColTable1.addCell(new Cell().add(new Paragraph("Precio")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-        threeColTable1.addCell(new Cell().add(new Paragraph("Total")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)).setMarginRight(15f);
-        document.add(threeColTable1);
     }
 
     public void createAddress(AddressDetails addressDetails) {
@@ -173,7 +141,6 @@ public class CodingErrorPdfInvoiceCreator {
         oneColTable1.addCell(getCell10fLeft(addressDetails.getBillingEmailText(),true));
         oneColTable1.addCell(getCell10fLeft(addressDetails.getBillingEmail(),false));
         document.add(oneColTable1.setMarginBottom(10f));
-        document.add(fullwidthDashedBorder(fullwidth));
     }
 
     public void createHeader(HeaderDetails header, String imagePath) {
@@ -203,24 +170,6 @@ public class CodingErrorPdfInvoiceCreator {
         document.add(getNewLineParagraph());
         document.add(getDividerTable(fullwidth).setBorder(gb));
         document.add(getNewLineParagraph());
-    }
-
-
-    public List<Product> modifyProductList(List<Product> productList) {
-        Map<String,Product> map=new HashMap<>();
-        productList.forEach((i)->{
-            if(map.containsKey(i.getPname().orElse("")))
-            {
-                i.setQuantity(map.getOrDefault(i.getPname().orElse(""),null).getQuantity()+i.getQuantity());
-                map.put(i.getPname().orElse(""),i);
-            }else
-            {
-                map.put(i.getPname().orElse(""),i);
-            }
-        });
-        return map.values().stream().collect(Collectors.toList());
-
-
     }
 
     static  Table getDividerTable(float[] fullwidth)

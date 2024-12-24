@@ -8,6 +8,7 @@ import PdfFormater.Row;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import models.*;
+import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
 
 //IMPORTS FROM UTILS PACKAGE
@@ -16,6 +17,7 @@ import utils.Client;
 import utils.Product;
 
 //IMPORTS FROM VIEWS PACKAGE
+import utils.databases.SettingsTableNames;
 import views.budget.IBudgetCreateView;
 
 //IMPORTS FROM MODELS PACKAGE
@@ -26,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.databases.SettingsTableNames.GENERAL;
+
 
 //  --------> BUDGET CREATE PRESENTER CLASS STARTS HERE <-------------
 //  --------> BUDGET CREATE PRESENTER CLASS STARTS HERE <-------------
@@ -35,6 +39,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private final IBudgetModel budgetModel;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
+    private final ISettingsModel settingsModel;
     private static final IPdfConverter pdfConverter = new PdfConverter();
 
     double globalBudgetTotalPrice = 0.0;
@@ -46,9 +51,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private Product editedProduct;
 
     public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
-                                 ICategoryModel categoryModel) {
+								 ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.budgetCreateView = budgetCreateView;
-        view = budgetCreateView;
+		this.settingsModel = settingsModel;
+		view = budgetCreateView;
         this.budgetModel = budgetModel;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
@@ -208,6 +214,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
 
     public void onCreateButtonClicked() {
+
+
+
         List<String[]> budgetData = budgetCreateView.getPreviewTableFilledRowsData();
         Client client;
         ArrayList<Row> tableContent = new ArrayList<>();
@@ -218,6 +227,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String budgetDate = budgetCreateView.getBudgetDate(); // BUDGET DATE
         int budgetNumber = budgetModel.getNextBudgetNumber(); // BUDGET NUMBER
         int budgetID = -1;
+        float recharge = 1;
+
 
         ArrayList<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
         ArrayList<Double> productsPrices = new ArrayList<>(); // PRODUCTS PRICE LIST
@@ -238,14 +249,18 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     productsAmount.add(Integer.parseInt(budgetData.get(i)[1]));
                     productsMeasures.add(budgetData.get(i)[2]);
                     productsObservations.add(budgetData.get(i)[3]);
-                    productsPrices.add(Double.parseDouble(budgetData.get(i)[4]));
+
+                    if(budgetClientType.equals("Particular")) {
+                        recharge = Float.parseFloat(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
+                    }
+                    productsPrices.add(recharge * Double.parseDouble(budgetData.get(i)[4]));
                 }
             }
 
             // CREATE BUDGET
-            if(budgetClientType.equals("Particular")) {
-                globalBudgetTotalPrice *= 1.25;
-            }
+
+            globalBudgetTotalPrice *= recharge;
+
             budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber, globalBudgetTotalPrice);
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
 

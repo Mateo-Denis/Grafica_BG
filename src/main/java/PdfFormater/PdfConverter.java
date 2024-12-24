@@ -62,8 +62,6 @@ public class PdfConverter implements IPdfConverter{
         //Address end
 
         //Product Start
-        ProductTableHeader productTableHeader=new ProductTableHeader();
-        cepdf.createTableHeader(productTableHeader);
         List<Product> productList = cepdf.formatProductsToProductsList(tableContent);
         // productList=cepdf.modifyProductList(productList);
         cepdf.createProduct(productList, total);
