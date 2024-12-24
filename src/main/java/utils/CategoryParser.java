@@ -20,7 +20,7 @@ public class CategoryParser {
 			case "CuttingService":
 				return "Servicio de Corte";
 			case "SquareMeterPrinting":
-				return "Impresión por Metro Cuadrado";
+				return "Impresión en metro cuadrado";
 			default:
 				return "Unknown";
 		}

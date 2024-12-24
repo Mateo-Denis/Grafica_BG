@@ -208,7 +208,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
     }
 
-    public void updatePriceColumnByRecharge(){
+    public void updatePriceColumnByRecharge() {
         double recharge = 1;
         String clientType = budgetCreateView.getPreviewStringTableValueAt(0, 6);
         updateTextArea(false, globalBudgetTotalPrice);
@@ -260,20 +260,14 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     productsAmount.add(Integer.parseInt(budgetData.get(i)[1]));
                     productsMeasures.add(budgetData.get(i)[2]);
                     productsObservations.add(budgetData.get(i)[3]);
-
-                    if (budgetClientType.equals("Particular")) {
-                        recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
-                    }
-                    double toAdd = recharge * Double.parseDouble(budgetData.get(i)[4]);
-                    System.out.println(toAdd);
-                    productsPrices.add(toAdd);
+                    productsPrices.add(Double.parseDouble(budgetData.get(i)[4]));
                 }
             }
 
             // CREATE BUDGET
-
-            globalBudgetTotalPrice *= recharge;
-
+            if (budgetClientType.equals("Particular")) {
+                globalBudgetTotalPrice *= 1.25;
+            }
             budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber, globalBudgetTotalPrice);
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
 
@@ -356,33 +350,45 @@ public class BudgetCreatePresenter extends StandardPresenter {
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
         double recharge = 1.0;
+        String productMeasures = "";
+        int meters = -1;
+        JTextField widthTextField = budgetCreateView.getWidthMeasureTextField();
+        JTextField heightTextField = budgetCreateView.getHeightMeasureTextField();
 
         if (productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
         }
 
-        if(globalClientType.equals("Particular")){
+        if (globalClientType.equals("Particular")) {
             recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
         }
 
-        if (unlockedMeasures) {
+        if (unlockedMeasures) {//ONE OR BOTH TEXTFIELDS ARE ENABLED
+
             if (productHeightMeasures.isEmpty()) {
                 productHeightMeasures = "1";
             }
             if (productWidthMeasures.isEmpty()) {
                 productWidthMeasures = "1";
             }
-            int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
+
+            if (widthTextField.isEnabled() && heightTextField.isEnabled()) { //IF ARE BOTH ENABLED
+
+                productMeasures = productWidthMeasures + "m x " + productHeightMeasures + "m";
+                meters = Integer.parseInt(productHeightMeasures) * Integer.parseInt(productWidthMeasures);
+            } else { //IF ONLY ONE IS ENABLED (HEIGHT)
+                productMeasures = productHeightMeasures + "m";
+                meters = Integer.parseInt(productHeightMeasures);
+            }
+
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;
             settingPrice = oneItemProductPrice * meters * recharge;
-        } else {
-            productWidthMeasures = "-";
-            productHeightMeasures = "-";
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
+
+        } else { //NONE OF THE TEXTFIELDS ARE ENABLED
+            productMeasures = "-";
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * recharge;
             settingPrice = oneItemProductPrice * recharge;
         }
-
-        String productMeasures = productWidthMeasures + " x " + productHeightMeasures;
 
 
         budgetCreateView.setPreviewStringTableValueAt(row, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO

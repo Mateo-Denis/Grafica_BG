@@ -281,7 +281,7 @@ public class Product {
                 String paper = attributesDBConnection.getAttributeValue(ID, "T1A");
 
                 if(Objects.equals(paper, "###")) {
-                    t1aV = getIndividualPrice(SettingsTableNames.GENERAL, "Metro de papel");
+                    t1aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de papel");
                 }else {
                     t1aV = Double.parseDouble(paper);
                 }
@@ -289,7 +289,7 @@ public class Product {
                 double t2aV;
                 String ink = attributesDBConnection.getAttributeValue(ID, "T2A");
                 if(Objects.equals(ink, "###")) {
-                    t2aV = getIndividualPrice(SettingsTableNames.GENERAL, "Metro de tinta");
+                    t2aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de tinta");
                 }else {
                     t2aV = Double.parseDouble(ink);
                 }
@@ -318,9 +318,9 @@ public class Product {
                 String isUV = attributesDBConnection.getAttributeValue(ID, "UV");
                 double t2aV;
                 if(Objects.equals(isUV, "SI")) {
-                    t2aV = getIndividualPrice(SettingsTableNames.GENERAL, "Metro2 de tinta UV");
+                    t2aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro2 de tinta UV");
                 }else {
-                    t2aV = getIndividualPrice(SettingsTableNames.GENERAL, "Metro2 de Tinta ECO");
+                    t2aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro2 de tinta ECO");
                 }
 
                 String tipoDolar = attributesDBConnection.getAttributeValue(ID, "TIPO_DOLAR");

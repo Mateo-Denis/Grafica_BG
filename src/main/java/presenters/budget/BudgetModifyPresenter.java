@@ -1,6 +1,7 @@
 package presenters.budget;
 
 import com.google.common.collect.Multimap;
+import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
 
 import utils.*;
@@ -20,6 +21,8 @@ import java.util.Map;
 
 import views.budget.modify.IBudgetModifyView;
 
+import static utils.databases.SettingsTableNames.GENERAL;
+
 
 public class BudgetModifyPresenter extends StandardPresenter {
     private final IBudgetModifyView budgetModifyView;
@@ -33,15 +36,18 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private int globalBudgetNumber = -1;
     private String oldClientName = "";
     private double globalBudgetTotalPrice = 0.0;
+    private String globalClientType = "";
+    private final ISettingsModel settingsModel;
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
-                                 ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel) {
+                                 ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel, ISettingsModel settingsModel) {
         this.budgetModifyView = budgetModifyView;
         view = budgetModifyView;
         this.budgetModel = budgetModel;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
         this.budgetModifyModel = budgetModifyModel;
+        this.settingsModel = settingsModel;
 
         cargarCategorias();
         cargarCiudades();
@@ -167,11 +173,31 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 budgetModifyView.setPreviewStringTableValueAt(0, 6, clientType); // SET PREVIEW STRING TABLE VALUE AT 0, 6, CLIENT TYPE
                 globalClientID = budgetModel.getClientID(clientName, clientType); // SET GLOBAL CLIENT ID TO CLIENT ID
                 clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
+                globalClientType = clientType; // SET GLOBAL CLIENT TYPE TO CLIENT TYPE
+                updatePriceColumnByRecharge();
             } else {
                 budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
             }
         } else {
             budgetModifyView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
+        }
+    }
+
+    public void updatePriceColumnByRecharge(){
+        double recharge = 1;
+        String clientType = budgetModifyView.getPreviewStringTableValueAt(0, 6);
+        updateTextArea(false, false, globalBudgetTotalPrice);
+        globalBudgetTotalPrice = 0;
+        if (clientType.equals("Particular")) {
+            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
+        }
+        for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
+            Product product = productModel.getOneProduct(productModel.getProductID(budgetModifyView.getPreviewStringTableValueAt(i, 1)));
+            double productOriginalPrice = product.calculateRealTimePrice();
+            double toAdd = productOriginalPrice * recharge;
+            budgetModifyView.setPreviewStringTableValueAt(i, 5, String.valueOf(toAdd));
+            double totalPrice = toAdd * Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(i, 2));
+            updateTextArea(true, false, totalPrice);
         }
     }
 
@@ -200,9 +226,15 @@ public class BudgetModifyPresenter extends StandardPresenter {
         double oneItemProductPrice = product.calculateRealTimePrice();
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
+        double recharge = 1.0;
+        String productMeasures = "";
 
         if (productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
+        }
+
+        if(globalClientType.equals("Particular")){
+            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
         }
 
         if (unlockedMeasures) {
@@ -213,16 +245,15 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 productWidthMeasures = "1";
             }
             int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
-            settingPrice = oneItemProductPrice * meters;
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;
+            settingPrice = oneItemProductPrice * meters * recharge;
+            productMeasures = productWidthMeasures + " x " + productHeightMeasures;
         } else {
-            productWidthMeasures = "-";
-            productHeightMeasures = "-";
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
-            settingPrice = oneItemProductPrice;
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * recharge;
+            settingPrice = oneItemProductPrice * recharge;
         }
 
-        String productMeasures = productWidthMeasures + " x " + productHeightMeasures;
+
 
         budgetModifyView.setPreviewStringTableValueAt(row, 1, productName); //INSERTA EN LA COLUMNA DE NOMBREPRODUCTO
         budgetModifyView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
@@ -334,6 +365,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
         String budgetClientName = budgetClientData.get(1);
         double budgetTotalPrice = 0.0;
+        globalClientType = "";
 
         ArrayList<String> productMeasures = getProductsMeasures(budgetNumber, budgetClientName);
         ArrayList<String> productObservations = getProductObservations(budgetNumber, budgetClientName);
