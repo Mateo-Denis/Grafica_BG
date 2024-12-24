@@ -52,7 +52,8 @@ public class HomeView extends JFrame implements IHomeView {
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setVisible(true);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-
+		iconLabel.setIcon(new ImageIcon("src/main/resources/BGLogo.png"));
+		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		// Calculate the x and y position
