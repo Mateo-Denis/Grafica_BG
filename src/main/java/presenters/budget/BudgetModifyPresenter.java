@@ -309,43 +309,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    public void onPreviewTableDoubleClickedRow(int clickedRow) {
-        String productWidthMeasures = "";
-        String productHeightMeasures = "";
-        String productObservations = "";
-        String productName = "";
-        int productAmount = 0;
-        int productID = -1;
-        int multiplierIndex = 0;
-        Object productNameObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 1);
-        Object productObservationsObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 4);
-        Object productMeasuresObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 3);
-        Object productAmountObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 2);
-
-        if (clickedRow != -1 && clickedRow != 0) {
-            editingProduct = true;
-            JTable productTable = budgetModifyView.getProductsResultTable();
-            productTable.clearSelection();
-            budgetModifyView.getPreviewTable().setEnabled(false);
-
-            multiplierIndex = ((String) productMeasuresObject).indexOf('x');
-            productName = (String) productNameObject;
-            productAmount = Integer.parseInt((String) productAmountObject);
-            productWidthMeasures = ((String) productMeasuresObject).substring(0, multiplierIndex - 2);
-            productHeightMeasures = ((String) productMeasuresObject).substring(multiplierIndex + 2);
-            productObservations = (String) productObservationsObject;
-            productID = productModel.getProductID(productName);
-
-            editedProduct = productModel.getOneProduct(productID);
-        }
-
-        budgetModifyView.setAmountTextField(productAmount);
-        budgetModifyView.setWidthMeasureTextField(productWidthMeasures);
-        budgetModifyView.setHeightMeasureTextField(productHeightMeasures);
-        budgetModifyView.setObservationsTextField(productObservations);
-    }
-
-
     public void onDeleteProductButtonClicked() {
         budgetModifyView.getProductsResultTable().clearSelection();
         int selectedRow = budgetModifyView.getPreviewTable().getSelectedRow();

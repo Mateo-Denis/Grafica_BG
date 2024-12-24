@@ -116,17 +116,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientSelectedCheckBox.addItemListener(e -> budgetModifyPresenter.onClientSelectedCheckBoxClicked());
         clientAddButton.addActionListener(e -> budgetModifyPresenter.onAddClientButtonClicked());
         productSearchButton.addActionListener(e -> budgetModifyPresenter.OnSearchProductButtonClicked());
-        budgetPreviewTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Detectar doble clic
-                if (e.getClickCount() == 2 && !e.isConsumed()) {
-                    e.consume(); // Evitar más procesamiento de este evento
-                    int clickedRow = budgetPreviewTable.getSelectedRow();
-                    budgetModifyPresenter.onPreviewTableDoubleClickedRow(clickedRow);
-                }
-            }
-        });
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

@@ -133,17 +133,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         addClientButton.addActionListener(e -> budgetCreatePresenter.onAddClientButtonClicked());
         clientSearchButton.addActionListener(e -> budgetCreatePresenter.OnSearchClientButtonClicked());
         clientSelectedCheckBox.addItemListener(e -> budgetCreatePresenter.onClientSelectedCheckBoxClicked());
-        budgetPreviewingTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Detectar doble clic
-                if (e.getClickCount() == 2 && !e.isConsumed()) {
-                    e.consume(); // Evitar más procesamiento de este evento
-                    int clickedRow = budgetPreviewingTable.getSelectedRow();
-                    budgetCreatePresenter.onPreviewTableDoubleClickedRow(clickedRow);
-                }
-            }
-        });
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

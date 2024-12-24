@@ -454,44 +454,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
     }
 
-
-    public void onPreviewTableDoubleClickedRow(int clickedRow) {
-        String productWidthMeasures = "";
-        String productHeightMeasures = "";
-        String productObservations = "";
-        String productName = "";
-        int multiplierIndex = 0;
-        int productAmount = 0;
-        int productID = -1;
-        Object productNameObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 1);
-        Object productObservationsObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 4);
-        Object productMeasuresObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 3);
-        Object productAmountObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 2);
-
-        if (clickedRow != -1 && clickedRow != 0) {
-            System.out.println("EDITANDO REY");
-            editingProduct = true;
-            JTable productTable = budgetCreateView.getProductsResultTable();
-            productTable.clearSelection();
-            budgetCreateView.getPreviewTable().setEnabled(false);
-
-            multiplierIndex = ((String) productMeasuresObject).indexOf('x');
-            productName = (String) productNameObject;
-            productAmount = Integer.parseInt((String) productAmountObject);
-            productWidthMeasures = ((String) productMeasuresObject).substring(0, multiplierIndex - 2);
-            productHeightMeasures = ((String) productMeasuresObject).substring(multiplierIndex + 2);
-            productObservations = (String) productObservationsObject;
-            productID = productModel.getProductID(productName);
-
-            editedProduct = productModel.getOneProduct(productID);
-        }
-
-        budgetCreateView.setAmountTextField(productAmount);
-        budgetCreateView.setWidthMeasureTextField(productWidthMeasures);
-        budgetCreateView.setHeightMeasureTextField(productHeightMeasures);
-        budgetCreateView.setObservationsTextField(productObservations);
-    }
-
     public void onDeleteProductButtonClicked() {
         budgetCreateView.getProductsResultTable().clearSelection();
         int selectedRow = budgetCreateView.getPreviewTableSelectedRow();
