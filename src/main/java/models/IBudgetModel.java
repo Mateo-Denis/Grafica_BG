@@ -20,7 +20,7 @@ public interface IBudgetModel {
     int getClientID(String clientName, String clientType);
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
     int getNextBudgetNumber();
-    void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);
+    void saveProducts(int budgetID, ArrayList<Integer> productAmounts, ArrayList<String> productNames, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);
     int getBudgetID(int budgetNumber, String budgetName);
     ArrayList<String> getCitiesName();
     ArrayList<Budget> getLastBudgetsQuery();

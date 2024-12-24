@@ -91,11 +91,8 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void deleteOneBudget() {
         int budgetID = getOneBudgetID();
-        System.out.println("Budget ID: " + budgetID);
         int budgetNumber = budgetSearchView.getSelectedBudgetNumber();
-        System.out.println("Budget Number: " + budgetNumber);
         String budgetName = budgetSearchView.getSelectedBudgetName();
-        System.out.println("Budget Name: " + budgetName);
 
         if (budgetNumber != 0 && budgetID != -1 && budgetID != 0) {
             budgetModel.deleteOneBudget(budgetID);

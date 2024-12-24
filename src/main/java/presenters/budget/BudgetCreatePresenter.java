@@ -219,12 +219,11 @@ public class BudgetCreatePresenter extends StandardPresenter {
         int budgetNumber = budgetModel.getNextBudgetNumber(); // BUDGET NUMBER
         int budgetID = -1;
 
-        List<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
+        ArrayList<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
         ArrayList<Double> productsPrices = new ArrayList<>(); // PRODUCTS PRICE LIST
-        List<Integer> productsAmount = new ArrayList<>(); // PRODUCTS AMOUNT LIST
+        ArrayList<Integer> productsAmount = new ArrayList<>(); // PRODUCTS AMOUNT LIST
         ArrayList<String> productsMeasures = new ArrayList<>(); // PRODUCTS MEASURE LIST
         ArrayList<String> productsObservations = new ArrayList<>(); // PRODUCTS OBSERVATIONS LIST
-        Multimap<Integer, String> products = ArrayListMultimap.create(); // PRODUCTS MULTIMAP
 
         // LOOP THROUGH BUDGET DATA
 
@@ -232,34 +231,24 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
             for (int i = 0; i < budgetData.size(); i++) {
                 if (i == 0) {
-                    budgetClientName = budgetData.get(i)[0]; // SET BUDGET CLIENT NAME TO BUDGET DATA AT I, 0
-                    budgetClientType = budgetData.get(i)[1]; // SET BUDGET CLIENT TYPE TO BUDGET DATA AT I, 6
+                    budgetClientName = budgetData.get(i)[0];
+                    budgetClientType = budgetData.get(i)[1];
                 } else {
-                    productsName.add(budgetData.get(i)[0]); // ADD BUDGET DATA AT I, 0 TO PRODUCTS NAME LIST
-                    productsAmount.add(Integer.parseInt(budgetData.get(i)[1])); // ADD BUDGET DATA AT I, 2 TO PRODUCTS AMOUNT LIST
-                    productsMeasures.add(budgetData.get(i)[2]); // ADD BUDGET DATA AT I, 3 TO PRODUCTS MEASURE LIST
-                    productsObservations.add(budgetData.get(i)[3]); // ADD BUDGET DATA AT I, 4 TO PRODUCTS OBSERVATIONS LIST
-
-                    if (budgetData.get(i)[4].isEmpty()) { // IF BUDGET DATA AT I, 5 IS EMPTY (PRICE)
-                        productsPrices.add(0.0); // ADD 0.0 TO PRODUCTS PRICE LIST
-                    } else {
-                        productsPrices.add(Double.parseDouble(budgetData.get(i)[4])); // ADD BUDGET DATA AT I, 1 TO PRODUCTS PRICE LIST
-                    }
+                    productsName.add(budgetData.get(i)[0]);
+                    productsAmount.add(Integer.parseInt(budgetData.get(i)[1]));
+                    productsMeasures.add(budgetData.get(i)[2]);
+                    productsObservations.add(budgetData.get(i)[3]);
+                    productsPrices.add(Double.parseDouble(budgetData.get(i)[4]));
                 }
-            }
-
-            // LOOP THROUGH PRODUCTS NAME
-            for (int i = 0; i < productsName.size(); i++) {
-                products.put(productsAmount.get(i), productsName.get(i)); // PUT I, PRODUCTS NAME AT I
             }
 
             // CREATE BUDGET
             budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber);
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
 
-            //INSERT THE PRODUCTS INTO THE BUDGET_PRODUCTS TABLE
+
             budgetID = budgetModel.getBudgetID(budgetNumber, budgetClientName);
-            budgetModel.saveProducts(budgetID, products, productsObservations, productsMeasures, productsPrices);
+            budgetModel.saveProducts(budgetID, productsAmount, productsName, productsObservations, productsMeasures, productsPrices);
 
             //PDF CREATION
             client = GetOneClientByID(budgetClientName, budgetClientType);
@@ -270,7 +259,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             budgetCreateView.restartWindow(); // RESTART WINDOW
             budgetCreateView.getWindowFrame().dispose(); // CLOSE WINDOW
 
-        } else{
+        } else {
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_FAILURE);
         }
 
@@ -280,8 +269,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber) {
         try {
-            if(!client.isClient()){
-                globalBudgetTotalPrice*=1.25;
+            if (!client.isClient()) {
+                globalBudgetTotalPrice *= 1.25;
             }
             pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
@@ -313,14 +302,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return totalPrice;
     }
 
-    public boolean CheckMeasureFieldsAreEnabled()
-    {
+    public boolean CheckMeasureFieldsAreEnabled() {
         JTextField widthMeasureTextField = budgetCreateView.getWidthMeasureTextField();
         JTextField heightMeasureTextField = budgetCreateView.getHeightMeasureTextField();
         boolean areUnlocked = false;
 
-        if(widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled())
-        {
+        if (widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled()) {
             areUnlocked = true;
         }
 
@@ -345,11 +332,11 @@ public class BudgetCreatePresenter extends StandardPresenter {
             productAmountStr = "1";
         }
 
-        if(unlockedMeasures){
-            if(productHeightMeasures.isEmpty()){
+        if (unlockedMeasures) {
+            if (productHeightMeasures.isEmpty()) {
                 productHeightMeasures = "1";
             }
-            if(productWidthMeasures.isEmpty()){
+            if (productWidthMeasures.isEmpty()) {
                 productWidthMeasures = "1";
             }
             int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
@@ -373,8 +360,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
         if (!editingProduct) {
             updateTextArea(true, totalItemsPrice);
-            System.out.println("ONEITEMPRODUCTPRICE: " + oneItemProductPrice +" TOTALITEMSPRICE: " + totalItemsPrice +
-                   " PRODUCT AMOUNT: " + productAmountStr +  "GLOBAL PRICE: " + globalBudgetTotalPrice);
         }
     }
 
@@ -447,29 +432,23 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
     private void EditProduct(Product product, int selectedRow) {
-        System.out.println("GLOBAL PRICE: " + globalBudgetTotalPrice);
-
         int initialProductAmount = Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 2));
         double initialProductPrice = Double.parseDouble(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 5));
         double removePrice = initialProductAmount * initialProductPrice;
-        System.out.println("REMOVE PRICE: " + removePrice);
 
         AddProductToPreviewTable(product, selectedRow);
 
         int finalProductAmount = Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 2));
         double finalProductPrice = Double.parseDouble(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 5));
         double addingPrice = finalProductAmount * finalProductPrice;
-        System.out.println("ADDING PRICE: " + addingPrice);
 
         double finalPriceEdit = addingPrice - removePrice;
-        System.out.println("FINAL PRICE EDIT: " + finalPriceEdit);
 
         if (finalPriceEdit != 0) {
             if (finalPriceEdit > 0) {
                 updateTextArea(true, finalPriceEdit);
             } else {
                 finalPriceEdit = finalPriceEdit * -1;
-                System.out.println("FINAL FINAL PRICE EDIT: " + finalPriceEdit);
                 updateTextArea(false, finalPriceEdit);
             }
         }
@@ -490,7 +469,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         Object productAmountObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 2);
 
         if (clickedRow != -1 && clickedRow != 0) {
-            System.out.println("SE ACTIVO EL BOOLEAN DE EDITANDO PRODUCTO.");
             editingProduct = true;
             JTable productTable = budgetCreateView.getProductsResultTable();
             productTable.clearSelection();
@@ -526,8 +504,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
                 productsRowCountOnPreviewTable--;
                 updateTextArea(false, totalSelectedPrice);
-                System.out.println("TOTAL SELECTED PRICE: " + totalSelectedPrice);
-                System.out.println("GLOBAL PRICE: " + globalBudgetTotalPrice);
             }
         }
     }

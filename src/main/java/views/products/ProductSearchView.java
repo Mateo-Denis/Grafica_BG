@@ -118,7 +118,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         }
 
         deselectAllRows();
-        System.out.println("LLAMADA A METODO getSelectedProductName");
 
         return null;
     }

@@ -1,6 +1,5 @@
 package presenters.budget;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import presenters.StandardPresenter;
 
@@ -286,29 +285,24 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     private void EditProduct(Product product, int selectedRow)
     {
-        System.out.println("GLOBAL PRICE: " + globalBudgetTotalPrice);
 
         int initialProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
         double initialProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
         double removePrice = initialProductAmount * initialProductPrice;
-        System.out.println("REMOVE PRICE: " + removePrice);
 
         AddProductToPreviewTable(product, selectedRow);
 
         int finalProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
         double finalProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
         double addingPrice = finalProductAmount * finalProductPrice;
-        System.out.println("ADDING PRICE: " + addingPrice);
 
         double finalPriceEdit = addingPrice - removePrice;
-        System.out.println("FINAL PRICE EDIT: " + finalPriceEdit);
 
         if (finalPriceEdit != 0) {
             if (finalPriceEdit > 0) {
                 updateTextArea(true, false, finalPriceEdit);
             } else {
                 finalPriceEdit = finalPriceEdit * -1;
-                System.out.println("FINAL FINAL PRICE EDIT: " + finalPriceEdit);
                 updateTextArea(false, false, finalPriceEdit);
             }
         }
@@ -329,7 +323,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
         Object productAmountObject = budgetModifyView.getPreviewTable().getValueAt(clickedRow, 2);
 
         if (clickedRow != -1 && clickedRow != 0) {
-            System.out.println("SE ACTIVO EL BOOLEAN DE EDITANDO PRODUCTO.");
             editingProduct = true;
             JTable productTable = budgetModifyView.getProductsResultTable();
             productTable.clearSelection();
@@ -429,10 +422,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
         ArrayList<String> productMeasures = getProductsMeasures(budgetNumber, budgetClientName);
         ArrayList<String> productObservations = getProductObservations(budgetNumber, budgetClientName);
         ArrayList<Double> productPrices = getProductPrices(budgetNumber, budgetClientName);
-        Multimap<Integer, String> products = budgetModifyModel.getSavedProducts(budgetNumber, budgetClientName);
+        ArrayList<String> productNames = budgetModifyModel.getSavedProductNames(budgetNumber, budgetClientName);
+        ArrayList<Integer> productAmounts = budgetModifyModel.getSavedProductAmounts(budgetNumber, budgetClientName);
 
         globalBudgetTotalPrice = 0.0;
-        setModifyView(products, productObservations, productMeasures, budgetNumber, productPrices);
+        setModifyView(productNames, productAmounts, productObservations, productMeasures, budgetNumber, productPrices);
         updateTextArea(true, true, globalBudgetTotalPrice);
 
 
@@ -440,22 +434,13 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setWaitingStatus();
     }
 
-    public double GetBudgetTotalPrice(Multimap<Integer, String> products) {
+    public double GetBudgetTotalPrice(ArrayList<String> productNames, ArrayList<Integer> productAmounts) {
         ArrayList<Double> prices = getProductPrices(globalBudgetNumber, oldClientName);
-        ArrayList<String> productNames = new ArrayList<>();
-        ArrayList<String> productAmounts = new ArrayList<>();
         double totalPrice = 0.0;
         int productIndex = 0;
 
-        for (Map.Entry<Integer, String> entry : products.entries()) {
-            productNames.add(entry.getValue());
-            productAmounts.add(Integer.toString(entry.getKey()));
-            System.out.println("PRODUCT NAME: " + entry.getValue());
-            System.out.println("PRODUCT AMOUNT: " + entry.getKey());
-        }
-
-        for (int row = 1; row <= products.size(); row++) {
-            String productAmount = productAmounts.get(productIndex);
+        for (int row = 1; row <= productNames.size(); row++) {
+            String productAmount = String.valueOf(productAmounts.get(productIndex));
             double productPrice = prices.get(productIndex) * Integer.parseInt(productAmount);
             totalPrice += productPrice;
             productIndex++;
@@ -476,9 +461,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return budgetModifyModel.getProductMeasures(budgetNumber, budgetName);
     }
 
-    public void SetProductsInPreviewTable(ArrayList<Double> prices, Multimap<Integer, String> products, ArrayList<String> measures, ArrayList<String> observations) {
-        ArrayList<String> productNames = new ArrayList<>();
-        ArrayList<String> productAmounts = new ArrayList<>();
+    public void SetProductsInPreviewTable(ArrayList<Double> prices, ArrayList<String> productNames, ArrayList<Integer> productAmounts, ArrayList<String> measures, ArrayList<String> observations) {
 
         String productName = "";
         String productMeasure = "";
@@ -487,15 +470,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
         double productPrice = 0.0;
         int productIndex = 0;
 
-        for (Map.Entry<Integer, String> entry : products.entries()) {
-            productNames.add(entry.getValue());
-            productAmounts.add(Integer.toString(entry.getKey()));
-        }
-
-        for (int row = 1; row <= products.size(); row++) {
+        for (int row = 1; row <= productNames.size(); row++) {
 
             productName = productNames.get(productIndex);
-            productAmount = productAmounts.get(productIndex);
+            productAmount = String.valueOf(productAmounts.get(productIndex));
             productMeasure = measures.get(productIndex);
             productObservation = observations.get(productIndex);
             productPrice = prices.get(productIndex);
@@ -516,15 +494,15 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    public void setModifyView(Multimap<Integer, String> products, ArrayList<String> observations, ArrayList<String> measures, int budgetNumber, ArrayList<Double> prices) {
+    public void setModifyView(ArrayList<String> productNames, ArrayList<Integer> productAmounts, ArrayList<String> observations, ArrayList<String> measures, int budgetNumber, ArrayList<Double> prices) {
         ArrayList<String> budgetData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
         int budgetID = Integer.parseInt(budgetData.get(0));
         String budgetclientName = budgetData.get(1);
         String budgetDate = budgetData.get(2);
         String budgetClientType = budgetData.get(3);
         SetClientInPreviewTable(budgetclientName, budgetClientType);
-        SetProductsInPreviewTable(prices, products, measures, observations);
-        globalBudgetTotalPrice = GetBudgetTotalPrice(products);
+        SetProductsInPreviewTable(prices, productNames, productAmounts, measures, observations);
+        globalBudgetTotalPrice = GetBudgetTotalPrice(productNames, productAmounts);
     }
 
 
@@ -542,7 +520,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         String measuresObservations = "";
         Double productPrice = 0.0;
 
-        Multimap<Integer, String> products = ArrayListMultimap.create();
+        ArrayList<String> productNames = new ArrayList<>();
+        ArrayList<Integer> productAmounts = new ArrayList<>();
         ArrayList<String> productObservations = new ArrayList<>();
         ArrayList<String> productMeasures = new ArrayList<>();
         ArrayList<Double> productPrices = new ArrayList<>();
@@ -559,7 +538,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 productPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(row, 5));
 
 
-                products.put(productAmount, productName);
+                productNames.add(productName);
+                productAmounts.add(productAmount);
                 productObservations.add(productObservation);
                 productMeasures.add(productMeasure);
                 productPrices.add(productPrice);
@@ -570,7 +550,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModel.createBudget(newClientName, date, newClientType, globalBudgetNumber);
 
             newBudgetID = budgetModel.getMaxBudgetID();
-            budgetModel.saveProducts(newBudgetID, products, productObservations, productMeasures, productPrices);
+            budgetModel.saveProducts(newBudgetID, productAmounts, productNames, productObservations, productMeasures, productPrices);
             budgetModel.deleteBudgetProducts(oldClientName, oldBudgetID, globalBudgetNumber);
 
             if(editingProduct)
@@ -597,10 +577,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         if (!start) {
             if (adding) {
-                System.out.println("ADDING PRICE: " + productPrice);
                 globalBudgetTotalPrice += productPrice;
             } else {
-                System.out.println("REMOVING PRICE: " + productPrice);
                 globalBudgetTotalPrice -= productPrice;
             }
         }

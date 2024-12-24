@@ -156,43 +156,49 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         conn.close();
     }
 
-    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> productObservations,
+    public void saveProducts(int budgetID, ArrayList<Integer> productAmounts, ArrayList<String> productNames, ArrayList<String> productObservations,
                              ArrayList<String> productMeasures, ArrayList<Double> productPrices) throws SQLException {
-        int observationsIndex = 0;
-        int measuresIndex = 0;
-        int priceIndex = 0;
-
-        System.out.println("PRODUCTOS A INSERTAR: (METODO DEL BUDGETSDBCONNECTION CLASS)");
-        for(Map.Entry<Integer, String> entry : products.entries()){
-            System.out.println("Cantidad: " + entry.getKey() + " Producto: " + entry.getValue());
-        }
-
+        int iterableIndex = 0;
 
         String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS, PRECIO) VALUES(?, ?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
-        for (Map.Entry<Integer, String> entry : products.entries()) {
-            String productName = entry.getValue();
-            int productID = productsDBConnection.getProductID(productName);
-            int productAmount = entry.getKey();
+
+        for (String prodName : productNames) {
+            int productID = productsDBConnection.getProductID(prodName);
             pstmt.setInt(1, budgetID);
             pstmt.setInt(2, productID);
-            pstmt.setInt(3, productAmount);
-            pstmt.setString(4, productObservations.get(observationsIndex));
-            pstmt.setString(5, productMeasures.get(measuresIndex));
-            pstmt.setDouble(6, productPrices.get(priceIndex));
+            pstmt.setInt(3, productAmounts.get(iterableIndex));
+            pstmt.setString(4, productObservations.get(iterableIndex));
+            pstmt.setString(5, productMeasures.get(iterableIndex));
+            pstmt.setDouble(6, productPrices.get(iterableIndex));
 
             pstmt.executeUpdate();
-            observationsIndex++;
-            measuresIndex++;
-            priceIndex++;
+            iterableIndex++;
         }
         pstmt.close();
         conn.close();
     }
 
-    public Multimap<Integer,String> getSavedProducts(String budgetName, int budgetNumber) throws SQLException {
-        Multimap<Integer,String> products = ArrayListMultimap.create();
+    public ArrayList<Integer> getSavedProductAmounts(String budgetName, int budgetNumber) throws SQLException {
+        ArrayList<Integer> productAmounts = new ArrayList<>();
+        String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        int budgetID = getBudgetID(budgetName, budgetNumber);
+        pstmt.setInt(1, budgetID);
+        ResultSet resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            int productAmount = resultSet.getInt("CANTIDAD");
+            productAmounts.add(productAmount);
+        }
+        pstmt.close();
+        conn.close();
+        return productAmounts;
+    }
+
+    public ArrayList<String> getSavedProductNames(String budgetName, int budgetNumber) throws SQLException {
+        ArrayList<String> productNames = new ArrayList<>();
         String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -201,13 +207,12 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         ResultSet resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
             Product product = productsDBConnection.getOneProduct(resultSet.getInt("ID_PRODUCTO"));
-            int productAmount = resultSet.getInt("CANTIDAD");
             String productName = product.getName();
-            products.put(productAmount, productName);
+            productNames.add(productName);
         }
         pstmt.close();
         conn.close();
-        return products;
+        return productNames;
     }
 
     public ArrayList<String> getProductObservations(String budgetName, int budgetNumber) throws SQLException {

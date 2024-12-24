@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import utils.databases.BudgetsDatabaseConnection;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BudgetModifyModel implements IBudgetModifyModel {
@@ -52,13 +53,22 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         return new ArrayList<>();
     }
 
-    public Multimap<Integer,String> getSavedProducts(int budgetNumber, String budgetName) {
+    public ArrayList<String> getSavedProductNames(int budgetNumber, String budgetName) {
         try {
-            return budgetsDBConnection.getSavedProducts(budgetName, budgetNumber);
+            return budgetsDBConnection.getSavedProductNames(budgetName, budgetNumber);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ArrayListMultimap.create();
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Integer> getSavedProductAmounts(int budgetNumber, String budgetName) {
+        try {
+            return budgetsDBConnection.getSavedProductAmounts(budgetName, budgetNumber);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     public ArrayList<String> getSelectedBudgetData(int budgetNumber) {

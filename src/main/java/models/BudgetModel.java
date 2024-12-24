@@ -2,7 +2,6 @@ package models;
 
 import java.util.*;
 
-import com.google.common.collect.Multimap;
 import models.listeners.failed.*;
 import models.listeners.successful.*;
 import utils.Budget;
@@ -159,9 +158,9 @@ public class BudgetModel implements IBudgetModel {
 
 
     //SAVE BUDGET PRODUCTS ON BUDGET_PRODUCTS TABLE:
-    public void saveProducts(int budgetID, Multimap<Integer,String> products, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices) {
+    public void saveProducts(int budgetID, ArrayList<Integer> productAmounts, ArrayList<String> productNames, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices) {
         try {
-            budgetsDBConnection.saveProducts(budgetID, products, observations, productMeasures, productPrices);
+            budgetsDBConnection.saveProducts(budgetID, productAmounts, productNames, observations, productMeasures, productPrices);
         } catch (Exception e) {
             e.printStackTrace();
         }
