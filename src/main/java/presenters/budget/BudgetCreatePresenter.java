@@ -5,8 +5,6 @@ package presenters.budget;
 import PdfFormater.IPdfConverter;
 import PdfFormater.PdfConverter;
 import PdfFormater.Row;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import models.*;
 import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
@@ -17,7 +15,6 @@ import utils.Client;
 import utils.Product;
 
 //IMPORTS FROM VIEWS PACKAGE
-import utils.databases.SettingsTableNames;
 import views.budget.IBudgetCreateView;
 
 //IMPORTS FROM MODELS PACKAGE
@@ -227,7 +224,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String budgetDate = budgetCreateView.getBudgetDate(); // BUDGET DATE
         int budgetNumber = budgetModel.getNextBudgetNumber(); // BUDGET NUMBER
         int budgetID = -1;
-        float recharge = 1;
+        double recharge = 1;
 
 
         ArrayList<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
@@ -251,9 +248,11 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     productsObservations.add(budgetData.get(i)[3]);
 
                     if(budgetClientType.equals("Particular")) {
-                        recharge = Float.parseFloat(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
+						recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
                     }
-                    productsPrices.add(recharge * Double.parseDouble(budgetData.get(i)[4]));
+                    double toAdd = recharge * Double.parseDouble(budgetData.get(i)[4]);
+                    System.out.println(toAdd);
+                    productsPrices.add(toAdd);
                 }
             }
 
@@ -270,7 +269,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
             //PDF CREATION
             client = GetOneClientByID(budgetClientName, budgetClientType);
-            tableContent = GetAllProductsFromPreviewTable();
+            tableContent = getAllProductsFromPreviewTable(client.isClient(), recharge);
             GeneratePDF(client, tableContent, budgetNumber);
 
 
@@ -395,7 +394,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return productRowData;
     }
 
-    public ArrayList<Row> GetAllProductsFromPreviewTable() {
+    public ArrayList<Row> getAllProductsFromPreviewTable(boolean isParticular, double recharge) {
         ArrayList<Row> productRowData = new ArrayList<>();
         List<String> oneProduct;
 
@@ -407,7 +406,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = product.calculateRealTimePrice();
+            productPrice = isParticular ? product.calculateRealTimePrice() : product.calculateRealTimePrice() * recharge;
             totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);

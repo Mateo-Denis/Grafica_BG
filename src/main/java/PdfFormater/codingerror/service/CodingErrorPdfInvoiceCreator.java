@@ -70,12 +70,12 @@ public class CodingErrorPdfInvoiceCreator {
     public void createProduct(List<Product> productList, double totalPrice) {
         Table productsTable = new Table(threeColumnWidth);
 
-        productsTable.addCell(new Cell().add(new Paragraph("Nombre")).setBold().setFontColor(DeviceGray.WHITE).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Cantidad")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Observaciones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Dimensiones")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Precio")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Total")).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Nombre")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Cantidad")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Observaciones")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Dimensiones")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Precio")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Total")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.RIGHT).setBackgroundColor(DeviceGray.BLACK, 0.7f));
         for (Product product:productList)
         {
             productsTable.addCell(new Cell().add(new Paragraph(product.getPname().orElse(""))).setBorder(Border.NO_BORDER));
