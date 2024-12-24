@@ -29,12 +29,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final IBudgetModifyModel budgetModifyModel;
 
     private int productsRowCountOnPreviewTable = -1;
-    private boolean editingProduct = false;
     private int globalClientID = -1;
     private int globalBudgetNumber = -1;
     private String oldClientName = "";
     private double globalBudgetTotalPrice = 0.0;
-    private Product editedProduct;
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel) {
@@ -191,14 +189,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    public void FinishProductEditingOnPreviewTable() {
-        editingProduct = false;
-        editedProduct = null;
-        budgetModifyView.getPreviewTable().clearSelection();
-        budgetModifyView.getPreviewTable().setEnabled(true);
-    }
-
-
     public void AddProductToPreviewTable(Product product, int row) {
 
         String productName = product.getName();
@@ -215,11 +205,11 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productAmountStr = "1";
         }
 
-        if(unlockedMeasures){
-            if(productHeightMeasures.isEmpty()){
+        if (unlockedMeasures) {
+            if (productHeightMeasures.isEmpty()) {
                 productHeightMeasures = "1";
             }
-            if(productWidthMeasures.isEmpty()){
+            if (productWidthMeasures.isEmpty()) {
                 productWidthMeasures = "1";
             }
             int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
@@ -239,9 +229,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
         budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(settingPrice)); //INSERTA EN LA COLUMNA DE PRECIO
-
-        if(!editingProduct)
-        {updateTextArea(true, false, totalItemsPrice);}
+        updateTextArea(true, false, totalItemsPrice);
     }
 
 
@@ -271,43 +259,12 @@ public class BudgetModifyPresenter extends StandardPresenter {
         int selectedPreviewRow = budgetModifyView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
         if (selectedProductRow != -1) {
-            if(!editingProduct){
-                product = GetSelectedProductFromProductsTable();
-                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
-                productsRowCountOnPreviewTable++;
-            }
-        } else {
-            EditProduct(editedProduct, selectedPreviewRow);
-            FinishProductEditingOnPreviewTable();
+            product = GetSelectedProductFromProductsTable();
+            AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
+            productsRowCountOnPreviewTable++;
         }
 
     }
-
-    private void EditProduct(Product product, int selectedRow)
-    {
-
-        int initialProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
-        double initialProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
-        double removePrice = initialProductAmount * initialProductPrice;
-
-        AddProductToPreviewTable(product, selectedRow);
-
-        int finalProductAmount = Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 2));
-        double finalProductPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(selectedRow, 5));
-        double addingPrice = finalProductAmount * finalProductPrice;
-
-        double finalPriceEdit = addingPrice - removePrice;
-
-        if (finalPriceEdit != 0) {
-            if (finalPriceEdit > 0) {
-                updateTextArea(true, false, finalPriceEdit);
-            } else {
-                finalPriceEdit = finalPriceEdit * -1;
-                updateTextArea(false, false, finalPriceEdit);
-            }
-        }
-    }
-
 
     public void onDeleteProductButtonClicked() {
         budgetModifyView.getProductsResultTable().clearSelection();
@@ -335,14 +292,12 @@ public class BudgetModifyPresenter extends StandardPresenter {
         return totalPrice;
     }
 
-    public boolean CheckMeasureFieldsAreEnabled()
-    {
+    public boolean CheckMeasureFieldsAreEnabled() {
         JTextField widthMeasureTextField = budgetModifyView.getWidthMeasureTextField();
         JTextField heightMeasureTextField = budgetModifyView.getHeightMeasureTextField();
         boolean areUnlocked = false;
 
-        if(widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled())
-        {
+        if (widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled()) {
             areUnlocked = true;
         }
 
@@ -374,8 +329,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
         globalBudgetNumber = budgetNumber;
-        editingProduct = false;
-        editedProduct = null;
         oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
         budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
         ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
@@ -511,15 +464,14 @@ public class BudgetModifyPresenter extends StandardPresenter {
             oldBudgetID = budgetModel.getBudgetID(globalBudgetNumber, oldClientName);
             budgetModel.deleteOneBudget(oldBudgetID);
 
-            if(newClientType.equals("Particular")){globalBudgetTotalPrice*=1.25;}
+            if (newClientType.equals("Particular")) {
+                globalBudgetTotalPrice *= 1.25;
+            }
             budgetModel.createBudget(newClientName, date, newClientType, globalBudgetNumber, globalBudgetTotalPrice);
 
             newBudgetID = budgetModel.getMaxBudgetID();
             budgetModel.saveProducts(newBudgetID, productAmounts, productNames, productObservations, productMeasures, productPrices);
             budgetModel.deleteBudgetProducts(oldBudgetID);
-
-            if(editingProduct)
-            {FinishProductEditingOnPreviewTable();}
 
             budgetModifyView.showMessage(MessageTypes.BUDGET_MODIFY_SUCCESS);
 

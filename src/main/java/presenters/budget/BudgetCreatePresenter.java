@@ -42,16 +42,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
     double globalBudgetTotalPrice = 0.0;
     private ArrayList<Client> globalClientsList;
     private int globalClientID = -1;
-    private int productsRowCountOnPreviewTable = 0; // ROW COUNT ON PREVIEW TABLE
-
-    private boolean editingProduct = false;
-    private Product editedProduct;
+    private int productsRowCountOnPreviewTable = 0;
 
     public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
-								 ICategoryModel categoryModel, ISettingsModel settingsModel) {
+                                 ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.budgetCreateView = budgetCreateView;
-		this.settingsModel = settingsModel;
-		view = budgetCreateView;
+        this.settingsModel = settingsModel;
+        view = budgetCreateView;
         this.budgetModel = budgetModel;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
@@ -88,8 +85,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         globalClientID = -1;
         productsRowCountOnPreviewTable = 0;
         globalBudgetTotalPrice = 0.0;
-        editedProduct = null;
-        editingProduct = false;
         budgetCreateView.getWidthMeasureTextField().setEnabled(false);
         budgetCreateView.getHeightMeasureTextField().setEnabled(false);
         budgetCreateView.showView();
@@ -213,7 +208,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
     public void onCreateButtonClicked() {
 
 
-
         List<String[]> budgetData = budgetCreateView.getPreviewTableFilledRowsData();
         Client client;
         ArrayList<Row> tableContent = new ArrayList<>();
@@ -247,8 +241,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     productsMeasures.add(budgetData.get(i)[2]);
                     productsObservations.add(budgetData.get(i)[3]);
 
-                    if(budgetClientType.equals("Particular")) {
-						recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
+                    if (budgetClientType.equals("Particular")) {
+                        recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
                     }
                     double toAdd = recharge * Double.parseDouble(budgetData.get(i)[4]);
                     System.out.println(toAdd);
@@ -371,10 +365,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetCreateView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
         budgetCreateView.setPreviewStringTableValueAt(row, 5, String.valueOf(settingPrice)); //INSERTA EN LA COLUMNA DE PRECIO
+        updateTextArea(true, totalItemsPrice);
 
-        if (!editingProduct) {
-            updateTextArea(true, totalItemsPrice);
-        }
     }
 
 
@@ -426,45 +418,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         int selectedPreviewRow = budgetCreateView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
         if (selectedProductRow != -1) {
-            if (!editingProduct) {
-                product = GetSelectedProductFromProductsTable();
-                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
-                productsRowCountOnPreviewTable++;
-            }
-        } else {
-            EditProduct(editedProduct, selectedPreviewRow);
-            FinishProductEditingOnPreviewTable();
-        }
-
-    }
-
-    public void FinishProductEditingOnPreviewTable() {
-        editingProduct = false;
-        editedProduct = null;
-        budgetCreateView.getPreviewTable().clearSelection();
-        budgetCreateView.getPreviewTable().setEnabled(true);
-    }
-
-    private void EditProduct(Product product, int selectedRow) {
-        int initialProductAmount = Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 2));
-        double initialProductPrice = Double.parseDouble(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 5));
-        double removePrice = initialProductAmount * initialProductPrice;
-
-        AddProductToPreviewTable(product, selectedRow);
-
-        int finalProductAmount = Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 2));
-        double finalProductPrice = Double.parseDouble(budgetCreateView.getPreviewStringTableValueAt(selectedRow, 5));
-        double addingPrice = finalProductAmount * finalProductPrice;
-
-        double finalPriceEdit = addingPrice - removePrice;
-
-        if (finalPriceEdit != 0) {
-            if (finalPriceEdit > 0) {
-                updateTextArea(true, finalPriceEdit);
-            } else {
-                finalPriceEdit = finalPriceEdit * -1;
-                updateTextArea(false, finalPriceEdit);
-            }
+            product = GetSelectedProductFromProductsTable();
+            AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
+            productsRowCountOnPreviewTable++;
         }
     }
 
