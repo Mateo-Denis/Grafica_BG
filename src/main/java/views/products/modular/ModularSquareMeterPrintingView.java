@@ -81,6 +81,19 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
                 }
             });
         }
+
+        UVRadioButton.addActionListener(e -> swapInk(true));
+        ecosolventeRadioButton.addActionListener(e -> swapInk(false));
+    }
+    private void swapInk(boolean isUV){
+        if(isUV){
+            System.out.println("UV");
+            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
+        } else {
+            System.out.println("Eco");
+            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");
+        }
+        inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
 
     @Override
