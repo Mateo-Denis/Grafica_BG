@@ -458,7 +458,9 @@
       <component id="c88b7" class="javax.swing.JTextArea" binding="priceTextArea">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="150" height="50"/>
             <preferred-size width="150" height="50"/>
+            <maximum-size width="150" height="50"/>
           </grid>
         </constraints>
         <properties>

@@ -12,7 +12,7 @@ public class BudgetProductsDatabaseConnection  extends DatabaseConnection{
                 "ID_PRESUPUESTO INT NOT NULL," +
                 "ID_PRODUCTO INT NOT NULL," +
                 "CANTIDAD INT NOT NULL, OBSERVACIONES TEXT NOT NULL, MEDIDAS TEXT NOT NULL, PRECIO double not null," +
-                "FOREIGN KEY (ID_PRESUPUESTO) REFERENCES PRESUPUESTOS(ID)," +
+                "FOREIGN KEY (ID_PRESUPUESTO) REFERENCES PRESUPUESTOS(ID) ON DELETE CASCADE," +
                 "FOREIGN KEY (ID_PRODUCTO) REFERENCES PRODUCTOS(ID)" +
                 ");";
         try (Statement stmt = connection.createStatement()) {

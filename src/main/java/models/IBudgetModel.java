@@ -27,7 +27,7 @@ public interface IBudgetModel {
     ArrayList<Budget> getLastBudgetsQuery();
     void queryBudgets(String budgetSearch);
     void deleteOneBudget(int budgetID);
-    void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber);
+    void deleteBudgetProducts(int budgetID);
     int getMaxBudgetID();
 
 }

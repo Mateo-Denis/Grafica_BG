@@ -516,7 +516,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
             newBudgetID = budgetModel.getMaxBudgetID();
             budgetModel.saveProducts(newBudgetID, productAmounts, productNames, productObservations, productMeasures, productPrices);
-            budgetModel.deleteBudgetProducts(oldClientName, oldBudgetID, globalBudgetNumber);
+            budgetModel.deleteBudgetProducts(oldBudgetID);
 
             if(editingProduct)
             {FinishProductEditingOnPreviewTable();}

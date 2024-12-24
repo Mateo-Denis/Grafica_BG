@@ -3,9 +3,7 @@ package utils.databases;
 import utils.Budget;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Map;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+
 import utils.Product;
 
 public class BudgetsDatabaseConnection extends DatabaseConnection{
@@ -296,7 +294,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
-    public void deleteBudgetProducts(String budgetName, int budgetID, int budgetNumber) throws SQLException {
+    public void deleteBudgetProducts(int budgetID) throws SQLException {
         String sql = "DELETE FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
