@@ -510,7 +510,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
             oldBudgetID = budgetModel.getBudgetID(globalBudgetNumber, oldClientName);
             budgetModel.deleteOneBudget(oldBudgetID);
-            budgetModel.createBudget(newClientName, date, newClientType, globalBudgetNumber);
+
+            if(newClientType.equals("Particular")){globalBudgetTotalPrice*=1.25;}
+            budgetModel.createBudget(newClientName, date, newClientType, globalBudgetNumber, globalBudgetTotalPrice);
 
             newBudgetID = budgetModel.getMaxBudgetID();
             budgetModel.saveProducts(newBudgetID, productAmounts, productNames, productObservations, productMeasures, productPrices);

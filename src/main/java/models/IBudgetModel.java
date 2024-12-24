@@ -14,11 +14,12 @@ public interface IBudgetModel {
     void addBudgetSearchSuccessListener(BudgetSearchSuccessListener listener);
     void addBudgetSearchFailureListener(BudgetSearchFailureListener listener);
 
+    double getBudgetTotalPrice(int budgetID);
     Client GetOneClientByID(int clientID);
     ArrayList<Product> getProducts(String productName, String productCategory);
     ArrayList<Client> getClients(String name, String city);
     int getClientID(String clientName, String clientType);
-    void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber);
+    void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber, double finalPrice);
     int getNextBudgetNumber();
     void saveProducts(int budgetID, ArrayList<Integer> productAmounts, ArrayList<String> productNames, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);
     int getBudgetID(int budgetNumber, String budgetName);

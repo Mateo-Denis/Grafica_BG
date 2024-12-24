@@ -243,7 +243,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
             }
 
             // CREATE BUDGET
-            budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber);
+            if(budgetClientType.equals("Particular")) {
+                globalBudgetTotalPrice *= 1.25;
+            }
+            budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber, globalBudgetTotalPrice);
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
 
 
@@ -269,9 +272,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber) {
         try {
-            if (!client.isClient()) {
-                globalBudgetTotalPrice *= 1.25;
-            }
             pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
             e.printStackTrace();

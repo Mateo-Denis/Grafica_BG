@@ -20,7 +20,8 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
                             "Nombre_Cliente TEXT NOT NULL," +
                             "Fecha TEXT NOT NULL," +
                             "Tipo_Cliente TEXT NOT NULL CHECK(Tipo_Cliente IN ('Cliente', 'Particular'))," +
-                            "Numero_presupuesto INTEGER NOT NULL" +
+                            "Numero_presupuesto INTEGER NOT NULL," +
+                            "Precio_Total DOUBLE NOT NULL" +
                             ")";
         try (Statement stmt = connection.createStatement()) {
             stmt.setQueryTimeout(QUERY_TIMEOUT);
@@ -30,8 +31,8 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
-    public void insertBudget(String budgetClientName, String budgetDate, String budgetClientType, int budgetNumber) throws SQLException{
-        String sql = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto) VALUES(?, ?, ?, ?)";
+    public void insertBudget(String budgetClientName, String budgetDate, String budgetClientType, int budgetNumber, double finalPrice) throws SQLException{
+        String sql = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto, Precio_Total) VALUES(?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -39,10 +40,24 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         pstmt.setString(2, budgetDate);
         pstmt.setString(3, budgetClientType);
         pstmt.setInt(4, budgetNumber);
+        pstmt.setDouble(5, finalPrice);
         pstmt.executeUpdate();
 
         pstmt.close();
         conn.close();
+    }
+
+    public double getBudgetTotalPrice(int budgetID){
+        String sql = "SELECT Precio_Total FROM Presupuestos WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, budgetID);
+            ResultSet resultSet = pstmt.executeQuery();
+            return resultSet.getDouble("Precio_Total");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
     }
 
 

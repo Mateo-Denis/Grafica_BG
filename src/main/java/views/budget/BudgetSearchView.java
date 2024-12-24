@@ -3,10 +3,12 @@ package views.budget;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import PdfFormater.Row;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
+import utils.Client;
 import views.ToggleableView;
 
 import java.util.ArrayList;
@@ -71,7 +73,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         searchButton.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
         cleanTableButton.addActionListener(e -> budgetSearchPresenter.onCleanTableButtonClicked());
         budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
-        //pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked());
+        pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked(getSelectedBudgetNumber()));
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
         modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(getSelectedBudgetNumber()));
     }
@@ -88,6 +90,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
 
     public String getSearchText() {
         return searchField.getText();
+    }
+
+    public ArrayList<Row> getBudgetContent() {
+        ArrayList<Row> tableContent = new ArrayList<>();
+        return tableContent;
     }
 
 
@@ -107,6 +114,15 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
             budgetName = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 0);
         }
         return budgetName;
+    }
+
+    public String getSelectedBudgetClientType() {
+        String clientType = "";
+        int selectedRow = getSelectedTableRow();
+        if (selectedRow != -1) {
+            clientType = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 2);
+        }
+        return clientType;
     }
 
     @Override

@@ -136,12 +136,21 @@ public class BudgetModel implements IBudgetModel {
 
     //CREATE BUDGET:
     @Override
-    public void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber) {
+    public void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber, double finalPrice) {
         try {
-            budgetsDBConnection.insertBudget(budgetName, budgetDate, budgetClientType, budgetNumber);
+            budgetsDBConnection.insertBudget(budgetName, budgetDate, budgetClientType, budgetNumber, finalPrice);
         } catch (Exception e) {
             notifyBudgetCreationFailure();
         }
+    }
+
+    public double getBudgetTotalPrice(int budgetID) {
+        try {
+            return budgetsDBConnection.getBudgetTotalPrice(budgetID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 

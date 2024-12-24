@@ -1,9 +1,15 @@
 package presenters.budget;
 
 import static utils.MessageTypes.*;
+
+import PdfFormater.IPdfConverter;
+import PdfFormater.PdfConverter;
+import PdfFormater.Row;
 import models.IBudgetModel;
+import models.IBudgetModifyModel;
 import presenters.StandardPresenter;
 import utils.Budget;
+import utils.Client;
 import views.budget.IBudgetCreateView;
 import views.budget.IBudgetSearchView;
 
@@ -15,14 +21,17 @@ public class BudgetSearchPresenter extends StandardPresenter {
     private final IBudgetSearchView budgetSearchView;
     private final IBudgetModel budgetModel;
     private final IBudgetCreateView budgetCreateView;
+    private final IBudgetModifyModel budgetModifyModel;
     private BudgetCreatePresenter budgetCreatePresenter;
+    private static final IPdfConverter pdfConverter = new PdfConverter();
 
     // CONSTRUCTOR
-    public BudgetSearchPresenter(IBudgetSearchView budgetSearchView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel) {
+    public BudgetSearchPresenter(IBudgetSearchView budgetSearchView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IBudgetModifyModel budgetModifyModel) {
         this.budgetSearchView = budgetSearchView;
         this.budgetCreateView = budgetCreateView;
         view = budgetSearchView;
         this.budgetModel = budgetModel;
+        this.budgetModifyModel = budgetModifyModel;
     }
 
 
@@ -52,8 +61,27 @@ public class BudgetSearchPresenter extends StandardPresenter {
         budgetModel.addBudgetSearchFailureListener(() -> budgetSearchView.showMessage(BUDGET_SEARCH_FAILURE));
     }
 
+    public void onPDFButtonClicked(int budgetNumber) {
+        Client client = getSelectedBudgetClient();
+        ArrayList<String> productNames = getSavedProductNames(budgetNumber, client.getName());
+        ArrayList<Integer> productAmounts = getSavedProductAmounts(budgetNumber, client.getName());
+        ArrayList<String> productObservations = budgetModifyModel.getProductObservations(budgetNumber, client.getName());
+        ArrayList<String> productMeasures = budgetModifyModel.getProductMeasures(budgetNumber, client.getName());
+        ArrayList<Double> productPrices = budgetModifyModel.getProductPrices(budgetNumber, client.getName());
+        ArrayList<Row> tableContent = new ArrayList<>();
+        double globalBudgetTotalPrice = budgetModel.getBudgetTotalPrice(budgetModel.getBudgetID(budgetNumber, client.getName()));
 
+        for (int i = 0; i < productNames.size(); i++) {
+            Row row = new Row(productNames.get(i), productAmounts.get(i), productMeasures.get(i), productObservations.get(i), productPrices.get(i), globalBudgetTotalPrice);
+            tableContent.add(row);
+        }
 
+        try {
+            pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void onSearchButtonClicked() {
         budgetSearchView.setWorkingStatus();
@@ -63,6 +91,24 @@ public class BudgetSearchPresenter extends StandardPresenter {
         budgetSearchView.setWaitingStatus();
     }
 
+
+    public Client getSelectedBudgetClient()
+    {
+        String selectedBudgetName = budgetSearchView.getSelectedBudgetName();
+        String selectedBudgetClientType = budgetSearchView.getSelectedBudgetClientType();
+        int clientID = budgetModel.getClientID(selectedBudgetName, selectedBudgetClientType);
+        Client client = budgetModel.GetOneClientByID(clientID);
+        return client;
+    }
+
+
+    public ArrayList<String> getSavedProductNames(int budgetNumber, String budgetName) {
+        return budgetModifyModel.getSavedProductNames(budgetNumber, budgetName);
+    }
+
+    public ArrayList<Integer> getSavedProductAmounts(int budgetNumber, String budgetName) {
+        return budgetModifyModel.getSavedProductAmounts(budgetNumber, budgetName);
+    }
 
 
 
