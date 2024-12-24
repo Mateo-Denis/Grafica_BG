@@ -67,6 +67,29 @@ public class CodingErrorPdfInvoiceCreator {
         document.close();
     }
 
+    private String formatObservations(String observations) {
+        if(observations.isEmpty()){
+            return "-";
+        }
+        StringBuilder formattedText = new StringBuilder();
+        int currentLineLength = 0;
+        int maxLineLength = 16;
+        for (String word : observations.split(" ")) {
+            int wordLengthWithSpace = word.length() + (currentLineLength > 0 ? 1 : 0);
+
+            if (currentLineLength + wordLengthWithSpace > maxLineLength) {
+                formattedText.append("\n");
+                currentLineLength = 0;
+            } else if (currentLineLength > 0) {
+                formattedText.append(" ");
+            }
+
+            formattedText.append(word);
+            currentLineLength += wordLengthWithSpace;
+        }
+        return formattedText.toString();
+    }
+
     public void createProduct(List<Product> productList, double totalPrice) {
         Table productsTable = new Table(threeColumnWidth);
 
