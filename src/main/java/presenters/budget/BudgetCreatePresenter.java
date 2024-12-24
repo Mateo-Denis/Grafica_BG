@@ -43,6 +43,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private ArrayList<Client> globalClientsList;
     private int globalClientID = -1;
     private int productsRowCountOnPreviewTable = 0;
+    private String globalClientType = "";
 
     public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, ISettingsModel settingsModel) {
@@ -85,6 +86,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         globalClientID = -1;
         productsRowCountOnPreviewTable = 0;
         globalBudgetTotalPrice = 0.0;
+        globalClientType = "";
         budgetCreateView.getWidthMeasureTextField().setEnabled(false);
         budgetCreateView.getHeightMeasureTextField().setEnabled(false);
         budgetCreateView.showView();
@@ -196,6 +198,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 budgetCreateView.setPreviewStringTableValueAt(0, 6, clientType); // SET PREVIEW STRING TABLE VALUE AT 0, 6, CLIENT TYPE
                 globalClientID = budgetModel.getClientID(clientName, clientType); // SET GLOBAL CLIENT ID TO CLIENT ID
                 clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
+                globalClientType = clientType; // SET GLOBAL CLIENT TYPE TO CLIENT TYPE
+                updatePriceColumnByRecharge();
             } else {
                 budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
             }
@@ -204,10 +208,26 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
     }
 
+    public void updatePriceColumnByRecharge(){
+        double recharge = 1;
+        String clientType = budgetCreateView.getPreviewStringTableValueAt(0, 6);
+        updateTextArea(false, globalBudgetTotalPrice);
+        globalBudgetTotalPrice = 0;
+        if (clientType.equals("Particular")) {
+            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
+        }
+        for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
+            Product product = productModel.getOneProduct(productModel.getProductID(budgetCreateView.getPreviewStringTableValueAt(i, 1)));
+            double productOriginalPrice = product.calculateRealTimePrice();
+            double toAdd = productOriginalPrice * recharge;
+            budgetCreateView.setPreviewStringTableValueAt(i, 5, String.valueOf(toAdd));
+            double totalPrice = toAdd * Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(i, 2));
+            updateTextArea(true, totalPrice);
+        }
+    }
+
 
     public void onCreateButtonClicked() {
-
-
         List<String[]> budgetData = budgetCreateView.getPreviewTableFilledRowsData();
         Client client;
         ArrayList<Row> tableContent = new ArrayList<>();
@@ -335,9 +355,14 @@ public class BudgetCreatePresenter extends StandardPresenter {
         double oneItemProductPrice = product.calculateRealTimePrice();
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
+        double recharge = 1.0;
 
         if (productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
+        }
+
+        if(globalClientType.equals("Particular")){
+            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
         }
 
         if (unlockedMeasures) {
@@ -349,12 +374,12 @@ public class BudgetCreatePresenter extends StandardPresenter {
             }
             int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
-            settingPrice = oneItemProductPrice * meters;
+            settingPrice = oneItemProductPrice * meters * recharge;
         } else {
             productWidthMeasures = "-";
             productHeightMeasures = "-";
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
-            settingPrice = oneItemProductPrice;
+            settingPrice = oneItemProductPrice * recharge;
         }
 
         String productMeasures = productWidthMeasures + " x " + productHeightMeasures;
