@@ -469,6 +469,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         Object productAmountObject = budgetCreateView.getPreviewTable().getValueAt(clickedRow, 2);
 
         if (clickedRow != -1 && clickedRow != 0) {
+            System.out.println("EDITANDO REY");
             editingProduct = true;
             JTable productTable = budgetCreateView.getProductsResultTable();
             productTable.clearSelection();

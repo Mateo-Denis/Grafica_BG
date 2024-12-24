@@ -158,12 +158,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                     int selectedRow = productResultTable.getSelectedRow();
                     if (selectedRow != -1) {
                         String productCategory = (String) productResultTable.getValueAt(selectedRow, 1);
-                        if (productCategory.equals("Cloth") || productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
+                        if (productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(true);
                             heightMeasureTextField.setEnabled(true);
-                        } else if (productCategory.equals("LinearPrinting")) {
+                        } else if (productCategory.equals("Cloth") || productCategory.equals("LinearPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(false);
