@@ -119,21 +119,17 @@ public class BudgetSearchPresenter extends StandardPresenter {
 
     public void onDeleteButtonClicked() {
         JTable budgetTable = budgetSearchView.getBudgetResultTable();
-        int selectedRow = -1;
-        selectedRow = budgetTable.getSelectedRow();
-        if (selectedRow != -1 && budgetTable.getValueAt(selectedRow, 0) != null) {
-            int budgetID = getOneBudgetID();
-            //int budgetNumber = budgetSearchView.getSelectedBudgetNumber();
-            //String budgetName = budgetSearchView.getSelectedBudgetName();
-            budgetModel.deleteBudgetProducts(budgetID);
-            budgetModel.deleteOneBudget(budgetID);
-            String budgetSearch = budgetSearchView.getSearchText();
-            budgetSearchView.showMessage(BUDGET_DELETE_SUCCESS);
-            budgetModel.queryBudgets(budgetSearch);
-            budgetSearchView.deselectAllRows();
-        } else {
-            budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);
-        }
+        int selectedRow = budgetTable.getSelectedRow();
+        if (selectedRow != -1) {
+            if(budgetTable.getValueAt(selectedRow, 0) != null && !budgetTable.getValueAt(selectedRow, 0).equals(""))
+            {
+                int budgetID = getOneBudgetID();
+                budgetModel.deleteBudgetProducts(budgetID);
+                budgetModel.deleteOneBudget(budgetID);
+                budgetSearchView.showMessage(BUDGET_DELETE_SUCCESS);
+                budgetSearchView.clearTable();
+            } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
+        } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
     }
 
 

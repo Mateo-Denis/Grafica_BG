@@ -36,8 +36,6 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setSize(470,560);
         windowFrame.setResizable(false);
-
-        initListeners();
     }
 
     @Override

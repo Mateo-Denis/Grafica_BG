@@ -7,8 +7,8 @@ import utils.Client;
 import views.client.IClientSearchView;
 
 import java.util.ArrayList;
-
 import static utils.MessageTypes.*;
+
 public class ClientSearchPresenter extends StandardPresenter {
 	private final IClientSearchView clientSearchView;
 	private final IClientModel clientModel;
@@ -93,18 +93,21 @@ public class ClientSearchPresenter extends StandardPresenter {
 
 	public void deleteOneClient() {
 		int selectedRow = clientSearchView.getSelectedTableRow();
-		int oneClientID = getOneClientID(selectedRow);
-		if (oneClientID != -1 && oneClientID != 0) {
-			clientModel.deleteOneClient(oneClientID);
-			clientSearchView.setWorkingStatus();
-			clientSearchView.clearTable();
-			String searchedName = clientSearchView.getnameSearchText();
-			String searchedCity = clientSearchView.getSelectedCity();
-			if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
-			clientModel.queryClients(searchedName, searchedCity);
-			clientSearchView.deselectAllRows();
-			clientSearchView.setWaitingStatus();
-		}
+		if(selectedRow != -1){
+			if(!clientSearchView.getClientStringTableValueAt(selectedRow, 0).isEmpty()){
+					int oneClientID = getOneClientID(selectedRow);
+					clientModel.deleteOneClient(oneClientID);
+
+					clientSearchView.setWorkingStatus();
+					clientSearchView.clearTable();
+					String searchedName = clientSearchView.getnameSearchText();
+					String searchedCity = clientSearchView.getSelectedCity();
+					if (searchedCity.equals("Cualquier localidad")) { searchedCity = ""; }
+					clientModel.queryClients(searchedName, searchedCity);
+					clientSearchView.deselectAllRows();
+					clientSearchView.setWaitingStatus();
+			} else{	clientSearchView.showMessage(CLIENT_DELETION_FAILURE);	}
+		} else{	clientSearchView.showMessage(CLIENT_DELETION_FAILURE);	}
 	}
 
 	public int getOneClientID(int selectedRow) {
