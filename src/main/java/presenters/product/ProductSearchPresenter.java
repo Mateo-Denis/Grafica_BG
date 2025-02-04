@@ -65,24 +65,30 @@ public class ProductSearchPresenter extends StandardPresenter {
         int[] selectedRows = productSearchView.getProductResultTable().getSelectedRows();
         if(selectedRows.length == 1) {
             deleteOneProduct();
-        } else if(selectedRows.length > 1) {
-            deleteMultipleProducts();
         } else {
             productSearchView.showMessage(PRODUCT_DELETION_FAILURE);
         }
     }
 
-    public void deleteOneProduct() {
-        int oneProductID = getSelectedProductID(); //TOMA EL ID DEL PRODUCTO SELECCIONADO
-        if (oneProductID != -1 && oneProductID != 0) {
-            productModel.deleteOneProduct(oneProductID);
-            productSearchView.setWorkingStatus();
-            productSearchView.clearView();
-            String searchedName = productSearchView.getNameSearchText();
-            productModel.queryProducts(searchedName, "Seleccione una categoría");
-            productSearchView.deselectAllRows();
-            productSearchView.setWaitingStatus();
-        }
+    public void deleteOneProduct() { //TOMA EL ID DEL PRODUCTO SELECCIONADO
+        int selectedRow = productSearchView.getProductResultTable().getSelectedRow();
+        int productID = -1;
+        Object rowValue = "";
+
+        if(selectedRow != -1) {
+            rowValue = productSearchView.getProductResultTable().getValueAt(selectedRow, 0);
+            if(rowValue != null && !rowValue.equals("")) {
+                String selectedProductName = (String) rowValue;
+                productID = productModel.getProductID(selectedProductName);
+                productModel.deleteOneProduct(productID);
+                productSearchView.setWorkingStatus();
+                productSearchView.clearView();
+                String searchedName = productSearchView.getNameSearchText();
+                productModel.queryProducts(searchedName, "Seleccione una categoría");
+                productSearchView.deselectAllRows();
+                productSearchView.setWaitingStatus();
+            } else {productSearchView.showMessage(PRODUCT_DELETION_FAILURE);}
+        } else{productSearchView.showMessage(PRODUCT_DELETION_FAILURE);}
     }
 
     public void deleteMultipleProducts() {
@@ -108,11 +114,14 @@ public class ProductSearchPresenter extends StandardPresenter {
 
     public int getSelectedProductID() {
         int selectedRow = productSearchView.getProductResultTable().getSelectedRow();
+        int productID = -1;
         if(selectedRow != -1) {
-            String selectedProductName = productSearchView.getSelectedProductName();
-            return productModel.getProductID(selectedProductName);
+            if(productSearchView.getProductResultTable().getValueAt(selectedRow, 0) != null) {
+                String selectedProductName = productSearchView.getSelectedProductName();
+                productID = productModel.getProductID(selectedProductName);
+            }
         }
-        return -1;
+        return productID;
     }
 
     private void cargarCategorias() {
