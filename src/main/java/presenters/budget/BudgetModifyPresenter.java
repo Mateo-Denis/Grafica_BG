@@ -22,6 +22,7 @@ import java.util.Map;
 import views.budget.modify.IBudgetModifyView;
 
 import static utils.databases.SettingsTableNames.GENERAL;
+import static utils.MessageTypes.*;
 
 
 public class BudgetModifyPresenter extends StandardPresenter {
@@ -38,6 +39,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private double globalBudgetTotalPrice = 0.0;
     private String globalClientType = "";
     private final ISettingsModel settingsModel;
+
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel, ISettingsModel settingsModel) {
@@ -352,34 +354,38 @@ public class BudgetModifyPresenter extends StandardPresenter {
     }
 
 
-    public void onModifySearchViewButtonClicked(int budgetNumber) {
-        budgetModifyView.setWorkingStatus();
+    public void onModifySearchViewButtonClicked(boolean filledRow, int selectedRow, int budgetNumber) {
+        if(selectedRow != -1){
+            if(filledRow){
+                budgetModifyView.setWorkingStatus();
 
-        budgetModifyView.getWidthMeasureTextField().setEnabled(false);
-        budgetModifyView.getHeightMeasureTextField().setEnabled(false);
+                budgetModifyView.getWidthMeasureTextField().setEnabled(false);
+                budgetModifyView.getHeightMeasureTextField().setEnabled(false);
 
-        productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
-        globalBudgetNumber = budgetNumber;
-        oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
-        budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
-        ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
-        String budgetClientName = budgetClientData.get(1);
-        double budgetTotalPrice = 0.0;
-        globalClientType = "";
+                productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
+                globalBudgetNumber = budgetNumber;
+                oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
+                budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
+                ArrayList<String> budgetClientData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
+                String budgetClientName = budgetClientData.get(1);
+                double budgetTotalPrice = 0.0;
+                globalClientType = "";
 
-        ArrayList<String> productMeasures = getProductsMeasures(budgetNumber, budgetClientName);
-        ArrayList<String> productObservations = getProductObservations(budgetNumber, budgetClientName);
-        ArrayList<Double> productPrices = getProductPrices(budgetNumber, budgetClientName);
-        ArrayList<String> productNames = budgetModifyModel.getSavedProductNames(budgetNumber, budgetClientName);
-        ArrayList<Integer> productAmounts = budgetModifyModel.getSavedProductAmounts(budgetNumber, budgetClientName);
+                ArrayList<String> productMeasures = getProductsMeasures(budgetNumber, budgetClientName);
+                ArrayList<String> productObservations = getProductObservations(budgetNumber, budgetClientName);
+                ArrayList<Double> productPrices = getProductPrices(budgetNumber, budgetClientName);
+                ArrayList<String> productNames = budgetModifyModel.getSavedProductNames(budgetNumber, budgetClientName);
+                ArrayList<Integer> productAmounts = budgetModifyModel.getSavedProductAmounts(budgetNumber, budgetClientName);
 
-        globalBudgetTotalPrice = 0.0;
-        setModifyView(productNames, productAmounts, productObservations, productMeasures, budgetNumber, productPrices);
-        updateTextArea(true, true, globalBudgetTotalPrice);
+                globalBudgetTotalPrice = 0.0;
+                setModifyView(productNames, productAmounts, productObservations, productMeasures, budgetNumber, productPrices);
+                updateTextArea(true, true, globalBudgetTotalPrice);
 
 
-        budgetModifyView.showView();
-        budgetModifyView.setWaitingStatus();
+                budgetModifyView.showView();
+                budgetModifyView.setWaitingStatus();
+            } else{budgetModifyView.showMessage(BUDGET_MODIFY_FAILURE);}
+        } else{budgetModifyView.showMessage(BUDGET_MODIFY_FAILURE);}
     }
 
     public double GetBudgetTotalPrice(ArrayList<String> productNames, ArrayList<Integer> productAmounts) {

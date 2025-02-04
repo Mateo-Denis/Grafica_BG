@@ -84,6 +84,9 @@ public class ClientCreatePresenter extends StandardPresenter {
                         clientCreateView.isClientSelected());
 
             }
+
+            clientCreateView.clearView();
+
             clientCreateView.setWaitingStatus();
         }
 
@@ -95,5 +98,4 @@ public class ClientCreatePresenter extends StandardPresenter {
                 clientCreateView.getCityTextField().setEnabled(false);
             }
         }
-
     }

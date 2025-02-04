@@ -48,7 +48,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         windowFrame.setSize(850, 580);
         windowFrame.setResizable(false);
 
-        initListeners();
+        //initListeners();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         budgetListOpenButton.addActionListener(e -> budgetListPresenter.onSearchViewOpenListButtonClicked());
         pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked(getSelectedBudgetNumber()));
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
-        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(getSelectedBudgetNumber()));
+        modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(isTheRowFilled(), getSelectedTableRow(), getSelectedBudgetNumber()));
     }
 
     public void setStringTableValueAt(int row, int col, String value) {
@@ -105,6 +105,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
                 budgetResultTable.setValueAt("", row, col);
             }
         }
+        budgetResultTable.clearSelection();
     }
 
     @Override
@@ -129,14 +130,19 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public int getSelectedBudgetNumber() {
         int budgetNumber = 0;
-        Object budgetNumberObj = budgetResultTable.getValueAt(getSelectedTableRow(), 3);
-        try {
-            String budgetNumberStr = (String) budgetNumberObj;
-            if (budgetNumberStr != null && !budgetNumberStr.isEmpty()) {
-                budgetNumber = Integer.parseInt(budgetNumberStr);
+        int selectedRow = getSelectedTableRow();
+        if(selectedRow != -1){
+            Object budgetNumberObj = budgetResultTable.getValueAt(selectedRow, 3);
+            if(budgetNumberObj != null){
+                try {
+                    String budgetNumberStr = (String) budgetNumberObj;
+                    if (!budgetNumberStr.isEmpty()) {
+                        budgetNumber = Integer.parseInt(budgetNumberStr);
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
         }
         return budgetNumber;
     }
@@ -165,6 +171,19 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public int getSelectedTableRow() {
         return budgetResultTable.getSelectedRow();
+    }
+
+    public boolean isTheRowFilled(){
+        boolean isFilled;
+        int selectedRow = getSelectedTableRow();
+
+        if(selectedRow != -1) {
+            if (budgetResultTable.getValueAt(selectedRow, 0) != null) {
+                isFilled = !getStringValueAt(getSelectedTableRow(), 0).isEmpty();
+            } else {isFilled = false;}
+        } else {isFilled = false;}
+
+        return isFilled;
     }
 
     @Override
