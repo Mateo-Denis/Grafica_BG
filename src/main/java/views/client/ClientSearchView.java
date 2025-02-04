@@ -48,6 +48,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
 
         cityComboBox.addItem("Cualquier localidad");
         cityComboBox.setSelectedItem("Cualquier localidad");
+        clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         clearTable();
         nameSearchField.setText("");
         cityComboBox.setSelectedItem("Cualquier localidad");
+        clientResultTable.clearSelection();
     }
     public void clearTable(){
         for (int row = 0; row < clientResultTable.getRowCount(); row++) {

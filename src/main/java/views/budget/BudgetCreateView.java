@@ -145,7 +145,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = productResultTable.getSelectedRow();
-                    if (selectedRow != -1) {
+                    if ((selectedRow != -1) && (productResultTable.getValueAt(selectedRow, 0) != null)) {
                         String productCategory = (String) productResultTable.getValueAt(selectedRow, 1);
                         if (productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
                             widthMeasureTextField.setText("");
@@ -277,6 +277,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 budgetPreviewingTable.setValueAt("", row, col);
             }
         }
+        budgetPreviewingTable.clearSelection();
     }
 
     @Override
@@ -286,6 +287,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 clientResultTable.setValueAt("", row, col);
             }
         }
+        clientResultTable.clearSelection();
     }
 
     @Override
@@ -295,6 +297,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 productResultTable.setValueAt("", row, col);
             }
         }
+        productResultTable.clearSelection();
     }
 
     @Override
@@ -375,6 +378,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             }
         };
         clientResultTable.setModel(clientsTableModel);
+        clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200) {
             @Override
@@ -383,6 +387,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             }
         };
         productResultTable.setModel(productsTableModel);
+        productResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
@@ -391,6 +396,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             }
         };
         budgetPreviewingTable.setModel(previewTableModel);
+        budgetPreviewingTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         setTableVisibility(clientResultTable);
         setTableVisibility(productResultTable);

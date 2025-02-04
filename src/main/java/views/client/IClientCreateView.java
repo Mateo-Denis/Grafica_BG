@@ -15,4 +15,5 @@ public interface IClientCreateView extends IToggleableView {
     JTextField getClientTextField();
     JTextField getCityTextField();
     JComboBox<String> getCityComboBox();
+    void clearView();
 }

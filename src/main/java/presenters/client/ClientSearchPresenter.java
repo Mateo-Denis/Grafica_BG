@@ -25,6 +25,7 @@ public class ClientSearchPresenter extends StandardPresenter {
 	}
 
 	public void onHomeSearchClientButtonClicked() {
+		clientSearchView.clearView();
 		clientSearchView.showView();
 	}
 
