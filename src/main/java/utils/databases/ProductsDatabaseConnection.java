@@ -44,9 +44,7 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
                     }
                 }
             }
-            JOptionPane.showMessageDialog(null, "Producto creado con éxito!");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al crear el producto.", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
 

@@ -10,6 +10,7 @@ import utils.MessageTypes;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,7 +135,17 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 			});
 		}
 
+		materialComboBox.addItemListener(e -> {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				SwingUtilities.invokeLater(this::calculateDependantPrices);
+			}
+		});
 
+		seamstressTypeComboBox.addItemListener(e -> {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				SwingUtilities.invokeLater(this::calculateDependantPrices);
+			}
+		});
 	}
 
 	@Override

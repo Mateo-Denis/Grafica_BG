@@ -62,6 +62,14 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
         windowFrame.setSize(942,530);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // Calculate position to center the frame
+        int x = (screenSize.width - windowFrame.getWidth()) / 2;
+        int y = (screenSize.height - windowFrame.getHeight()) / 2;
+
+        windowFrame.setLocation(x, y);
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setResizable(false);
         modularContainer.setLayout(new BorderLayout());
@@ -170,9 +178,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     @Override
     public void clearView() {
         productNameField.setText("");
-        categoryComboBox.setSelectedIndex(-1);
+        categoryComboBox.setSelectedIndex(0);
         modularContainer.removeAll();
-        //subCategoryComboBox.setSelectedIndex(-1);
     }
 
     @Override
@@ -182,7 +189,12 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
 
     @Override
     protected void initListeners() {
-        createButton.addActionListener(e -> lastProductCreatedID = productCreatePresenter.onCreateButtonClicked());
+        createButton.addActionListener(e -> {
+            lastProductCreatedID = productCreatePresenter.onCreateButtonClicked();
+            if(lastProductCreatedID != -1) {
+                clearView();
+            }
+        });
     }
 
 

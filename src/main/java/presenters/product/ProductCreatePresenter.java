@@ -102,7 +102,6 @@ public class ProductCreatePresenter extends StandardPresenter {
             productModel.instantiateProductAttributes(productID, instancedAttribute, categoryID);
             idToReturn = productID;
         }
-
         productCreateView.setWaitingStatus();
         return idToReturn;
     }
