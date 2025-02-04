@@ -288,31 +288,36 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void onAddProductButtonClicked() {
         Product product; // PRODUCT VARIABLE
+        JTable productTable = budgetModifyView.getProductsResultTable(); // PRODUCTS TABLE
         int selectedProductRow = budgetModifyView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
         int selectedPreviewRow = budgetModifyView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
         if (selectedProductRow != -1) {
-            product = GetSelectedProductFromProductsTable();
-            AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
-            productsRowCountOnPreviewTable++;
-        }
-
+            if((productTable.getValueAt(selectedProductRow, 0) != null) && !productTable.getValueAt(selectedProductRow, 0).equals("")){
+                product = GetSelectedProductFromProductsTable();
+                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
+                productsRowCountOnPreviewTable++;
+            } else {budgetModifyView.showMessage(PRODUCT_ADDING_FAILURE);}
+        } else {budgetModifyView.showMessage(PRODUCT_ADDING_FAILURE);}
     }
 
     public void onDeleteProductButtonClicked() {
         budgetModifyView.getProductsResultTable().clearSelection();
-        int selectedRow = budgetModifyView.getPreviewTable().getSelectedRow();
+        JTable budgetResultTable = budgetModifyView.getPreviewTable();
+        int selectedRow = budgetResultTable.getSelectedRow();
 
         double totalSelectedPrice = 0.0;
 
         if (selectedRow != -1) {
             if (productsRowCountOnPreviewTable >= 1) {
-                totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
-                budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
-                productsRowCountOnPreviewTable--;
-                updateTextArea(false, false, totalSelectedPrice);
-            }
-        }
+                if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow,1).toString().equals("")){
+                    totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
+                    budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
+                    productsRowCountOnPreviewTable--;
+                    updateTextArea(false, false, totalSelectedPrice);
+                } else {budgetModifyView.showMessage(PRODUCT_DELETION_FAILURE);}
+            } else {budgetModifyView.showMessage(PRODUCT_DELETION_FAILURE);}
+        } else{ budgetModifyView.showMessage(PRODUCT_DELETION_FAILURE);}
     }
 
     public double GetSelectedTotalPrice(int selectedPreviewRow) {
@@ -362,7 +367,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 budgetModifyView.getWidthMeasureTextField().setEnabled(false);
                 budgetModifyView.getHeightMeasureTextField().setEnabled(false);
 
-                productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
                 globalBudgetNumber = budgetNumber;
                 oldClientName = budgetModifyModel.getOldClientName(globalBudgetNumber);
                 budgetModifyView.getClientSelectedCheckBox().setSelected(true); //MARCO EL CHECKBOX DE QUE YA HAY UN CLIENTE SELECCIONADO
@@ -380,6 +384,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 globalBudgetTotalPrice = 0.0;
                 setModifyView(productNames, productAmounts, productObservations, productMeasures, budgetNumber, productPrices);
                 updateTextArea(true, true, globalBudgetTotalPrice);
+
+                productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
+                System.out.println("PRODUCTS ROW COUNT ON PREVIEW TABLE: " + productsRowCountOnPreviewTable);
 
 
                 budgetModifyView.showView();

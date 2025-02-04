@@ -52,6 +52,9 @@ public enum MessageTypes {
     PRODUCT_DELETION_FAILURE ("Error al eliminar el producto"
             , "Ha ocurrido un error al intentar eliminar el producto."
             , JOptionPane.ERROR_MESSAGE),
+    PRODUCT_ADDING_FAILURE("Error al agregar el producto"
+            , "Ha ocurrido un error al intentar agregar el producto."
+            , JOptionPane.ERROR_MESSAGE),
     SUBCATEGORY_CREATION_SUCCESS("SubCategoria creada con éxito"
             , "La subcategoria fue agregada a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),

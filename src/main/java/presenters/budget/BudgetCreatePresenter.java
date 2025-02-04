@@ -445,31 +445,37 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
     public void onAddProductButtonClicked() {
         Product product; // PRODUCT VARIABLE
+        JTable productTable = budgetCreateView.getProductsResultTable(); // PRODUCTS TABLE
         int selectedProductRow = budgetCreateView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
         int selectedPreviewRow = budgetCreateView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
         if (selectedProductRow != -1) {
-            product = GetSelectedProductFromProductsTable();
-            AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
-            productsRowCountOnPreviewTable++;
-        }
+            if((productTable.getValueAt(selectedProductRow, 0) != null) && !productTable.getValueAt(selectedProductRow, 0).equals("")){
+                product = GetSelectedProductFromProductsTable();
+                AddProductToPreviewTable(product, productsRowCountOnPreviewTable + 1);
+                productsRowCountOnPreviewTable++;
+            } else { budgetCreateView.showMessage(MessageTypes.PRODUCT_ADDING_FAILURE);}
+        } else { budgetCreateView.showMessage(MessageTypes.PRODUCT_ADDING_FAILURE);}
     }
 
     public void onDeleteProductButtonClicked() {
         budgetCreateView.getProductsResultTable().clearSelection();
-        int selectedRow = budgetCreateView.getPreviewTableSelectedRow();
+        JTable budgetResultTable = budgetCreateView.getPreviewTable();
+        int selectedRow = budgetResultTable.getSelectedRow();
 
         double totalSelectedPrice = 0.0;
 
 
         if (selectedRow != -1) {
             if (productsRowCountOnPreviewTable >= 1) {
-                totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
-                budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
-                productsRowCountOnPreviewTable--;
-                updateTextArea(false, totalSelectedPrice);
-            }
-        }
+                if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow,1).toString().equals("")){
+                    totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
+                    budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
+                    productsRowCountOnPreviewTable--;
+                    updateTextArea(false, totalSelectedPrice);
+                } else { budgetCreateView.showMessage(MessageTypes.PRODUCT_DELETION_FAILURE);}
+            } else {budgetCreateView.showMessage(MessageTypes.PRODUCT_DELETION_FAILURE);}
+        }else{ budgetCreateView.showMessage(MessageTypes.PRODUCT_DELETION_FAILURE);}
     }
 
     public boolean onEmptyFields(int clientNameColumn, int productColumn) {

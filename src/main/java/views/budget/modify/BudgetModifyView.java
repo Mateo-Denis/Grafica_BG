@@ -130,7 +130,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = productTable.getSelectedRow();
-                    if(selectedRow != -1) {
+                    if((selectedRow != -1) && (productTable.getValueAt(selectedRow, 0) != null)) {
                         String productCategory = (String) productTable.getValueAt(selectedRow, 1);
                         if (productCategory.equals("Cloth") || productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
                             widthMeasureTextField.setText("");
@@ -154,58 +154,58 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         });
     }
 
-    public List<String[]> getPreviewTableFilledRowsData() {
-        List<String[]> filledRowsData = new ArrayList<>();
-        String[] dataArray;
-
-        String budgetClientName = "";
-        String budgetProductName = "";
-        int budgetProductAmount = 1;
-        String budgetProductMeasures = "";
-        String budgetProductObservations = "";
-        double budgetProductPrice = -1.0;
-        String budgetClientType = "";
-
-        int filledRows = getFilledRowsCount(budgetPreviewTable);
-
-
-
-        for (int row = 0; row <= filledRows; row++) {
-            if(row == 0){
-                budgetClientName = (String) budgetPreviewTable.getValueAt(row, 0);
-                budgetClientType = (String) budgetPreviewTable.getValueAt(row, 6);
-                dataArray = new String[]{budgetClientName, budgetClientType};
-                filledRowsData.add(dataArray);
-            } else {
-                Object selectedProductName = budgetPreviewTable.getValueAt(row, 1);
-                Object selectedProductAmount = budgetPreviewTable.getValueAt(row, 2);
-                Object selectedProductMeasures = budgetPreviewTable.getValueAt(row, 3);
-                Object selectedProductObservations = budgetPreviewTable.getValueAt(row, 4);
-                Object selectedProductPrice = budgetPreviewTable.getValueAt(row, 5);
-
-                if(selectedProductName != null && !selectedProductName.equals("")) {
-                    budgetProductName = (String) selectedProductName;
-                }
-                if(selectedProductAmount != null && !selectedProductAmount.equals("")) {
-                    budgetProductAmount = Integer.parseInt((String) selectedProductAmount);
-                }
-                if(selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
-                    budgetProductMeasures = (String) selectedProductMeasures;
-                }
-                if(selectedProductObservations != null && !selectedProductObservations.equals("")) {
-                    budgetProductObservations = (String) selectedProductObservations;
-                }
-                if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
-                    budgetProductPrice = (double) selectedProductPrice;
-                }
-
-                dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
-                filledRowsData.add(dataArray);
-
-            }
-        }
-        return filledRowsData;
-    }
+//    public List<String[]> getPreviewTableFilledRowsData() {
+//        List<String[]> filledRowsData = new ArrayList<>();
+//        String[] dataArray;
+//
+//        String budgetClientName = "";
+//        String budgetProductName = "";
+//        int budgetProductAmount = 1;
+//        String budgetProductMeasures = "";
+//        String budgetProductObservations = "";
+//        double budgetProductPrice = -1.0;
+//        String budgetClientType = "";
+//
+//        int filledRows = getFilledRowsCount(budgetPreviewTable);
+//
+//
+//
+//        for (int row = 0; row <= filledRows; row++) {
+//            if(row == 0){
+//                budgetClientName = (String) budgetPreviewTable.getValueAt(row, 0);
+//                budgetClientType = (String) budgetPreviewTable.getValueAt(row, 6);
+//                dataArray = new String[]{budgetClientName, budgetClientType};
+//                filledRowsData.add(dataArray);
+//            } else {
+//                Object selectedProductName = budgetPreviewTable.getValueAt(row, 1);
+//                Object selectedProductAmount = budgetPreviewTable.getValueAt(row, 2);
+//                Object selectedProductMeasures = budgetPreviewTable.getValueAt(row, 3);
+//                Object selectedProductObservations = budgetPreviewTable.getValueAt(row, 4);
+//                Object selectedProductPrice = budgetPreviewTable.getValueAt(row, 5);
+//
+//                if(selectedProductName != null && !selectedProductName.equals("")) {
+//                    budgetProductName = (String) selectedProductName;
+//                }
+//                if(selectedProductAmount != null && !selectedProductAmount.equals("")) {
+//                    budgetProductAmount = Integer.parseInt((String) selectedProductAmount);
+//                }
+//                if(selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
+//                    budgetProductMeasures = (String) selectedProductMeasures;
+//                }
+//                if(selectedProductObservations != null && !selectedProductObservations.equals("")) {
+//                    budgetProductObservations = (String) selectedProductObservations;
+//                }
+//                if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
+//                    budgetProductPrice = (double) selectedProductPrice;
+//                }
+//
+//                dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
+//                filledRowsData.add(dataArray);
+//
+//            }
+//        }
+//        return filledRowsData;
+//    }
 
     @Override
     public void clearView() {
@@ -366,8 +366,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         super.start();
         clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
         clientResultTable.setModel(clientsTableModel);
+        clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200);
         productTable.setModel(productsTableModel);
+        productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -375,6 +377,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             }
         };
         budgetPreviewTable.setModel(previewTableModel);
+        budgetPreviewTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         setTableVisibility(clientResultTable);
         setTableVisibility(productTable);
@@ -404,9 +407,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     public int getFilledRowsCount(JTable table) {
         int rowCount = 0;
-        for (int row = 0; row < table.getRowCount(); row++) {
-            if (table.getValueAt(row, 2) != null && !table.getValueAt(row, 2).toString().isEmpty()) {
+        for (int row = 1; row < table.getRowCount(); row++) {
+            if ((table.getValueAt(row, 1) != null) && (!table.getValueAt(row, 1).equals(""))) {
                 rowCount++;
+                System.out.println("FILAS LLENAS: " + rowCount);
             }
         }
         return rowCount;
