@@ -8,8 +8,6 @@ import utils.Product;
 
 public class BudgetsDatabaseConnection extends DatabaseConnection{
 
-    private ProductsDatabaseConnection productsDBConnection = new ProductsDatabaseConnection();
-
 
     @Override
     protected void createTable(Connection connection) {
@@ -173,14 +171,13 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
                              ArrayList<String> productMeasures, ArrayList<Double> productPrices) throws SQLException {
         int iterableIndex = 0;
 
-        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, ID_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS, PRECIO) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PRESUPUESTO_PRODUCTOS(ID_PRESUPUESTO, NOMBRE_PRODUCTO, CANTIDAD, OBSERVACIONES, MEDIDAS, PRECIO) VALUES(?, ?, ?, ?, ?, ?)";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         for (String prodName : productNames) {
-            int productID = productsDBConnection.getProductID(prodName);
             pstmt.setInt(1, budgetID);
-            pstmt.setInt(2, productID);
+            pstmt.setString(2, prodName);
             pstmt.setInt(3, productAmounts.get(iterableIndex));
             pstmt.setString(4, productObservations.get(iterableIndex));
             pstmt.setString(5, productMeasures.get(iterableIndex));
@@ -195,7 +192,7 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
 
     public ArrayList<Integer> getSavedProductAmounts(String budgetName, int budgetNumber) throws SQLException {
         ArrayList<Integer> productAmounts = new ArrayList<>();
-        String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        String sql = "SELECT CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         int budgetID = getBudgetID(budgetName, budgetNumber);
@@ -212,15 +209,14 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
 
     public ArrayList<String> getSavedProductNames(String budgetName, int budgetNumber) throws SQLException {
         ArrayList<String> productNames = new ArrayList<>();
-        String sql = "SELECT ID_PRODUCTO, CANTIDAD FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
+        String sql = "SELECT NOMBRE_PRODUCTO FROM PRESUPUESTO_PRODUCTOS WHERE ID_PRESUPUESTO = ?";
         Connection conn = connect();
         PreparedStatement pstmt = conn.prepareStatement(sql);
         int budgetID = getBudgetID(budgetName, budgetNumber);
         pstmt.setInt(1, budgetID);
         ResultSet resultSet = pstmt.executeQuery();
         while (resultSet.next()) {
-            Product product = productsDBConnection.getOneProduct(resultSet.getInt("ID_PRODUCTO"));
-            String productName = product.getName();
+            String productName = resultSet.getString("NOMBRE_PRODUCTO");
             productNames.add(productName);
         }
         pstmt.close();
