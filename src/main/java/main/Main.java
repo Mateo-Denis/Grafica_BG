@@ -3,6 +3,7 @@ package main;
 
 //import icm.sphynx.MyStyles;
 //import icm.sphynx.ui.metro.tools.MetroUIComponent;
+
 import com.formdev.flatlaf.FlatLightLaf;
 import models.*;
 import models.settings.ISettingsModel;
@@ -11,29 +12,29 @@ import presenters.budget.BudgetCreatePresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
+import presenters.categories.CategoryCreatePresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductCreatePresenter;
-import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductListPresenter;
-import presenters.categories.CategoryCreatePresenter;
+import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
 import utils.databases.*;
-import views.budget.modify.BudgetModifyView;
-import views.client.ClientCreateView;
-import views.client.ClientSearchView;
-import views.client.list.ClientListView;
-import views.products.ProductCreateView;
-import views.products.ProductSearchView;
-import views.products.list.ProductListView;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
 import views.budget.list.BudgetListView;
+import views.budget.modify.BudgetModifyView;
 import views.categories.CategoryCreateView;
-import views.home.IHomeView;
+import views.client.ClientCreateView;
+import views.client.ClientSearchView;
+import views.client.list.ClientListView;
 import views.home.HomeView;
-		import views.settings.SettingsView;
+import views.home.IHomeView;
+import views.products.ProductCreateView;
+import views.products.ProductSearchView;
+import views.products.list.ProductListView;
+import views.settings.SettingsView;
 
 public class Main {
     public static void main(String[] args) {

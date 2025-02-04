@@ -18,7 +18,7 @@ public class CategoryParser {
 			case "LinearPrinting":
 				return "Impresión lineal";
 			case "CuttingService":
-				return "Servicio de Corte";
+				return "Servicio de corte";
 			case "SquareMeterPrinting":
 				return "Impresión en metro cuadrado";
 			default:

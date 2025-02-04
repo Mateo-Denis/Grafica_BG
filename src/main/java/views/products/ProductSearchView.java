@@ -48,8 +48,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setSize(470,560);
         windowFrame.setResizable(false);
-
-        initListeners();
     }
 
     @Override
