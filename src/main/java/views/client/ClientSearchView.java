@@ -41,7 +41,13 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     @Override
     public void start() {
         super.start();
-		DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
+		DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         clientResultTable.setModel(tableModel);
 
         cityComboBox.addItem("Cualquier localidad");

@@ -364,13 +364,26 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public void start() {
         super.start();
-        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200);
+        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Todas las celdas no serán editables
+            }
+        };
         clientResultTable.setModel(clientsTableModel);
         clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200);
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Todas las celdas no serán editables
+            }
+        };
         productTable.setModel(productsTableModel);
         productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200)
+        {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

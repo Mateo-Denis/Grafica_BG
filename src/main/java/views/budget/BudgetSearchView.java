@@ -51,10 +51,19 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         //initListeners();
     }
 
+
     @Override
     public void start() {
         super.start();
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200);
+        DefaultTableModel tableModel = new DefaultTableModel(
+                new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200
+        )
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Todas las celdas no serán editables
+            }
+        };
         budgetResultTable.setModel(tableModel);
         budgetResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }

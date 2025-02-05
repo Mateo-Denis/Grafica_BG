@@ -42,12 +42,12 @@ public class CodingErrorPdfInvoiceCreator {
     }
     
     public void createDocument() throws FileNotFoundException {
-        String fileDir = "C:/GraficaBG/PDFpresupuestos/";
+        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/";
         File pdfsFolder = new File(fileDir);
         if(!pdfsFolder.exists()){
             pdfsFolder.mkdirs();
         }
-        String pdfFinalPath = fileDir + pdfName;
+        String pdfFinalPath = fileDir + File.separator + pdfName;
         PdfWriter pdfWriter=new PdfWriter(pdfFinalPath);
         pdfDocument=new PdfDocument(pdfWriter);
         pdfDocument.setDefaultPageSize(PageSize.A4);

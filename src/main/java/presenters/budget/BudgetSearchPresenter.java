@@ -127,7 +127,8 @@ public class BudgetSearchPresenter extends StandardPresenter {
                 budgetModel.deleteBudgetProducts(budgetID);
                 budgetModel.deleteOneBudget(budgetID);
                 budgetSearchView.showMessage(BUDGET_DELETE_SUCCESS);
-                budgetSearchView.clearTable();
+                budgetSearchView.getBudgetResultTable().clearSelection();
+                //budgetSearchView.clearTable();
             } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
         } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
     }

@@ -33,7 +33,11 @@
                 <children>
                   <component id="e05cd" class="javax.swing.JTable" binding="clientResultTable">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <doubleBuffered value="false"/>
+                      <editingColumn value="-1"/>
+                      <editingRow value="-1"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>

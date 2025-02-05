@@ -53,7 +53,13 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     public void start() {
         super.start();
-        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoría", "Precio"}, 200);
+        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoría", "Precio"}, 200)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         productResultTable.setModel(tableModel);
     }
 
