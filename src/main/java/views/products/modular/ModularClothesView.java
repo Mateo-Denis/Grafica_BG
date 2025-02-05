@@ -8,8 +8,10 @@ import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -86,6 +88,61 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	public ModularClothesView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		initListeners();
+		adjustPanels();
+	}
+
+	private void adjustPanels(){
+
+		ArrayList<JPanel> panels = new ArrayList<>();
+		panels.add(printingMetersPriceContainer);
+		panels.add(printingMetersAmountContainer);
+		panels.add(printingMetersFinalPriceContainer);
+		panels.add(plankLoweringAmountContainer);
+		panels.add(plankLoweringPriceContainer);
+		panels.add(plankLoweringFinalPriceContainer);
+		panels.add(clothMetersAmountContainer);
+		panels.add(clothMetersPriceContainer);
+		panels.add(clothMetersFinalPriceContainer);
+		panels.add(seamstressPriceContainer);
+		panels.add(seamstressTypeContainer);
+		panels.add(profitContainer);
+		panels.add(finalPriceContainer);
+		for(JPanel panel : panels){
+
+			TitledBorder border = (TitledBorder) panel.getBorder();
+
+			FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
+			int titleWidth = fm.stringWidth(border.getTitle());
+			System.out.println(border.getTitle() + " " + titleWidth);
+
+			panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
+		}
+//		SwingUtilities.invokeLater(() ->{
+//
+//			setLabelPosition(printingMetersAmountContainer, printingMetersPriceContainer, printingMultiplyLabel);
+//			setLabelPosition(printingMetersPriceContainer, printingMetersFinalPriceContainer, printingEqualsLabel);
+//			setLabelPosition(clothMetersAmountContainer, clothMetersPriceContainer, clothMultiplyLabel);
+//			setLabelPosition(clothMetersPriceContainer, clothMetersFinalPriceContainer, clothEqualsLabel);
+//			setLabelPosition(plankLoweringAmountContainer, plankLoweringPriceContainer, plankLoweringMultiplyLabel);
+//			setLabelPosition(plankLoweringPriceContainer, plankLoweringFinalPriceContainer, plankLoweringEqualsLabel);
+//			setLabelPosition(profitContainer, finalPriceContainer, profitMultiplyLabel);
+//			setLabelPosition(finalPriceContainer, finalPriceContainer, finalPriceEqualsLabel);
+//		});
+
+
+
+	}
+
+	private void setLabelPosition(JPanel leftPanel, JPanel rightPanel, JLabel label){
+
+		int leftPosition = leftPanel.getX();
+		leftPosition += leftPanel.getWidth();
+		int rightPosition = rightPanel.getX();
+
+		int average = (rightPosition - leftPosition) / 2;
+
+		label.setBounds(Math.max(0, average), label.getY(), label.getWidth(), label.getHeight());
+
 	}
 	@Override
 	public void loadComboBoxValues() {

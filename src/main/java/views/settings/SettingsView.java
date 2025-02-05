@@ -62,6 +62,12 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 		double screenHeight = screenSize.height * 0.73;
 
 		windowFrame.setSize((int) screenWidth, (int) screenHeight);
+
+		// Calculate position to center the frame
+		int x = (screenSize.width - windowFrame.getWidth()) / 2;
+		int y = (screenSize.height - windowFrame.getHeight()) / 2;
+
+		windowFrame.setLocation(x, y);
 		windowFrame.setResizable(false);
 
 	}
@@ -81,6 +87,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 	}
 
 	private void initTableListeners(JTable table) {
+
+
 
 		table.addFocusListener(new FocusAdapter() {
 			@Override
@@ -121,7 +129,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 		table.setSelectionForeground(table.getForeground());
 		table.setShowGrid(true);
 		table.setGridColor(Color.LIGHT_GRAY);
-		AutoResizableColumns(table);
 	}
 
 	@Override
@@ -129,7 +136,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
 	}
 
-	public void AutoResizableColumns(JTable table)
+	public void autoResizeColumns(JTable table)
 	{
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			int width = 0;
@@ -154,7 +161,9 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 		for (Pair<String, Double> pair : values) {
 			model.addRow(new Object[]{pair.getValue0(), pair.getValue1()});
 		}
-		getModularTable(tableName).setModel(model);
+		JTable table = getModularTable(tableName);
+		table.setModel(model);
+		autoResizeColumns(table);
 	}
 	@Override
 	public ArrayList<Pair<String, Double>> tableToArrayList(SettingsTableNames tableName) throws NumberFormatException{
