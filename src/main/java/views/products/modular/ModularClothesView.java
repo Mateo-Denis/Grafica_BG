@@ -128,9 +128,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 //			setLabelPosition(profitContainer, finalPriceContainer, profitMultiplyLabel);
 //			setLabelPosition(finalPriceContainer, finalPriceContainer, finalPriceEqualsLabel);
 //		});
-
-
-
 	}
 
 	private void setLabelPosition(JPanel leftPanel, JPanel rightPanel, JLabel label){
