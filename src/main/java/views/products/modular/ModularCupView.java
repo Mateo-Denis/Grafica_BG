@@ -7,8 +7,10 @@ import utils.MessageTypes;
 import utils.databases.SettingsDatabaseConnection;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +67,30 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		this.presenter = presenter;
 		settingsDBConnection = new SettingsDatabaseConnection();
 		initListeners();
+		adjustPanels();
+	}
+
+	private void adjustPanels() {
+
+		ArrayList<JPanel> panels = new ArrayList<>();
+		panels.add(printingMetersPriceContainer);
+		panels.add(printingMetersAmountContainer);
+		panels.add(printingMetersFinalPriceContainer);
+		panels.add(plankLoweringAmountContainer);
+		panels.add(plankLoweringPriceContainer);
+		panels.add(plankLoweringFinalPriceContainer);
+		panels.add(profitContainer);
+		panels.add(cupFinalPriceContainer);
+		for (JPanel panel : panels) {
+
+			TitledBorder border = (TitledBorder) panel.getBorder();
+
+			FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
+			int titleWidth = fm.stringWidth(border.getTitle());
+			System.out.println(border.getTitle() + " " + titleWidth);
+
+			panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
+		}
 	}
 	@Override
 	public JPanel getContainerPanel() {

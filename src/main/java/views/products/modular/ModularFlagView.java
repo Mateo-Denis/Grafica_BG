@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,10 +83,36 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
 
     public ModularFlagView(ProductCreatePresenter presenter) {
-        TitledBorder border = BorderFactory.createTitledBorder("<html>Costo de cada bajada<br>de plancha</html>");
-        plankLoweringPriceContainer.setBorder(border);
         this.presenter = presenter;
         initListeners();
+        adjustPanels();
+    }
+
+    private void adjustPanels() {
+
+        ArrayList<JPanel> panels = new ArrayList<>();
+        panels.add(printingMetersPriceContainer);
+        panels.add(printingMetersAmountContainer);
+        panels.add(printingFinalPriceContainer);
+        panels.add(plankLoweringAmountContainer);
+        panels.add(plankLoweringPriceContainer);
+        panels.add(plankLoweringFinalPriceContainer);
+        panels.add(widthContainer);
+        panels.add(heightContainer);
+        panels.add(metersPriceContainer);
+        panels.add(clothFinalPriceContainer);
+        panels.add(profitContainer);
+        panels.add(finalFlagPriceContainer);
+        for (JPanel panel : panels) {
+
+            TitledBorder border = (TitledBorder) panel.getBorder();
+
+            FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
+            int titleWidth = fm.stringWidth(border.getTitle());
+            System.out.println(border.getTitle() + " " + titleWidth);
+
+            panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
+        }
     }
 
     @Override

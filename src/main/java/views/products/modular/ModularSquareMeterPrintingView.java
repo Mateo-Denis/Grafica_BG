@@ -7,8 +7,10 @@ import utils.Attribute;
 import utils.MessageTypes;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,27 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     public ModularSquareMeterPrintingView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         initListeners();
+        adjustPanels();
+    }
+
+    private void adjustPanels() {
+
+        ArrayList<JPanel> panels = new ArrayList<>();
+        panels.add(materialSquareMetersPriceContainer);
+        panels.add(inkBySquareMeterPriceContainer);
+        panels.add(dollarPriceContainer);
+        panels.add(profitContainer);
+        panels.add(squareMeterPrintingFinalPriceContainer);
+        for (JPanel panel : panels) {
+
+            TitledBorder border = (TitledBorder) panel.getBorder();
+
+            FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
+            int titleWidth = fm.stringWidth(border.getTitle());
+            System.out.println(border.getTitle() + " " + titleWidth);
+
+            panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
+        }
     }
 
     @Override
