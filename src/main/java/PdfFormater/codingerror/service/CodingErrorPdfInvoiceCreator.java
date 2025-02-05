@@ -22,10 +22,9 @@ import com.itextpdf.layout.properties.TextAlignment;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import java.io.File;
 
 public class CodingErrorPdfInvoiceCreator {
     Document document;
@@ -43,7 +42,13 @@ public class CodingErrorPdfInvoiceCreator {
     }
     
     public void createDocument() throws FileNotFoundException {
-        PdfWriter pdfWriter=new PdfWriter(pdfName);
+        String fileDir = "C:/GraficaBG/PDFpresupuestos/";
+        File pdfsFolder = new File(fileDir);
+        if(!pdfsFolder.exists()){
+            pdfsFolder.mkdirs();
+        }
+        String pdfFinalPath = fileDir + pdfName;
+        PdfWriter pdfWriter=new PdfWriter(pdfFinalPath);
         pdfDocument=new PdfDocument(pdfWriter);
         pdfDocument.setDefaultPageSize(PageSize.A4);
         this.document=new Document(pdfDocument);
