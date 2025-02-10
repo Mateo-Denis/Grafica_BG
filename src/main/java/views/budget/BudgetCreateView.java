@@ -47,7 +47,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JScrollPane budgetPreviewScrollPanel;
     private JTable budgetPreviewingTable;
     private JPanel budgetCreationButtonsContainer;
-    private JButton budgetPreviewButton;
     private JButton budgetCreateButton;
     private JPanel tableContainer;
     private JLabel previewTableLabe;
@@ -55,8 +54,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JPanel productTableContainer;
     private JScrollPane productTableScrollPanel;
     private JPanel measuresContainer;
-    private JTextField widthMeasureTextField;
-    private JLabel widthMeasureLabel;
+    private JTextField heightMeasureTextField;
+    private JLabel heightMeasureLabel;
     private JButton addClientButton;
     private JTextField productTextField;
     private JPanel productTextFieldContainer;
@@ -69,8 +68,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JPanel clientSelectedCheckContainer;
     private JCheckBox clientSelectedCheckBox;
     private JPanel addClientContainer;
-    private JTextField heightMeasureTextField;
-    private JLabel heightMeasureLabel;
+    private JTextField widthMeasureTextField;
+    private JLabel widthMeasureLabel;
     private JButton saveModificationsButton;
     private BudgetCreatePresenter budgetCreatePresenter;
     private DefaultTableModel clientsTableModel;
@@ -87,8 +86,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.setSize(610, 1010);
         windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-        ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
 
 
@@ -112,8 +111,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.setSize(610, 800);
         windowFrame.setResizable(false);
 
-        widthMeasureTextField.setEnabled(false);
         heightMeasureTextField.setEnabled(false);
+        widthMeasureTextField.setEnabled(false);
 
     }
 
@@ -176,8 +175,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
         observationsTextField.setText("");
-        widthMeasureTextField.setText("");
         heightMeasureTextField.setText("");
+        widthMeasureTextField.setText("");
         clientSelectedCheckBox.setSelected(false);
         clearPreviewTable();
         clearClientTable();
@@ -195,8 +194,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
         priceTextArea.setText(sb.toString());
-        widthMeasureTextField.setEnabled(false);
         heightMeasureTextField.setEnabled(false);
+        widthMeasureTextField.setEnabled(false);
         setInitialPanelsVisibility();
         clearView();
     }
@@ -589,11 +588,11 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
     @Override
     public void setWidthMeasureTextField(String productsWidthMeasure) {
-        widthMeasureTextField.setText(productsWidthMeasure);
+        heightMeasureTextField.setText(productsWidthMeasure);
     }
 
     public void setHeightMeasureTextField(String productsHeightMeasure) {
-        heightMeasureTextField.setText(productsHeightMeasure);
+        widthMeasureTextField.setText(productsHeightMeasure);
     }
 
     @Override

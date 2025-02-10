@@ -25,13 +25,13 @@ public class SamplePDFCreation {
 //        }
 //    }
 
-    public static void createPDF(boolean isPreview, Client client, int billNumber, ArrayList<Row> tableContent, double total){
-        PdfConverter pdfConverter  = new PdfConverter();
-        try {
-            pdfConverter.generateBill(isPreview, client,billNumber,tableContent,total);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static void createPDF(boolean isPreview, Client client, int billNumber, ArrayList<Row> tableContent, double total){
+//        PdfConverter pdfConverter  = new PdfConverter();
+//        try {
+//            pdfConverter.generateBill(isPreview, client,billNumber,tableContent,total);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }

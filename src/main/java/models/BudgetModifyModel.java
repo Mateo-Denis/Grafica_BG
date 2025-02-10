@@ -1,10 +1,5 @@
 package models;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import utils.databases.BudgetsDatabaseConnection;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BudgetModifyModel implements IBudgetModifyModel {
@@ -13,15 +8,6 @@ public class BudgetModifyModel implements IBudgetModifyModel {
 
     public BudgetModifyModel(BudgetsDatabaseConnection budgetsDBConnection) {
         this.budgetsDBConnection = budgetsDBConnection;
-    }
-
-    @Override
-    public void updateBudget(String oldClientName, String newClientName, String date, String clientType, int budgetNumber, Multimap<Integer,String> products, ArrayList<String> productObservations, ArrayList<String> productMeasures) {
-        try {
-            budgetsDBConnection.updateBudgetTable(newClientName, date, clientType, budgetNumber);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public ArrayList<Double> getProductPrices(int budgetNumber, String budgetName) {

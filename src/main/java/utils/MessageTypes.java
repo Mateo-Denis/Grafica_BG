@@ -85,6 +85,9 @@ public enum MessageTypes {
     BUDGET_MODIFY_FAILURE("Error al modificar el presupuesto"
             , "Ha ocurrido un error al intentar modificar el presupuesto."
             , JOptionPane.ERROR_MESSAGE),
+    PDF_GENERATION_SUCCESS("PDF generado con éxito"
+            , "El PDF fue generado correctamente."
+            , JOptionPane.INFORMATION_MESSAGE),
     FLOAT_PARSING_ERROR("Formato numérico requerido"
             , "Se esperaba un número para el campo ingresado."
             , JOptionPane.ERROR_MESSAGE),

@@ -64,7 +64,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JScrollPane budgetPreviewScrollPanel;
     private JTable budgetPreviewTable;
     private JTextArea priceTextArea;
-    private JButton budgetPreviewButton;
     private JButton budgetModifyButton;
     private JButton deleteProductButton;
     private JTextField widthMeasureTextField;
@@ -108,7 +107,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     protected void initListeners() {
         budgetModifyButton.addActionListener(e -> {
             budgetModifyPresenter.onSaveModificationsButtonClicked();
-            restartWindow();
         });
         clientSearchButton.addActionListener(e -> budgetModifyPresenter.OnSearchClientButtonClicked());
         addProductButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
@@ -121,7 +119,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             public void windowClosing(WindowEvent e) {
                 restartWindow();
                 windowFrame.dispose();
-                //budgetModifyPresenter.onModifySearchViewButtonClicked(budgetModifyPresenter.GetGlobalBudgetNumer());
             }
         });
 
@@ -130,14 +127,14 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = productTable.getSelectedRow();
-                    if((selectedRow != -1) && (productTable.getValueAt(selectedRow, 0) != null)) {
+                    if ((selectedRow != -1) && (productTable.getValueAt(selectedRow, 0) != null)) {
                         String productCategory = (String) productTable.getValueAt(selectedRow, 1);
-                        if (productCategory.equals("Cloth") || productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
+                        if (productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(true);
                             heightMeasureTextField.setEnabled(true);
-                        } else if(productCategory.equals("LinearPrinting")) {
+                        } else if (productCategory.equals("Cloth") || productCategory.equals("LinearPrinting")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(false);

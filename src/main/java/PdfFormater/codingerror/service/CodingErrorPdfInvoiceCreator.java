@@ -40,18 +40,28 @@ public class CodingErrorPdfInvoiceCreator {
     public CodingErrorPdfInvoiceCreator(String pdfName){
         this.pdfName=pdfName;
     }
-    
+
     public void createDocument() throws FileNotFoundException {
         String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/";
         File pdfsFolder = new File(fileDir);
-        if(!pdfsFolder.exists()){
+        if (!pdfsFolder.exists()) {
             pdfsFolder.mkdirs();
         }
+
+        String baseName = pdfName.replace(".pdf", ""); // Eliminamos la extensión para manipular el nombre
         String pdfFinalPath = fileDir + File.separator + pdfName;
-        PdfWriter pdfWriter=new PdfWriter(pdfFinalPath);
-        pdfDocument=new PdfDocument(pdfWriter);
+        int counter = 1;
+
+        // Verifica si ya existe el archivo y genera un nombre único
+        while (new File(pdfFinalPath).exists()) {
+            pdfFinalPath = fileDir + File.separator + baseName + " - COPIA " + counter + ".pdf";
+            counter++;
+        }
+
+        PdfWriter pdfWriter = new PdfWriter(pdfFinalPath);
+        pdfDocument = new PdfDocument(pdfWriter);
         pdfDocument.setDefaultPageSize(PageSize.A4);
-        this.document=new Document(pdfDocument);
+        this.document = new Document(pdfDocument);
     }
 
     public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {

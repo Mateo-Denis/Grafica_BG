@@ -1,5 +1,8 @@
 package presenters.budget;
 
+import PdfFormater.IPdfConverter;
+import PdfFormater.PdfConverter;
+import PdfFormater.Row;
 import com.google.common.collect.Multimap;
 import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
@@ -31,6 +34,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
     private final IBudgetModifyModel budgetModifyModel;
+    private static final IPdfConverter pdfConverter = new PdfConverter();
 
     private int productsRowCountOnPreviewTable = -1;
     private int globalClientID = -1;
@@ -226,6 +230,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
         boolean unlockedMeasures = CheckMeasureFieldsAreEnabled();
         String productObservations = budgetModifyView.getObservationsTextField().getText();
         double oneItemProductPrice = product.calculateRealTimePrice();
+        JTextField widthTextField = budgetModifyView.getWidthMeasureTextField();
+        JTextField heightTextField = budgetModifyView.getHeightMeasureTextField();
+        int meters;
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
         double recharge = 1.0;
@@ -239,18 +246,29 @@ public class BudgetModifyPresenter extends StandardPresenter {
             recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
         }
 
-        if (unlockedMeasures) {
+        if (unlockedMeasures) {//ONE OR BOTH TEXTFIELDS ARE ENABLED
+
             if (productHeightMeasures.isEmpty()) {
                 productHeightMeasures = "1";
             }
             if (productWidthMeasures.isEmpty()) {
                 productWidthMeasures = "1";
             }
-            int meters = Integer.parseInt(productWidthMeasures) * Integer.parseInt(productHeightMeasures);
+
+            if (widthTextField.isEnabled() && heightTextField.isEnabled()) { //IF ARE BOTH ENABLED
+
+                productMeasures = productWidthMeasures + "m x " + productHeightMeasures + "m";
+                meters = Integer.parseInt(productHeightMeasures) * Integer.parseInt(productWidthMeasures);
+            } else { //IF ONLY ONE IS ENABLED (HEIGHT)
+                productMeasures = productHeightMeasures + "m";
+                meters = Integer.parseInt(productHeightMeasures);
+            }
+
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;
             settingPrice = oneItemProductPrice * meters * recharge;
-            productMeasures = productWidthMeasures + " x " + productHeightMeasures;
-        } else {
+
+        } else { //NONE OF THE TEXTFIELDS ARE ENABLED
+            productMeasures = "-";
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * recharge;
             settingPrice = oneItemProductPrice * recharge;
         }
@@ -470,6 +488,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
     public void onSaveModificationsButtonClicked() {
         int newBudgetID = -1;
         int oldBudgetID = -1;
+        Client client;
+        ArrayList<Row> tableContent = new ArrayList<>();
+        double recharge = 1;
 
         String newClientName = budgetModifyView.getPreviewStringTableValueAt(0, 0);
         String newClientType = budgetModifyView.getPreviewStringTableValueAt(0, 6);
@@ -518,10 +539,64 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModel.saveProducts(newBudgetID, productAmounts, productNames, productObservations, productMeasures, productPrices);
             budgetModel.deleteBudgetProducts(oldBudgetID);
 
+            client = GetOneClientByID(newClientName, newClientType);
+            tableContent = getAllProductsFromPreviewTable(client.isClient(), recharge);
+            GeneratePDF(client, tableContent, globalBudgetNumber);
+
             budgetModifyView.showMessage(MessageTypes.BUDGET_MODIFY_SUCCESS);
 
             budgetModifyView.hideView();
             budgetModifyView.getWindowFrame().dispose();
+            budgetModifyView.restartWindow();
+        }
+    }
+
+    public Client GetOneClientByID(String clientName, String clientType) {
+        int clientID = budgetModel.getClientID(clientName, clientType);
+        return budgetModel.GetOneClientByID(clientID);
+    }
+
+    public ArrayList<Row> getAllProductsFromPreviewTable(boolean isParticular, double recharge) {
+        ArrayList<Row> productRowData = new ArrayList<>();
+        List<String> oneProduct;
+
+        Product product;
+        double productPrice = 0.0;
+        double totalPrice = 0.0;
+        Row row;
+
+        for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
+            oneProduct = GetOneProductFromPreviewTable(i);
+            product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
+            productPrice = isParticular ? product.calculateRealTimePrice() : product.calculateRealTimePrice() * recharge;
+            totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
+
+            row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
+            productRowData.add(row);
+        }
+        return productRowData;
+    }
+
+    public List<String> GetOneProductFromPreviewTable(int row) {
+        List<String> productRowData = new ArrayList<>();
+        String productName = budgetModifyView.getPreviewStringTableValueAt(row, 1);
+        String productAmount = budgetModifyView.getPreviewStringTableValueAt(row, 2);
+        String productMeasures = budgetModifyView.getPreviewStringTableValueAt(row, 3);
+        String productObservations = budgetModifyView.getPreviewStringTableValueAt(row, 4);
+
+        productRowData.add(productName);
+        productRowData.add(productAmount);
+        productRowData.add(productMeasures);
+        productRowData.add(productObservations);
+
+        return productRowData;
+    }
+
+    public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber) {
+        try {
+            pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

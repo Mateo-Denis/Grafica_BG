@@ -74,7 +74,8 @@ public class BudgetSearchPresenter extends StandardPresenter {
         }
 
         try {
-            pdfConverter.generateBill(false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+            pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+            budgetSearchView.showMessage(PDF_GENERATION_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,7 +128,8 @@ public class BudgetSearchPresenter extends StandardPresenter {
                 budgetModel.deleteBudgetProducts(budgetID);
                 budgetModel.deleteOneBudget(budgetID);
                 budgetSearchView.showMessage(BUDGET_DELETE_SUCCESS);
-                budgetSearchView.getBudgetResultTable().clearSelection();
+                budgetSearchView.clearTable();
+                budgetModel.queryBudgets("");
                 //budgetSearchView.clearTable();
             } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
         } else {    budgetSearchView.showMessage(BUDGET_DELETE_FAILURE);    }
