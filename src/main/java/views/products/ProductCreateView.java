@@ -125,6 +125,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         for (String stringModular : nombresDeModulars) {
             String subString = textUtils.extractor(stringModular);
             subStringModulars.add(subString);
+            //System.out.println(subString);
         }
 
         for (int i = 0; i < subStringModulars.size(); i++) {

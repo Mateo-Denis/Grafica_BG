@@ -17,12 +17,16 @@ public class PdfConverter implements IPdfConverter{
     public PdfConverter(){}
     @Override
     public void generateBill(boolean isPreview, Client client, int billNumber, ArrayList<Row> tableContent, double total) throws FileNotFoundException {
-        LocalDate ld= LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate ld = LocalDate.now();
+        String formattedDate = ld.format(formatter);
+        LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
+
         String pdfName;
         if(isPreview){
             pdfName = "temp_preview.pdf";
         }else {
-            pdfName = billNumber+"_"+ ld +".pdf";
+            pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
         }
         String imagePath="src/main/resources/BGLogo.png";
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);

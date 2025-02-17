@@ -38,6 +38,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final ISettingsModel settingsModel;
     private static final IPdfConverter pdfConverter = new PdfConverter();
+    private static final CategoryParser categoryParser = new CategoryParser();
 
     double globalBudgetTotalPrice = 0.0;
     private ArrayList<Client> globalClientsList;
@@ -115,7 +116,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             // INNER LOOP THROUGH CATEGORIES NAMES
             for (String categoryName : categoriesName) {
                 if (categoryModel.getCategoryID(categoryName) == categoryID) { // IF CATEGORY ID MATCHES
-                    productCategoryName = categoryName; // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
+                    productCategoryName = categoryParser.parseCategory(categoryName); // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
             }
 

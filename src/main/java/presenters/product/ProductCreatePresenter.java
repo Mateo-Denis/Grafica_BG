@@ -50,14 +50,6 @@ public class ProductCreatePresenter extends StandardPresenter {
         });
     }
 
-    public void onUpdatePriceButtonClicked() {
-        if (modularView == null) {
-            productCreateView.showMessage(MISSING_MODULAR_VIEW);
-        } else {
-            modularView = productCreateView.getModularView();
-        }
-    }
-
     public void SetModularPriceTextFields(IModularCategoryView paramModularView)
     {
             modularView.comboBoxListenerSet(e -> {

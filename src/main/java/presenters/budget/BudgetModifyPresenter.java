@@ -43,6 +43,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private double globalBudgetTotalPrice = 0.0;
     private String globalClientType = "";
     private final ISettingsModel settingsModel;
+    private static final CategoryParser categoryParser = new CategoryParser();
 
 
     public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
@@ -98,7 +99,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             // INNER LOOP THROUGH CATEGORIES NAMES
             for (String categoryName : categoriesName) {
                 if (categoryModel.getCategoryID(categoryName) == categoryID) { // IF CATEGORY ID MATCHES
-                    productCategoryName = categoryName; // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
+                    productCategoryName = categoryParser.parseCategory(categoryName); // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
             }
             productPrice = product.calculateRealTimePrice();
