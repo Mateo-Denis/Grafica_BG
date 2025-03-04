@@ -92,6 +92,7 @@ public class ProductModel implements IProductModel {
     public void deleteOneProduct(int oneProductID) {
         try {
             productsDBConnection.deleteOneProductFromDB(oneProductID);
+            attributesDBConnection.deleteProductAttributesByID(oneProductID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -55,6 +55,11 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     @Override
     public void start() {
         super.start();
+        SetBudgetTableModel();
+    }
+
+    public void SetBudgetTableModel()
+    {
         DefaultTableModel tableModel = new DefaultTableModel(
                 new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200
         )

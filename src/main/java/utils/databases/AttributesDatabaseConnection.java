@@ -1,8 +1,6 @@
 package utils.databases;
 
-import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 
 public class AttributesDatabaseConnection extends DatabaseConnection {
@@ -54,6 +52,18 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public void deleteProductAttributesByID(int productID)
+    {
+        String sql = "DELETE FROM Atributos WHERE ID_PRODUCTO = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, productID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

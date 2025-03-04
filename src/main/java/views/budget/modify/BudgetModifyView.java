@@ -81,21 +81,41 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-        ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-        ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+
+        SetDisableNumberInputFilter();
+
         budgetModifyButton.setVisible(true);
-        priceTextArea.setEditable(false);
-        sb.append("Precio total: ");
-        priceTextArea.setText(sb.toString());
+
+        SetPriceTextAreaInitialText();
+
         cambiarTamanioFuente(containerPanel, 14);
+
         windowFrame.setSize(750,800);
         windowFrame.setResizable(false);
 
-        widthMeasureTextField.setEnabled(false);
-        heightMeasureTextField.setEnabled(false);
+        DisableMeasureTextFields();
 
         clientSearchingContainer.setVisible(false);
+    }
+
+    private void SetDisableNumberInputFilter()
+    {
+        ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+        ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+    }
+
+    private void SetPriceTextAreaInitialText()
+    {
+        priceTextArea.setEditable(false);
+        sb.append("Precio total: ");
+        priceTextArea.setText(sb.toString());
+    }
+
+    private void DisableMeasureTextFields()
+    {
+        widthMeasureTextField.setEnabled(false);
+        heightMeasureTextField.setEnabled(false);
     }
 
     @Override
@@ -108,12 +128,19 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         budgetModifyButton.addActionListener(e -> {
             budgetModifyPresenter.onSaveModificationsButtonClicked();
         });
+
         clientSearchButton.addActionListener(e -> budgetModifyPresenter.OnSearchClientButtonClicked());
+
         addProductButton.addActionListener(e -> budgetModifyPresenter.onAddProductButtonClicked());
+
         deleteProductButton.addActionListener(e -> budgetModifyPresenter.onDeleteProductButtonClicked());
+
         clientSelectedCheckBox.addItemListener(e -> budgetModifyPresenter.onClientSelectedCheckBoxClicked());
+
         clientAddButton.addActionListener(e -> budgetModifyPresenter.onAddClientButtonClicked());
+
         productSearchButton.addActionListener(e -> budgetModifyPresenter.OnSearchProductButtonClicked());
+
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -122,6 +149,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
             }
         });
 
+        SetProductTableListener();
+
+    }
+
+    private void SetProductTableListener()
+    {
         productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -129,12 +162,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
                     int selectedRow = productTable.getSelectedRow();
                     if ((selectedRow != -1) && (productTable.getValueAt(selectedRow, 0) != null)) {
                         String productCategory = (String) productTable.getValueAt(selectedRow, 1);
-                        if (productCategory.equals("CuttingService") || productCategory.equals("SquareMeterPrinting")) {
+                        if (productCategory.equals("Servicio de corte") || productCategory.equals("Impresión en metro cuadrado")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(true);
                             heightMeasureTextField.setEnabled(true);
-                        } else if (productCategory.equals("Cloth") || productCategory.equals("LinearPrinting")) {
+                        } else if (productCategory.equals("Tela") || productCategory.equals("Impresión lineal")) {
                             widthMeasureTextField.setText("");
                             heightMeasureTextField.setText("");
                             widthMeasureTextField.setEnabled(false);
@@ -151,71 +184,13 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         });
     }
 
-//    public List<String[]> getPreviewTableFilledRowsData() {
-//        List<String[]> filledRowsData = new ArrayList<>();
-//        String[] dataArray;
-//
-//        String budgetClientName = "";
-//        String budgetProductName = "";
-//        int budgetProductAmount = 1;
-//        String budgetProductMeasures = "";
-//        String budgetProductObservations = "";
-//        double budgetProductPrice = -1.0;
-//        String budgetClientType = "";
-//
-//        int filledRows = getFilledRowsCount(budgetPreviewTable);
-//
-//
-//
-//        for (int row = 0; row <= filledRows; row++) {
-//            if(row == 0){
-//                budgetClientName = (String) budgetPreviewTable.getValueAt(row, 0);
-//                budgetClientType = (String) budgetPreviewTable.getValueAt(row, 6);
-//                dataArray = new String[]{budgetClientName, budgetClientType};
-//                filledRowsData.add(dataArray);
-//            } else {
-//                Object selectedProductName = budgetPreviewTable.getValueAt(row, 1);
-//                Object selectedProductAmount = budgetPreviewTable.getValueAt(row, 2);
-//                Object selectedProductMeasures = budgetPreviewTable.getValueAt(row, 3);
-//                Object selectedProductObservations = budgetPreviewTable.getValueAt(row, 4);
-//                Object selectedProductPrice = budgetPreviewTable.getValueAt(row, 5);
-//
-//                if(selectedProductName != null && !selectedProductName.equals("")) {
-//                    budgetProductName = (String) selectedProductName;
-//                }
-//                if(selectedProductAmount != null && !selectedProductAmount.equals("")) {
-//                    budgetProductAmount = Integer.parseInt((String) selectedProductAmount);
-//                }
-//                if(selectedProductMeasures != null && !selectedProductMeasures.equals("")) {
-//                    budgetProductMeasures = (String) selectedProductMeasures;
-//                }
-//                if(selectedProductObservations != null && !selectedProductObservations.equals("")) {
-//                    budgetProductObservations = (String) selectedProductObservations;
-//                }
-//                if(selectedProductPrice != null && !selectedProductPrice.equals("")) {
-//                    budgetProductPrice = (double) selectedProductPrice;
-//                }
-//
-//                dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
-//                filledRowsData.add(dataArray);
-//
-//            }
-//        }
-//        return filledRowsData;
-//    }
-
     @Override
     public void clearView() {
         clientTextField.setText("");
         cityComboBox.setSelectedIndex(0);
-        amountTextField.setText("");
         observationsTextField.setText("");
-        clientTextField.setText("");
         productTextField.setText("");
-        cityComboBox.setSelectedIndex(0);
         amountTextField.setText("");
-        observationsTextField.setText("");
-        heightMeasureTextField.setText("");
         clientSelectedCheckBox.setSelected(false);
         widthMeasureTextField.setEnabled(false);
         heightMeasureTextField.setEnabled(false);
@@ -231,11 +206,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
-        widthMeasureTextField.setText("");
-        heightMeasureTextField.setText("");
         priceTextArea.setText(sb.toString());
-        widthMeasureTextField.setEnabled(false);
-        heightMeasureTextField.setEnabled(false);
         setInitialPanelsVisibility();
         clearView();
     }
@@ -255,11 +226,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return fechaActual.format(formato);
-    }
-
-    @Override
-    public String getBudgetClientType() {
-        return "Particular";
     }
 
     @Override
@@ -321,23 +287,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     @Override
-    public void setProductsComboBox(ArrayList<String> productsName) {
-        productComboBox.addItem("Seleccione un producto:");
-        for (String productName : productsName) {
-            productComboBox.addItem(productName);
-        }
-    }
-
-    @Override
-    public JComboBox<String> getProductsComboBox() {
-        return productComboBox;
-    }
-
-    public String getSelectedCategory() {
-        return (String) productComboBox.getSelectedItem();
-    }
-
-    @Override
     public void comboBoxListenerSet(ItemListener listener) {
         productComboBox.addItemListener(listener);
     }
@@ -348,19 +297,22 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     @Override
-    public void setProductDoubleTableValueAt(int row, int col, Double value) {
-        productTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setProductIntTableValueAt(int row, int col, int value) {
-        productTable.setValueAt(value, row, col);
-    }
-
-
-    @Override
     public void start() {
         super.start();
+        SetClientsTableModel();
+        SetProductsTableModel();
+        SetBudgetTableModel();
+
+        setTableVisibility(clientResultTable);
+        setTableVisibility(productTable);
+        setTableVisibility(budgetPreviewTable);
+
+        clientSearchingContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
+        addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+    }
+
+    private void SetClientsTableModel()
+    {
         clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
         {
             @Override
@@ -370,6 +322,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         };
         clientResultTable.setModel(clientsTableModel);
         clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void SetProductsTableModel()
+    {
         productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200)
         {
             @Override
@@ -379,6 +335,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         };
         productTable.setModel(productsTableModel);
         productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void SetBudgetTableModel()
+    {
         previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200)
         {
             @Override
@@ -388,13 +348,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         };
         budgetPreviewTable.setModel(previewTableModel);
         budgetPreviewTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        setTableVisibility(clientResultTable);
-        setTableVisibility(productTable);
-        setTableVisibility(budgetPreviewTable);
-
-        clientSearchingContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
-        addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
     }
 
     @Override
@@ -405,14 +358,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         // Establecer la altura preferida del viewport dentro del JScrollPane
         table.setPreferredScrollableViewportSize(new java.awt.Dimension(
                 table.getPreferredSize().width, tableHeight));
-    }
-
-    public JButton getAddProductButton() {
-        return addProductButton;
-    }
-
-    public void addProductToPreviewTable(Product product, int row) {
-        budgetPreviewTable.setValueAt(product.getName(), row, 1);
     }
 
     public int getFilledRowsCount(JTable table) {
@@ -429,29 +374,16 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     public JTextField getWidthMeasureTextField() {
         return widthMeasureTextField;
     }
+
     public JTextField getHeightMeasureTextField() {
         return heightMeasureTextField;
-    }
-
-    @Override
-    public void setWidthMeasureTextField(String productsWidthMeasure) {
-        widthMeasureTextField.setText(productsWidthMeasure);
     }
 
     public void setHeightMeasureTextField(String productsHeightMeasure) {
         heightMeasureTextField.setText(productsHeightMeasure);
     }
 
-    public JButton getClientsSearchButton() {
-        return clientSearchButton;
-    }
-
     public void setClientStringTableValueAt(int row, int col, String value) {
-        clientResultTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setClientDoubleTableValueAt(int row, int col, Double value) {
         clientResultTable.setValueAt(value, row, col);
     }
 
@@ -460,22 +392,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientResultTable.setValueAt(value, row, col);
     }
 
-    public JButton getClientAddButton() {
-        return clientAddButton;
-    }
-
     @Override
     public void setPreviewStringTableValueAt(int row, int col, String value) {
-        budgetPreviewTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setPreviewDoubleTableValueAt(int row, int col, Double value) {
-        budgetPreviewTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setPreviewIntTableValueAt(int row, int col, int value) {
         budgetPreviewTable.setValueAt(value, row, col);
     }
 
@@ -491,10 +409,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         return budgetPreviewTable.getSelectedRow();
     }
 
-    public JTable getClientResultTable() {
-        return clientResultTable;
-    }
-
     @Override
     public JTable getPreviewTable() {
         return budgetPreviewTable;
@@ -504,45 +418,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         return (String) productTable.getValueAt(row, col);
     }
 
-    public String getClientStringTableValueAt(int row, int col) {
-        return (String) clientResultTable.getValueAt(row, col);
-    }
-
-    @Override
-    public int getClientIntTableValueAt(int row, int col) {
-        return (int) clientResultTable.getValueAt(row, col);
-    }
-
-    @Override
-    public Double getClientDoubleTableValueAt(int row, int col) {
-        return (Double) clientResultTable.getValueAt(row, col);
-    }
-
-    public int getColumnCount() {
-        return previewTableModel.getColumnCount();
-    }
-
     public String getPreviewStringTableValueAt(int row, int col) {
         return (String) budgetPreviewTable.getValueAt(row, col);
     }
 
-    @Override
-    public int getPreviewIntTableValueAt(int row, int col) {
-        return (int) budgetPreviewTable.getValueAt(row, col);
-    }
-
     public JTextField getProductsTextField() {
         return productTextField;
-    }
-
-    public JButton getProductSearchButton() {
-        return productSearchButton;
-    }
-
-    @Override
-    public void setClientOnPreviewTable(String clientName, String clientType) {
-        budgetPreviewTable.setValueAt(clientName, 0, 0);
-        budgetPreviewTable.setValueAt(clientType, 0, 3);
     }
 
     @Override
@@ -551,38 +432,12 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     @Override
-    public JTextField getMeasuresTextField() {
-        return heightMeasureTextField;
-    }
-
-    @Override
     public JTextField getObservationsTextField() {
         return observationsTextField;
     }
 
-    public int countNonEmptyCells(JTable table, int columnIndex) {
-        int count = 0;
-
-        // Iterar a través de todas las filas de la tabla
-        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
-            Object cellValue = table.getValueAt(rowIndex, columnIndex);
-
-            // Comprobar si la celda no está vacía (ni null ni cadena vacía)
-            if (cellValue != null && !cellValue.equals("")) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     public DefaultTableModel getPreviewTableModel() {
         return previewTableModel;
-    }
-
-    @Override
-    public JButton getSaveModificationsButton() {
-        return null;
     }
 
     public JTextArea getPriceTextArea() {
@@ -620,21 +475,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public JCheckBox getClientSelectedCheckBox() {
         return clientSelectedCheckBox;
-    }
-
-    @Override
-    public void setObservationsTextField(String productsObservation) {
-        observationsTextField.setText(productsObservation);
-    }
-
-    @Override
-    public void setMeasuresTextField(String productsMeasure) {
-        heightMeasureTextField.setText(productsMeasure);
-    }
-
-    @Override
-    public void setAmountTextField(int productsAmount) {
-        amountTextField.setText(String.valueOf(productsAmount));
     }
 
     @Override
