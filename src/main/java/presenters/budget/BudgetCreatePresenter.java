@@ -448,7 +448,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         Product product; // PRODUCT VARIABLE
         JTable productTable = budgetCreateView.getProductsResultTable(); // PRODUCTS TABLE
         int selectedProductRow = budgetCreateView.getProductTableSelectedRow(); // SELECTED PRODUCT ROW
-        int selectedPreviewRow = budgetCreateView.getPreviewTableSelectedRow(); // SELECTED PREVIEW ROW
 
         if (selectedProductRow != -1) {
             if((productTable.getValueAt(selectedProductRow, 0) != null) && !productTable.getValueAt(selectedProductRow, 0).equals("")){

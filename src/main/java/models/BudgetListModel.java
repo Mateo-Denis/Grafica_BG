@@ -6,11 +6,10 @@ import java.util.ArrayList;
 
 public class BudgetListModel implements IBudgetListModel {
     private final BudgetsDatabaseConnection budgetsDBConnection;
-    private ArrayList<Budget> budgets;
 
     public BudgetListModel(BudgetsDatabaseConnection budgetsDBConnection) {
         this.budgetsDBConnection = budgetsDBConnection;
-        budgets = new ArrayList<>();
+        ArrayList<Budget> budgets = new ArrayList<>();
     }
 
     @Override

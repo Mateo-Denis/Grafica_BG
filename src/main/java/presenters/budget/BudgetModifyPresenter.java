@@ -476,9 +476,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void setModifyView(ArrayList<String> productNames, ArrayList<Integer> productAmounts, ArrayList<String> observations, ArrayList<String> measures, int budgetNumber, ArrayList<Double> prices) {
         ArrayList<String> budgetData = budgetModifyModel.getSelectedBudgetData(budgetNumber);
-        int budgetID = Integer.parseInt(budgetData.get(0));
         String budgetclientName = budgetData.get(1);
-        String budgetDate = budgetData.get(2);
         String budgetClientType = budgetData.get(3);
         SetClientInPreviewTable(budgetclientName, budgetClientType);
         SetProductsInPreviewTable(prices, productNames, productAmounts, measures, observations);
@@ -500,8 +498,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         int productAmount = 0;
         String productObservation = "";
         String productMeasure = "";
-        String measuresObservations = "";
-        Double productPrice = 0.0;
+        double productPrice = 0.0;
 
         ArrayList<String> productNames = new ArrayList<>();
         ArrayList<Integer> productAmounts = new ArrayList<>();
