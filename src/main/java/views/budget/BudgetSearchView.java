@@ -8,10 +8,9 @@ import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
-import utils.Client;
 import views.ToggleableView;
-
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 public class BudgetSearchView extends ToggleableView implements IBudgetSearchView {
@@ -31,8 +30,9 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     private JButton cleanTableButton;
     private JButton deleteButton;
     private BudgetSearchPresenter budgetSearchPresenter;
-    private BudgetListPresenter budgetListPresenter;
-    private BudgetModifyPresenter budgetModifyPresenter;
+    private final BudgetListPresenter budgetListPresenter;
+    private final BudgetModifyPresenter budgetModifyPresenter;
+    private static Logger LOGGER;
 
     public BudgetSearchView(BudgetListPresenter budgetListPresenter, BudgetModifyPresenter budgetModifyPresenter) {
         windowFrame = new JFrame("Buscar Presupuestos");
@@ -108,8 +108,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     }
 
     public ArrayList<Row> getBudgetContent() {
-        ArrayList<Row> tableContent = new ArrayList<>();
-        return tableContent;
+        return new ArrayList<>();
     }
 
 
@@ -154,7 +153,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
                         budgetNumber = Integer.parseInt(budgetNumberStr);
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    e.printStackTrace();
+                    LOGGER.log(null, "ERROR IN METHOD 'getSelectedBudgetNumber', CLASS->BudgetSearchPresenter");
                 }
             }
         }

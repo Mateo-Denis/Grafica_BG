@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class HomeView extends JFrame implements IHomeView {
 
-	private JFrame windowFrame;
+	private final JFrame windowFrame;
 	private JPanel containerPanel;
 	private JButton productCreateButton;
 	private JButton productSearchButton;

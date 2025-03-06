@@ -1,7 +1,6 @@
 package views.client;
 
 import views.IToggleableView;
-
 import javax.swing.*;
 
 public interface IClientCreateView extends IToggleableView {

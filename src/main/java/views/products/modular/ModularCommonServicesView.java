@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.SERVICIOS;
-import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularCommonServicesView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -22,7 +21,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JPanel serviceCostContainer;
     private JComboBox serviceTypeComboBox;
     private JTextField serviceCostTextField;
-    private ProductCreatePresenter presenter;
+    private final ProductCreatePresenter presenter;
     private double servicePrice;
     private boolean initialization;
 

@@ -1,9 +1,9 @@
 package views.budget.modify;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import utils.NumberInputVerifier;
-import utils.Product;
 import views.ToggleableView;
 
 import javax.swing.*;
@@ -53,6 +53,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JLabel amountLabel;
     private JTextField amountTextField;
     private JLabel heightMeasureLabel;
+    @Getter
     private JTextField heightMeasureTextField;
     private JTextField observationsTextField;
     private JLabel observationsLabel;
@@ -63,16 +64,19 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JPanel previewTableContainer;
     private JScrollPane budgetPreviewScrollPanel;
     private JTable budgetPreviewTable;
+    @Getter
     private JTextArea priceTextArea;
     private JButton budgetModifyButton;
     private JButton deleteProductButton;
+    @Getter
     private JTextField widthMeasureTextField;
     private JLabel widthMeasureLabel;
     private BudgetModifyPresenter budgetModifyPresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
+    @Getter
     private DefaultTableModel previewTableModel;
-    private StringBuilder sb = new StringBuilder();
+    private final StringBuilder sb = new StringBuilder();
 
 
     public BudgetModifyView(){
@@ -371,14 +375,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         return rowCount;
     }
 
-    public JTextField getWidthMeasureTextField() {
-        return widthMeasureTextField;
-    }
-
-    public JTextField getHeightMeasureTextField() {
-        return heightMeasureTextField;
-    }
-
     public void setHeightMeasureTextField(String productsHeightMeasure) {
         heightMeasureTextField.setText(productsHeightMeasure);
     }
@@ -434,14 +430,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public JTextField getObservationsTextField() {
         return observationsTextField;
-    }
-
-    public DefaultTableModel getPreviewTableModel() {
-        return previewTableModel;
-    }
-
-    public JTextArea getPriceTextArea() {
-        return priceTextArea;
     }
 
     public StringBuilder getStringBuilder() {

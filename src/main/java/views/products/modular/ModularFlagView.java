@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.*;
-import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -68,12 +67,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JLabel printingMetersEqualsLabel;
     private JComboBox sizeComboBox;
     @Getter
-    private ArrayList<String> radioValues = new ArrayList<>();
+    private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
-    private Map<String, String> comboBoxValues = new HashMap<>();
+    private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
-    private Map<String, String> textFieldValues = new HashMap<>();
-    private ProductCreatePresenter presenter;
+    private final Map<String, String> textFieldValues = new HashMap<>();
+    private final ProductCreatePresenter presenter;
     private double profit;
     private double printingMetersPrice;
     private double plankLoweringPrice;

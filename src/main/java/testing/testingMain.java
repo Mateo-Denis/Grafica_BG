@@ -8,13 +8,11 @@ import utils.Product;
 
 import java.awt.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class testingMain {
-    private static Multimap<Integer, Product> productMap = ArrayListMultimap.create();
-    private static BudgetsDatabaseConnection budgetsDatabaseConnection = new BudgetsDatabaseConnection();
-    private static BudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDatabaseConnection);
+    private static final Multimap<Integer, Product> productMap = ArrayListMultimap.create();
+    private static final BudgetsDatabaseConnection budgetsDatabaseConnection = new BudgetsDatabaseConnection();
+    private static final BudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDatabaseConnection);
 
     public static void main(String[] args) throws SQLException {
 //        Multimap<Integer,String> products = budgetModifyModel.getSavedProducts(1, "aaaa");

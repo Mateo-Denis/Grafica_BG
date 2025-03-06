@@ -15,6 +15,7 @@ import views.budget.IBudgetSearchView;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 // BudgetSearchPresenter CLASS
@@ -24,6 +25,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
     private final IBudgetCreateView budgetCreateView;
     private final IBudgetModifyModel budgetModifyModel;
     private BudgetCreatePresenter budgetCreatePresenter;
+    private static Logger LOGGER;
     private static final IPdfConverter pdfConverter = new PdfConverter();
 
     // CONSTRUCTOR
@@ -77,7 +79,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
             pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
             budgetSearchView.showMessage(PDF_GENERATION_SUCCESS);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "ERROR GENERATING BILL");
         }
     }
 
@@ -94,8 +96,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
         String selectedBudgetName = budgetSearchView.getSelectedBudgetName();
         String selectedBudgetClientType = budgetSearchView.getSelectedBudgetClientType();
         int clientID = budgetModel.getClientID(selectedBudgetName, selectedBudgetClientType);
-        Client client = budgetModel.GetOneClientByID(clientID);
-        return client;
+        return budgetModel.GetOneClientByID(clientID);
     }
 
 
@@ -143,7 +144,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
         int budgetId = -1;
 
         if (selectedRow != -1) {
-            selectedBudgetName = (String) budgetSearchView.getSelectedBudgetName();
+            selectedBudgetName = budgetSearchView.getSelectedBudgetName();
             if (selectedBudgetName != null && !selectedBudgetName.isEmpty()) {
                 selectedBudgetNumber = Integer.parseInt(budgetSearchView.getStringValueAt(selectedRow, 3));
                 budgetId = budgetModel.getBudgetID(selectedBudgetNumber, selectedBudgetName);

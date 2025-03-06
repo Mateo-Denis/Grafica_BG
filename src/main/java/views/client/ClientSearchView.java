@@ -1,5 +1,6 @@
 package views.client;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
@@ -7,11 +8,11 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
 
 public class ClientSearchView extends ToggleableView implements IClientSearchView  {
     private JPanel containerPanel;
     private JTextField nameSearchField;
+    @Getter
     private JTable clientResultTable;
     private JPanel clientResultContainer;
     private JScrollPane clientResultScrollPanel;
@@ -23,7 +24,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JLabel addressLabel;
     private JButton deleteButton;
     private ClientSearchPresenter clientSearchPresenter;
-    private ClientListPresenter clientListPresenter;
+    private final ClientListPresenter clientListPresenter;
 
     public ClientSearchView(ClientListPresenter clientListPresenter) {
         windowFrame = new JFrame("Buscar Cliente");
@@ -41,7 +42,19 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     @Override
     public void start() {
         super.start();
-		DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
+        SetClientTable();
+        SetCityComboBox();
+    }
+
+    private void SetCityComboBox()
+    {
+        cityComboBox.addItem("Cualquier localidad");
+        cityComboBox.setSelectedItem("Cualquier localidad");
+    }
+
+    private void SetClientTable()
+    {
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
         {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -49,9 +62,6 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
             }
         };
         clientResultTable.setModel(tableModel);
-
-        cityComboBox.addItem("Cualquier localidad");
-        cityComboBox.setSelectedItem("Cualquier localidad");
         clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
@@ -79,6 +89,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         cityComboBox.setSelectedItem("Cualquier localidad");
         clientResultTable.clearSelection();
     }
+
     public void clearTable(){
         for (int row = 0; row < clientResultTable.getRowCount(); row++) {
             for (int col = 0; col < clientResultTable.getColumnCount(); col++) {
@@ -103,9 +114,6 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     public void setTableValueAt(int row, int col, String value) {
         clientResultTable.setValueAt(value, row, col);
     }
-    public void setSelectedCity(String city) {
-        cityComboBox.setSelectedItem(city);
-    }
 
     public boolean isCityInComboBox(String city) {
         for (int i = 0; i < cityComboBox.getItemCount(); i++) {
@@ -120,42 +128,8 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         return clientResultTable.getSelectedRow();
     }
 
-    public String getSelectedClientName() {
-        String clientName = "";
-        try {
-            clientName = (String) clientResultTable.getValueAt(getSelectedTableRow(), 0);
-            return clientName;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            JOptionPane.showMessageDialog(null, "No client selected", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> getMultipleSelectedClientNames() {
-        ArrayList<String> clientNames = new ArrayList<>();
-        int[] selectedRows = clientResultTable.getSelectedRows();
-        for (int row : selectedRows) {
-            String clientName = (String) clientResultTable.getValueAt(row, 0);
-            clientNames.add(clientName);
-        }
-        return clientNames;
-    }
-
     public void deselectAllRows() {
         clientResultTable.clearSelection();
-    }
-
-    public JTable getClientResultTable() {
-        return clientResultTable;
-    }
-
-    public Double getClientDoubleTableValueAt(int row, int col) {
-        return (Double) clientResultTable.getValueAt(row, col);
-    }
-
-    public int getClientIntTableValueAt(int row, int col) {
-        return (int) clientResultTable.getValueAt(row, col);
     }
 
     public String getClientStringTableValueAt(int row, int col) {

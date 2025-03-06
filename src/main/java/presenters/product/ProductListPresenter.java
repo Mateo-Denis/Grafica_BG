@@ -10,13 +10,15 @@ import views.products.IProductSearchView;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ProductListPresenter extends StandardPresenter {
     private final IProductListView productListView;
     private final IProductListModel productListModel;
     private IProductSearchView productSearchView;
-    private ProductsDatabaseConnection productsDatabaseConnection;
+    private final ProductsDatabaseConnection productsDatabaseConnection;
     private CategoriesDatabaseConnection categoriesDatabaseConnection;
+    private static Logger LOGGER;
 
     public ProductListPresenter(IProductListView productListView, IProductListModel productListModel) {
         this.productListView = productListView;
@@ -57,7 +59,8 @@ public class ProductListPresenter extends StandardPresenter {
                     productCategoryID = productsDatabaseConnection.getCategoryID(product.getName());
                     productCategoryName = productsDatabaseConnection.getCategoryName(productCategoryID);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.log(null,"ERROR IN METHOD 'setProductsOnTable' IN CLASS->'ProductsListPresenter'",e);
+
                 }
 
                 productListView.setIntTableValueAt(rowCount, 0, productID);

@@ -1,9 +1,11 @@
 package models;
 import utils.databases.BudgetsDatabaseConnection;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class BudgetModifyModel implements IBudgetModifyModel {
     private final BudgetsDatabaseConnection budgetsDBConnection;
+    private static Logger LOGGER;
 
 
     public BudgetModifyModel(BudgetsDatabaseConnection budgetsDBConnection) {
@@ -14,7 +16,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getProductPrices(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting product prices");
         }
         return new ArrayList<>();
     }
@@ -24,7 +26,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getProductObservations(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting product observations");
         }
         return new ArrayList<>();
     }
@@ -34,7 +36,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getProductMeasures(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting product measures");
         }
         return new ArrayList<>();
     }
@@ -43,7 +45,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getSavedProductNames(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting product names");
         }
         return new ArrayList<>();
     }
@@ -52,7 +54,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getSavedProductAmounts(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting product amounts");
         }
         return new ArrayList<>();
     }
@@ -61,7 +63,7 @@ public class BudgetModifyModel implements IBudgetModifyModel {
         try {
             return budgetsDBConnection.getSelectedBudgetData(budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting selected budget data");
         }
         return new ArrayList<>();
     }

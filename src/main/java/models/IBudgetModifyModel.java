@@ -1,7 +1,5 @@
 package models;
 
-import com.google.common.collect.Multimap;
-
 import java.util.ArrayList;
 
 public interface IBudgetModifyModel {

@@ -3,6 +3,7 @@ package views.client;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
 import views.ToggleableView;
@@ -12,13 +13,15 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	private JPanel containerPanel;
 	private JPanel clientContainer;
 	private JButton createButton;
-	private JTextField clientTextField;
+	@Getter
+    private JTextField clientTextField;
 	private JLabel clientLabel;
 	private JPanel addressContainer;
 	private JTextField addressTextField;
 	private JPanel cityContainer;
 	private JLabel cityLabel;
-	private JTextField cityTextField;
+	@Getter
+    private JTextField cityTextField;
 	private JPanel phoneContainer;
 	private JLabel phoneLabel;
 	private JTextField phoneTextField;
@@ -27,7 +30,8 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 	private JPanel buttonsContainer;
 	private JPanel radioButtonsContainer;
 	private JPanel cityFieldsContainer;
-	private JComboBox<String> cityComboBox;
+	@Getter
+    private JComboBox<String> cityComboBox;
 	private ClientCreatePresenter clientCreatePresenter;
 
 	public ClientCreateView() {
@@ -39,7 +43,6 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.setSize(400, 300);
 		windowFrame.setResizable(false);
 		((AbstractDocument) phoneTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-
 		cambiarTamanioFuente(containerPanel, 14);
 	}
 	@Override
@@ -92,20 +95,8 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		containerPanelWrapper = containerPanel;
 	}
 
-	public JTextField getClientTextField() {
-        return clientTextField;
-    }
-
-	public void addCityToComboBox(String city) {
+    public void addCityToComboBox(String city) {
 		cityComboBox.addItem(city);
-	}
-
-    public JTextField getCityTextField() {
-        return cityTextField;
-    }
-
-	public JComboBox<String> getCityComboBox() {
-		return cityComboBox;
 	}
 
 }

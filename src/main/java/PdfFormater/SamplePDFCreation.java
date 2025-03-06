@@ -1,10 +1,5 @@
 package PdfFormater;
 
-import utils.Client;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
 public class SamplePDFCreation {
 
 //    public static void createWeirdAahPDF(){

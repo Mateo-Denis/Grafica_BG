@@ -9,7 +9,7 @@ import utils.Product;
 
 public class ProductsDatabaseConnection extends DatabaseConnection {
 
-    private CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
+    private final CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
 
     @Override
     protected void createTable(Connection connection) {

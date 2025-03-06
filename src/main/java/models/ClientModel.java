@@ -1,5 +1,6 @@
 package models;
 
+import lombok.Getter;
 import models.listeners.failed.ClientSearchFailureListener;
 import models.listeners.successful.ClientSearchSuccessListener;
 import models.listeners.failed.CitiesFetchingFailureListener;
@@ -30,7 +31,8 @@ public class ClientModel implements IClientModel{
 
 	private ArrayList<Client> clients;
 	private ArrayList<String> cities;
-	private String lastCityAdded;
+	@Getter
+    private String lastCityAdded;
 
 	public ClientModel(ClientsDatabaseConnection dbConnection) {
 		this.dbConnection = dbConnection;
@@ -89,11 +91,7 @@ public class ClientModel implements IClientModel{
 		return cities;
 	}
 
-	public String getLastCityAdded() {
-		return lastCityAdded;
-	}
-
-	@Override
+    @Override
 	public void addClientCreationSuccessListener(ClientCreationSuccessListener listener) {
 		clientCreationSuccessListeners.add(listener);
 	}
@@ -166,19 +164,8 @@ public class ClientModel implements IClientModel{
     }
 
 	@Override
-	public void deleteMultipleClients(List<Integer> clientIDs) {
-		dbConnection.deleteMultipleClients(clientIDs);
-	}
-
-	@Override
 	public int getClientID(String clientName, String clientType) {
 		return dbConnection.getClientID(clientName, clientType);
 	}
-
-	public void notifyClientCreationEmptyField() {
-        for (ClientCreationEmptyFieldListener listener : clientCreationEmptyFieldListeners) {
-            listener.onFailure();
-        }
-    }
 
 }

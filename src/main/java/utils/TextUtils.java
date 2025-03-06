@@ -10,18 +10,19 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.logging.Logger;
 
 import org.reflections.Reflections;
 import presenters.product.ProductCreatePresenter;
 import views.products.modular.IModularCategoryView;
 
 public class TextUtils {
+    private static Logger LOGGER;
 
     public String extractor(String text) {
         int startIndex = text.indexOf("Modular") + "Modular".length();
         int endIndex = text.indexOf("View");
-        String extracted = text.substring(startIndex, endIndex);
-        return extracted;
+        return text.substring(startIndex, endIndex);
     }
 
     public List<String> getFileNamesInDirectory(String directoryPath) {
@@ -59,124 +60,48 @@ public class TextUtils {
         return fileNamesList;
     }
 
-
-    //METODO PARA LLENAR UNA LISTA DE JPANELS
-/*    public static List<JPanel> loadAllViewPanels(String packageName) {
-        List<JPanel> panelList = new ArrayList<>();
-
-        // Usar Reflections para encontrar todas las clases en el paquete
-        Reflections reflections = new Reflections(packageName);
-        var classes = reflections.getSubTypesOf(JPanel.class);
-
-        //System.out.println("Classes found in package: " + classes);
-
-        for (Class<?> clazz : classes) {
-            //System.out.println("Processing class: " + clazz.getName());
-
-            if(clazz.getName().endsWith(".form")) {
-                continue;
-            }
-
-            try {
-                // Intentar instanciar la clase
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-
-                // Buscar un método que retorne un JPanel
-                for (Method method : clazz.getDeclaredMethods()) {
-                    if (JPanel.class.isAssignableFrom(method.getReturnType())) {
-                        // Invocar el método y obtener el JPanel
-                        JPanel panel = (JPanel) method.invoke(instance);
-                        panelList.add(panel);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Manejo de errores
-            }
-        }
-
-        return panelList;
-    }*/
-
-
-/*    public static List<JPanel> loadAllViewPanels(String packageName) {
-        List<JPanel> panelList = new ArrayList<>();
-
-        // Usar Reflections para encontrar todas las clases en el paquete
-        Reflections reflections = new Reflections(packageName);
-        var classes = new ArrayList<>(reflections.getSubTypesOf(JPanel.class));
-
-        // Ordenar las clases alfabéticamente por nombre
-        classes.sort(Comparator.comparing(Class::getSimpleName));
-
-        for (Class<?> clazz : classes) {
-            if (clazz.getName().endsWith(".form")) {
-                continue;
-            }
-
-            try {
-                // Intentar instanciar la clase
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-
-                // Buscar un método que retorne un JPanel
-                for (Method method : clazz.getDeclaredMethods()) {
-                    if (JPanel.class.isAssignableFrom(method.getReturnType())) {
-                        // Invocar el método y obtener el JPanel
-                        JPanel panel = (JPanel) method.invoke(instance);
-                        panelList.add(panel);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Manejo de errores
-            }
-        }
-
-        return panelList;
-    }*/
-
-
-
+    /**
+     * Loads and instantiates all classes that implement the IModularCategoryView interface within the specified package.
+     *
+     * @param packageName The name of the package to search for classes that implement IModularCategoryView.
+     * @param productCreatePresenter An instance of ProductCreatePresenter to be passed to the constructors of the found classes.
+     * @return A list of IModularCategoryView instances.
+     */
     public static List<IModularCategoryView> loadAllViewPanels(String packageName, ProductCreatePresenter productCreatePresenter) {
         List<IModularCategoryView> modularList = new ArrayList<>();
 
-        // Usar Reflections para encontrar todas las clases en el paquete
+        // Use Reflections to find all classes in the package that implement IModularCategoryView
         Reflections reflections = new Reflections(packageName);
         var classes = new ArrayList<>(reflections.getSubTypesOf(IModularCategoryView.class));
 
-        // Ordenar las clases alfabéticamente por nombre
+        // Sort the classes alphabetically by their simple names
         classes.sort(Comparator.comparing(Class::getSimpleName));
 
         for (Class<?> clazz : classes) {
+            // Skip classes whose names end with ".form"
             if (clazz.getName().endsWith(".form")) {
                 continue;
             }
 
             try {
-                // Intentar instanciar la clase
+                // Try to instantiate the class using a constructor that takes a ProductCreatePresenter as an argument
                 Constructor<?> constructor = clazz.getDeclaredConstructor(ProductCreatePresenter.class);
                 Object obj = constructor.newInstance(productCreatePresenter);
                 IModularCategoryView instance = (IModularCategoryView) obj;
 
-                // Agregar la instancia a la lista
+                // Add the instance to the list
                 modularList.add(instance);
             } catch (InvocationTargetException e) {
                 Throwable cause = e.getCause();
                 System.err.println("Constructor threw an exception: " + cause);
-                cause.printStackTrace();
-
+                LOGGER.log(null, "ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils'", e);
             } catch (Exception e) {
-                e.printStackTrace();
-                // Manejo de errores
+               LOGGER.log(null,"ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils", e);
             }
         }
 
+        // Return the list of IModularCategoryView instances
         return modularList;
     }
-
-
-
-
-
 }
 

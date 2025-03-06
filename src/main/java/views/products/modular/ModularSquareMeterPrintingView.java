@@ -42,7 +42,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JRadioButton ecosolventeRadioButton;
     private JComboBox dollarComboBox;
     private JTextField dollarValueTextField;
-    private ProductCreatePresenter presenter;
+    private final ProductCreatePresenter presenter;
     private double materialMeterSqrPrice;
     private double inkByMeterPrice;
     private double profit;

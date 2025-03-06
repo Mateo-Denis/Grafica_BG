@@ -1,7 +1,10 @@
 package utils;
 
+import lombok.Getter;
+
 import javax.swing.*;
 
+@Getter
 public enum MessageTypes {
 
     CLIENT_CREATION_SUCCESS("Cliente creado con éxito"
@@ -114,18 +117,6 @@ public enum MessageTypes {
         this.title = title;
         this.message = message;
         this.messageType = messageType;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public int getMessageType() {
-        return messageType;
     }
 
 }

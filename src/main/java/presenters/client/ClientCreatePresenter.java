@@ -47,11 +47,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
     //TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
     public boolean onEmptyFields(JTextField nameField, JTextField cityField, JComboBox cityComboBox) {
-        boolean anyEmpty = false;
-        if (nameField.getText().trim().isEmpty() || (cityField.getText().trim().isEmpty() && cityComboBox.getSelectedItem().equals("Cualquier localidad"))) {
-            anyEmpty = true;
-        }
-        return anyEmpty;
+        return nameField.getText().trim().isEmpty() || (cityField.getText().trim().isEmpty() && cityComboBox.getSelectedItem().equals("Cualquier localidad"));
     }
 
         public void onCreateButtonClicked () {
@@ -76,17 +72,15 @@ public class ClientCreatePresenter extends StandardPresenter {
                 }
 
 
-
                 clientModel.createClient(clientCreateView.getClientText(),
                         clientCreateView.getAddressText(),
                         city,
                         clientCreateView.getPhoneText(),
                         clientCreateView.isClientSelected());
 
+
+                clientCreateView.clearView();
             }
-
-            clientCreateView.clearView();
-
             clientCreateView.setWaitingStatus();
         }
 

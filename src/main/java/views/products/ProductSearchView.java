@@ -2,6 +2,7 @@
 package views.products;
 
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.product.ProductSearchPresenter;
@@ -25,6 +26,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private JTextField searchField;
     private JButton searchButton;
     private JScrollPane productResultScrollPanel;
+    @Getter
     private JTable productResultTable;
     private JButton productListOpenButton;
     private JButton deleteOneProductButton;
@@ -128,10 +130,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
     public void deselectAllRows() {
         productResultTable.clearSelection();
-    }
-
-    public JTable getProductResultTable() {
-        return productResultTable;
     }
 
     public ArrayList<String> getMultipleSelectedProductNames() {

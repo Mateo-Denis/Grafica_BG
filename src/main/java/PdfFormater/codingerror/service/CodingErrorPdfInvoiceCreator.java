@@ -33,8 +33,8 @@ public class CodingErrorPdfInvoiceCreator {
     float threecol=190f;
     float twocol=285f;
     float twocol150=twocol+150f;
-    float twocolumnWidth[]={twocol150,twocol};
-    float threeColumnWidth[]={threecol, threecol, threecol, threecol, threecol, threecol};
+    float[] twocolumnWidth ={twocol150,twocol};
+    float[] threeColumnWidth ={threecol, threecol, threecol, threecol, threecol, threecol};
     float[] fullwidth = {threecol*6}; //Cambiose
 
     public CodingErrorPdfInvoiceCreator(String pdfName){
@@ -67,7 +67,7 @@ public class CodingErrorPdfInvoiceCreator {
     public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {
         if(lastPage) {
             float threecol = 190f;
-            float fullwidth[] = {threecol * 3};
+            float[] fullwidth = {threecol * 3};
             Table tb = new Table(fullwidth);
             tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER));
             for (String tnc : TncList) {
@@ -148,7 +148,7 @@ public class CodingErrorPdfInvoiceCreator {
         twoColTable3.addCell(getCell10fLeft(addressDetails.getBillingName(),false));
         twoColTable3.addCell(getCell10fLeft(addressDetails.getShippingAddress(),false));
         document.add(twoColTable3);
-        float oneColoumnwidth[]={twocol150};
+        float[] oneColoumnwidth ={twocol150};
 
         Table oneColTable1=new Table(oneColoumnwidth);
         oneColTable1.addCell(getCell10fLeft(addressDetails.getBillingAddressText(),true));

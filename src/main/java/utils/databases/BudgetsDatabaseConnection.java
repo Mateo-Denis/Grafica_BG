@@ -4,8 +4,6 @@ import utils.Budget;
 import java.sql.*;
 import java.util.ArrayList;
 
-import utils.Product;
-
 public class BudgetsDatabaseConnection extends DatabaseConnection{
 
 

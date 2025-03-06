@@ -3,13 +3,10 @@ package presenters.budget;
 import PdfFormater.IPdfConverter;
 import PdfFormater.PdfConverter;
 import PdfFormater.Row;
-import com.google.common.collect.Multimap;
 import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
 
 import utils.*;
-import utils.Client;
-import utils.Product;
 
 import models.ICategoryModel;
 import models.IBudgetModel;
@@ -20,7 +17,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
 
 import views.budget.modify.IBudgetModifyView;
 
@@ -35,6 +32,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final IBudgetModifyModel budgetModifyModel;
     private static final IPdfConverter pdfConverter = new PdfConverter();
+    private static Logger LOGGER;
 
     private int productsRowCountOnPreviewTable = -1;
     private int globalClientID = -1;
@@ -99,7 +97,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             // INNER LOOP THROUGH CATEGORIES NAMES
             for (String categoryName : categoriesName) {
                 if (categoryModel.getCategoryID(categoryName) == categoryID) { // IF CATEGORY ID MATCHES
-                    productCategoryName = categoryParser.parseCategory(categoryName); // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
+                    productCategoryName = CategoryParser.parseCategory(categoryName); // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
             }
             productPrice = product.calculateRealTimePrice();
@@ -173,7 +171,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         // IF SELECTED ROW IS NOT -1 (NOT EMPTY)
         if (selectedRow != -1) {
             // IF CLIENT NAME IS NOT NULL AND NOT EMPTY
-            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().equals("")) {
+            if (clientTableModel.getValueAt(selectedRow, 1) != null && !clientTableModel.getValueAt(selectedRow, 1).toString().isEmpty()) {
                 clientName = clientTableModel.getValueAt(selectedRow, 1).toString(); // GET CLIENT NAME FROM TABLE MODEL
                 clientType = clientTableModel.getValueAt(selectedRow, 5).toString(); // GET CLIENT TYPE FROM TABLE MODEL
                 budgetModifyView.setPreviewStringTableValueAt(0, 0, clientName); // SET PREVIEW STRING TABLE VALUE AT 0, 0, CLIENT NAME
@@ -329,7 +327,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
         if (selectedRow != -1) {
             if (productsRowCountOnPreviewTable >= 1) {
-                if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow,1).toString().equals("")){
+                if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow, 1).toString().isEmpty()){
                     totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
                     budgetModifyView.getPreviewTableModel().removeRow(selectedRow);
                     productsRowCountOnPreviewTable--;
@@ -352,13 +350,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
     public boolean CheckMeasureFieldsAreEnabled() {
         JTextField widthMeasureTextField = budgetModifyView.getWidthMeasureTextField();
         JTextField heightMeasureTextField = budgetModifyView.getHeightMeasureTextField();
-        boolean areUnlocked = false;
 
-        if (widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled()) {
-            areUnlocked = true;
-        }
-
-        return areUnlocked;
+        return widthMeasureTextField.isEnabled() || heightMeasureTextField.isEnabled();
     }
 
     public boolean onEmptyFields(int clientNameColumn, int productColumn) {
@@ -594,7 +587,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         try {
             pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error Generating PDF");
         }
     }
 

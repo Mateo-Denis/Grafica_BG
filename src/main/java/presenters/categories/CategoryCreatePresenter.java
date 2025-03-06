@@ -16,8 +16,11 @@ import presenters.StandardPresenter;
 import views.categories.CategoryCreateView;
 import views.categories.ICategoryCreateView;
 
+import java.util.logging.Logger;
+
 public class CategoryCreatePresenter extends StandardPresenter {
-    private CategoryCreateView createCategoryView;
+    private final CategoryCreateView createCategoryView;
+    private static Logger LOGGER;
 
     public CategoryCreatePresenter(ICategoryCreateView createCategoryView) {
         this.createCategoryView = new CategoryCreateView();
@@ -36,7 +39,7 @@ public class CategoryCreatePresenter extends StandardPresenter {
                 try {
                     createCategory();
                 } catch (IOException | SQLException ex) {
-                    ex.printStackTrace();
+                    LOGGER.log(null, "ERROR IN METHOD ''", e);
                 }
             }
         });

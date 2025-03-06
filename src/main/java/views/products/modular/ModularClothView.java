@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
@@ -33,10 +34,13 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	private JTextField clothMetersPriceTextField;
 	private JTextField profitTextField;
 	private JTextField clothFinalPriceTextField;
-	private ArrayList<String> radioValues = new ArrayList<>();
-	private Map<String,String> comboBoxValues = new HashMap<>();
-	private Map<String,String> textFieldValues = new HashMap<>();
-	private ProductCreatePresenter presenter;
+	@Getter
+    private final ArrayList<String> radioValues = new ArrayList<>();
+	@Getter
+    private final Map<String,String> comboBoxValues = new HashMap<>();
+	@Getter
+    private final Map<String,String> textFieldValues = new HashMap<>();
+	private final ProductCreatePresenter presenter;
 	private double profit;
 	private double clothMetersPrice;
 	private boolean initialization;
@@ -113,19 +117,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 		}
 	}
 
-	public Map<String, String> getComboBoxValues() {
-		return comboBoxValues;
-	}
-
-	public Map<String, String> getTextFieldValues() {
-		return textFieldValues;
-	}
-
-	public ArrayList<String> getRadioValues() {
-		return radioValues;
-	}
-
-	private String getClothComboBoxSelection() {
+    private String getClothComboBoxSelection() {
 		return (String) clothComboBox.getSelectedItem();
 	}
 

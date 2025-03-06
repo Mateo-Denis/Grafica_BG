@@ -10,11 +10,14 @@ import models.IClientListModel;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import java.util.logging.Logger;
+
 public class ClientListPresenter extends StandardPresenter {
     private final IClientListView clientListView;
     private final IClientListModel clientListModel;
     private IClientSearchView clientSearchView;
-    private ClientsDatabaseConnection clientsDatabaseConnection;
+    private final ClientsDatabaseConnection clientsDatabaseConnection;
+    private static Logger LOGGER;
 
     public ClientListPresenter(IClientListView clientListView, IClientListModel clientListModel) {
         this.clientListView = clientListView;
@@ -59,7 +62,7 @@ public class ClientListPresenter extends StandardPresenter {
                 clientID = clientsDatabaseConnection.getClientID(client.getName(), clientType);
                 System.out.println(client.getName());
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(null,"ERROR IN METHOD 'setClientsOnTable' IN CLASS->'ClientListPresenter'",e);
             }
 
             clientListView.setIntTableValueAt(rowCount, 0, clientID);

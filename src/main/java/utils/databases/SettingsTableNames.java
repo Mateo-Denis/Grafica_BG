@@ -1,5 +1,8 @@
 package utils.databases;
 
+import lombok.Getter;
+
+@Getter
 public enum SettingsTableNames {
 	GENERAL("General"),
 	BAJADA_PLANCHA("Bajada_Plancha"),
@@ -16,7 +19,4 @@ public enum SettingsTableNames {
 		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
 }

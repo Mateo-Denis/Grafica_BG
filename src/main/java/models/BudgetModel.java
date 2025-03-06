@@ -10,6 +10,7 @@ import utils.Product;
 import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
+import java.util.logging.Logger;
 
 
 public class BudgetModel implements IBudgetModel {
@@ -26,6 +27,9 @@ public class BudgetModel implements IBudgetModel {
 
     // BUDGETS
     private ArrayList<Budget> budgets;
+
+    //LOGGER
+    private static Logger LOGGER;
 
 
 
@@ -104,7 +108,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return productsDBConnection.getProducts(productName, productCategory);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting products");
         }
         return new ArrayList<>();
     }
@@ -116,7 +120,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return clientsDBConnection.getClientsFromNameAndCity(name, city);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting clients");
         }
         return new ArrayList<>();
     }
@@ -127,7 +131,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return clientsDBConnection.getClientID(clientName, clientType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting client ID");
         }
         return -1;
     }
@@ -148,7 +152,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return budgetsDBConnection.getBudgetTotalPrice(budgetID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting budget total price");
         }
         return -1;
     }
@@ -159,7 +163,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return budgetsDBConnection.getNextBudgetNumber();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting next budget number");
         }
         return -1;
     }
@@ -171,7 +175,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             budgetsDBConnection.saveProducts(budgetID, productAmounts, productNames, observations, productMeasures, productPrices);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error saving products");
         }
     }
 
@@ -183,7 +187,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return budgetsDBConnection.getBudgetID(budgetName, budgetNumber);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting budget ID");
         }
         return -1;
     }
@@ -195,7 +199,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return clientsDBConnection.getCities();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting cities");
         }
         return new ArrayList<>();
     }
@@ -221,7 +225,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return budgetsDBConnection.getMaxBudgetID();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting max budget ID");
         }
         return -1;
     }
@@ -232,7 +236,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             budgetsDBConnection.deleteOneBudget(budgetID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error deleting budget");
         }
     }
 
@@ -241,7 +245,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             return clientsDBConnection.getOneClient(clientID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error getting one client");
         }
         return null;
     }
@@ -252,7 +256,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             budgetsDBConnection.deleteBudgetProducts(budgetID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(null, "Error deleting budget products");
         }
     }
 

@@ -9,14 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ProductListModel implements IProductListModel {
 
     private final List<ProductListOpeningSuccessListener> productListOpeningSuccessListeners;
     private final List<ProductListOpeningFailureListener> productListOpeningFailureListeners;
     private final ProductsDatabaseConnection productsDBConnection;
+    private static Logger LOGGER;
 
-    private ArrayList<Product> products;
+    private final ArrayList<Product> products;
 
     public ProductListModel(ProductsDatabaseConnection productsDBConnection) {
         this.productsDBConnection = productsDBConnection;
@@ -32,7 +34,8 @@ public class ProductListModel implements IProductListModel {
         try {
             return products = Prod.getAllProducts();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getProductsFromDB' IN CLASS->'ProductListModel'",e);
+
         }
         return null;
     }

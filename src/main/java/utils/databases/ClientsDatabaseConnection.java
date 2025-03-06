@@ -6,8 +6,11 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ClientsDatabaseConnection extends DatabaseConnection {
+    private static Logger LOGGER;
+
     protected void createTable(Connection connection) {
         String clientSQL = "CREATE TABLE IF NOT EXISTS Clientes (" +
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -122,7 +125,7 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
             }
             return clients;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getAllClients' IN CLASS->'ClientsDatabaseConnection'",e);
         }
         return new ArrayList<>();
     }
@@ -137,7 +140,8 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
                 return resultSet.getInt("ID");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getClientID' IN CLASS->'ClientsDatabaseConnection'",e);
+
         }
         return 0;
     }
@@ -151,23 +155,9 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
             JOptionPane.showMessageDialog(null, "¡Cliente eliminado con éxito!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "¡Error al eliminar el cliente!");
-            e.printStackTrace();
-        }
-    }
+            LOGGER.log(null,"ERROR IN METHOD 'deleteOneClient' IN CLASS->'ClientsDatabaseConnection'",e);
 
-    public void deleteMultipleClients(List<Integer> clientIDs) {
-        String sql = "DELETE FROM Clientes WHERE ID = ?";
-        try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            for (int clientID : clientIDs) {
-                pstmt.setInt(1, clientID);
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "¡Error al eliminar uno o más clientes!");
-            e.printStackTrace();
         }
-        JOptionPane.showMessageDialog(null, "Clientes eliminados con éxito!");
     }
 
     public Client getOneClient(int clientID) {
@@ -187,7 +177,8 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getOneClient' IN CLASS->'ClientsDatabaseConnection'",e);
+
         }
         return null;
     }

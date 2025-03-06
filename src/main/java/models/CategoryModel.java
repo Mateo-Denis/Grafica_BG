@@ -63,16 +63,6 @@ public class CategoryModel implements ICategoryModel {
         categorySearchFailureListener.add(listener);
     }
 
-/*    @Override
-    public void queryCategories(String searchedName) {
-        try {
-            categories = categoriesDBConnection.getCategories(searchedName);
-            notifyCategorySearchSuccess();
-        } catch (Exception e) {
-            notifyCategorySearchFailure();
-        }
-    }*/
-
 
     private void notifyCategoryCreationSuccess() {
         for (CategoryCreationSuccessListener listener : categoryCreationSuccessListener) {
@@ -104,16 +94,6 @@ public class CategoryModel implements ICategoryModel {
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
-        }
-    }
-
-    @Override
-    public ArrayList<String> getCategoryAttributesNames(int categoryID) {
-        try {
-            return categoriesDBConnection.getCategoryAttributesNames(categoryID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 

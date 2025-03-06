@@ -1,12 +1,10 @@
 package views.products;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
 
-import utils.Product;
+import lombok.Getter;
 import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
-import utils.NumberInputVerifier;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 import presenters.StandardPresenter;
@@ -28,10 +26,12 @@ import utils.TextUtils;
 import static utils.CategoryParser.parseCategory;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
+    @Getter
     private JPanel containerPanel;
     private JPanel productSpecsContainer;
     private JTextField productNameField;
     private JLabel productLabel;
+    @Getter
     private JComboBox<String> categoryComboBox;
     private JLabel categoryLabel;
     private JTextField productPriceField;
@@ -45,12 +45,13 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
     private CategoryModel categoryModel;
-    private TextUtils textUtils = new TextUtils();
+    private final TextUtils textUtils = new TextUtils();
+    @Getter
     private IModularCategoryView modularView;
-    private CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
-    private ProductsDatabaseConnection productDatabaseConnection = new ProductsDatabaseConnection();
+    private final CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
+    private final ProductsDatabaseConnection productDatabaseConnection = new ProductsDatabaseConnection();
     private Map<String, JPanel> viewMap;
-    private Map<String, IModularCategoryView> modularMap;
+    private final Map<String, IModularCategoryView> modularMap;
     private ModularCategoriesPresenter modularCategoriesPresenter;
     private int lastProductCreatedID = -1;
 
@@ -141,8 +142,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
 
     @Override
     public String getProductCategory() {
-        String s = (String) categoryComboBox.getSelectedItem();
-        return s;
+        return (String) categoryComboBox.getSelectedItem();
     }
 
     @Override
@@ -209,18 +209,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         for (String categoria : categorias) {
             categoryComboBox.addItem(categoria);
         }
-    }
-
-    public JComboBox<String> getCategoryComboBox() {
-        return categoryComboBox;
-    }
-
-    public IModularCategoryView getModularView() {
-        return modularView;
-    }
-
-    public JPanel getContainerPanel() {
-        return containerPanel;
     }
 
     @Override

@@ -10,7 +10,6 @@ import models.listeners.successful.ClientCreationSuccessListener;
 import utils.Client;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface IClientModel {
 	void createClient(String clientName, String clientAddress, String clientCity, String clientPhone, boolean clientType);
@@ -37,8 +36,6 @@ public interface IClientModel {
 	void addClientCreationEmptyFieldListener(ClientCreationEmptyFieldListener listener);
 
 	void deleteOneClient(int clientID);
-
-	void deleteMultipleClients(List<Integer> clientIDs);
 
 	int getClientID(String clientName, String clientType);
 }

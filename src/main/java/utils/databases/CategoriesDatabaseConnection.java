@@ -3,8 +3,11 @@ package utils.databases;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class CategoriesDatabaseConnection extends DatabaseConnection {
+
+    private static Logger LOGGER;
 
     @Override
     protected void createTable(Connection connection) {
@@ -43,7 +46,7 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
                 categorias.add(resultSet.getString("Nombre"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getCategories' IN CLASS->'CategoriesDatabaseConnection'", e);
         }
         return categorias;
     }
@@ -59,7 +62,7 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getCategoryName' IN CLASS->'CategoriesDatabaseConnection'",e);
         }
         return "";
     }
@@ -73,7 +76,7 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
         String sql = "SELECT ID FROM " + table + " WHERE Nombre = ?";
 
         try (Connection conn = connect();
-             PreparedStatement statement = conn.prepareStatement(sql);){
+             PreparedStatement statement = conn.prepareStatement(sql)){
 
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -82,31 +85,9 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
                 id = resultSet.getInt("ID");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(null,"ERROR IN METHOD 'getIdByNameFromTable' IN CLASS->'CategoriesDatabaseConnection'",e);
         }
         return id;
-    }
-
-    public ArrayList<String> getCategoryAttributesNames(int categoryID) throws SQLException {
-        ArrayList<String> attributes = new ArrayList<>();
-        String sql = "SELECT Nombre FROM Atributos WHERE ID_CATEGORIA = ? ORDER BY ID";
-
-        Connection conn = connect();
-        PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setInt(1, categoryID);
-
-        ResultSet resultSet = statement.executeQuery();
-
-        while (resultSet.next()) {
-            attributes.add(resultSet.getString("Nombre"));
-        }
-
-
-        resultSet.close();
-        statement.close();
-        conn.close();
-
-        return attributes;
     }
 
 

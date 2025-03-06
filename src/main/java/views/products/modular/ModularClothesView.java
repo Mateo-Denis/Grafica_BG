@@ -71,12 +71,12 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 	private JLabel shirt;
 	private JCheckBox editPriceCheckBox;
 	@Getter
-	private ArrayList<String> radioValues = new ArrayList<>();
+	private final ArrayList<String> radioValues = new ArrayList<>();
 	@Getter
-	private Map<String,String> comboBoxValues = new HashMap<>();
+	private final Map<String,String> comboBoxValues = new HashMap<>();
 	@Getter
-	private Map<String,String> textFieldValues = new HashMap<>();
-	private ProductCreatePresenter presenter;
+	private final Map<String,String> textFieldValues = new HashMap<>();
+	private final ProductCreatePresenter presenter;
 	private boolean isCalculating = false;
 
 	private double profit;
@@ -117,17 +117,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
 			panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
 		}
-//		SwingUtilities.invokeLater(() ->{
-//
-//			setLabelPosition(printingMetersAmountContainer, printingMetersPriceContainer, printingMultiplyLabel);
-//			setLabelPosition(printingMetersPriceContainer, printingMetersFinalPriceContainer, printingEqualsLabel);
-//			setLabelPosition(clothMetersAmountContainer, clothMetersPriceContainer, clothMultiplyLabel);
-//			setLabelPosition(clothMetersPriceContainer, clothMetersFinalPriceContainer, clothEqualsLabel);
-//			setLabelPosition(plankLoweringAmountContainer, plankLoweringPriceContainer, plankLoweringMultiplyLabel);
-//			setLabelPosition(plankLoweringPriceContainer, plankLoweringFinalPriceContainer, plankLoweringEqualsLabel);
-//			setLabelPosition(profitContainer, finalPriceContainer, profitMultiplyLabel);
-//			setLabelPosition(finalPriceContainer, finalPriceContainer, finalPriceEqualsLabel);
-//		});
 	}
 
 	private void setLabelPosition(JPanel leftPanel, JPanel rightPanel, JLabel label){

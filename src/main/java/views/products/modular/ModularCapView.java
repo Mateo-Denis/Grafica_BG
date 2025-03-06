@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import lombok.Getter;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.databases.SettingsTableNames.*;
-import static utils.databases.SettingsTableNames.GANANCIAS;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -51,16 +51,19 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JTextField capFinalPriceTextField;
     private JLabel profitMultiplyLabel;
     private JLabel capFinalPriceEqualsLabel;
-    private ArrayList<String> radioValues = new ArrayList<>();
-    private Map<String,String> comboBoxValues = new HashMap<>();
-    private Map<String,String> textFieldValues = new HashMap<>();
+    @Getter
+    private final ArrayList<String> radioValues = new ArrayList<>();
+    @Getter
+    private final Map<String,String> comboBoxValues = new HashMap<>();
+    @Getter
+    private final Map<String,String> textFieldValues = new HashMap<>();
     private double profit;
     private double capCost;
     private double plankLoweringPrice;
     private double printingMetersPrice;
-    private ProductCreatePresenter presenter;
+    private final ProductCreatePresenter presenter;
     private boolean initialization;
-    private SettingsDatabaseConnection settingsDBConnection;
+    private final SettingsDatabaseConnection settingsDBConnection;
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         settingsDBConnection = new SettingsDatabaseConnection();
@@ -95,18 +98,6 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     @Override
     public JPanel getContainerPanel() {
         return containerPanel;
-    }
-
-    public Map<String, String> getComboBoxValues() {
-        return comboBoxValues;
-    }
-
-    public Map<String, String> getTextFieldValues() {
-        return textFieldValues;
-    }
-
-    public ArrayList<String> getRadioValues() {
-        return radioValues;
     }
 
     @Override

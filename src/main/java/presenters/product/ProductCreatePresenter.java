@@ -2,7 +2,6 @@ package presenters.product;
 
 import static utils.CategoryParser.parseCategory;
 import static utils.MessageTypes.*;
-import static utils.databases.SettingsTableNames.*;
 
 import models.IProductModel;
 import models.ICategoryModel;
@@ -15,7 +14,6 @@ import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import utils.Attribute;
 import utils.databases.SettingsTableNames;
@@ -79,7 +77,7 @@ public class ProductCreatePresenter extends StandardPresenter {
         String categoryName = productCreateView.getProductCategoryEnglish();
         int categoryID = categoryModel.getCategoryID(categoryName);
         modularView = productCreateView.getModularView();
-        if (modularView == null || productCreateView.getProductName().equals("")) {
+        if (modularView == null || productCreateView.getProductName().isEmpty()) {
             if (modularView == null) {
                 productCreateView.showMessage(MISSING_MODULAR_VIEW);
             } else {

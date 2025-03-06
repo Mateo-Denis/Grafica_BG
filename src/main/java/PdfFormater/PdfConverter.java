@@ -3,7 +3,6 @@ package PdfFormater;
 import PdfFormater.codingerror.model.AddressDetails;
 import PdfFormater.codingerror.model.HeaderDetails;
 import PdfFormater.codingerror.model.Product;
-import PdfFormater.codingerror.model.ProductTableHeader;
 import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
 import utils.Client;
 

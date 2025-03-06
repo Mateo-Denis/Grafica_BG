@@ -1,5 +1,6 @@
 package views.products.modular;
 
+import lombok.Getter;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
@@ -54,15 +55,18 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 	private JRadioButton plasticRadioButton;
 	private JRadioButton whiteRadioButton;
 	private JRadioButton sublimatedRadioButton;
-	private ArrayList<String> radioValues = new ArrayList<>();
-	private Map<String,String> comboBoxValues = new HashMap<>();
-	private Map<String,String> textFieldValues = new HashMap<>();
-	private ProductCreatePresenter presenter;
+	@Getter
+    private final ArrayList<String> radioValues = new ArrayList<>();
+	@Getter
+    private final Map<String,String> comboBoxValues = new HashMap<>();
+	@Getter
+    private final Map<String,String> textFieldValues = new HashMap<>();
+	private final ProductCreatePresenter presenter;
 	private double cupPrice;
 	private double plankLoweringPrice;
 	private double printingMetersPrice;
 	private double profit;
-	private SettingsDatabaseConnection settingsDBConnection;
+	private final SettingsDatabaseConnection settingsDBConnection;
 	public ModularCupView(ProductCreatePresenter presenter) {
 		this.presenter = presenter;
 		settingsDBConnection = new SettingsDatabaseConnection();
@@ -155,19 +159,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView  {
 		}
 	}
 
-	public Map<String, String> getComboBoxValues() {
-		return comboBoxValues;
-	}
-
-	public Map<String, String> getTextFieldValues() {
-		return textFieldValues;
-	}
-
-	public ArrayList<String> getRadioValues() {
-		return radioValues;
-	}
-
-	@Override
+    @Override
 	public void loadComboBoxValues() {
 
 	}

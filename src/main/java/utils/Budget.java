@@ -1,28 +1,21 @@
 package utils;
 
+import lombok.Getter;
+
 public class Budget {
-    private String name;
-    private String date;
-    private String clientType;
-    private int budgetNumber;
+    @Getter
+    private final String name;
+    @Getter
+    private final String date;
+    @Getter
+    private final String clientType;
+    private final int budgetNumber;
 
     public Budget(String name, String date, String clientType, int budgetNumber) {
         this.name = name;
         this.date = date;
         this.clientType = clientType;
         this.budgetNumber = budgetNumber;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getClientType() {
-        return clientType;
     }
 
     public String getBudgetNumber() {

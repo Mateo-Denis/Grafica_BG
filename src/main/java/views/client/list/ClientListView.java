@@ -23,10 +23,11 @@ public class ClientListView extends ToggleableView implements IClientListView {
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+
         wrapContainer();
         setClientTableModel();
-
         cambiarTamanioFuente(containerPanel, 14);
+
         windowFrame.setSize(470,560);
         windowFrame.setResizable(false);
     }
@@ -52,11 +53,6 @@ public class ClientListView extends ToggleableView implements IClientListView {
     }
 
     @Override
-    public void setDoubleTableValueAt(int row, int col, double value) {
-        clientTable.setValueAt(value, row, col);
-    }
-
-    @Override
     public void setIntTableValueAt(int row, int col, int value) {
         clientTable.setValueAt(value, row, col);
     }
@@ -74,21 +70,6 @@ public class ClientListView extends ToggleableView implements IClientListView {
     public void setClientTableModel() {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente / Particular"}, 200);
         clientTable.setModel(tableModel);
-    }
-
-    @Override
-    public int getSelectedTableRow() {
-        return clientTable.getSelectedRow();
-    }
-
-    @Override
-    public void deselectAllRows() {
-        clientTable.clearSelection();
-    }
-
-    @Override
-    public JFrame getJFrame() {
-        return windowFrame;
     }
 
     @Override

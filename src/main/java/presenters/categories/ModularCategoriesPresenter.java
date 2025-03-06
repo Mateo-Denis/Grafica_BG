@@ -9,8 +9,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ModularCategoriesPresenter extends StandardPresenter {
-    private IModularCategoryView view;
-    private IProductCreateView productCreateView;
+    private final IModularCategoryView view;
+    private final IProductCreateView productCreateView;
 
     public ModularCategoriesPresenter(IProductCreateView productCreateView) {
         this.productCreateView = productCreateView;
@@ -26,8 +26,8 @@ public class ModularCategoriesPresenter extends StandardPresenter {
         ArrayList<String> textFieldList = new ArrayList<>();
 
         for (Component component : view.getContainerPanel().getComponents()) { //POR CADA TIPO DE COMPONENTE PRESENTE EN EL PANEL
-            if (component instanceof JRadioButton) { //SI ES UN RADIOBUTTON
-                JRadioButton radioButton = (JRadioButton) component; //CASTEARLO A JRadioButton
+            if (component instanceof JRadioButton radioButton) { //SI ES UN RADIOBUTTON
+                //CASTEARLO A JRadioButton
                 radioButton.addActionListener(e -> { //AÑADIRLE UN LISTENER
                     String radioSelected = "";
                     if (radioButton.isSelected()) { //SI ESTÁ SELECCIONADO
@@ -41,8 +41,8 @@ public class ModularCategoriesPresenter extends StandardPresenter {
                         }
                     }
                 });
-            } else if (component instanceof JComboBox) { //SI ES UN COMBOBOX
-                JComboBox comboBox = (JComboBox) component; //CASTEARLO A JComboBox
+            } else if (component instanceof JComboBox comboBox) { //SI ES UN COMBOBOX
+                //CASTEARLO A JComboBox
                 comboBoxCount++;
                 comboBoxList.add("ComboBox number: " + comboBoxCount);
                 comboBox.addActionListener(e -> {
@@ -50,10 +50,10 @@ public class ModularCategoriesPresenter extends StandardPresenter {
                     String comboBoxName = comboBox.getName(); //OBTENER EL NOMBRE DEL COMBOBOX
                     view.getComboBoxValues().put(comboBoxName, selected); //GUARDAR EL NOMBRE Y EL ITEM SELECCIONADO
                 });
-            } else if (component instanceof JTextField) { //SI ES UN TEXTFIELD
+            } else if (component instanceof JTextField textField) { //SI ES UN TEXTFIELD
                 textFieldCount++;
                 textFieldList.add("TextField number: " + textFieldCount);
-                JTextField textField = (JTextField) component; //CASTEARLO A JTextField
+                //CASTEARLO A JTextField
                 textField.addActionListener(e -> {
                     String text = textField.getText(); //OBTENER EL TEXTO
                     String textFieldName = textField.getName(); //OBTENER EL NOMBRE DEL TEXTFIELD

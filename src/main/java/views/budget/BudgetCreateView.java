@@ -1,5 +1,6 @@
 package views.budget;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetCreatePresenter;
 import views.ToggleableView;
@@ -54,6 +55,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JPanel productTableContainer;
     private JScrollPane productTableScrollPanel;
     private JPanel measuresContainer;
+    @Getter
     private JTextField heightMeasureTextField;
     private JLabel heightMeasureLabel;
     private JButton addClientButton;
@@ -63,6 +65,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JPanel productSearchButtonContainer;
     private JButton deleteProductButton;
     private JPanel priceContainer;
+    @Getter
     private JTextArea priceTextArea;
     private JButton productModifyButton;
     private JPanel clientSelectedCheckContainer;
@@ -74,6 +77,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private BudgetCreatePresenter budgetCreatePresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
+    @Getter
     private DefaultTableModel previewTableModel;
     private StringBuilder sb;
 
@@ -258,16 +262,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     @Override
-    public String getBudgetClientType() {
-        return "Particular";
-    }
-
-    @Override
-    public int getBudgetNumber() {
-        return 8888;
-    }
-
-    @Override
     public void clearPreviewTable() {
         for (int row = 0; row < budgetPreviewingTable.getRowCount(); row++) {
             for (int col = 0; col < budgetPreviewingTable.getColumnCount(); col++) {
@@ -329,39 +323,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     @Override
-    public void setProductsComboBox(ArrayList<String> productsName) {
-        productComboBox.addItem("Seleccione un producto:");
-        for (String productName : productsName) {
-            productComboBox.addItem(productName);
-        }
-    }
-
-    @Override
-    public JComboBox<String> getProductsComboBox() {
-        return productComboBox;
-    }
-
-    public String getSelectedCategory() {
-        return (String) productCategoryComboBox.getSelectedItem();
-    }
-
-    @Override
     public void comboBoxListenerSet(ItemListener listener) {
         productComboBox.addItemListener(listener);
     }
 
     @Override
     public void setProductStringTableValueAt(int row, int col, String value) {
-        productResultTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setProductDoubleTableValueAt(int row, int col, Double value) {
-        productResultTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setProductIntTableValueAt(int row, int col, int value) {
         productResultTable.setValueAt(value, row, col);
     }
 
@@ -424,10 +391,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
     }
 
-    public JButton getAddProductButton() {
-        return addProductButton;
-    }
-
     public void addProductToPreviewTable(Product product, int row) {
         budgetPreviewingTable.setValueAt(product.getName(), row, 1);
     }
@@ -440,10 +403,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
             }
         }
         return rowCount;
-    }
-
-    public JButton getClientsSearchButton() {
-        return clientSearchButton;
     }
 
     public void setClientStringTableValueAt(int row, int col, String value) {
@@ -460,22 +419,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         clientResultTable.setValueAt(value, row, col);
     }
 
-    public JButton getClientAddButton() {
-        return addClientButton;
-    }
-
     @Override
     public void setPreviewStringTableValueAt(int row, int col, String value) {
-        budgetPreviewingTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setPreviewDoubleTableValueAt(int row, int col, Double value) {
-        budgetPreviewingTable.setValueAt(value, row, col);
-    }
-
-    @Override
-    public void setPreviewIntTableValueAt(int row, int col, int value) {
         budgetPreviewingTable.setValueAt(value, row, col);
     }
 
@@ -487,14 +432,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return productResultTable.getSelectedRow();
     }
 
-    public int getPreviewTableSelectedRow() {
-        return budgetPreviewingTable.getSelectedRow();
-    }
-
-    public JTable getClientResultTable() {
-        return clientResultTable;
-    }
-
     @Override
     public JTable getPreviewTable() {
         return budgetPreviewingTable;
@@ -503,46 +440,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public String getProductStringTableValueAt(int row, int col) {
         return (String) productResultTable.getValueAt(row, col);
     }
-
-    public String getClientStringTableValueAt(int row, int col) {
-        return (String) clientResultTable.getValueAt(row, col);
-    }
-
-    @Override
-    public int getClientIntTableValueAt(int row, int col) {
-        return (int) clientResultTable.getValueAt(row, col);
-    }
-
-    @Override
-    public Double getClientDoubleTableValueAt(int row, int col) {
-        return (Double) clientResultTable.getValueAt(row, col);
-    }
-
-    public int getColumnCount() {
-        return previewTableModel.getColumnCount();
-    }
-
     public String getPreviewStringTableValueAt(int row, int col) {
         return (String) budgetPreviewingTable.getValueAt(row, col);
     }
 
-    @Override
-    public int getPreviewIntTableValueAt(int row, int col) {
-        return (int) budgetPreviewingTable.getValueAt(row, col);
-    }
-
     public JTextField getProductsTextField() {
         return productTextField;
-    }
-
-    public JButton getProductSearchButton() {
-        return productSearchButton;
-    }
-
-    @Override
-    public void setClientOnPreviewTable(String clientName, String clientType) {
-        budgetPreviewingTable.setValueAt(clientName, 0, 0);
-        budgetPreviewingTable.setValueAt(clientType, 0, 6);
     }
 
     @Override
@@ -555,65 +458,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         return widthMeasureTextField;
     }
 
-    public JTextField getHeightMeasureTextField() {
-        return heightMeasureTextField;
-    }
-
     @Override
     public JTextField getObservationsTextField() {
         return observationsTextField;
-    }
-
-    public int countNonEmptyCells(JTable table, int columnIndex) {
-        int count = 0;
-
-        // Iterar a través de todas las filas de la tabla
-        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
-            Object cellValue = table.getValueAt(rowIndex, columnIndex);
-
-            // Comprobar si la celda no está vacía (ni null ni cadena vacía)
-            if (cellValue != null && !cellValue.toString().trim().isEmpty()) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
-    public DefaultTableModel getPreviewTableModel() {
-        return previewTableModel;
-    }
-
-    public BudgetCreatePresenter getBudgetCreatePresenter() {
-        return budgetCreatePresenter;
-    }
-
-    public JTextArea getPriceTextArea() {
-        return priceTextArea;
-    }
-
-    @Override
-    public void setProductNameTextField(String productsName) {
-        productTextField.setText(productsName);
-    }
-
-    @Override
-    public void setObservationsTextField(String productsObservation) {
-        observationsTextField.setText(productsObservation);
-    }
-
-    @Override
-    public void setWidthMeasureTextField(String productsWidthMeasure) {
-        heightMeasureTextField.setText(productsWidthMeasure);
-    }
-
-    public void setHeightMeasureTextField(String productsHeightMeasure) {
-        widthMeasureTextField.setText(productsHeightMeasure);
-    }
-
-    @Override
-    public void setAmountTextField(int productsAmount) {
-        amountTextField.setText(String.valueOf(productsAmount));
     }
 
     @Override
@@ -666,10 +513,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     @Override
     public StringBuilder getStringBuilder() {
         return sb;
-    }
-
-    public JTextArea getTextArea() {
-        return priceTextArea;
     }
 
     @Override

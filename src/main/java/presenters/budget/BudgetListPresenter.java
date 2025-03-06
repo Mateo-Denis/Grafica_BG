@@ -6,6 +6,7 @@ import utils.Budget;
 import utils.databases.BudgetsDatabaseConnection;
 import views.budget.IBudgetSearchView;
 import views.budget.list.IBudgetListView;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class BudgetListPresenter extends StandardPresenter{
     private final IBudgetListModel budgetListModel;
     private final IBudgetListView budgetListView;
     private IBudgetSearchView budgetSearchView;
-    private BudgetsDatabaseConnection budgetsDatabaseConnection;
+    private final BudgetsDatabaseConnection budgetsDatabaseConnection;
+    private static Logger LOGGER;
 
     public BudgetListPresenter(IBudgetListView budgetListView, IBudgetListModel budgetListModel) {
         this.budgetListView = budgetListView;
@@ -53,7 +55,7 @@ public class BudgetListPresenter extends StandardPresenter{
                 budgetID = budgetsDatabaseConnection.getBudgetID(budget.getName(), Integer.parseInt(budget.getBudgetNumber()));
                 System.out.println(budget.getName());
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.log(null, "Error al obtener el ID del presupuesto");
             }
 
             budgetListView.setIntTableValueAt(rowCount, 0, budgetID);

@@ -1,5 +1,6 @@
 package views.categories;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
 import views.ToggleableView;
 import presenters.categories.CategoryCreatePresenter;
@@ -10,12 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryCreateView extends ToggleableView implements ICategoryCreateView {
-    private JTextField categoryNameField;
-    private JButton addFieldButton;
-    private JButton createCategoryButton;
-    private JComboBox<String> fieldTypeComboBox;
-    private JPanel previewPanel;
-    private List<JComponent> fieldList;
+    @Getter
+    private final JTextField categoryNameField;
+    @Getter
+    private final JButton addFieldButton;
+    @Getter
+    private final JButton createCategoryButton;
+    @Getter
+    private final JComboBox<String> fieldTypeComboBox;
+    @Getter
+    private final JPanel previewPanel;
+    @Getter
+    private final List<JComponent> fieldList;
     private CategoryCreatePresenter categoryCreatePresenter;
 
     public CategoryCreateView() {
@@ -46,30 +53,6 @@ public class CategoryCreateView extends ToggleableView implements ICategoryCreat
         windowFrame.add(inputPanel, BorderLayout.NORTH);
         windowFrame.add(new JScrollPane(previewPanel), BorderLayout.CENTER);
         windowFrame.add(createCategoryButton, BorderLayout.SOUTH);
-    }
-
-    public JTextField getCategoryNameField() {
-        return categoryNameField;
-    }
-
-    public JButton getAddFieldButton() {
-        return addFieldButton;
-    }
-
-    public JButton getCreateCategoryButton() {
-        return createCategoryButton;
-    }
-
-    public JComboBox<String> getFieldTypeComboBox() {
-        return fieldTypeComboBox;
-    }
-
-    public JPanel getPreviewPanel() {
-        return previewPanel;
-    }
-
-    public List<JComponent> getFieldList() {
-        return fieldList;
     }
 
     public void addField(JComponent field) {
