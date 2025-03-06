@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import utils.MultiLineHeaderRenderer;
 
 public class BudgetModifyView extends ToggleableView implements IBudgetModifyView {
     private JPanel containerPanel;
@@ -77,6 +78,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Getter
     private DefaultTableModel previewTableModel;
     private final StringBuilder sb = new StringBuilder();
+    private static MultiLineHeaderRenderer multiLineRenderer;
+
 
 
     public BudgetModifyView(){
@@ -94,7 +97,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(750,800);
+        windowFrame.setSize(1000,700);
         windowFrame.setResizable(false);
 
         DisableMeasureTextFields();
@@ -188,6 +191,13 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         });
     }
 
+    private void SetColumnTitlesFix()
+    {
+        MultiLineHeaderRenderer.applyToTable(productTable, false);
+        MultiLineHeaderRenderer.applyToTable(budgetPreviewTable, true);
+        MultiLineHeaderRenderer.applyToTable(clientResultTable, false);
+    }
+
     @Override
     public void clearView() {
         clientTextField.setText("");
@@ -206,7 +216,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     public void restartWindow() {
-        windowFrame.setSize(590,1010);
+        windowFrame.setSize(1000,700);
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
@@ -306,6 +316,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         SetClientsTableModel();
         SetProductsTableModel();
         SetBudgetTableModel();
+        SetColumnTitlesFix();
 
         setTableVisibility(clientResultTable);
         setTableVisibility(productTable);
@@ -446,7 +457,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
         priceContainer.setVisible(true);
-        windowFrame.setSize(750,800);
+        windowFrame.setSize(1000,700);
         windowFrame.setResizable(false);
     }
 
@@ -456,7 +467,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productSearchingContainer.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
         priceContainer.setVisible(false);
-        windowFrame.setSize(750,800);
+        windowFrame.setSize(1000,700);
         windowFrame.setResizable(false);
     }
 

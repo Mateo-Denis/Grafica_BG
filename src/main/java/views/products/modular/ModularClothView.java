@@ -125,7 +125,10 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 	public void loadComboBoxValues() {
 		ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(TELAS);
 		for (Pair<String, Double> pair : list) {
-			clothComboBox.addItem(pair.getValue0());
+			if(pair.getValue0().contains("LINEAL"))
+			{
+				clothComboBox.addItem(pair.getValue0());
+			}
 		}
 	}
 

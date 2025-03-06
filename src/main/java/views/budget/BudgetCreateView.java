@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import utils.MultiLineHeaderRenderer;
 
 public class BudgetCreateView extends ToggleableView implements IBudgetCreateView {
     private JPanel containerPanel;
@@ -80,6 +81,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     @Getter
     private DefaultTableModel previewTableModel;
     private StringBuilder sb;
+    private static MultiLineHeaderRenderer multiLineRenderer;
 
     public BudgetCreateView() {
         windowFrame = new JFrame("Crear Presupuesto");
@@ -87,7 +89,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        windowFrame.setSize(610, 1010);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
@@ -105,14 +107,12 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         }
 
         productSearchingContainer.setVisible(false);
-        //productModifyButton.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
-        //priceContainer.setVisible(false);
         priceTextArea.setVisible(false);
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(610, 800);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
 
         heightMeasureTextField.setEnabled(false);
@@ -193,7 +193,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public void restartWindow() {
-        windowFrame.setSize(610, 1010);
+        windowFrame.setSize(1000, 700);
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
@@ -371,12 +371,20 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetPreviewingTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
+    private void SetColumnTitlesFix()
+    {
+        MultiLineHeaderRenderer.applyToTable(productResultTable, false);
+        MultiLineHeaderRenderer.applyToTable(budgetPreviewingTable, true);
+        MultiLineHeaderRenderer.applyToTable(clientResultTable, false);
+    }
+
     @Override
     public void start() {
         super.start();
         SetClientsTableModel();
         SetProductsTableModel();
         SetPreviewTableModel();
+        SetColumnTitlesFix();
 
         setTableVisibility(clientResultTable);
         setTableVisibility(productResultTable);
@@ -485,7 +493,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceTextArea.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
-        windowFrame.setSize(610, 800);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
     }
 
@@ -496,7 +504,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetCreationButtonsContainer.setVisible(true);
         //priceContainer.setVisible(true);
         priceTextArea.setVisible(true);
-        windowFrame.setSize(770, 800);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
     }
 
