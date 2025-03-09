@@ -7,6 +7,8 @@ import utils.databases.SettingsTableNames;
 import views.settings.ISettingsView;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ public class SettingsPresenter extends StandardPresenter {
 
 	private final ISettingsView settingsView;
 	private final ISettingsModel settingsModel;
-	ArrayList<SettingsTableNames> tableNames;
+	public ArrayList<SettingsTableNames> tableNames;
 
 
 	public SettingsPresenter(ISettingsView settingsView, ISettingsModel settingsModel) {
@@ -64,5 +66,21 @@ public class SettingsPresenter extends StandardPresenter {
 	public void onHomeSettingsButtonClicked() {
 		settingsView.showView();
 		showValues();
+	}
+
+
+
+
+
+
+
+
+
+
+
+	//PRUEBA ACTUALIZAR CON ENTER:
+
+	public void configurarTeclas() {
+
 	}
 }

@@ -83,11 +83,96 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
 	@Override
 	protected void initListeners() {
+		//UPDATE PRICES:
+
+		//UPDATE PRICES WHEN JBUTTON IS PRESSED:
 		updateDataButton.addActionListener(e -> settingsPresenter.onUpdateDataButtonPressed());
+
 	}
+
+
+
+
+
+
+
+
+
 
 	private void initTableListeners(JTable table) {
 
+		// ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
+		// ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
+
+		// Capturar tecla ESC para salir de la edición y deseleccionar la tabla
+		table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancelEdit");
+
+		table.getActionMap().put("cancelEdit", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Cancela la edición si está activa
+				if (table.isEditing()) {
+					table.getCellEditor().cancelCellEditing();
+				}
+				// Mostrar mensaje de confirmación
+				int option = JOptionPane.showOptionDialog(
+						table,
+						"¿Quieres guardar los cambios?",
+						"Confirmación",
+						JOptionPane.YES_NO_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						new Object[]{"SI", "NO", "SALIR"},
+						"SI"
+				);
+
+				switch (option) {
+					case JOptionPane.YES_OPTION:
+						// Guardar cambios
+						settingsPresenter.onUpdateDataButtonPressed();
+						break;
+					case JOptionPane.NO_OPTION:
+						// Continuar editando
+						table.requestFocusInWindow();
+						break;
+					case JOptionPane.CANCEL_OPTION:
+						// Salir del programa
+						Window window = SwingUtilities.getWindowAncestor(table);
+						if (window != null) {
+							window.dispose();
+						}
+						break;
+				}
+			}
+		});
+
+// Capturar tecla ENTER para moverse hacia abajo si está editando, o actualizar precios si no hay celda seleccionada
+		table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterPressed");
+
+		table.getActionMap().put("enterPressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (table.isEditing()) {
+					// Confirma la edición y mueve a la siguiente fila
+					table.getCellEditor().stopCellEditing();
+					int row = table.getSelectedRow();
+					int column = table.getSelectedColumn();
+
+					if (row < table.getRowCount() - 1) {
+						table.changeSelection(row + 1, column, false, false);
+					}
+				} else if (table.getSelectedRow() == -1 && !table.isEditing()) {
+					// Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
+					System.out.println("Enter pressed");
+					settingsPresenter.onUpdateDataButtonPressed();
+				}
+			}
+		});
+
+		// ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
+		// ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
 
 
 		table.addFocusListener(new FocusAdapter() {
@@ -195,6 +280,4 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 				, messageType.getTitle()
 				, messageType.getMessageType());
 	}
-
-
 }
