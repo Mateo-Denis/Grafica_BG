@@ -19,6 +19,9 @@ out/
 build/
 PresupuestosPDF/
 
+# PDF FILES
+*.pdf
+
 # Log files
 *.log
 
