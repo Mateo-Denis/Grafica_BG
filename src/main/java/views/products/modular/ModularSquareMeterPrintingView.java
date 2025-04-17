@@ -94,10 +94,12 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
                 public void insertUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
@@ -108,8 +110,9 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         UVRadioButton.addActionListener(e -> swapInk(true));
         ecosolventeRadioButton.addActionListener(e -> swapInk(false));
     }
-    private void swapInk(boolean isUV){
-        if(isUV){
+
+    private void swapInk(boolean isUV) {
+        if (isUV) {
             System.out.println("UV");
             inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
         } else {
@@ -139,7 +142,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         } catch (NullPointerException e) {
             showMessage(MessageTypes.DEBUG, containerPanel);
         }
-	}
+    }
 
     @Override
     public Map<String, String> getComboBoxValues() {
@@ -165,7 +168,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         }
         for (Pair<String, Double> pair : dollarList) {
             String s = pair.getValue0();
-            if(s.contains("Dólar") || s.contains("Dolar")){
+            if (s.contains("Dólar") || s.contains("Dolar")) {
                 dollarComboBox.addItem(pair.getValue0());
             }
         }
@@ -192,7 +195,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         squareMeterPrintingFinalPriceTextField.setText(String.valueOf(0));
 
         materialMeterSqrPrice = presenter.getIndividualPrice(MATERIALES, getMaterialComboBoxSelection());
-        if(UVRadioButton.isSelected()){
+        if (UVRadioButton.isSelected()) {
             inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
         } else {
             inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");

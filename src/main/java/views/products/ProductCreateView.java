@@ -62,7 +62,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         //Aplica el filtro al documento asociado al JTextField
-        windowFrame.setSize(1000,530);
+        windowFrame.setSize(1000, 530);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -95,7 +95,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         modularContainer.revalidate();
         modularContainer.repaint();
     }
-
 
 
     public IModularCategoryView getCorrespondingModularView(String category) {
@@ -146,7 +145,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     }
 
     @Override
-    public String getProductCategoryEnglish(){
+    public String getProductCategoryEnglish() {
         String s = (String) categoryComboBox.getSelectedItem();
         switch (s) {
             case "Taza":
@@ -171,6 +170,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
                 return s;
         }
     }
+
     @Override
     public void setProductPriceField(String productPrice) {
         productPriceField.setText(productPrice);
@@ -192,7 +192,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     protected void initListeners() {
         createButton.addActionListener(e -> {
             lastProductCreatedID = productCreatePresenter.onCreateButtonClicked();
-            if(lastProductCreatedID != -1) {
+            if (lastProductCreatedID != -1) {
                 clearView();
             }
         });
@@ -225,4 +225,5 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     public JCheckBox getEditPriceCheckBox() {
         return priceEditCheckBox;
     }
+
 }

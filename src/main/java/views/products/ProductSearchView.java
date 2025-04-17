@@ -11,7 +11,9 @@ import views.ToggleableView;
 
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,15 +50,14 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
         this.productListPresenter = productListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(470,560);
+        windowFrame.setSize(470, 560);
         windowFrame.setResizable(false);
     }
 
     @Override
     public void start() {
         super.start();
-        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoría", "Precio"}, 200)
-        {
+        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoría", "Precio"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -154,4 +155,5 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public JComboBox getCategoriesComboBox() {
         return categoryComboBox;
     }
+
 }

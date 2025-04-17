@@ -5,6 +5,7 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class BudgetListView extends ToggleableView implements IBudgetListView {
     private JPanel containerPanel;
@@ -26,7 +27,7 @@ public class BudgetListView extends ToggleableView implements IBudgetListView {
         setBudgetTableModel();
 
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(720,470);
+        windowFrame.setSize(720, 470);
         windowFrame.setResizable(false);
     }
 
@@ -91,4 +92,5 @@ public class BudgetListView extends ToggleableView implements IBudgetListView {
         this.budgetListPresenter = (BudgetListPresenter) budgetListPresenter;
 
     }
+
 }

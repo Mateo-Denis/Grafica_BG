@@ -10,106 +10,111 @@ import presenters.categories.CategoryCreatePresenter;
 import presenters.settings.SettingsPresenter;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.util.Locale;
 
 public class HomeView extends JFrame implements IHomeView {
 
-	private final JFrame windowFrame;
-	private JPanel containerPanel;
-	private JButton productCreateButton;
-	private JButton productSearchButton;
-	private JButton budgetCreateButton;
-	private JButton budgetSearchButton;
-	private JButton clientCreateButton;
-	private JButton clientSearchButton;
-	private JPanel budgetPanel;
-	private JPanel iconPanel;
-	private JPanel clientPanel;
-	private JPanel productPanel;
-	private JButton categorySearchButton;
-	private JButton categoryCreateButton;
-	private JPanel categoryPanel;
-	private JLabel iconLabel;
-	private JButton settingsButton;
-	private final ClientCreatePresenter clientCreatePresenter;
-	private final ClientSearchPresenter clientSearchPresenter;
-	private final ProductSearchPresenter productSearchPresenter;
-	private final ProductCreatePresenter productCreatePresenter;
-	private final BudgetSearchPresenter budgetSearchPresenter;
-	private final BudgetCreatePresenter budgetCreatePresenter;
-	private final CategoryCreatePresenter categoryCreatePresenter;
-	private final SettingsPresenter settingsPresenter;
+    private final JFrame windowFrame;
+    private JPanel containerPanel;
+    private JButton productCreateButton;
+    private JButton productSearchButton;
+    private JButton budgetCreateButton;
+    private JButton budgetSearchButton;
+    private JButton clientCreateButton;
+    private JButton clientSearchButton;
+    private JPanel budgetPanel;
+    private JPanel iconPanel;
+    private JPanel clientPanel;
+    private JPanel productPanel;
+    private JButton categorySearchButton;
+    private JButton categoryCreateButton;
+    private JPanel categoryPanel;
+    private JLabel iconLabel;
+    private JButton settingsButton;
+    private final ClientCreatePresenter clientCreatePresenter;
+    private final ClientSearchPresenter clientSearchPresenter;
+    private final ProductSearchPresenter productSearchPresenter;
+    private final ProductCreatePresenter productCreatePresenter;
+    private final BudgetSearchPresenter budgetSearchPresenter;
+    private final BudgetCreatePresenter budgetCreatePresenter;
+    private final CategoryCreatePresenter categoryCreatePresenter;
+    private final SettingsPresenter settingsPresenter;
 
-	public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
-					ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
-					BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
-					CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
+    public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
+                    ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
+                    BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
+                    CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
 
-		windowFrame = new JFrame("Gráfica Bahia");
-		windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		windowFrame.setContentPane(containerPanel);
-		windowFrame.pack();
-		windowFrame.setLocationRelativeTo(null);
-		windowFrame.setVisible(true);
-		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-		iconLabel.setIcon(new ImageIcon("src/main/resources/BGLogo.png"));
+        windowFrame = new JFrame("Gráfica Bahia");
+        windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        windowFrame.setContentPane(containerPanel);
+        windowFrame.pack();
+        windowFrame.setLocationRelativeTo(null);
+        windowFrame.setVisible(true);
+        windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+        iconLabel.setIcon(new ImageIcon("src/main/resources/BGLogo.png"));
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-		// Calculate the x and y position
-		int x = 50;  // 50 pixels from the left side of the screen
-		int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
+        // Calculate the x and y position
+        int x = 50;  // 50 pixels from the left side of the screen
+        int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
 
-		// Set the location of the frame
-		windowFrame.setLocation(x, y);
+        // Set the location of the frame
+        windowFrame.setLocation(x, y);
 
-		this.clientCreatePresenter = clientCreatePresenter;
-		this.clientSearchPresenter = clientSearchPresenter;
-		this.productSearchPresenter = productSearchPresenter;
-		this.productCreatePresenter = productCreatePresenter;
-		this.budgetCreatePresenter = budgetCreatePresenter;
-		this.budgetSearchPresenter = budgetSearchPresenter;
-		this.categoryCreatePresenter = categoryCreatePresenter;
-		this.settingsPresenter = settingsPresenter;
+        this.clientCreatePresenter = clientCreatePresenter;
+        this.clientSearchPresenter = clientSearchPresenter;
+        this.productSearchPresenter = productSearchPresenter;
+        this.productCreatePresenter = productCreatePresenter;
+        this.budgetCreatePresenter = budgetCreatePresenter;
+        this.budgetSearchPresenter = budgetSearchPresenter;
+        this.categoryCreatePresenter = categoryCreatePresenter;
+        this.settingsPresenter = settingsPresenter;
 
-		cambiarTamanioFuente(containerPanel, 14);
-		categoryPanel.setVisible(false);
-		windowFrame.setSize(300,788);
-		windowFrame.setResizable(false);
+        cambiarTamanioFuente(containerPanel, 14);
+        categoryPanel.setVisible(false);
+        windowFrame.setSize(300, 788);
+        windowFrame.setResizable(false);
 
-		initListeners();
-	}
+        initListeners();
+    }
 
-	protected void initListeners() {
+    protected void initListeners() {
 
-		productSearchButton.addActionListener(e -> productSearchPresenter.onHomeSearchProductButtonClicked());
-		productCreateButton.addActionListener(e -> productCreatePresenter.onHomeCreateProductButtonClicked());
+        productSearchButton.addActionListener(e -> productSearchPresenter.onHomeSearchProductButtonClicked());
+        productCreateButton.addActionListener(e -> productCreatePresenter.onHomeCreateProductButtonClicked());
 
-		clientCreateButton.addActionListener(e -> clientCreatePresenter.onHomeCreateClientButtonClicked());
-		clientSearchButton.addActionListener(e -> clientSearchPresenter.onHomeSearchClientButtonClicked());
+        clientCreateButton.addActionListener(e -> clientCreatePresenter.onHomeCreateClientButtonClicked());
+        clientSearchButton.addActionListener(e -> clientSearchPresenter.onHomeSearchClientButtonClicked());
 
-		budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
-		budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
+        budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
+        budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 
-		categoryCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+        categoryCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
 
-		settingsButton.addActionListener(e -> {
-			settingsPresenter.onHomeSettingsButtonClicked();
-		});
-	}
+        settingsButton.addActionListener(e -> {
+            settingsPresenter.onHomeSettingsButtonClicked();
+        });
+    }
 
-	protected void cambiarTamanioFuente(Component component, int newSize) {
-		if (component instanceof JComponent) {
-			Font oldFont = component.getFont();
-			if (oldFont != null) {
-				component.setFont(oldFont.deriveFont((float) newSize));  // Cambiar tamaño de fuente
-			}
-		}
+    protected void cambiarTamanioFuente(Component component, int newSize) {
+        if (component instanceof JComponent) {
+            Font oldFont = component.getFont();
+            if (oldFont != null) {
+                component.setFont(oldFont.deriveFont((float) newSize));  // Cambiar tamaño de fuente
+            }
+        }
 
-		if (component instanceof Container) {
-			for (Component child : ((Container) component).getComponents()) {
-				cambiarTamanioFuente(child, newSize);  // Llamada recursiva para subcomponentes
-			}
-		}
-	}
+        if (component instanceof Container) {
+            for (Component child : ((Container) component).getComponents()) {
+                cambiarTamanioFuente(child, newSize);  // Llamada recursiva para subcomponentes
+            }
+        }
+    }
+
 }

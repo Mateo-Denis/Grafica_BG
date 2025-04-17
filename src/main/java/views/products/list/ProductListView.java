@@ -6,6 +6,7 @@ import presenters.product.ProductListPresenter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ProductListView extends ToggleableView implements IProductListView {
 
@@ -25,7 +26,7 @@ public class ProductListView extends ToggleableView implements IProductListView 
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(470,560);
+        windowFrame.setSize(470, 560);
         windowFrame.setResizable(false);
     }
 
@@ -90,4 +91,5 @@ public class ProductListView extends ToggleableView implements IProductListView 
     public JFrame getJFrame() {
         return windowFrame;
     }
+
 }

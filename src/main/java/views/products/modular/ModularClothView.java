@@ -22,153 +22,155 @@ import java.util.Map;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularClothView extends JPanel implements IModularCategoryView {
-	private JPanel containerPanel;
-	private JComboBox clothComboBox;
-	private JPanel clothComboBoxContainer;
-	private JPanel clothMetersContainer;
-	private JPanel clothMetersPriceContainer;
-	private JPanel profitContainer;
-	private JPanel finalPriceContainer;
-	private JLabel profitMultiplyLabel;
-	private JLabel clothFinalPriceEqualsLabel;
-	private JTextField clothMetersPriceTextField;
-	private JTextField profitTextField;
-	private JTextField clothFinalPriceTextField;
-	@Getter
+    private JPanel containerPanel;
+    private JComboBox clothComboBox;
+    private JPanel clothComboBoxContainer;
+    private JPanel clothMetersContainer;
+    private JPanel clothMetersPriceContainer;
+    private JPanel profitContainer;
+    private JPanel finalPriceContainer;
+    private JLabel profitMultiplyLabel;
+    private JLabel clothFinalPriceEqualsLabel;
+    private JTextField clothMetersPriceTextField;
+    private JTextField profitTextField;
+    private JTextField clothFinalPriceTextField;
+    @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
-	@Getter
-    private final Map<String,String> comboBoxValues = new HashMap<>();
-	@Getter
-    private final Map<String,String> textFieldValues = new HashMap<>();
-	private final ProductCreatePresenter presenter;
-	private double profit;
-	private double clothMetersPrice;
-	private boolean initialization;
+    @Getter
+    private final Map<String, String> comboBoxValues = new HashMap<>();
+    @Getter
+    private final Map<String, String> textFieldValues = new HashMap<>();
+    private final ProductCreatePresenter presenter;
+    private double profit;
+    private double clothMetersPrice;
+    private boolean initialization;
 
-	public ModularClothView(ProductCreatePresenter presenter) {
-		this.presenter = presenter;
-		initListeners();
-		adjustPanels();
-	}
+    public ModularClothView(ProductCreatePresenter presenter) {
+        this.presenter = presenter;
+        initListeners();
+        adjustPanels();
+    }
 
-	private void adjustPanels() {
+    private void adjustPanels() {
 
-		ArrayList<JPanel> panels = new ArrayList<>();
-		panels.add(clothMetersPriceContainer);
-		panels.add(profitContainer);
-		panels.add(finalPriceContainer);
-		for (JPanel panel : panels) {
+        ArrayList<JPanel> panels = new ArrayList<>();
+        panels.add(clothMetersPriceContainer);
+        panels.add(profitContainer);
+        panels.add(finalPriceContainer);
+        for (JPanel panel : panels) {
 
-			TitledBorder border = (TitledBorder) panel.getBorder();
+            TitledBorder border = (TitledBorder) panel.getBorder();
 
-			FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
-			int titleWidth = fm.stringWidth(border.getTitle());
-			System.out.println(border.getTitle() + " " + titleWidth);
+            FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
+            int titleWidth = fm.stringWidth(border.getTitle());
+            System.out.println(border.getTitle() + " " + titleWidth);
 
-			panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
-		}
-	}
-	@Override
-	public JPanel getContainerPanel() {
-		return containerPanel;
-	}
+            panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
+        }
+    }
 
-	@Override
-	public void initListeners() {
-		ArrayList<JTextField> textFields = new ArrayList<>();
+    @Override
+    public JPanel getContainerPanel() {
+        return containerPanel;
+    }
 
-		textFields.add(clothMetersPriceTextField);
-		textFields.add(profitTextField);
+    @Override
+    public void initListeners() {
+        ArrayList<JTextField> textFields = new ArrayList<>();
+
+        textFields.add(clothMetersPriceTextField);
+        textFields.add(profitTextField);
 
 
-		for (JTextField textField : textFields) {
-			textField.getDocument().addDocumentListener(new DocumentListener() {
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					calculateDependantPrices();
-				}
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					calculateDependantPrices();
-				}
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					calculateDependantPrices();
-				}
-			});
-		}
+        for (JTextField textField : textFields) {
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
 
-		clothComboBox.addItemListener(e -> {
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				SwingUtilities.invokeLater(this::calculateDependantPrices);
-			}
-		});
-	}
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
 
-	@Override
-	public void calculateDependantPrices() {
-		try {
-			float clothMeters = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
-			float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    calculateDependantPrices();
+                }
+            });
+        }
 
-			clothFinalPriceTextField.setText(String.valueOf(clothMeters * profit));
-		} catch (NumberFormatException | NullPointerException e) {
-			showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
-		}
-	}
+        clothComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                SwingUtilities.invokeLater(this::calculateDependantPrices);
+            }
+        });
+    }
+
+    @Override
+    public void calculateDependantPrices() {
+        try {
+            float clothMeters = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
+            float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+
+            clothFinalPriceTextField.setText(String.valueOf(clothMeters * profit));
+        } catch (NumberFormatException | NullPointerException e) {
+            showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
+        }
+    }
 
     private String getClothComboBoxSelection() {
-		return (String) clothComboBox.getSelectedItem();
-	}
+        return (String) clothComboBox.getSelectedItem();
+    }
 
-	@Override
-	public void loadComboBoxValues() {
-		ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(TELAS);
-		for (Pair<String, Double> pair : list) {
-			if(pair.getValue0().contains("LINEAL"))
-			{
-				clothComboBox.addItem(pair.getValue0());
-			}
-		}
-	}
+    @Override
+    public void loadComboBoxValues() {
+        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(TELAS);
+        for (Pair<String, Double> pair : list) {
+            if (pair.getValue0().contains("LINEAL")) {
+                clothComboBox.addItem(pair.getValue0());
+            }
+        }
+    }
 
-	@Override
-	public List<Triplet<String, String, Double>> getModularPrices() {
-		return List.of();
-	}
+    @Override
+    public List<Triplet<String, String, Double>> getModularPrices() {
+        return List.of();
+    }
 
-	@Override
-	public void unlockTextFields() {
+    @Override
+    public void unlockTextFields() {
 
-	}
+    }
 
-	@Override
-	public void blockTextFields() {
+    @Override
+    public void blockTextFields() {
 
-	}
+    }
 
-	@Override
-	public void setPriceTextFields() {
-		profit = presenter.getIndividualPrice(GANANCIAS, "Telas");
-		clothMetersPrice = presenter.getIndividualPrice(TELAS, getClothComboBoxSelection());
+    @Override
+    public void setPriceTextFields() {
+        profit = presenter.getIndividualPrice(GANANCIAS, "Telas");
+        clothMetersPrice = presenter.getIndividualPrice(TELAS, getClothComboBoxSelection());
 
-		profitTextField.setText(String.valueOf(profit));
-		clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
+        profitTextField.setText(String.valueOf(profit));
+        clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
 
-	}
+    }
 
-	@Override
-	public ArrayList<Attribute> getAttributes() {
-		ArrayList<Attribute> attributes = new ArrayList<>();
-		attributes.add(new Attribute("T1A", clothMetersPriceTextField.getText()));
-		attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
-		attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
-		return attributes;
-	}
+    @Override
+    public ArrayList<Attribute> getAttributes() {
+        ArrayList<Attribute> attributes = new ArrayList<>();
+        attributes.add(new Attribute("T1A", clothMetersPriceTextField.getText()));
+        attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
+        attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
+        return attributes;
+    }
 
-	@Override
-	public void comboBoxListenerSet(ItemListener listener) {
-		clothComboBox.addItemListener(listener);
-	}
+    @Override
+    public void comboBoxListenerSet(ItemListener listener) {
+        clothComboBox.addItemListener(listener);
+    }
 
 }

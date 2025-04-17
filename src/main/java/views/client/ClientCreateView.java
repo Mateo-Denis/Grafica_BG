@@ -9,6 +9,8 @@ import presenters.client.ClientCreatePresenter;
 import views.ToggleableView;
 import utils.NumberInputVerifier;
 
+import java.awt.*;
+
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
 	private JPanel clientContainer;
@@ -45,25 +47,31 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		((AbstractDocument) phoneTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		cambiarTamanioFuente(containerPanel, 14);
 	}
+
 	@Override
 	public String getClientText() {
 		return clientTextField.getText();
 	}
+
 	@Override
 	public String getAddressText() {
 		return addressTextField.getText();
 	}
+
 	@Override
 	public String getCityText() {
 		return cityTextField.getText();
 	}
+
 	public String getComboBoxSelectedCity() {
 		return (String) cityComboBox.getSelectedItem();
 	}
+
 	@Override
 	public String getPhoneText() {
 		return phoneTextField.getText();
 	}
+
 	@Override
 	public boolean isClientSelected() {
 		return clientRadioButton.isSelected();

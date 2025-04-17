@@ -7,9 +7,11 @@ import presenters.client.ClientSearchPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
-public class ClientSearchView extends ToggleableView implements IClientSearchView  {
+public class ClientSearchView extends ToggleableView implements IClientSearchView {
     private JPanel containerPanel;
     private JTextField nameSearchField;
     @Getter
@@ -35,7 +37,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
 
         this.clientListPresenter = clientListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(470,560);
+        windowFrame.setSize(470, 560);
         windowFrame.setResizable(false);
     }
 
@@ -46,16 +48,13 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         SetCityComboBox();
     }
 
-    private void SetCityComboBox()
-    {
+    private void SetCityComboBox() {
         cityComboBox.addItem("Cualquier localidad");
         cityComboBox.setSelectedItem("Cualquier localidad");
     }
 
-    private void SetClientTable()
-    {
-        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
-        {
+    private void SetClientTable() {
+        DefaultTableModel tableModel = new DefaultTableModel(new Object[]{"Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -90,7 +89,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         clientResultTable.clearSelection();
     }
 
-    public void clearTable(){
+    public void clearTable() {
         for (int row = 0; row < clientResultTable.getRowCount(); row++) {
             for (int col = 0; col < clientResultTable.getColumnCount(); col++) {
                 clientResultTable.setValueAt("", row, col);

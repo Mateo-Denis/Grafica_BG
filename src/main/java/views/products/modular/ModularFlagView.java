@@ -140,10 +140,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 public void insertUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
@@ -190,7 +192,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         ArrayList<Pair<String, Double>> clothList = presenter.getTableAsArrayList(TELAS);
 
         for (Pair<String, Double> pair : clothList) {
-            if(pair.getValue0().contains("M2")) clothComboBox.addItem(pair.getValue0());
+            if (pair.getValue0().contains("M2")) clothComboBox.addItem(pair.getValue0());
         }
     }
 
@@ -254,4 +256,5 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private String getSizeComboBoxSelection() {
         return (String) sizeComboBox.getSelectedItem();
     }
+
 }

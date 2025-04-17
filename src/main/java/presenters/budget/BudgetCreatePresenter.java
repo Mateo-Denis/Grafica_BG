@@ -346,7 +346,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         double settingPrice = 0.0;
         double recharge = 1.0;
         String productMeasures = "";
-        int meters = -1;
+        double meters = -1;
         JTextField widthTextField = budgetCreateView.getWidthMeasureTextField();
         JTextField heightTextField = budgetCreateView.getHeightMeasureTextField();
 
@@ -370,10 +370,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
             if (widthTextField.isEnabled() && heightTextField.isEnabled()) { //IF ARE BOTH ENABLED
 
                 productMeasures = productWidthMeasures + "m x " + productHeightMeasures + "m";
-                meters = Integer.parseInt(productHeightMeasures) * Integer.parseInt(productWidthMeasures);
+                meters = Double.parseDouble(productHeightMeasures) * Double.parseDouble(productWidthMeasures);
             } else { //IF ONLY ONE IS ENABLED (HEIGHT)
                 productMeasures = productHeightMeasures + "m";
-                meters = Integer.parseInt(productHeightMeasures);
+                meters = Double.parseDouble(productHeightMeasures);
             }
 
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;

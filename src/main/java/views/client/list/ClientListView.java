@@ -6,6 +6,7 @@ import presenters.client.ClientListPresenter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ClientListView extends ToggleableView implements IClientListView {
     private DefaultTableModel tableModel;
@@ -28,7 +29,7 @@ public class ClientListView extends ToggleableView implements IClientListView {
         setClientTableModel();
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(470,560);
+        windowFrame.setSize(470, 560);
         windowFrame.setResizable(false);
     }
 
@@ -76,4 +77,5 @@ public class ClientListView extends ToggleableView implements IClientListView {
     public void setPresenter(StandardPresenter clientListPresenter) {
         this.clientListPresenter = (ClientListPresenter) clientListPresenter;
     }
+
 }

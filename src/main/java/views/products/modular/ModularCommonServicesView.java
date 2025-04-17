@@ -6,8 +6,10 @@ import presenters.product.ProductCreatePresenter;
 import utils.Attribute;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +50,12 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
                 public void insertUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
@@ -127,4 +131,5 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private String getServiceTypeSelected() {
         return (String) serviceTypeComboBox.getSelectedItem();
     }
+
 }

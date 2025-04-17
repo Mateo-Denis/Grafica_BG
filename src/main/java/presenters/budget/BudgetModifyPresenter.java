@@ -231,7 +231,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         double oneItemProductPrice = product.calculateRealTimePrice();
         JTextField widthTextField = budgetModifyView.getWidthMeasureTextField();
         JTextField heightTextField = budgetModifyView.getHeightMeasureTextField();
-        int meters;
+        double meters;
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
         double recharge = 1.0;
@@ -257,10 +257,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
             if (widthTextField.isEnabled() && heightTextField.isEnabled()) { //IF ARE BOTH ENABLED
 
                 productMeasures = productWidthMeasures + "m x " + productHeightMeasures + "m";
-                meters = Integer.parseInt(productHeightMeasures) * Integer.parseInt(productWidthMeasures);
+                meters = Double.parseDouble(productHeightMeasures) * Double.parseDouble(productWidthMeasures);
             } else { //IF ONLY ONE IS ENABLED (HEIGHT)
                 productMeasures = productHeightMeasures + "m";
-                meters = Integer.parseInt(productHeightMeasures);
+                meters = Double.parseDouble(productHeightMeasures);
             }
 
             totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;

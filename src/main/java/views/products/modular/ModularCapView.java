@@ -54,9 +54,9 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
-    private final Map<String,String> comboBoxValues = new HashMap<>();
+    private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
-    private final Map<String,String> textFieldValues = new HashMap<>();
+    private final Map<String, String> textFieldValues = new HashMap<>();
     private double profit;
     private double capCost;
     private double plankLoweringPrice;
@@ -64,6 +64,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private final ProductCreatePresenter presenter;
     private boolean initialization;
     private final SettingsDatabaseConnection settingsDBConnection;
+
     public ModularCapView(ProductCreatePresenter presenter) {
         this.presenter = presenter;
         settingsDBConnection = new SettingsDatabaseConnection();
@@ -184,10 +185,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 public void insertUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
@@ -221,5 +224,6 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
             showMessage(MessageTypes.INT_PARSING_ERROR, containerPanel);
         }
     }
+
 }
 

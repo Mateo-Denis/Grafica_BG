@@ -1,6 +1,7 @@
 package views.budget;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import PdfFormater.Row;
@@ -9,6 +10,8 @@ import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -58,12 +61,10 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         SetBudgetTableModel();
     }
 
-    public void SetBudgetTableModel()
-    {
+    public void SetBudgetTableModel() {
         DefaultTableModel tableModel = new DefaultTableModel(
                 new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Cliente / Particular", "Numero de Presupuesto"}, 200
-        )
-        {
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Todas las celdas no serán editables
@@ -144,9 +145,9 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     public int getSelectedBudgetNumber() {
         int budgetNumber = 0;
         int selectedRow = getSelectedTableRow();
-        if(selectedRow != -1){
+        if (selectedRow != -1) {
             Object budgetNumberObj = budgetResultTable.getValueAt(selectedRow, 3);
-            if(budgetNumberObj != null){
+            if (budgetNumberObj != null) {
                 try {
                     String budgetNumberStr = (String) budgetNumberObj;
                     if (!budgetNumberStr.isEmpty()) {
@@ -186,15 +187,19 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         return budgetResultTable.getSelectedRow();
     }
 
-    public boolean isTheRowFilled(){
+    public boolean isTheRowFilled() {
         boolean isFilled;
         int selectedRow = getSelectedTableRow();
 
-        if(selectedRow != -1) {
+        if (selectedRow != -1) {
             if (budgetResultTable.getValueAt(selectedRow, 0) != null) {
                 isFilled = !getStringValueAt(getSelectedTableRow(), 0).isEmpty();
-            } else {isFilled = false;}
-        } else {isFilled = false;}
+            } else {
+                isFilled = false;
+            }
+        } else {
+            isFilled = false;
+        }
 
         return isFilled;
     }
@@ -228,6 +233,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
     public JButton getModifyButton() {
         return modifyButton;
     }
+
 }
 
 

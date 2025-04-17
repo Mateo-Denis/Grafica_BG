@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
-
 
 
         if (priceTextArea != null) {
@@ -332,10 +332,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productResultTable.setValueAt(value, row, col);
     }
 
-    public void SetClientsTableModel()
-    {
-        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
-        {
+    public void SetClientsTableModel() {
+        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -345,10 +343,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    public void SetProductsTableModel()
-    {
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200)
-        {
+    public void SetProductsTableModel() {
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -358,10 +354,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         productResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    public void SetPreviewTableModel()
-    {
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200)
-        {
+    public void SetPreviewTableModel() {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -371,8 +365,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetPreviewingTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    private void SetColumnTitlesFix()
-    {
+    private void SetColumnTitlesFix() {
         MultiLineHeaderRenderer.applyToTable(productResultTable, false);
         MultiLineHeaderRenderer.applyToTable(budgetPreviewingTable, true);
         MultiLineHeaderRenderer.applyToTable(clientResultTable, false);
@@ -393,8 +386,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         SetBorders();
     }
 
-    public void SetBorders()
-    {
+    public void SetBorders() {
         clientSearchingContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0));
         addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
     }
@@ -448,6 +440,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public String getProductStringTableValueAt(int row, int col) {
         return (String) productResultTable.getValueAt(row, col);
     }
+
     public String getPreviewStringTableValueAt(int row, int col) {
         return (String) budgetPreviewingTable.getValueAt(row, col);
     }
@@ -477,7 +470,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         int rowHeight = table.getRowHeight(); // Altura de cada fila
         int tableHeight = rowCountToShow * rowHeight; // Altura total para x filas
         // Establecer la altura preferida del viewport dentro del JScrollPane
-        table.setPreferredScrollableViewportSize(new java.awt.Dimension(
+        table.setPreferredScrollableViewportSize(new Dimension(
                 table.getPreferredSize().width, tableHeight));
     }
 
@@ -527,5 +520,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public JFrame getWindowFrame() {
         return windowFrame;
     }
+
 }
 

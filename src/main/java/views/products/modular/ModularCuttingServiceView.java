@@ -79,10 +79,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
                 public void insertUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     calculateDependantPrices();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
@@ -168,4 +170,5 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private String getVinylTypeSelected() {
         return (String) vinylsComboBox.getSelectedItem();
     }
+
 }

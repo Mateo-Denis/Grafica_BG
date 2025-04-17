@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -81,8 +82,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private static MultiLineHeaderRenderer multiLineRenderer;
 
 
-
-    public BudgetModifyView(){
+    public BudgetModifyView() {
         windowFrame = new JFrame("Modificar Presupuesto");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
@@ -97,7 +97,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(1000,700);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
 
         DisableMeasureTextFields();
@@ -105,22 +105,19 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientSearchingContainer.setVisible(false);
     }
 
-    private void SetDisableNumberInputFilter()
-    {
+    private void SetDisableNumberInputFilter() {
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) heightMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
     }
 
-    private void SetPriceTextAreaInitialText()
-    {
+    private void SetPriceTextAreaInitialText() {
         priceTextArea.setEditable(false);
         sb.append("Precio total: ");
         priceTextArea.setText(sb.toString());
     }
 
-    private void DisableMeasureTextFields()
-    {
+    private void DisableMeasureTextFields() {
         widthMeasureTextField.setEnabled(false);
         heightMeasureTextField.setEnabled(false);
     }
@@ -130,7 +127,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         containerPanelWrapper = containerPanel;
     }
 
-//    @Override
+    //    @Override
     protected void initListeners() {
         budgetModifyButton.addActionListener(e -> {
             budgetModifyPresenter.onSaveModificationsButtonClicked();
@@ -160,8 +157,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
     }
 
-    private void SetProductTableListener()
-    {
+    private void SetProductTableListener() {
         productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -191,8 +187,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         });
     }
 
-    private void SetColumnTitlesFix()
-    {
+    private void SetColumnTitlesFix() {
         MultiLineHeaderRenderer.applyToTable(productTable, false);
         MultiLineHeaderRenderer.applyToTable(budgetPreviewTable, true);
         MultiLineHeaderRenderer.applyToTable(clientResultTable, false);
@@ -216,7 +211,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     public void restartWindow() {
-        windowFrame.setSize(1000,700);
+        windowFrame.setSize(1000, 700);
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
@@ -326,10 +321,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         addClientContainer.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
     }
 
-    private void SetClientsTableModel()
-    {
-        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200)
-        {
+    private void SetClientsTableModel() {
+        clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Todas las celdas no serán editables
@@ -339,10 +332,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    private void SetProductsTableModel()
-    {
-        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200)
-        {
+    private void SetProductsTableModel() {
+        productsTableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoria", "Precio"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Todas las celdas no serán editables
@@ -352,10 +343,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    private void SetBudgetTableModel()
-    {
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas" , "Observaciones",  "Precio Unitario", "Cliente / Particular"}, 200)
-        {
+    private void SetBudgetTableModel() {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -371,7 +360,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         int rowHeight = table.getRowHeight(); // Altura de cada fila
         int tableHeight = rowCountToShow * rowHeight; // Altura total para x filas
         // Establecer la altura preferida del viewport dentro del JScrollPane
-        table.setPreferredScrollableViewportSize(new java.awt.Dimension(
+        table.setPreferredScrollableViewportSize(new Dimension(
                 table.getPreferredSize().width, tableHeight));
     }
 
@@ -457,7 +446,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
         priceContainer.setVisible(true);
-        windowFrame.setSize(1000,700);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
     }
 
@@ -467,7 +456,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         productSearchingContainer.setVisible(false);
         budgetCreationButtonsContainer.setVisible(false);
         priceContainer.setVisible(false);
-        windowFrame.setSize(1000,700);
+        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(false);
     }
 
@@ -480,4 +469,5 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     public JFrame getWindowFrame() {
         return windowFrame;
     }
+
 }
