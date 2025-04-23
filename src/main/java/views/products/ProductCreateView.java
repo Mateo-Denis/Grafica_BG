@@ -118,7 +118,8 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
 
         List<String> subStringModulars = new ArrayList<>();
-        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productCreatePresenter);
+        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productCreatePresenter, true
+        );
         Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
 
         //Se extraen los substrings de los nombres de los modulars. EJ: ModularCapView -> Cap

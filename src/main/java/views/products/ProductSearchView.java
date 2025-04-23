@@ -7,15 +7,23 @@ import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.product.ProductSearchPresenter;
 import utils.CategoryParser;
+import utils.TextUtils;
 import views.ToggleableView;
+import views.products.modular.IModularCategoryView;
 
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static utils.CategoryParser.parseCategory;
 
 public class ProductSearchView extends ToggleableView implements IProductSearchView {
 
@@ -36,6 +44,9 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private JPanel bottomButtonsContainer;
     private JComboBox categoryComboBox;
     private JLabel categoryLabel;
+    private IModularCategoryView modularView;
+    private final TextUtils textUtils = new TextUtils();
+    private JPanel modularContainer;
     private JButton deleteAllProductsButton;
     private ProductSearchPresenter productSearchPresenter;
     private DefaultTableModel tableModel;
@@ -81,6 +92,67 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         searchButton.addActionListener(e -> productSearchPresenter.onSearchButtonClicked());
         deleteOneProductButton.addActionListener(e -> productSearchPresenter.onDeleteProductButtonClicked());
         productListOpenButton.addActionListener(e -> productListPresenter.onSearchViewOpenListButtonClicked());
+    }
+
+    public void setTableListener(ListSelectionListener listener){
+        productResultTable.getSelectionModel().addListSelectionListener(listener);
+        productResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+    @Override
+    public void showSelectedView(String category) {
+        // Limpiar el panel del contenedor
+        modularContainer.removeAll();
+
+        // Mostrar la vista correspondiente
+        //JPanel selectedView = getCorrespondingModularView(category);
+        IModularCategoryView selectedView = getCorrespondingModularView(category);
+        if (selectedView != null && selectedView.getContainerPanel() != null) {
+            modularView = selectedView;
+            modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
+            selectedView.getContainerPanel().setVisible(true);
+        }
+
+        // Actualizar el layout del panel
+        modularContainer.revalidate();
+        modularContainer.repaint();
+    }
+
+
+    public IModularCategoryView getCorrespondingModularView(String category) {
+        IModularCategoryView correspondingModularView = null;
+        Map<String, IModularCategoryView> panelesCategorias = getCategoryPanelsMap();
+
+        for (String categoria : panelesCategorias.keySet()) {
+
+            if (parseCategory(categoria).equals(category)) {
+                correspondingModularView = panelesCategorias.get(categoria);
+                break;
+            }
+        }
+        return correspondingModularView;
+    }
+
+    public Map<String, IModularCategoryView> getCategoryPanelsMap() {
+        String directoryPath = "src/main/java/views/products/modular";
+        List<String> nombresDeModulars = textUtils.getFileNamesInDirectory(directoryPath);
+
+        nombresDeModulars.removeIf(nombreCompleto -> nombreCompleto.startsWith("I"));
+
+        List<String> subStringModulars = new ArrayList<>();
+        List<IModularCategoryView> categoryViews = TextUtils.loadAllViewPanels("views.products.modular", productSearchPresenter, false);
+        Map<String, IModularCategoryView> categoryPanelsMap = new HashMap<>();
+
+        //Se extraen los substrings de los nombres de los modulars. EJ: ModularCapView -> Cap
+        for (String stringModular : nombresDeModulars) {
+            String subString = textUtils.extractor(stringModular);
+            subStringModulars.add(subString);
+            //System.out.println(subString);
+        }
+
+        for (int i = 0; i < subStringModulars.size(); i++) {
+            categoryPanelsMap.put(subStringModulars.get(i), categoryViews.get(i));
+        }
+        return categoryPanelsMap;
     }
 
     @Override

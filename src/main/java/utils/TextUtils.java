@@ -14,6 +14,8 @@ import java.util.logging.Logger;
 
 import org.reflections.Reflections;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import views.products.modular.IModularCategoryView;
 
 public class TextUtils {
@@ -64,10 +66,10 @@ public class TextUtils {
      * Loads and instantiates all classes that implement the IModularCategoryView interface within the specified package.
      *
      * @param packageName The name of the package to search for classes that implement IModularCategoryView.
-     * @param productCreatePresenter An instance of ProductCreatePresenter to be passed to the constructors of the found classes.
+     * @param presenter An instance of ProductCreatePresenter to be passed to the constructors of the found classes.
      * @return A list of IModularCategoryView instances.
      */
-    public static List<IModularCategoryView> loadAllViewPanels(String packageName, ProductCreatePresenter productCreatePresenter) {
+    public static List<IModularCategoryView> loadAllViewPanels(String packageName, ProductPresenter presenter, boolean isCreate) {
         List<IModularCategoryView> modularList = new ArrayList<>();
 
         // Use Reflections to find all classes in the package that implement IModularCategoryView
@@ -85,8 +87,14 @@ public class TextUtils {
 
             try {
                 // Try to instantiate the class using a constructor that takes a ProductCreatePresenter as an argument
-                Constructor<?> constructor = clazz.getDeclaredConstructor(ProductCreatePresenter.class);
-                Object obj = constructor.newInstance(productCreatePresenter);
+                Constructor<?> constructor;
+                if(isCreate){
+                    constructor = clazz.getDeclaredConstructor(ProductCreatePresenter.class);
+                }else {
+                    constructor = clazz.getDeclaredConstructor(ProductSearchPresenter.class);
+                }
+
+                Object obj = constructor.newInstance(presenter);
                 IModularCategoryView instance = (IModularCategoryView) obj;
 
                 // Add the instance to the list
@@ -94,9 +102,9 @@ public class TextUtils {
             } catch (InvocationTargetException e) {
                 Throwable cause = e.getCause();
                 System.err.println("Constructor threw an exception: " + cause);
-                LOGGER.log(null, "ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils'", e);
+                System.out.println("ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils'");
             } catch (Exception e) {
-               LOGGER.log(null,"ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils", e);
+               System.out.println("ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils");
             }
         }
 

@@ -16,7 +16,7 @@ import java.util.List;
 import static utils.MessageTypes.PRODUCT_DELETION_FAILURE;
 import static utils.MessageTypes.PRODUCT_SEARCH_FAILURE;
 
-public class ProductSearchPresenter extends StandardPresenter {
+public class ProductSearchPresenter extends ProductPresenter {
     private final IProductSearchView productSearchView;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
@@ -26,6 +26,18 @@ public class ProductSearchPresenter extends StandardPresenter {
         view = productSearchView;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
+
+        this.productSearchView.setTableListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = productSearchView.getProductResultTable().getSelectedRow();
+                if (selectedRow != -1) {
+                    String selectedCategory = (String) productSearchView.getProductResultTable().getValueAt(selectedRow, 1);
+                    productSearchView.showSelectedView(selectedCategory);
+                }
+            }
+        });
+
+
         cargarCategorias();
     }
 

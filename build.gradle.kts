@@ -13,6 +13,7 @@ application {
 
 repositories {
     mavenCentral()
+    google()
 }
 
 java {
@@ -22,6 +23,7 @@ java {
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
+    testImplementation ("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("org.xerial:sqlite-jdbc:3.46.0.0")
     implementation("org.slf4j:slf4j-api:1.7.36")

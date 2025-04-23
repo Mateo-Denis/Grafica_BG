@@ -20,7 +20,7 @@ import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
 import views.products.modular.*;
 
-public class ProductCreatePresenter extends StandardPresenter {
+public class ProductCreatePresenter extends ProductPresenter {
     private final IProductCreateView productCreateView;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;

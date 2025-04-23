@@ -72,6 +72,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         adjustPanels();
     }
 
+
     private void adjustPanels() {
 
         ArrayList<JPanel> panels = new ArrayList<>();

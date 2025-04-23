@@ -4,6 +4,8 @@ import views.IToggleableView;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public interface IProductSearchView extends IToggleableView {
     String getNameSearchText();
@@ -18,4 +20,8 @@ public interface IProductSearchView extends IToggleableView {
     JTable getProductResultTable();
     void setCategoriesComboBox(List<String> categorias);
     JComboBox getCategoriesComboBox();
+
+	void setTableListener(ListSelectionListener listener);
+
+    void showSelectedView(String selectedCategory);
 }
