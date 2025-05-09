@@ -25,9 +25,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JComboBox clothComboBox;
     private JPanel clothSelectionContainer;
     private JPanel clothMeasuresContainer;
-    private JPanel measuresContainer;
     private JPanel widthContainer;
-    private JTextField heightTextField;
     private JTextField widthTextField;
     private JLabel multiplyMeasuresAndPriceLabel;
     private JPanel metersPriceContainer;
@@ -80,21 +78,30 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private double seamstressPrice;
     private boolean initialization;
 
-    private enum FlagSizes {
-        SMALL{100, 60},
-        MEDIUM {},
-        LARGE {};
-
-        private final String size;
-
-        FlagSizes(String size) {
-            this.size = size;
-        }
-
-        public String getSize() {
-            return size;
-        }
-    }
+//    private enum FlagSizes {
+//
+//        // After
+//        SMALL(100, 60),
+//        MEDIUM(100, 90),
+//        LARGE(200, 9);
+//
+//        private final int width;
+//        private final int height;
+//
+//        FlagSizes(int width, int height) {
+//            this.width = width;
+//            this.height = height;
+//        }
+//
+//        public int getWidth() {
+//            return width;
+//        }
+//
+//        public int getHeight() {
+//            return height;
+//        }
+//
+//    }
 
 
     public ModularFlagView(ProductCreatePresenter presenter) {
@@ -113,7 +120,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         panels.add(plankLoweringPriceContainer);
         panels.add(plankLoweringFinalPriceContainer);
         panels.add(widthContainer);
-        panels.add(measuresContainer);
         panels.add(metersPriceContainer);
         panels.add(clothFinalPriceContainer);
         panels.add(profitContainer);
@@ -139,7 +145,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     public void initListeners() {
         ArrayList<JTextField> textFields = new ArrayList<>();
 
-        textFields.add(heightTextField);
+
         textFields.add(widthTextField);
         textFields.add(metersPriceTextField);
         textFields.add(seamstressPriceTextField);
@@ -151,6 +157,8 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
+            System.out.println("NAMES TEXTFIELDS:");
+            System.out.println(textField.getName());
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
@@ -175,7 +183,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         try {
             int plankLoweringAmount = plankLoweringAmountTextField.getText().isEmpty() ? 0 : Integer.parseInt(plankLoweringAmountTextField.getText());
             try {
-                float height = heightTextField.getText().isEmpty() ? 0 : Float.parseFloat(heightTextField.getText());
                 float width = widthTextField.getText().isEmpty() ? 0 : Float.parseFloat(widthTextField.getText());
                 float metersPrice = metersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(metersPriceTextField.getText());
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
@@ -184,7 +191,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-                float clothPrice = height * width * metersPrice;
+                float clothPrice = width * metersPrice;
                 float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersPriceTotal = printingMetersAmount * printingMetersPrice;
 
@@ -246,7 +253,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", heightTextField.getText()));
+        //attributes.add(new Attribute("T1A", heightTextField.getText()));
         attributes.add(new Attribute("T1B", widthTextField.getText()));
         attributes.add(new Attribute("T1C", metersPriceTextField.getText()));
         attributes.add(new Attribute("T2A", plankLoweringAmountTextField.getText()));

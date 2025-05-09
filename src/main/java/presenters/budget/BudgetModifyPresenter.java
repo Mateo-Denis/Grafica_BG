@@ -295,9 +295,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
         productRowData.add(productMeasures);
         productRowData.add(productObservations);
 
-        for (String data : productRowData) {
-            System.out.println("DATA: " + data);
-        }
+//        for (String data : productRowData) {
+//            System.out.println("DATA: " + data);
+//        }
 
         return productRowData;
     }
