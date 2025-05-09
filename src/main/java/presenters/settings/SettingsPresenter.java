@@ -67,20 +67,4 @@ public class SettingsPresenter extends StandardPresenter {
 		settingsView.showView();
 		showValues();
 	}
-
-
-
-
-
-
-
-
-
-
-
-	//PRUEBA ACTUALIZAR CON ENTER:
-
-	public void configurarTeclas() {
-
-	}
 }

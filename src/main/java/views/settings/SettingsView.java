@@ -145,6 +145,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterPressed");
 
+
         table.getActionMap().put("enterPressed", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,7 +158,9 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                     if (row < table.getRowCount() - 1) {
                         table.changeSelection(row + 1, column, false, false);
                     }
-                } else if (table.getSelectedRow() == -1 && !table.isEditing()) {
+//                } else if (table.getSelectedRow() == -1 && !table.isEditing()) {
+
+                } else if (!table.isEditing()) {
                     // Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
                     System.out.println("Enter pressed");
                     settingsPresenter.onUpdateDataButtonPressed();
@@ -167,6 +170,21 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
         // ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
         // ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
+
+        //IF THE TABLE IS EDITING, STOP EDITING WHEN THE MOUSE IS PRESSED OUTSIDE THE TABLE
+        containerPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // Verificar que fue botón izquierdo
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    // Quitar foco de la tabla
+                    if (table.isEditing()) {
+                        table.getCellEditor().stopCellEditing(); // guarda cambios antes de quitar selección
+                    }
+                    table.clearSelection(); // deselecciona
+                }
+            }
+        });
 
 
         table.addFocusListener(new FocusAdapter() {

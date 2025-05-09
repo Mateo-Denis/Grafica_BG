@@ -25,11 +25,10 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JComboBox clothComboBox;
     private JPanel clothSelectionContainer;
     private JPanel clothMeasuresContainer;
-    private JPanel heightContainer;
+    private JPanel measuresContainer;
     private JPanel widthContainer;
     private JTextField heightTextField;
     private JTextField widthTextField;
-    private JLabel multiplyMeasuresLabel;
     private JLabel multiplyMeasuresAndPriceLabel;
     private JPanel metersPriceContainer;
     private JTextField metersPriceTextField;
@@ -65,6 +64,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JTextField plankLoweringFinalPriceTextField;
     private JLabel printingMetersMultiplyLabel;
     private JLabel printingMetersEqualsLabel;
+    private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
@@ -79,6 +79,22 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private double clothSqrMetersPrice;
     private double seamstressPrice;
     private boolean initialization;
+
+    private enum FlagSizes {
+        SMALL{100, 60},
+        MEDIUM {},
+        LARGE {};
+
+        private final String size;
+
+        FlagSizes(String size) {
+            this.size = size;
+        }
+
+        public String getSize() {
+            return size;
+        }
+    }
 
 
     public ModularFlagView(ProductCreatePresenter presenter) {
@@ -97,7 +113,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         panels.add(plankLoweringPriceContainer);
         panels.add(plankLoweringFinalPriceContainer);
         panels.add(widthContainer);
-        panels.add(heightContainer);
+        panels.add(measuresContainer);
         panels.add(metersPriceContainer);
         panels.add(clothFinalPriceContainer);
         panels.add(profitContainer);
@@ -190,9 +206,8 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     @Override
     public void loadComboBoxValues() {
         ArrayList<Pair<String, Double>> clothList = presenter.getTableAsArrayList(TELAS);
-
         for (Pair<String, Double> pair : clothList) {
-            if (pair.getValue0().contains("M2")) clothComboBox.addItem(pair.getValue0());
+            clothComboBox.addItem(pair.getValue0());
         }
     }
 
