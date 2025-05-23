@@ -4,8 +4,11 @@ import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -68,6 +71,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     private JLabel finalPriceEqualsLabel;
     private JTextField finalPriceTextField;
     private JComboBox seamstressTypeComboBox;
+    private JLabel profitLabel;
     private JLabel shirt;
     private JCheckBox editPriceCheckBox;
     @Getter
@@ -76,7 +80,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
     private final Map<String, String> textFieldValues = new HashMap<>();
-    private final ProductCreatePresenter presenter;
     private boolean isCalculating = false;
 
     private double profit;
@@ -85,8 +88,23 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     private double clothMetersPrice;
     private double seamstressPrice;
 
-    public ModularClothesView(ProductCreatePresenter presenter) {
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularClothesView(boolean isCreate, ProductPresenter presenter) {
         this.presenter = presenter;
+        if (isCreate && presenter instanceof ProductCreatePresenter) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else if (!isCreate && presenter instanceof ProductSearchPresenter) {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = null;
+            // Optionally show an error or throw an exception
+        }
         initListeners();
         adjustPanels();
     }
@@ -216,7 +234,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
-                finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * profit));
+                finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100)));
                 isCalculating = false;
             });
 
@@ -267,6 +285,16 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     public void comboBoxListenerSet(ItemListener listener) {
         materialComboBox.addItemListener(listener);
         seamstressTypeComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        printingMetersAmountTextField.setText(attributes.get("T1A"));
+        clothMetersAmountTextField.setText(attributes.get("T2A"));
+        plankLoweringAmountTextField.setText(attributes.get("T3A"));
+        materialComboBox.setSelectedItem(attributes.get("TELA"));
+        seamstressTypeComboBox.setSelectedItem(attributes.get("TIPO_COSTURERA"));
     }
 
     @Override

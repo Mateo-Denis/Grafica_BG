@@ -5,19 +5,21 @@ package views.products;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
+import presenters.product.ProductPresenter;
 import presenters.product.ProductSearchPresenter;
+import utils.Attribute;
 import utils.CategoryParser;
+import utils.Product;
 import utils.TextUtils;
 import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
 
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,13 +46,16 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private JPanel bottomButtonsContainer;
     private JComboBox categoryComboBox;
     private JLabel categoryLabel;
-    private IModularCategoryView modularView;
     private final TextUtils textUtils = new TextUtils();
     private JPanel modularContainer;
+    private JButton modifyProductButton;
     private JButton deleteAllProductsButton;
     private ProductSearchPresenter productSearchPresenter;
+    private ProductPresenter productPresenter;
     private DefaultTableModel tableModel;
     private final ProductListPresenter productListPresenter;
+    @Getter
+    private IModularCategoryView modularView;
 
     public ProductSearchView(ProductListPresenter productListPresenter) {
         windowFrame = new JFrame("Buscar Productos");
@@ -61,7 +66,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
         this.productListPresenter = productListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(470, 560);
+        windowFrame.setSize(1200, 800);
         windowFrame.setResizable(false);
     }
 
@@ -92,24 +97,40 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         searchButton.addActionListener(e -> productSearchPresenter.onSearchButtonClicked());
         deleteOneProductButton.addActionListener(e -> productSearchPresenter.onDeleteProductButtonClicked());
         productListOpenButton.addActionListener(e -> productListPresenter.onSearchViewOpenListButtonClicked());
+        modifyProductButton.addActionListener(e -> productSearchPresenter.onModifyButtonPressed());
     }
 
     public void setTableListener(ListSelectionListener listener){
         productResultTable.getSelectionModel().addListSelectionListener(listener);
         productResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
+
+    private void setModularPrices() {
+        if (modularView != null) {
+            modularView.setPriceTextFields();
+        }
+    }
+
     @Override
-    public void showSelectedView(String category) {
+    public void showSelectedView(String category, Product product) {
         // Limpiar el panel del contenedor
         modularContainer.removeAll();
+        appearModularView();
 
         // Mostrar la vista correspondiente
         //JPanel selectedView = getCorrespondingModularView(category);
         IModularCategoryView selectedView = getCorrespondingModularView(category);
         if (selectedView != null && selectedView.getContainerPanel() != null) {
             modularView = selectedView;
+            modularContainer.setLayout(new BorderLayout());
             modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
             selectedView.getContainerPanel().setVisible(true);
+            modularView.loadComboBoxValues();
+            modularView.setSearchTextFields(product);
+            setModularPrices();
+            SetModularPriceTextFields(modularView);
+            modularView.calculateDependantPrices();
+
         }
 
         // Actualizar el layout del panel
@@ -117,6 +138,14 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         modularContainer.repaint();
     }
 
+    public void SetModularPriceTextFields(IModularCategoryView paramModularView)
+    {
+        modularView.comboBoxListenerSet(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                paramModularView.setPriceTextFields();
+            }
+        });
+    }
 
     public IModularCategoryView getCorrespondingModularView(String category) {
         IModularCategoryView correspondingModularView = null;
@@ -146,7 +175,12 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         for (String stringModular : nombresDeModulars) {
             String subString = textUtils.extractor(stringModular);
             subStringModulars.add(subString);
-            //System.out.println(subString);
+            System.out.println(subString);
+        }
+
+        for(int i = 0; i < categoryViews.size(); i++) {
+            System.out.println("CATEGORYVIEWS: ");
+            System.out.println(categoryViews.get(i).getClass().getName());
         }
 
         for (int i = 0; i < subStringModulars.size(); i++) {
@@ -226,6 +260,14 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     public JComboBox getCategoriesComboBox() {
         return categoryComboBox;
+    }
+
+    public void hideModularView(){
+        modularContainer.setVisible(false);
+    }
+
+    public void appearModularView(){
+        modularContainer.setVisible(true);
     }
 
 }

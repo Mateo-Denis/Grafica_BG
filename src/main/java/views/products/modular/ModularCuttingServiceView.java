@@ -3,8 +3,11 @@ package views.products.modular;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.GANANCIAS;
 import static utils.databases.SettingsTableNames.MATERIALES;
 
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {
@@ -31,12 +35,24 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JTextField vinylCostTextField;
     private JTextField profitTextField;
     private JTextField cuttingServiceFinalPriceTextField;
-    private final ProductCreatePresenter presenter;
+    private JLabel profitLabel;
     private double vinylPrice;
     private double profit;
     private boolean initialization;
 
-    public ModularCuttingServiceView(ProductCreatePresenter presenter) {
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularCuttingServiceView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
         adjustPanels();
@@ -100,7 +116,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
             float vinylCost = vinylCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(vinylCostTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylCost * profit));
+            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylCost * (profit/100)));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
@@ -146,7 +162,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-        profit = 2;
+        profit = presenter.getIndividualPrice(GANANCIAS, "Servicio de corte");
         vinylPrice = presenter.getIndividualPrice(MATERIALES, getVinylTypeSelected());
 
         vinylCostTextField.setText(String.valueOf(vinylPrice));
@@ -165,6 +181,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
         vinylsComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        vinylsComboBox.setSelectedItem(attributes.get("VINILO"));
     }
 
     private String getVinylTypeSelected() {

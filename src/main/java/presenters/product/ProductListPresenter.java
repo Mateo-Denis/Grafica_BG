@@ -1,7 +1,9 @@
 package presenters.product;
 
 import presenters.StandardPresenter;
+import utils.CategoryParser;
 import utils.Product;
+import utils.TextUtils;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
 import views.products.list.IProductListView;
@@ -17,7 +19,7 @@ public class ProductListPresenter extends StandardPresenter {
     private final IProductListModel productListModel;
     private IProductSearchView productSearchView;
     private final ProductsDatabaseConnection productsDatabaseConnection;
-    private CategoriesDatabaseConnection categoriesDatabaseConnection;
+    private static CategoryParser categoryParser;
     private static Logger LOGGER;
 
     public ProductListPresenter(IProductListView productListView, IProductListModel productListModel) {
@@ -63,10 +65,10 @@ public class ProductListPresenter extends StandardPresenter {
 
                 }
 
-                productListView.setIntTableValueAt(rowCount, 0, productID);
-                productListView.setStringTableValueAt(rowCount, 1, product.getName());
-                productListView.setDoubleTableValueAt(rowCount, 2, 0.0);
-                productListView.setStringTableValueAt(rowCount, 3, productCategoryName);
+
+                productListView.setStringTableValueAt(rowCount, 0, product.getName());
+                productListView.setDoubleTableValueAt(rowCount, 1, 0.0);
+                productListView.setStringTableValueAt(rowCount, 2, categoryParser.parseCategory(productCategoryName));
                 rowCount++;
         }
     }

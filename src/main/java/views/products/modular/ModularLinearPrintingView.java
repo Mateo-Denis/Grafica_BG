@@ -2,8 +2,11 @@ package views.products.modular;
 
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -32,13 +35,24 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private JPanel finalPriceContainer;
     private JTextField profitTextField;
     private JTextField finalPriceTextField;
-    private final ProductCreatePresenter presenter;
+    private JLabel profitLabel;
     private double paperMeterPrice;
     private double inkByMeterPrice;
     private double profit;
     private boolean initialization;
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
 
-    public ModularLinearPrintingView(ProductCreatePresenter presenter) {
+    public ModularLinearPrintingView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
         adjustPanels();
@@ -104,7 +118,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
             float inkByMeterPrice = inkByMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkByMeterPriceTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            float finalPrice = paperMeterPrice + inkByMeterPrice + profit;
+            float finalPrice = paperMeterPrice + inkByMeterPrice + (profit/100);
             finalPriceTextField.setText(String.valueOf(finalPrice));
 
         } catch (NumberFormatException | NullPointerException e) {
@@ -170,6 +184,11 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
 
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        //
     }
 
 }

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ProductModel implements IProductModel {
 
@@ -164,6 +165,23 @@ public class ProductModel implements IProductModel {
     public Product getOneProduct(int productID) {
         try {
             return productsDBConnection.getOneProduct(productID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Map<String, String> getProductAttributes(int productID) {
+        try {
+            return attributesDBConnection.getProductAttributes(productID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void DeleteProductAttributes(int productID) {
+        try {
+            attributesDBConnection.deleteProductAttributesByID(productID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

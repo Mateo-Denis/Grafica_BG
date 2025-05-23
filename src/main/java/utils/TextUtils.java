@@ -62,54 +62,55 @@ public class TextUtils {
         return fileNamesList;
     }
 
+
     /**
      * Loads and instantiates all classes that implement the IModularCategoryView interface within the specified package.
      *
      * @param packageName The name of the package to search for classes that implement IModularCategoryView.
-     * @param presenter An instance of ProductCreatePresenter to be passed to the constructors of the found classes.
-     * @return A list of IModularCategoryView instances.
+     * @param presenter   An instance of ProductPresenter to be passed to the constructors of the found classes.
+     * @param isCreate    A boolean flag indicating whether the view is in "create" mode (true) or "search" mode (false).
+     * @return A list of IModularCategoryView instances that were successfully instantiated.
      */
     public static List<IModularCategoryView> loadAllViewPanels(String packageName, ProductPresenter presenter, boolean isCreate) {
-        List<IModularCategoryView> modularList = new ArrayList<>();
+        // List to store the instantiated views
+        List<IModularCategoryView> views = new ArrayList<>();
 
-        // Use Reflections to find all classes in the package that implement IModularCategoryView
+        // Use Reflections to find all classes in the specified package that implement IModularCategoryView
         Reflections reflections = new Reflections(packageName);
         var classes = new ArrayList<>(reflections.getSubTypesOf(IModularCategoryView.class));
 
-        // Sort the classes alphabetically by their simple names
+        // Sort the classes alphabetically by their simple names for consistent ordering
         classes.sort(Comparator.comparing(Class::getSimpleName));
 
+        // Iterate over each class found
         for (Class<?> clazz : classes) {
-            // Skip classes whose names end with ".form"
+            // Skip classes whose names end with ".form" (likely non-instantiable or irrelevant classes)
             if (clazz.getName().endsWith(".form")) {
                 continue;
             }
 
-            try {
-                // Try to instantiate the class using a constructor that takes a ProductCreatePresenter as an argument
-                Constructor<?> constructor;
-                if(isCreate){
-                    constructor = clazz.getDeclaredConstructor(ProductCreatePresenter.class);
-                }else {
-                    constructor = clazz.getDeclaredConstructor(ProductSearchPresenter.class);
+            // Iterate over the classes again (this nested loop seems redundant and may need review)
+            for (Class<? extends IModularCategoryView> clazzz : classes) {
+                try {
+                    // Get the constructor that accepts a boolean and a ProductPresenter as parameters
+                    Constructor<? extends IModularCategoryView> constructor =
+                            clazzz.getConstructor(boolean.class, ProductPresenter.class);
+
+                    // Instantiate the class using the provided parameters
+                    IModularCategoryView view = constructor.newInstance(isCreate, presenter);
+
+                    // Add the instantiated view to the list
+                    views.add(view);
+                } catch (Exception e) {
+                    // Print the stack trace for debugging purposes
+                    e.printStackTrace();
+                    // Optionally handle the error (e.g., log it or notify the user)
                 }
-
-                Object obj = constructor.newInstance(presenter);
-                IModularCategoryView instance = (IModularCategoryView) obj;
-
-                // Add the instance to the list
-                modularList.add(instance);
-            } catch (InvocationTargetException e) {
-                Throwable cause = e.getCause();
-                System.err.println("Constructor threw an exception: " + cause);
-                System.out.println("ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils'");
-            } catch (Exception e) {
-               System.out.println("ERROR IN METHOD 'loadAllViewPanels' IN CLASS->'TextUtils");
             }
         }
 
-        // Return the list of IModularCategoryView instances
-        return modularList;
+        // Return the list of instantiated views
+        return views;
     }
 }
 

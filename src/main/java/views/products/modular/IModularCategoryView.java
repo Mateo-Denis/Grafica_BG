@@ -3,6 +3,7 @@ package views.products.modular;
 import org.javatuples.Triplet;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import java.awt.event.ItemListener;
@@ -40,4 +41,6 @@ public interface IModularCategoryView{
 	ArrayList<Attribute> getAttributes();
 
     void comboBoxListenerSet(ItemListener listener);
+
+    void setSearchTextFields(Product product);
 }

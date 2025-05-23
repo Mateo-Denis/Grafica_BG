@@ -3,8 +3,11 @@ package views.products.modular;
 import lombok.Getter;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 import utils.databases.SettingsDatabaseConnection;
 
 import javax.swing.*;
@@ -51,6 +54,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private JTextField printingMetersFinalPriceTextField;
     private JLabel printingMultiplyLabel;
     private JLabel printingEqualsLabel;
+    private JLabel profitLabel;
     private JRadioButton ceramicRadioButton;
     private JRadioButton plasticRadioButton;
     private JRadioButton whiteRadioButton;
@@ -61,16 +65,28 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
     private final Map<String, String> textFieldValues = new HashMap<>();
-    private final ProductCreatePresenter presenter;
     private double cupPrice;
     private double plankLoweringPrice;
     private double printingMetersPrice;
     private double profit;
     private final SettingsDatabaseConnection settingsDBConnection;
 
-    public ModularCupView(ProductCreatePresenter presenter) {
-        this.presenter = presenter;
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularCupView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         settingsDBConnection = new SettingsDatabaseConnection();
+
+        this.presenter = presenter;
         initListeners();
         adjustPanels();
     }
@@ -149,7 +165,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
                 float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
-                float cupFinalPrice = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * profit;
+                float cupFinalPrice = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100);
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
@@ -230,6 +246,12 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
 
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        plankLoweringAmountTextField.setText(attributes.get("T1A"));
     }
 
 }

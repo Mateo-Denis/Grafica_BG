@@ -8,7 +8,6 @@ import models.ICategoryModel;
 import models.settings.ISettingsModel;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
-import presenters.StandardPresenter;
 
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
@@ -66,9 +65,9 @@ public class ProductCreatePresenter extends ProductPresenter {
         productCreateView.showView();
     }
 
-    private void updatePriceField(double price) {
+/*    private void updatePriceField(double price) {
         productCreateView.setProductPriceField(Double.toString(price));
-    }
+    }*/
 
     public int onCreateButtonClicked() {
         int idToReturn = -1;
@@ -86,9 +85,7 @@ public class ProductCreatePresenter extends ProductPresenter {
         } else {
             String productName = productCreateView.getProductName();
             int productID = productModel.createProduct(productName, categoryID);
-
             instancedAttribute = modularView.getAttributes();
-
             productModel.instantiateProductAttributes(productID, instancedAttribute, categoryID);
             idToReturn = productID;
         }
@@ -110,6 +107,7 @@ public class ProductCreatePresenter extends ProductPresenter {
         return settingsModel.getModularValues(tableName);
     }
 
+    @Override
     public double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
         return Double.parseDouble(settingsModel.getModularValue(tableName, selectedValue));
     }
@@ -117,30 +115,6 @@ public class ProductCreatePresenter extends ProductPresenter {
     private void setModularPrices() {
         if (modularView != null) {
             modularView.setPriceTextFields();
-        }
-    }
-
-    public void onEditCheckBoxClicked() {
-        IModularCategoryView catView = modularView;
-
-        if (catView != null) {
-            if (!productCreateView.getEditPriceCheckBox().isSelected()) {
-                catView.blockTextFields();
-            } else {
-                catView.unlockTextFields();
-            }
-        }
-    }
-
-    public void onSavePricesButtonClicked() {
-        List<Triplet<String, String, Double>> modularPricesList;
-        if (modularView != null) {
-            try {
-                modularPricesList = modularView.getModularPrices();
-                settingsModel.updateModularPrices(modularPricesList);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }

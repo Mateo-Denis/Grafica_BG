@@ -3,6 +3,7 @@ package views.products;
 import javax.swing.*;
 
 import lombok.Getter;
+import presenters.product.ProductPresenter;
 import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
 import utils.databases.CategoriesDatabaseConnection;
@@ -44,6 +45,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
     private JComboBox<String> subCategoryComboBox;
     private JPanel comboBoxOriginalPanel;
     private ProductCreatePresenter productCreatePresenter;
+    private ProductPresenter productPresenter;
     private CategoryModel categoryModel;
     private final TextUtils textUtils = new TextUtils();
     @Getter
@@ -126,13 +128,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         for (String stringModular : nombresDeModulars) {
             String subString = textUtils.extractor(stringModular);
             subStringModulars.add(subString);
-            System.out.println("SUBSTRINGMODULARS: ");
-            System.out.println(subString);
-        }
-
-        for(int i = 0; i < categoryViews.size(); i++) {
-            System.out.println("CATEGORYVIEWS: ");
-            System.out.println(categoryViews.get(i).getClass().getName());
         }
 
         for (int i = 0; i < subStringModulars.size(); i++) {

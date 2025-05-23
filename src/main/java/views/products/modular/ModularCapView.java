@@ -3,8 +3,11 @@ package views.products.modular;
 import lombok.Getter;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 import utils.databases.SettingsDatabaseConnection;
 
 import javax.swing.*;
@@ -51,6 +54,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JTextField capFinalPriceTextField;
     private JLabel profitMultiplyLabel;
     private JLabel capFinalPriceEqualsLabel;
+    private JLabel profitLabel;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
@@ -61,13 +65,24 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private double capCost;
     private double plankLoweringPrice;
     private double printingMetersPrice;
-    private final ProductCreatePresenter presenter;
     private boolean initialization;
     private final SettingsDatabaseConnection settingsDBConnection;
 
-    public ModularCapView(ProductCreatePresenter presenter) {
-        this.presenter = presenter;
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularCapView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         settingsDBConnection = new SettingsDatabaseConnection();
+        this.presenter = presenter;
         initListeners();
         adjustPanels();
     }
@@ -169,6 +184,13 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     public void comboBoxListenerSet(ItemListener listener) {
     }
 
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        plankLoweringAmountTextField.setText(attributes.get("T1A"));
+        printingMetersAmountTextField.setText(attributes.get("T2A"));
+    }
+
     public void initListeners() {
 
         ArrayList<JTextField> textFields = new ArrayList<>();
@@ -216,7 +238,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                capFinalPriceTextField.setText(String.valueOf((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * profit));
+                capFinalPriceTextField.setText(String.valueOf((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100)));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

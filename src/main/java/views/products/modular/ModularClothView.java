@@ -4,8 +4,11 @@ import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -34,18 +37,30 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     private JTextField clothMetersPriceTextField;
     private JTextField profitTextField;
     private JTextField clothFinalPriceTextField;
+    private JLabel profitLabel;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
     private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
     private final Map<String, String> textFieldValues = new HashMap<>();
-    private final ProductCreatePresenter presenter;
     private double profit;
     private double clothMetersPrice;
     private boolean initialization;
 
-    public ModularClothView(ProductCreatePresenter presenter) {
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularClothView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
         adjustPanels();
@@ -114,7 +129,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
             float clothMeters = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            clothFinalPriceTextField.setText(String.valueOf(clothMeters * profit));
+            clothFinalPriceTextField.setText(String.valueOf(clothMeters * (profit / 100)));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
@@ -171,6 +186,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
         clothComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        clothComboBox.setSelectedItem(attributes.get("TELA"));
     }
 
 }

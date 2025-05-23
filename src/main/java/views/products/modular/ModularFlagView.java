@@ -4,8 +4,11 @@ import lombok.Getter;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -62,6 +65,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JTextField plankLoweringFinalPriceTextField;
     private JLabel printingMetersMultiplyLabel;
     private JLabel printingMetersEqualsLabel;
+    private JLabel profitLabel;
     private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
     @Getter
@@ -70,7 +74,11 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private final Map<String, String> comboBoxValues = new HashMap<>();
     @Getter
     private final Map<String, String> textFieldValues = new HashMap<>();
-    private final ProductCreatePresenter presenter;
+
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
     private double profit;
     private double printingMetersPrice;
     private double plankLoweringPrice;
@@ -104,7 +112,15 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 //    }
 
 
-    public ModularFlagView(ProductCreatePresenter presenter) {
+    public ModularFlagView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
         adjustPanels();
@@ -195,7 +211,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersPriceTotal = printingMetersAmount * printingMetersPrice;
 
-                float flagFinalPrice = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * profit;
+                float flagFinalPrice = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100);
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringPriceTotal));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersPriceTotal));
@@ -235,6 +251,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
+
         profit = presenter.getIndividualPrice(GANANCIAS, "Banderas");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En bandera");
@@ -269,6 +286,14 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
         clothComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        plankLoweringAmountTextField.setText(attributes.get("T2A"));
+        printingMetersAmountTextField.setText(attributes.get("T3A"));
+        clothComboBox.setSelectedItem(attributes.get("TELA"));
     }
 
     private String getFlagComboBoxSelection() {

@@ -3,8 +3,11 @@ package views.products.modular;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
 import utils.MessageTypes;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -42,13 +45,25 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JRadioButton ecosolventeRadioButton;
     private JComboBox dollarComboBox;
     private JTextField dollarValueTextField;
-    private final ProductCreatePresenter presenter;
+    private JLabel profitLabel;
     private double materialMeterSqrPrice;
     private double inkByMeterPrice;
     private double profit;
 
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
 
-    public ModularSquareMeterPrintingView(ProductCreatePresenter presenter) {
+
+    public ModularSquareMeterPrintingView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
         adjustPanels();
@@ -131,7 +146,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * profit;
+            float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * (profit/100);
 
 
             dollarValueTextField.setText(String.valueOf(dollarPrice));
@@ -224,6 +239,14 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     public void comboBoxListenerSet(ItemListener listener) {
         materialComboBox.addItemListener(listener);
         dollarComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        materialComboBox.setSelectedItem(attributes.get("MATERIAL"));
+        UVRadioButton.setSelected(Boolean.parseBoolean(attributes.get("UV")));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_DOLAR"));
     }
 
     private String getMaterialComboBoxSelection() {

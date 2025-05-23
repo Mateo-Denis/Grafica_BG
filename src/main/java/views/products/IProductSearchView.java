@@ -1,10 +1,13 @@
 package views.products;
 
+import utils.Attribute;
+import utils.Product;
 import views.IToggleableView;
+import views.products.modular.IModularCategoryView;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public interface IProductSearchView extends IToggleableView {
@@ -20,8 +23,9 @@ public interface IProductSearchView extends IToggleableView {
     JTable getProductResultTable();
     void setCategoriesComboBox(List<String> categorias);
     JComboBox getCategoriesComboBox();
-
 	void setTableListener(ListSelectionListener listener);
-
-    void showSelectedView(String selectedCategory);
+    void showSelectedView(String selectedCategory, Product product);
+    IModularCategoryView getModularView();
+    void hideModularView();
+    void appearModularView();
 }

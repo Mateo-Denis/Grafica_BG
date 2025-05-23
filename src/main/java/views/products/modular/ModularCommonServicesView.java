@@ -3,7 +3,10 @@ package views.products.modular;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
+import presenters.product.ProductPresenter;
+import presenters.product.ProductSearchPresenter;
 import utils.Attribute;
+import utils.Product;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,11 +26,22 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JPanel serviceCostContainer;
     private JComboBox serviceTypeComboBox;
     private JTextField serviceCostTextField;
-    private final ProductCreatePresenter presenter;
     private double servicePrice;
     private boolean initialization;
 
-    public ModularCommonServicesView(ProductCreatePresenter presenter) {
+    private final ProductCreatePresenter createPresenter;
+    private final ProductSearchPresenter searchPresenter;
+    private final ProductPresenter presenter;
+
+    public ModularCommonServicesView(boolean isCreate, ProductPresenter presenter) {
+        if (isCreate) {
+            this.createPresenter = (ProductCreatePresenter) presenter;
+            this.searchPresenter = null;
+        } else {
+            this.createPresenter = null;
+            this.searchPresenter = (ProductSearchPresenter) presenter;
+        }
+
         this.presenter = presenter;
         initListeners();
     }
@@ -126,6 +140,12 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     @Override
     public void comboBoxListenerSet(ItemListener listener) {
         serviceTypeComboBox.addItemListener(listener);
+    }
+
+    @Override
+    public void setSearchTextFields(Product product) {
+        //
+
     }
 
     private String getServiceTypeSelected() {

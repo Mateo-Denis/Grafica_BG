@@ -1,6 +1,8 @@
 package utils.databases;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AttributesDatabaseConnection extends DatabaseConnection {
@@ -54,7 +56,7 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
         return null;
     }
 
-    public void deleteProductAttributesByID(int productID)
+    public void deleteProductAttributesByID(int productID) throws SQLException
     {
         String sql = "DELETE FROM Atributos WHERE ID_PRODUCTO = ?";
         try (Connection conn = connect();
@@ -66,4 +68,21 @@ public class AttributesDatabaseConnection extends DatabaseConnection {
         }
     }
 
+    public Map<String, String> getProductAttributes(int productID) throws SQLException {
+        String sql = "SELECT Nombre, VALOR FROM Atributos WHERE ID_PRODUCTO = ?";
+        Map<String, String> attributes = new HashMap<>();
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, productID);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String attributeName = rs.getString("Nombre");
+                String attributeValue = rs.getString("VALOR");
+                attributes.put(attributeName, attributeValue);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return attributes;
+    }
 }

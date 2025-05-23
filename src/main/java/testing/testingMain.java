@@ -3,8 +3,17 @@ package testing;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import models.BudgetModifyModel;
-import utils.databases.BudgetsDatabaseConnection;
+import models.CategoryModel;
+import models.ProductListModel;
+import models.ProductModel;
+import models.settings.SettingsModel;
+import presenters.product.ProductListPresenter;
+import presenters.product.ProductSearchPresenter;
+import utils.databases.*;
 import utils.Product;
+import views.products.IProductSearchView;
+import views.products.ProductSearchView;
+import views.products.list.ProductListView;
 
 import java.awt.*;
 import java.sql.*;
@@ -14,16 +23,27 @@ public class testingMain {
     private static final BudgetsDatabaseConnection budgetsDatabaseConnection = new BudgetsDatabaseConnection();
     private static final BudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDatabaseConnection);
 
+    private static ProductsDatabaseConnection productsDatabaseConnection = new ProductsDatabaseConnection();
+    private static AttributesDatabaseConnection attributesDatabaseConnection = new AttributesDatabaseConnection();
+    private static CategoriesDatabaseConnection categoriesDatabaseConnection = new CategoriesDatabaseConnection();
+    private static CategoryModel categoryModel = new CategoryModel(categoriesDatabaseConnection, attributesDatabaseConnection);
+    private static ProductModel productModel = new ProductModel(productsDatabaseConnection, attributesDatabaseConnection, categoriesDatabaseConnection);
+    private static ProductListModel productListModel = new ProductListModel(productsDatabaseConnection);
+    private static ProductListView productListView = new ProductListView();
+    private static ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);
+    private static ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
+    private static SettingsDatabaseConnection settingsDatabaseConnection = new SettingsDatabaseConnection();
+    private static SettingsModel settingsModel = new SettingsModel(settingsDatabaseConnection);
+    private static ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(settingsModel, productSearchView, productModel, categoryModel);
+
+
     public static void main(String[] args) throws SQLException {
-//        Multimap<Integer,String> products = budgetModifyModel.getSavedProducts(1, "aaaa");
-//        for (Map.Entry<Integer, String> entry : products.entries()) {
-//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-//        }
-        //TuVieja();
-        TuViejaElComeback();
+        // Initialize the ProductSearchView and ProductSearchPresenter
+        Product product = productSearchPresenter.getSelectedProduct("Gorrinch");
+        productSearchPresenter.getProductAttributes(product);
     }
 
-    public static void TuVieja() {
+/*    public static void TuVieja() {
         // Obtener el dispositivo gráfico de la pantalla principal
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
@@ -57,5 +77,6 @@ public class testingMain {
 
         // Mostrar el factor de escala
         System.out.println("Factor de escala: " + scaleFactor);
-    }
+    }*/
 }
+
