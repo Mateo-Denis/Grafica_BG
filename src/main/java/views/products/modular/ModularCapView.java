@@ -55,6 +55,16 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JLabel profitMultiplyLabel;
     private JLabel capFinalPriceEqualsLabel;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JComboBox IVAcombobox;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JTextField particularAddTextField;
+    private JPanel ParticularAddTextFieldContainer;
+    private JLabel particularAddPercentLabel;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter

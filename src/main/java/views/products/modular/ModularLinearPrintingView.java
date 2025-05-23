@@ -36,6 +36,16 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private JTextField profitTextField;
     private JTextField finalPriceTextField;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JComboBox IVAcombobox;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JPanel ParticularAddTextFieldContainer;
+    private JTextField particularAddTextField;
+    private JLabel particularAddPercentLabel;
     private double paperMeterPrice;
     private double inkByMeterPrice;
     private double profit;

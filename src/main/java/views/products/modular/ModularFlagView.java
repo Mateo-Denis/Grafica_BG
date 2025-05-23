@@ -66,6 +66,16 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JLabel printingMetersMultiplyLabel;
     private JLabel printingMetersEqualsLabel;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JComboBox IVAcombobox;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JPanel ParticularAddTextFieldContainer;
+    private JTextField particularAddTextField;
+    private JLabel particularAddPercentLabel;
     private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
     @Getter

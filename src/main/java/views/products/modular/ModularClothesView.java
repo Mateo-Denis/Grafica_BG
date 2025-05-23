@@ -72,6 +72,16 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     private JTextField finalPriceTextField;
     private JComboBox seamstressTypeComboBox;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JComboBox IVAcombobox;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JPanel ParticularAddTextFieldContainer;
+    private JTextField particularAddTextField;
+    private JLabel particularAddPercentLabel;
     private JLabel shirt;
     private JCheckBox editPriceCheckBox;
     @Getter

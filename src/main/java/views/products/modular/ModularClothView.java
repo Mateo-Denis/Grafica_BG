@@ -38,6 +38,16 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     private JTextField profitTextField;
     private JTextField clothFinalPriceTextField;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JComboBox IVAcombobox;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JPanel ParticularAddTextFieldContainer;
+    private JTextField particularAddTextField;
+    private JLabel particularAddPercentLabel;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter

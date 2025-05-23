@@ -46,6 +46,16 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JComboBox dollarComboBox;
     private JTextField dollarValueTextField;
     private JLabel profitLabel;
+    private JPanel IVAContainer;
+    private JLabel ivaSumLabel;
+    private JLabel ivaPercentLabel;
+    private JPanel IVAComboboxContainer;
+    private JComboBox IVAcombobox;
+    private JPanel particularAddContainer;
+    private JLabel particularAddSumLabel;
+    private JPanel ParticularAddTextFieldContainer;
+    private JTextField particularAddTextField;
+    private JLabel particularAddPercentLabel;
     private double materialMeterSqrPrice;
     private double inkByMeterPrice;
     private double profit;
