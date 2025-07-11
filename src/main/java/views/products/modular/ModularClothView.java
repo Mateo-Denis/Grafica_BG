@@ -88,7 +88,6 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
             FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
             int titleWidth = fm.stringWidth(border.getTitle());
-            System.out.println(border.getTitle() + " " + titleWidth);
 
             panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
         }

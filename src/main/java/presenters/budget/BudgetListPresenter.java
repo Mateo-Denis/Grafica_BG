@@ -53,7 +53,6 @@ public class BudgetListPresenter extends StandardPresenter{
         for (Budget budget : budgets) {
             try {
                 budgetID = budgetsDatabaseConnection.getBudgetID(budget.getName(), Integer.parseInt(budget.getBudgetNumber()));
-                System.out.println(budget.getName());
             } catch (Exception e) {
                 LOGGER.log(null, "Error al obtener el ID del presupuesto");
             }

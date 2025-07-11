@@ -81,7 +81,6 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
             FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
             int titleWidth = fm.stringWidth(border.getTitle());
-
             panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
         }
     }
@@ -98,7 +97,6 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         textFields.add(paperMeterPriceTextField);
         textFields.add(inkByMeterPriceTextField);
         textFields.add(profitTextField);
-
 
         for (JTextField textField : textFields) {
             textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -123,11 +121,13 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     @Override
     public void calculateDependantPrices() {
         try {
-            float paperMeterPrice = paperMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(paperMeterPriceTextField.getText());
-            float inkByMeterPrice = inkByMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkByMeterPriceTextField.getText());
+            float paperMeterPrice = paperMeterPriceTextField.getText().isEmpty() ? 0
+                    : Float.parseFloat(paperMeterPriceTextField.getText());
+            float inkByMeterPrice = inkByMeterPriceTextField.getText().isEmpty() ? 0
+                    : Float.parseFloat(inkByMeterPriceTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            float finalPrice = paperMeterPrice + inkByMeterPrice + (profit/100);
+            float finalPrice = paperMeterPrice + inkByMeterPrice + (profit / 100);
             finalPriceTextField.setText(String.valueOf(finalPrice));
 
         } catch (NumberFormatException | NullPointerException e) {
