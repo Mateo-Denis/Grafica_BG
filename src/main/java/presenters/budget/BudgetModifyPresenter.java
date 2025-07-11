@@ -398,7 +398,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 updateTextArea(true, true, globalBudgetTotalPrice);
 
                 productsRowCountOnPreviewTable = budgetModifyView.getFilledRowsCount(budgetModifyView.getPreviewTable());
-                System.out.println("PRODUCTS ROW COUNT ON PREVIEW TABLE: " + productsRowCountOnPreviewTable);
 
 
                 budgetModifyView.showView();

@@ -162,7 +162,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
                 } else if (!table.isEditing()) {
                     // Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
-                    System.out.println("Enter pressed");
                     settingsPresenter.onUpdateDataButtonPressed();
                 }
             }

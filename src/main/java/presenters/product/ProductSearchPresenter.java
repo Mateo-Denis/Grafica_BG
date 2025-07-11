@@ -153,7 +153,6 @@ public class ProductSearchPresenter extends ProductPresenter {
 
             String selectedCategory = (String) productSearchView.getProductResultTable().getValueAt(selectedRow, 1);
             String englishCategory = CategoryParser.getProductCategoryEnglish(selectedCategory);
-            System.out.println("Selected category: " + selectedCategory);
 
             String selectedProductName = (String) productSearchView.getProductResultTable().getValueAt(selectedRow, 0);
             int categoryID = categoryModel.getCategoryID(englishCategory);

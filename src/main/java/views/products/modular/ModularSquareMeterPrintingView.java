@@ -93,7 +93,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
             FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
             int titleWidth = fm.stringWidth(border.getTitle());
-            System.out.println(border.getTitle() + " " + titleWidth);
 
             panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
         }
@@ -138,10 +137,8 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     private void swapInk(boolean isUV) {
         if (isUV) {
-            System.out.println("UV");
             inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
         } else {
-            System.out.println("Eco");
             inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");
         }
         inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));

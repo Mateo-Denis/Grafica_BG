@@ -156,7 +156,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
             FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
             int titleWidth = fm.stringWidth(border.getTitle());
-            System.out.println(border.getTitle() + " " + titleWidth);
 
             panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
         }
@@ -183,8 +182,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
-            System.out.println("NAMES TEXTFIELDS:");
-            System.out.println(textField.getName());
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {

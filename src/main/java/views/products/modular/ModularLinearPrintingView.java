@@ -81,8 +81,6 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
             FontMetrics fm = panel.getFontMetrics(border.getTitleFont());
             int titleWidth = fm.stringWidth(border.getTitle());
-            System.out.println(border.getTitle() + " " + titleWidth);
-
             panel.setPreferredSize(new Dimension(titleWidth + 20, 50));
         }
     }

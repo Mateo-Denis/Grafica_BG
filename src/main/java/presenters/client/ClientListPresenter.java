@@ -60,7 +60,6 @@ public class ClientListPresenter extends StandardPresenter {
 
             try {
                 clientID = clientsDatabaseConnection.getClientID(client.getName(), clientType);
-                System.out.println(client.getName());
             } catch (Exception e) {
                 LOGGER.log(null,"ERROR IN METHOD 'setClientsOnTable' IN CLASS->'ClientListPresenter'",e);
             }
