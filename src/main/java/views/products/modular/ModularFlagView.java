@@ -183,8 +183,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
-            System.out.println("NAMES TEXTFIELDS:");
-            System.out.println(textField.getName());
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {

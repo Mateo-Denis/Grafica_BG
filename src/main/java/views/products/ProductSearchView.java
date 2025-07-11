@@ -49,6 +49,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private final TextUtils textUtils = new TextUtils();
     private JPanel modularContainer;
     private JButton modifyProductButton;
+    private JPanel modifyProductButtonContainer;
     private JButton deleteAllProductsButton;
     private ProductSearchPresenter productSearchPresenter;
     private ProductPresenter productPresenter;
@@ -66,7 +67,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
         this.productListPresenter = productListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(1200, 800);
+        windowFrame.setSize(1500, 800);
         windowFrame.setResizable(false);
     }
 
@@ -124,6 +125,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
             modularView = selectedView;
             modularContainer.setLayout(new BorderLayout());
             modularContainer.add(selectedView.getContainerPanel(), BorderLayout.CENTER);
+            selectedView.getContainerPanel().setSize(1000, 200);
             selectedView.getContainerPanel().setVisible(true);
             modularView.loadComboBoxValues();
             modularView.setSearchTextFields(product);
@@ -175,12 +177,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         for (String stringModular : nombresDeModulars) {
             String subString = textUtils.extractor(stringModular);
             subStringModulars.add(subString);
-            System.out.println(subString);
-        }
-
-        for(int i = 0; i < categoryViews.size(); i++) {
-            System.out.println("CATEGORYVIEWS: ");
-            System.out.println(categoryViews.get(i).getClass().getName());
         }
 
         for (int i = 0; i < subStringModulars.size(); i++) {
@@ -269,5 +265,4 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public void appearModularView(){
         modularContainer.setVisible(true);
     }
-
 }

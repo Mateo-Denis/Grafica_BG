@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +73,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     @Getter
     private final Map<String, String> textFieldValues = new HashMap<>();
     private double profit;
+    private double particularAdd;
     private double capCost;
     private double plankLoweringPrice;
     private double printingMetersPrice;
@@ -153,11 +155,13 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
+        particularAdd = 5;
 
         profitTextField.setText(String.valueOf(profit));
         printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
         plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
         capCostTextField.setText(String.valueOf(capCost));
+        particularAddTextField.setText(String.valueOf(particularAdd));
     }
 
     @Override
@@ -211,6 +215,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         textFields.add(printingMetersAmountTextField);
         textFields.add(printingMetersPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
             textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -230,6 +235,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 }
             });
         }
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -245,10 +256,15 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
+                float ivaPriceValue = Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+                float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100);
+                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * ivaPriceValue / 100);
+                float particularAdd = Float.parseFloat(particularAddTextField.getText());
+                float finalPrice = priceWithIVA + (priceWithIVA * particularAdd / 100);
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                capFinalPriceTextField.setText(String.valueOf((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100)));
+                capFinalPriceTextField.setText(String.valueOf(finalPrice));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

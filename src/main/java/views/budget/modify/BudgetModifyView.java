@@ -369,7 +369,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         for (int row = 1; row < table.getRowCount(); row++) {
             if ((table.getValueAt(row, 1) != null) && (!table.getValueAt(row, 1).equals(""))) {
                 rowCount++;
-                System.out.println("FILAS LLENAS: " + rowCount);
             }
         }
         return rowCount;
