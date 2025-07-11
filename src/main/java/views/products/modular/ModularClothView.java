@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularClothView extends JPanel implements IModularCategoryView {
@@ -48,6 +49,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField clientFinalPriceTextField;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
@@ -104,6 +106,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
         textFields.add(clothMetersPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -130,6 +133,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
                 SwingUtilities.invokeLater(this::calculateDependantPrices);
             }
         });
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -137,8 +146,14 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         try {
             float clothMeters = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+            float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+            float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-            clothFinalPriceTextField.setText(String.valueOf(clothMeters * (profit / 100)));
+            float priceWOiva = clothMeters * (profit / 100);
+            float priceWiva = priceWOiva + (priceWOiva * iva / 100);
+
+            clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
+            clothFinalPriceTextField.setText(truncateAndRound(String.valueOf( priceWiva + ( priceWiva * recharge / 100))));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }

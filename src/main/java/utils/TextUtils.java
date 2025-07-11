@@ -112,5 +112,15 @@ public class TextUtils {
         // Return the list of instantiated views
         return views;
     }
+
+    public static String truncateAndRound(String valor) {
+        try {
+            double numero = Double.parseDouble(valor);
+            int redondeado = (int) (Math.ceil(numero / 5.0) * 5);
+            return String.valueOf(redondeado);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("El valor ingresado no es un número válido: " + valor);
+        }
+    }
 }
 

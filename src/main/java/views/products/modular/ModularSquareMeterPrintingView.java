@@ -14,11 +14,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularSquareMeterPrintingView extends JPanel implements IModularCategoryView {
@@ -56,6 +58,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField clientFinalPriceTextField;
     private double materialMeterSqrPrice;
     private double inkByMeterPrice;
     private double profit;
@@ -110,6 +113,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         textFields.add(materialSquareMetersPriceTextField);
         textFields.add(inkBySquareMeterPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -130,6 +134,12 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
                 }
             });
         }
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
 
         UVRadioButton.addActionListener(e -> swapInk(true));
         ecosolventeRadioButton.addActionListener(e -> swapInk(false));
@@ -152,12 +162,16 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             float inkBySquareMeterPrice = inkBySquareMeterPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(inkBySquareMeterPriceTextField.getText());
             float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
-
+            float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+            float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
             float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * (profit/100);
 
+            float priceWOiva = finalPrice * (profit / 100);
+            float priceWiva = priceWOiva + (priceWOiva * iva / 100);
 
             dollarValueTextField.setText(String.valueOf(dollarPrice));
-            squareMeterPrintingFinalPriceTextField.setText(String.valueOf(finalPrice));
+            clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
+            squareMeterPrintingFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva + (priceWiva * recharge / 100))));
 
         } catch (NumberFormatException e) {
             showMessage(MessageTypes.ERROR_DEBUG, containerPanel);

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
@@ -66,6 +67,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JTextField particularAddTextField;
     private JPanel ParticularAddTextFieldContainer;
     private JLabel particularAddPercentLabel;
+    private JTextField clientFinalPriceTextField;
     @Getter
     private final ArrayList<String> radioValues = new ArrayList<>();
     @Getter
@@ -252,18 +254,19 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+                float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
                 float ivaPriceValue = Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
                 float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100);
-                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * ivaPriceValue / 100);
-                float particularAdd = Float.parseFloat(particularAddTextField.getText());
-                float finalPrice = priceWithIVA + (priceWithIVA * particularAdd / 100);
 
+                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * ivaPriceValue / 100);
+                float finalPrice = priceWithIVA + (priceWithIVA * recharge / 100);
+                clientFinalPriceTextField.setText(String.valueOf(priceWithIVA));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                capFinalPriceTextField.setText(String.valueOf(finalPrice));
+                capFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalPrice)));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
