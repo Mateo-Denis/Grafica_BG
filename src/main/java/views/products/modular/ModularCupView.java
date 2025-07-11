@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularCupView extends JPanel implements IModularCategoryView {
@@ -196,8 +197,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                cupFinalPriceTextField.setText(String.valueOf(priceWiva));
-                particularFinalPriceTField.setText(String.valueOf(cupParticularFinalPrice));
+                cupFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
+                particularFinalPriceTField.setText(truncateAndRound(String.valueOf(cupParticularFinalPrice)));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

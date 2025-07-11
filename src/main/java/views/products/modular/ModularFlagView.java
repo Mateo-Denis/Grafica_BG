@@ -15,12 +15,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
@@ -76,6 +78,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField particularFinalPriceTextField;
     private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
     @Getter
@@ -179,6 +182,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         textFields.add(printingMetersAmountTextField);
         textFields.add(printingMetersPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -199,6 +203,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 }
             });
         }
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -218,12 +228,20 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersPriceTotal = printingMetersAmount * printingMetersPrice;
 
-                float flagFinalPrice = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100);
+                float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat((String) IVAcombobox.getSelectedItem());
+                float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
+
+                float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100);
+                float priceWIva = priceWOIva + (priceWOIva * iva / 100);
+                float particularFinalPrice = priceWIva + (priceWIva * recharge / 100);
+
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringPriceTotal));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersPriceTotal));
                 clothFinalPriceTextField.setText(String.valueOf(clothPrice));
-                flagFinalPriceTextField.setText(String.valueOf(flagFinalPrice));
+
+                flagFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
+                particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(particularFinalPrice)));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

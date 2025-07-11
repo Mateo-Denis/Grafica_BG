@@ -13,11 +13,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularLinearPrintingView extends JPanel implements IModularCategoryView {
@@ -46,6 +48,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField finalParticularPriceTextField;
     private double paperMeterPrice;
     private double inkByMeterPrice;
     private double profit;
@@ -97,6 +100,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         textFields.add(paperMeterPriceTextField);
         textFields.add(inkByMeterPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
             textField.getDocument().addDocumentListener(new DocumentListener() {
@@ -116,6 +120,12 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
                 }
             });
         }
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -126,9 +136,18 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
             float inkByMeterPrice = inkByMeterPriceTextField.getText().isEmpty() ? 0
                     : Float.parseFloat(inkByMeterPriceTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+            float iva = IVAcombobox.getSelectedItem() == null ? 0
+                    : Float.parseFloat(IVAcombobox.getSelectedItem().toString().replace("%", ""));
+            float recharge = particularAddTextField.getText().isEmpty() ? 0
+                    : Float.parseFloat(particularAddTextField.getText());
 
-            float finalPrice = paperMeterPrice + inkByMeterPrice + (profit / 100);
-            finalPriceTextField.setText(String.valueOf(finalPrice));
+            float priceWOIva = paperMeterPrice + inkByMeterPrice + (profit / 100);
+            float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
+            float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
+
+            finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
+            finalParticularPriceTextField.setText(truncateAndRound(String.valueOf(finalParticularPrice)));
+
 
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

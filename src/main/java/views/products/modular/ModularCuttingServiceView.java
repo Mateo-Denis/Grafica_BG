@@ -14,11 +14,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.GANANCIAS;
 import static utils.databases.SettingsTableNames.MATERIALES;
 
@@ -46,6 +48,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField particularFinalPriceTextField;
     private double vinylPrice;
     private double profit;
     private boolean initialization;
@@ -96,6 +99,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
         textFields.add(vinylCostTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -116,6 +120,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
                 }
             });
         }
+
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -125,7 +135,16 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
             float vinylCost = vinylCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(vinylCostTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            cuttingServiceFinalPriceTextField.setText(String.valueOf(vinylCost * (profit/100)));
+            float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
+            float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
+
+            float priceWOIva = vinylCost * (profit/100);
+            float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
+            float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
+
+            cuttingServiceFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
+            particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalParticularPrice)));
+
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
