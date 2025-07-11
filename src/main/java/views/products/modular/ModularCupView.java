@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +66,9 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField particularFinalPriceTField;
+    private JLabel particularPriceLabel;
+    private JLabel clientPriceLabel;
     private JRadioButton ceramicRadioButton;
     private JRadioButton plasticRadioButton;
     private JRadioButton whiteRadioButton;
@@ -79,6 +83,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private double plankLoweringPrice;
     private double printingMetersPrice;
     private double profit;
+    private double particularRecharge;
     private final SettingsDatabaseConnection settingsDBConnection;
 
     private final ProductCreatePresenter createPresenter;
@@ -138,6 +143,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         textFields.add(printingMetersAmountTextField);
         textFields.add(printingMetersPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -159,6 +165,12 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
             });
         }
 
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
+
     }
 
     @Override
@@ -172,13 +184,20 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
 
+                float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
+                float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
+
                 float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
-                float cupFinalPrice = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100);
+
+                float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100);
+                float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
+                float cupParticularFinalPrice = priceWiva + (priceWiva * (recharge / 100));
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                cupFinalPriceTextField.setText(String.valueOf(cupFinalPrice));
+                cupFinalPriceTextField.setText(String.valueOf(priceWiva));
+                particularFinalPriceTField.setText(String.valueOf(cupParticularFinalPrice));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
@@ -214,11 +233,13 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         cupPrice = presenter.getIndividualPrice(GENERAL, "Taza");
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En taza");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
+        particularRecharge = 0;
 
         printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
         plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
         cupPriceTextField.setText(String.valueOf(cupPrice));
         profitTextField.setText(String.valueOf(profit));
+        particularAddTextField.setText(String.valueOf(particularRecharge));
 
     }
 
