@@ -156,20 +156,18 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
         printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
         profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
-        particularAdd = 5;
 
         profitTextField.setText(String.valueOf(profit));
         printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
         plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
         capCostTextField.setText(String.valueOf(capCost));
-        particularAddTextField.setText(String.valueOf(particularAdd));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
 
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText()));
+        attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText().isEmpty() ? "0" : plankLoweringAmountTextField.getText()));
 
         String plankLoweringPrice = plankLoweringPriceTextField.getText();
         String settingsPLP = settingsDBConnection.getModularValue(BAJADA_PLANCHA, "En gorra");
@@ -192,6 +190,8 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         String settingsProfit = settingsDBConnection.getModularValue(GANANCIAS, "Gorras");
         String finalProfit = profit.equals(settingsProfit) ? "###" : profit;
         attributes.add(new Attribute("GANANCIA", finalProfit));
+        attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
+        attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
         return attributes;
     }
 
@@ -204,6 +204,8 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         plankLoweringAmountTextField.setText(attributes.get("T1A"));
         printingMetersAmountTextField.setText(attributes.get("T2A"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
     }
 
     public void initListeners() {
@@ -254,14 +256,15 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+                float iva = IVAcombobox.getSelectedItem()==null ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
-                float ivaPriceValue = Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+
                 float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100);
 
-                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * ivaPriceValue / 100);
+                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * iva / 100);
                 float finalPrice = priceWithIVA + (priceWithIVA * recharge / 100);
                 clientFinalPriceTextField.setText(String.valueOf(priceWithIVA));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));

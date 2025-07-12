@@ -206,6 +206,8 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         attributes.add(new Attribute("T1A", paperMeterPriceTextField.getText()));
         attributes.add(new Attribute("T2A", inkByMeterPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
+        attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
+        attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
         return attributes;
     }
 

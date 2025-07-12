@@ -1,6 +1,7 @@
 package utils;
 
 import lombok.Getter;
+import org.javatuples.Pair;
 import utils.databases.AttributesDatabaseConnection;
 import utils.databases.SettingsDatabaseConnection;
 import utils.databases.SettingsTableNames;
@@ -108,9 +109,18 @@ public class Product {
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
+                String ivaS = attributesDBConnection.getAttributeValue(ID, "IVA");
+                double iva = Double.parseDouble(ivaS);
 
-                return ((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV;
+                String rechargeS = attributesDBConnection.getAttributeValue(ID, "RECARGO");
+                double recharge = Double.parseDouble(rechargeS);
 
+                double productPrice = ((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV;
+                double productWiva = productPrice + (productPrice * iva / 100);
+                double productParticular = productWiva + (productWiva * recharge / 100);
+                //modify
+                //return new Pair<>(productWiva, productParticular);
+                return 0.1;
             }
             case 3: { //tela
                 String tela = attributesDBConnection.getAttributeValue(ID, "TELA");
