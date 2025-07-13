@@ -26,7 +26,7 @@ public class Product {
         return Double.parseDouble(settingsDBConnection.getModularValue(tableName, selectedValue));
     }
 
-    public double calculateRealTimePrice() {
+    public Pair<Double, Double> calculateRealTimePrice() {
         AttributesDatabaseConnection attributesDBConnection = new AttributesDatabaseConnection();
         settingsDBConnection = new SettingsDatabaseConnection();
 
@@ -69,9 +69,7 @@ public class Product {
                     profitV = Double.parseDouble(profitS);
                 }
 
-
-                return ((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profitV;
-            }
+                return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profitV, attributesDBConnection);            }
             case 2:{//gorra
 
                 double t1aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T1A"));
@@ -109,18 +107,8 @@ public class Product {
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
-                String ivaS = attributesDBConnection.getAttributeValue(ID, "IVA");
-                double iva = Double.parseDouble(ivaS);
 
-                String rechargeS = attributesDBConnection.getAttributeValue(ID, "RECARGO");
-                double recharge = Double.parseDouble(rechargeS);
-
-                double productPrice = ((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV;
-                double productWiva = productPrice + (productPrice * iva / 100);
-                double productParticular = productWiva + (productWiva * recharge / 100);
-                //modify
-                //return new Pair<>(productWiva, productParticular);
-                return 0.1;
+                return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV, attributesDBConnection);
             }
             case 3: { //tela
                 String tela = attributesDBConnection.getAttributeValue(ID, "TELA");
@@ -141,7 +129,7 @@ public class Product {
                     profitV = Double.parseDouble(profitS);
                 }
 
-                return t1aV * profitV;
+                return applyIVA(t1aV * profitV, attributesDBConnection);
             }
 
             case 4: { //bandera
@@ -195,7 +183,7 @@ public class Product {
                     profitV = Double.parseDouble(profitS);
                 }
 
-                return ((t1aV * t1bV * t1cV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV;
+                return applyIVA(((t1aV * t1bV * t1cV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
             }
             case 5: { //prendas
 
@@ -248,8 +236,8 @@ public class Product {
                 }else {
                     profitV = Double.parseDouble(profitS);
                 }
+                return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
 
-                return ((t1aV * t1bV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV;
             }
             case 6: {
 
@@ -262,7 +250,8 @@ public class Product {
                 }else {
                     serviceV = Double.parseDouble(serviceS);
                 }
-                return serviceV;
+
+                return applyIVA(serviceV, attributesDBConnection);
             }
             case 7: { //servicio de corte
                 String vinilo = attributesDBConnection.getAttributeValue(ID, "VINILO");
@@ -283,8 +272,7 @@ public class Product {
                     profitV = Double.parseDouble(profitS);
                 }
 
-                return t1aV * profitV;
-
+                return applyIVA(t1aV * profitV, attributesDBConnection);
             }
             case 8: { // impresión lineal
                 double t1aV;
@@ -312,7 +300,7 @@ public class Product {
                     profitV = Double.parseDouble(profitS);
                 }
 
-                return (t1aV + t2aV) * profitV;
+                return applyIVA((t1aV + t2aV) * profitV, attributesDBConnection);
             }
             case 9: {
 
@@ -351,11 +339,24 @@ public class Product {
                 }
 
 
-                return (t1aV + t2aV) * dollarV * profitV;
+                return applyIVA((t1aV + t2aV) * dollarV * profitV, attributesDBConnection);
 
             }
             default:
-                return 0;
+                return new Pair<>(0.0, 0.0);
         }
+    }
+
+    private Pair<Double, Double> applyIVA(double productPrice, AttributesDatabaseConnection attributesDBConnection) {
+        String ivaS = attributesDBConnection.getAttributeValue(ID, "IVA");
+        double iva = Double.parseDouble(ivaS);
+
+        String rechargeS = attributesDBConnection.getAttributeValue(ID, "RECARGO");
+        double recharge = Double.parseDouble(rechargeS);
+
+        double productWiva = productPrice + (productPrice * iva / 100);
+        double productParticular = productWiva + (productWiva * recharge / 100);
+
+        return new Pair<>(productWiva, productParticular);
     }
 }
