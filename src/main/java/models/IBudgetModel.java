@@ -18,6 +18,7 @@ public interface IBudgetModel {
     ArrayList<Product> getProducts(String productName, String productCategory);
     ArrayList<Client> getClients(String name, String city);
     int getClientID(String clientName, String clientType);
+    Client getClientByID(int clientID);
     void createBudget(String budgetName, String budgetDate, String budgetClientType, int budgetNumber, double finalPrice);
     int getNextBudgetNumber();
     void saveProducts(int budgetID, ArrayList<Integer> productAmounts, ArrayList<String> productNames, ArrayList<String> observations, ArrayList<String> productMeasures, ArrayList<Double> productPrices);
@@ -28,5 +29,4 @@ public interface IBudgetModel {
     void deleteOneBudget(int budgetID);
     void deleteBudgetProducts(int budgetID);
     int getMaxBudgetID();
-
 }

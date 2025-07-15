@@ -100,7 +100,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
                     productCategoryName = CategoryParser.parseCategory(categoryName); // SET PRODUCT CATEGORY NAME TO CATEGORY NAME
                 }
             }
-            productPrice = product.calculateRealTimePrice();
+            productPrice = product.calculateRealTimePrice().getValue0();
             budgetModifyView.setProductStringTableValueAt(rowCount, 0, product.getName()); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 0, PRODUCT NAME
             budgetModifyView.setProductStringTableValueAt(rowCount, 1, productCategoryName); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 2, PRODUCT CATEGORY NAME
             budgetModifyView.setProductStringTableValueAt(rowCount, 2, String.valueOf(productPrice)); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
@@ -198,7 +198,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         }
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             Product product = productModel.getOneProduct(productModel.getProductID(budgetModifyView.getPreviewStringTableValueAt(i, 1)));
-            double productOriginalPrice = product.calculateRealTimePrice();
+            double productOriginalPrice = product.calculateRealTimePrice().getValue0();
             double toAdd = productOriginalPrice * recharge;
             budgetModifyView.setPreviewStringTableValueAt(i, 5, String.valueOf(toAdd));
             double totalPrice = toAdd * Integer.parseInt(budgetModifyView.getPreviewStringTableValueAt(i, 2));
@@ -228,7 +228,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         String productHeightMeasures = budgetModifyView.getHeightMeasureTextField().getText();
         boolean unlockedMeasures = CheckMeasureFieldsAreEnabled();
         String productObservations = budgetModifyView.getObservationsTextField().getText();
-        double oneItemProductPrice = product.calculateRealTimePrice();
+        double oneItemProductPrice = product.calculateRealTimePrice().getValue0();
         JTextField widthTextField = budgetModifyView.getWidthMeasureTextField();
         JTextField heightTextField = budgetModifyView.getHeightMeasureTextField();
         double meters;
@@ -558,7 +558,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = isParticular ? product.calculateRealTimePrice() : product.calculateRealTimePrice() * recharge;
+            productPrice = isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
             totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);

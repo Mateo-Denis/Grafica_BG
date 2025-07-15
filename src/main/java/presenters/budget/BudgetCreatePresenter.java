@@ -7,6 +7,7 @@ import PdfFormater.PdfConverter;
 import PdfFormater.Row;
 import models.*;
 import models.settings.ISettingsModel;
+import org.javatuples.Pair;
 import presenters.StandardPresenter;
 
 //IMPORTS FROM UTILS PACKAGE
@@ -101,7 +102,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         List<String> categoriesName = categoryModel.getCategoriesName(); // GET CATEGORIES NAMES
         JComboBox categoryComboBox = budgetCreateView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
         String selectedCategory = (String) categoryComboBox.getSelectedItem(); // GET SELECTED CATEGORY
-        double productPrice = 0.0;
+        Pair<Double, Double> pricePair;
 
         //BUSCA SEGUN LOS FILTROS Y AGREGA LOS PRODUCTOS FILTRADOS A UN ARRAYLIST
         ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory); // GET PRODUCTS BY NAME AND CATEGORY
@@ -120,10 +121,11 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 }
             }
 
-            productPrice = product.calculateRealTimePrice(); // CALCULATE REAL TIME PRICE
+            pricePair = product.calculateRealTimePrice(); // CALCULATE REAL TIME PRICE
+            Client client = budgetModel.getClientByID(globalClientID);
             budgetCreateView.setProductStringTableValueAt(rowCount, 0, product.getName()); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 0, PRODUCT NAME
             budgetCreateView.setProductStringTableValueAt(rowCount, 1, productCategoryName); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 2, PRODUCT CATEGORY NAME
-            budgetCreateView.setProductStringTableValueAt(rowCount, 2, String.valueOf(productPrice)); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
+            budgetCreateView.setProductStringTableValueAt(rowCount, 2, client.isClient() ? String.valueOf(pricePair.getValue0()) : String.valueOf(pricePair.getValue1())); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
             rowCount++; // INCREMENT ROW COUNT
         }
         categoryComboBox.setSelectedIndex(0);
@@ -133,6 +135,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     public void onClientSelectedCheckBoxClicked() {
         JCheckBox clientSelectedCheckBox = budgetCreateView.getClientSelectedCheckBox();
         if (clientSelectedCheckBox.isSelected()) {
+            budgetCreateView.clearProductTable();
             budgetCreateView.setSecondPanelsVisibility();
         } else {
             budgetCreateView.setInitialPanelsVisibility();
@@ -210,19 +213,15 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
     public void updatePriceColumnByRecharge() {
-        double recharge = 1;
         String clientType = budgetCreateView.getPreviewStringTableValueAt(0, 6);
         updateTextArea(false, globalBudgetTotalPrice);
         globalBudgetTotalPrice = 0;
-        if (clientType.equals("Particular")) {
-            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
-        }
+
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             Product product = productModel.getOneProduct(productModel.getProductID(budgetCreateView.getPreviewStringTableValueAt(i, 1)));
-            double productOriginalPrice = product.calculateRealTimePrice();
-            double toAdd = productOriginalPrice * recharge;
-            budgetCreateView.setPreviewStringTableValueAt(i, 5, String.valueOf(toAdd));
-            double totalPrice = toAdd * Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(i, 2));
+            double individualPrice = (clientType.equals("Particular")) ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
+            budgetCreateView.setPreviewStringTableValueAt(i, 5, String.valueOf(individualPrice));
+            double totalPrice = individualPrice * Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(i, 2));
             updateTextArea(true, totalPrice);
         }
     }
@@ -239,7 +238,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String budgetDate = budgetCreateView.getBudgetDate(); // BUDGET DATE
         int budgetNumber = budgetModel.getNextBudgetNumber(); // BUDGET NUMBER
         int budgetID = -1;
-        double recharge = 1;
 
 
         ArrayList<String> productsName = new ArrayList<>(); // PRODUCTS NAME LIST
@@ -266,9 +264,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
             }
 
             // CREATE BUDGET
-            if (budgetClientType.equals("Particular")) {
-                globalBudgetTotalPrice *= 1.25;
-            }
             budgetModel.createBudget(budgetClientName, budgetDate, budgetClientType, budgetNumber, globalBudgetTotalPrice);
             budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS);
 
@@ -278,7 +273,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
             //PDF CREATION
             client = GetOneClientByID(budgetClientName, budgetClientType);
-            tableContent = getAllProductsFromPreviewTable(client.isClient(), recharge);
+            tableContent = getAllProductsFromPreviewTable(client.isClient());
             GeneratePDF(client, tableContent, budgetNumber);
 
 
@@ -341,10 +336,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productHeightMeasures = budgetCreateView.getHeightMeasureTextField().getText();
         String productObservations = budgetCreateView.getObservationsTextField().getText();
         boolean unlockedMeasures = CheckMeasureFieldsAreEnabled();
-        double oneItemProductPrice = product.calculateRealTimePrice();
+        double oneItemProductPrice = product.calculateRealTimePrice().getValue0();
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
-        double recharge = 1.0;
         String productMeasures = "";
         double meters = -1;
         JTextField widthTextField = budgetCreateView.getWidthMeasureTextField();
@@ -352,10 +346,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
         if (productAmountStr.isEmpty()) { // IF PRODUCT AMOUNT STRING IS EMPTY
             productAmountStr = "1";
-        }
-
-        if (globalClientType.equals("Particular")) {
-            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
         }
 
         if (unlockedMeasures) {//ONE OR BOTH TEXTFIELDS ARE ENABLED
@@ -376,13 +366,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 meters = Double.parseDouble(productHeightMeasures);
             }
 
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters * recharge;
-            settingPrice = oneItemProductPrice * meters * recharge;
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
+            settingPrice = oneItemProductPrice * meters;
 
         } else { //NONE OF THE TEXTFIELDS ARE ENABLED
             productMeasures = "-";
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * recharge;
-            settingPrice = oneItemProductPrice * recharge;
+            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr);
+            settingPrice = oneItemProductPrice;
         }
 
 
@@ -412,7 +402,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         return productRowData;
     }
 
-    public ArrayList<Row> getAllProductsFromPreviewTable(boolean isParticular, double recharge) {
+    public ArrayList<Row> getAllProductsFromPreviewTable(boolean isParticular) {
         ArrayList<Row> productRowData = new ArrayList<>();
         List<String> oneProduct;
 
@@ -424,7 +414,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = isParticular ? product.calculateRealTimePrice() : product.calculateRealTimePrice() * recharge;
+            productPrice = isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
             totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);

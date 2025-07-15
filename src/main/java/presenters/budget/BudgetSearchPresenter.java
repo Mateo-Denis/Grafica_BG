@@ -37,11 +37,6 @@ public class BudgetSearchPresenter extends StandardPresenter {
         this.budgetModifyModel = budgetModifyModel;
     }
 
-
-    // ---------> METHODS AND FUNCTIONS START HERE <-------------
-    // ---------> METHODS AND FUNCTIONS START HERE <-------------
-
-
     //  LISTENERS
     @Override
     protected void initListeners() {

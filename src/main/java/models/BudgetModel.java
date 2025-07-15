@@ -136,6 +136,15 @@ public class BudgetModel implements IBudgetModel {
         return -1;
     }
 
+    public Client getClientByID(int clientID) {
+        try {
+            return clientsDBConnection.getOneClient(clientID);
+        } catch (Exception e) {
+            LOGGER.log(null, "Error getting client by ID");
+        }
+        return null;
+    }
+
 
 
     //CREATE BUDGET:

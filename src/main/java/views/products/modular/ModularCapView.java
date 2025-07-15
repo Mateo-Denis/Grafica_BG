@@ -186,10 +186,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
         attributes.add(new Attribute("GORRA", finalCC));
 
-        String profit = profitTextField.getText();
-        String settingsProfit = settingsDBConnection.getModularValue(GANANCIAS, "Gorras");
-        String finalProfit = profit.equals(settingsProfit) ? "###" : profit;
-        attributes.add(new Attribute("GANANCIA", finalProfit));
+        attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
         return attributes;
@@ -266,7 +263,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
                 float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * iva / 100);
                 float finalPrice = priceWithIVA + (priceWithIVA * recharge / 100);
-                clientFinalPriceTextField.setText(String.valueOf(priceWithIVA));
+                clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWithIVA)));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 capFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalPrice)));

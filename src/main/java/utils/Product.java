@@ -61,13 +61,8 @@ public class Product {
                     cupV = Double.parseDouble(cupS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Tazas");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profitV, attributesDBConnection);            }
             case 2:{//gorra
@@ -100,13 +95,8 @@ public class Product {
                     capV = Double.parseDouble(cupS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Gorras");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV, attributesDBConnection);
             }
@@ -121,13 +111,8 @@ public class Product {
                     t1aV = Double.parseDouble(t1aS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Telas");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA(t1aV * profitV, attributesDBConnection);
             }
@@ -175,13 +160,8 @@ public class Product {
                     seamstressV = Double.parseDouble(seamstressS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Banderas");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA(((t1aV * t1bV * t1cV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
             }
@@ -229,13 +209,9 @@ public class Product {
                     seamstressV = Double.parseDouble(seamstressS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Prendas");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
+
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
 
             }
@@ -264,13 +240,8 @@ public class Product {
                     t1aV = Double.parseDouble(t1aS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Servicio de corte");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA(t1aV * profitV, attributesDBConnection);
             }
@@ -292,13 +263,8 @@ public class Product {
                     t2aV = Double.parseDouble(ink);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Impresión lineal");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
                 return applyIVA((t1aV + t2aV) * profitV, attributesDBConnection);
             }
@@ -330,13 +296,8 @@ public class Product {
                     dollarV = Double.parseDouble(dollarS);
                 }
 
-                double profitV;
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                if(Objects.equals(profitS, "###")) {
-                    profitV = getIndividualPrice(SettingsTableNames.GANANCIAS, "Impresión metro cuadrado");
-                }else {
-                    profitV = Double.parseDouble(profitS);
-                }
+                double profitV = Double.parseDouble(profitS);
 
 
                 return applyIVA((t1aV + t2aV) * dollarV * profitV, attributesDBConnection);
@@ -349,10 +310,10 @@ public class Product {
 
     private Pair<Double, Double> applyIVA(double productPrice, AttributesDatabaseConnection attributesDBConnection) {
         String ivaS = attributesDBConnection.getAttributeValue(ID, "IVA");
-        double iva = Double.parseDouble(ivaS);
+        double iva = ivaS == null || ivaS.isEmpty()  ? 0.0 : Double.parseDouble(ivaS);
 
         String rechargeS = attributesDBConnection.getAttributeValue(ID, "RECARGO");
-        double recharge = Double.parseDouble(rechargeS);
+        double recharge = rechargeS == null || rechargeS.isEmpty()  ? 0.0 : Double.parseDouble(rechargeS);
 
         double productWiva = productPrice + (productPrice * iva / 100);
         double productParticular = productWiva + (productWiva * recharge / 100);

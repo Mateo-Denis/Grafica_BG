@@ -266,10 +266,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
         attributes.add(new Attribute("TAZA", finalCC));
 
-        String profit = profitTextField.getText();
-        String settingsProfit = settingsDBConnection.getModularValue(GANANCIAS, "Taza");
-        String finalProfit = profit.equals(settingsProfit) ? "###" : profit;
-        attributes.add(new Attribute("GANANCIA", finalProfit));
+        attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
 
