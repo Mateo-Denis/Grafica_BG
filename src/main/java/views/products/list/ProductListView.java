@@ -37,7 +37,7 @@ public class ProductListView extends ToggleableView implements IProductListView 
     }
 
     public void setProductTableModel() {
-        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Precio", "Categoria"}, 200);
+        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Precio Cliente", "Precio Particular", "Categoria"}, 200);
         productTable.setModel(tableModel);
     }
 

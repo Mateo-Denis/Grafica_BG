@@ -8,6 +8,8 @@ import utils.databases.SettingsTableNames;
 
 import java.util.Objects;
 
+import static utils.TextUtils.truncateAndRound;
+
 public class Product {
     private final int ID;
     @Getter
@@ -318,6 +320,6 @@ public class Product {
         double productWiva = productPrice + (productPrice * iva / 100);
         double productParticular = productWiva + (productWiva * recharge / 100);
 
-        return new Pair<>(productWiva, productParticular);
+        return new Pair<>(Double.parseDouble(truncateAndRound(String.valueOf(productWiva))), Double.parseDouble(truncateAndRound(String.valueOf(productParticular))));
     }
 }

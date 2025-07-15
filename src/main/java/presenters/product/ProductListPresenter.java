@@ -65,10 +65,13 @@ public class ProductListPresenter extends StandardPresenter {
 
                 }
 
+                double clientPrice = product.calculateRealTimePrice().getValue0();
+                double particularPrice = product.calculateRealTimePrice().getValue1();
 
                 productListView.setStringTableValueAt(rowCount, 0, product.getName());
-                productListView.setDoubleTableValueAt(rowCount, 1, 0.0);
-                productListView.setStringTableValueAt(rowCount, 2, categoryParser.parseCategory(productCategoryName));
+                productListView.setDoubleTableValueAt(rowCount, 1, clientPrice);
+                productListView.setDoubleTableValueAt(rowCount, 2, particularPrice);
+                productListView.setStringTableValueAt(rowCount, 3, categoryParser.parseCategory(productCategoryName));
                 rowCount++;
         }
     }
