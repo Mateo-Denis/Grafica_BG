@@ -62,7 +62,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profitV, attributesDBConnection);            }
             case 2:{//gorra
@@ -96,7 +96,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + capV) * profitV, attributesDBConnection);
             }
@@ -112,7 +112,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(t1aV * profitV, attributesDBConnection);
             }
@@ -161,7 +161,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(((t1aV * t1bV * t1cV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
             }
@@ -210,7 +210,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profitV, attributesDBConnection);
 
@@ -241,7 +241,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA(t1aV * profitV, attributesDBConnection);
             }
@@ -264,7 +264,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
                 return applyIVA((t1aV + t2aV) * profitV, attributesDBConnection);
             }
@@ -297,7 +297,7 @@ public class Product {
                 }
 
                 String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS);
+                double profitV = Double.parseDouble(profitS) / 100;
 
 
                 return applyIVA((t1aV + t2aV) * dollarV * profitV, attributesDBConnection);
