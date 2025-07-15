@@ -87,6 +87,11 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		createButton.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
 		createButton.addItemListener(e -> clientCreatePresenter.onEmptyFields(clientTextField, cityTextField, cityComboBox));
 		cityComboBox.addActionListener(e -> clientCreatePresenter.onCityComboBoxSelected());
+
+		clientTextField.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+		addressTextField.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+		cityTextField.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
+		phoneTextField.addActionListener(e -> clientCreatePresenter.onCreateButtonClicked());
 	}
 
 	@Override

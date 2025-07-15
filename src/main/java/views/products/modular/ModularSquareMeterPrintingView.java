@@ -117,6 +117,14 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
 
         for (JTextField textField : textFields) {
+            if(presenter instanceof ProductCreatePresenter){
+                textField.addActionListener(e -> {
+                    int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
+                    if (lastProductCreatedID != -1) {
+                        ((ProductCreatePresenter) presenter).clearView();
+                    }
+                });
+            }
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
@@ -246,9 +254,9 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", materialSquareMetersPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_MATERIAL", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("MATERIAL", getMaterialComboBoxSelection()));
-        attributes.add(new Attribute("T2A", inkBySquareMeterPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_TINTA", inkBySquareMeterPriceTextField.getText()));
         attributes.add(new Attribute("UV", UVRadioButton.isSelected() ? "SI" : "NO"));
         attributes.add(new Attribute("DOLAR", dollarValueTextField.getText()));
         attributes.add(new Attribute("TIPO_DOLAR", (String) dollarComboBox.getSelectedItem()));

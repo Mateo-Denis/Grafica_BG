@@ -79,6 +79,8 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         searchButton.addActionListener(e -> clientSearchPresenter.onSearchButtonClicked());
         deleteButton.addActionListener(e -> clientSearchPresenter.onDeleteClientButtonClicked());
         clientListOpenButton.addActionListener(e -> clientListPresenter.onSearchViewOpenListButtonClicked());
+
+        nameSearchField.addActionListener(e -> clientSearchPresenter.onSearchButtonClicked());
     }
 
     @Override

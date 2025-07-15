@@ -27,7 +27,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
 
         clientModel.addCitiesFetchingSuccessListener(() -> {
-            clientCreateView.addCityToComboBox("Cualquier localidad");
+            clientCreateView.addCityToComboBox("Nueva localidad");
             ArrayList<String> cities = clientModel.getQueriedCities();
             for (String city : cities) {
                 clientCreateView.addCityToComboBox(city);
@@ -47,7 +47,7 @@ public class ClientCreatePresenter extends StandardPresenter {
 
     //TEST CAMPOS OBLIGATORIOS AL CREAR CLIENTE
     public boolean onEmptyFields(JTextField nameField, JTextField cityField, JComboBox cityComboBox) {
-        return nameField.getText().trim().isEmpty() || (cityField.getText().trim().isEmpty() && cityComboBox.getSelectedItem().equals("Cualquier localidad"));
+        return nameField.getText().trim().isEmpty() || (cityField.getText().trim().isEmpty() && cityComboBox.getSelectedItem().equals("Nueva localidad"));
     }
 
         public void onCreateButtonClicked () {
@@ -62,7 +62,7 @@ public class ClientCreatePresenter extends StandardPresenter {
                 clientCreateView.showMessage(ANY_CREATION_EMPTY_FIELDS);
             } else {
 
-                if(clientCreateView.getComboBoxSelectedCity().equals("Cualquier localidad"))
+                if(clientCreateView.getComboBoxSelectedCity().equals("Nueva localidad"))
                 {
                     city = clientCreateView.getCityText();
                 }
@@ -85,7 +85,7 @@ public class ClientCreatePresenter extends StandardPresenter {
         }
 
         public void onCityComboBoxSelected () {
-            if (clientCreateView.getComboBoxSelectedCity().equals("Cualquier localidad")) {
+            if (clientCreateView.getComboBoxSelectedCity().equals("Nueva localidad")) {
                 clientCreateView.getCityTextField().setEnabled(true);
             } else {
                 clientCreateView.getCityTextField().setText("");

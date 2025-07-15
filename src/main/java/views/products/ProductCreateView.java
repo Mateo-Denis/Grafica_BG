@@ -200,6 +200,12 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
                 clearView();
             }
         });
+        productNameField.addActionListener(l -> {
+            lastProductCreatedID = productCreatePresenter.onCreateButtonClicked();
+            if (lastProductCreatedID != -1) {
+                clearView();
+            }
+        });
     }
 
 

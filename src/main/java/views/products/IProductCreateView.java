@@ -28,4 +28,6 @@ public interface IProductCreateView extends IToggleableView {
     void componentsListenerSet(ItemListener listener);
 
     JCheckBox getEditPriceCheckBox();
+
+	void clearView();
 }

@@ -93,6 +93,10 @@ public class ProductCreatePresenter extends ProductPresenter {
         return idToReturn;
     }
 
+    public void clearView() {
+        productCreateView.clearView();
+    }
+
 
     private void cargarCategorias() {
         List<String> categories = categoryModel.getCategoriesName();

@@ -152,39 +152,27 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-        capCost = presenter.getIndividualPrice(GENERAL, "Gorra");
-        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En gorra");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
-        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
 
-        profitTextField.setText(String.valueOf(profit));
-        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
-        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
-        capCostTextField.setText(String.valueOf(capCost));
+        profitTextField.setText(String.valueOf(0));
+        printingMetersPriceTextField.setText(String.valueOf(0));
+        plankLoweringPriceTextField.setText(String.valueOf(0));
+        capCostTextField.setText(String.valueOf(0));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
 
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText().isEmpty() ? "0" : plankLoweringAmountTextField.getText()));
 
-        String plankLoweringPrice = plankLoweringPriceTextField.getText();
-        String settingsPLP = settingsDBConnection.getModularValue(BAJADA_PLANCHA, "En gorra");
-        String finalPLP = plankLoweringPrice.equals(settingsPLP) ? "###" : plankLoweringPrice;
-        attributes.add(new Attribute("T1B", finalPLP));
+        attributes.add(new Attribute("PRECIO_BAJADA", plankLoweringPriceTextField.getText()));
 
-        attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_BAJADA", plankLoweringAmountTextField.getText()));
 
-        String printingMetersPrice = printingMetersPriceTextField.getText();
-        String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Metro de Sublimación");
-        String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
-        attributes.add(new Attribute("T2B", finalPMP));
+        attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
 
-        String capCost = capCostTextField.getText();
-        String settingsCC = settingsDBConnection.getModularValue(GENERAL, "Gorra");
-        String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
-        attributes.add(new Attribute("GORRA", finalCC));
+        attributes.add(new Attribute("CANTIDAD_IMP", printingMetersAmountTextField.getText()));
+
+        attributes.add(new Attribute("GORRA", capCostTextField.getText()));
 
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
@@ -200,9 +188,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     public void setSearchTextFields(Product product) {
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         plankLoweringAmountTextField.setText(attributes.get("T1A"));
+        plankLoweringPriceTextField.setText(attributes.get("T1B"));
         printingMetersAmountTextField.setText(attributes.get("T2A"));
+        printingMetersPriceTextField.setText(attributes.get("T2B"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
+        profitTextField.setText(attributes.get("GANANCIA"));
     }
 
     public void initListeners() {
@@ -218,6 +209,15 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
+            if(presenter instanceof ProductCreatePresenter){
+                textField.addActionListener(e -> {
+                    int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
+                    if (lastProductCreatedID != -1) {
+                        ((ProductCreatePresenter) presenter).clearView();
+                    }
+                });
+            }
+
             textField.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
