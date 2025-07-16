@@ -246,14 +246,14 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
 
-            SwingUtilities.invokeLater(() -> {
+
                 clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
                 finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100)));
                 isCalculating = false;
-            });
+
 
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
@@ -305,10 +305,18 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         printingMetersAmountTextField.setText(attributes.get("CANTIDAD_IMP"));
+        printingMetersPriceTextField.setText(attributes.get("PRECIO_IMP"));
         clothMetersAmountTextField.setText(attributes.get("CANTIDAD_TELA"));
+        clothMetersPriceTextField.setText(attributes.get("PRECIO_TELA"));
         plankLoweringAmountTextField.setText(attributes.get("CANTIDAD_BAJADA"));
+        plankLoweringPriceTextField.setText(attributes.get("PRECIO_BAJADA"));
         materialComboBox.setSelectedItem(attributes.get("TELA"));
+        seamstressPriceTextField.setText(attributes.get("COSTURERA"));
         seamstressTypeComboBox.setSelectedItem(attributes.get("TIPO_COSTURERA"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
+
     }
 
     @Override

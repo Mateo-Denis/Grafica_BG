@@ -209,7 +209,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", clothMetersPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_TELA", clothMetersPriceTextField.getText()));
         attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
@@ -224,8 +224,15 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
+        if(searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         clothComboBox.setSelectedItem(attributes.get("TELA"));
+        clothMetersPriceTextField.setText(attributes.get("PRECIO_TELA"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
     }
 
 }

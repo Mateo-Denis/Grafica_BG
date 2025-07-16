@@ -79,6 +79,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
     private JTextField particularFinalPriceTextField;
+    private JTextField heightTextField;
     private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
     @Getter
@@ -284,32 +285,23 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-
-        profit = presenter.getIndividualPrice(GANANCIAS, "Banderas");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
-        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En bandera");
-        clothSqrMetersPrice = presenter.getIndividualPrice(TELAS, getFlagComboBoxSelection());
-        seamstressPrice = presenter.getIndividualPrice(SERVICIOS, "Costurera bandera");
-
-
-        profitTextField.setText(String.valueOf(profit));
-        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
-        metersPriceTextField.setText(String.valueOf(clothSqrMetersPrice));
-        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
-        seamstressPriceTextField.setText(String.valueOf(seamstressPrice));
+        profitTextField.setText(String.valueOf(0));
+        printingMetersPriceTextField.setText(String.valueOf(0));
+        metersPriceTextField.setText(String.valueOf(0));
+        plankLoweringPriceTextField.setText(String.valueOf(0));
+        seamstressPriceTextField.setText(String.valueOf(0));
 
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        //attributes.add(new Attribute("T1A", heightTextField.getText()));
-        attributes.add(new Attribute("T1B", widthTextField.getText()));
-        attributes.add(new Attribute("T1C", metersPriceTextField.getText()));
-        attributes.add(new Attribute("T2A", plankLoweringAmountTextField.getText()));
-        attributes.add(new Attribute("T2B", plankLoweringPriceTextField.getText()));
-        attributes.add(new Attribute("T3A", printingMetersAmountTextField.getText()));
-        attributes.add(new Attribute("T3B", printingMetersPriceTextField.getText()));
+        attributes.add(new Attribute("ANCHO_TELA", widthTextField.getText()));
+        attributes.add(new Attribute("PRECIO_TELA", metersPriceTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_BAJADA", plankLoweringAmountTextField.getText()));
+        attributes.add(new Attribute("PRECIO_BAJADA", plankLoweringPriceTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_IMP", printingMetersAmountTextField.getText()));
+        attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
         attributes.add(new Attribute("TELA", getFlagComboBoxSelection()));
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
@@ -325,10 +317,21 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
+        if(searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
-        plankLoweringAmountTextField.setText(attributes.get("T2A"));
-        printingMetersAmountTextField.setText(attributes.get("T3A"));
         clothComboBox.setSelectedItem(attributes.get("TELA"));
+        metersPriceTextField.setText(attributes.get("PRECIO_TELA"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
+        plankLoweringAmountTextField.setText(attributes.get("CANTIDAD_BAJADA"));
+        plankLoweringPriceTextField.setText(attributes.get("PRECIO_BAJADA"));
+        printingMetersAmountTextField.setText(attributes.get("CANTIDAD_IMP"));
+        printingMetersPriceTextField.setText(attributes.get("PRECIO_IMP"));
+        seamstressPriceTextField.setText(attributes.get("COSTURERA"));
+        widthTextField.setText(attributes.get("ANCHO_TELA"));
     }
 
     private String getFlagComboBoxSelection() {

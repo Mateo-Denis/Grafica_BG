@@ -149,7 +149,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
             float recharge = particularAddTextField.getText().isEmpty() ? 0
                     : Float.parseFloat(particularAddTextField.getText());
 
-            float priceWOIva = paperMeterPrice + inkByMeterPrice + (profit / 100);
+            float priceWOIva = (paperMeterPrice + inkByMeterPrice) * (profit / 100);
             float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
             float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
 
@@ -199,20 +199,17 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-        paperMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de papel");
-        inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de tinta");
-        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión lineal");
 
-        profitTextField.setText(String.valueOf(profit));
-        paperMeterPriceTextField.setText(String.valueOf(paperMeterPrice));
-        inkByMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
+        profitTextField.setText(String.valueOf(0));
+        paperMeterPriceTextField.setText(String.valueOf(0));
+        inkByMeterPriceTextField.setText(String.valueOf(0));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", paperMeterPriceTextField.getText()));
-        attributes.add(new Attribute("T2A", inkByMeterPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_PAPEL", paperMeterPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_TINTA", inkByMeterPriceTextField.getText()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
@@ -226,7 +223,15 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
 
     @Override
     public void setSearchTextFields(Product product) {
-        //
+        if(searchPresenter == null) {
+            return;
+        }
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        paperMeterPriceTextField.setText(attributes.get("PRECIO_PAPEL"));
+        inkByMeterPriceTextField.setText(attributes.get("PRECIO_TINTA"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
     }
 
 }

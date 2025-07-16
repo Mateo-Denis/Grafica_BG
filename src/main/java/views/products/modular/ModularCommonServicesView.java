@@ -11,6 +11,7 @@ import utils.Product;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         ArrayList<JTextField> textFields = new ArrayList<>();
 
         textFields.add(serviceCostTextField);
+        textFields.add(particularAddTextField);
 
 
         for (JTextField textField : textFields) {
@@ -89,6 +91,18 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     calculateDependantPrices();
+                }
+            });
+
+            IVAcombobox.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    calculateDependantPrices();
+                }
+            });
+
+            serviceTypeComboBox.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    SwingUtilities.invokeLater(this::calculateDependantPrices);
                 }
             });
         }
@@ -140,7 +154,9 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-        servicePrice = presenter.getIndividualPrice(SERVICIOS, getServiceTypeSelected());
+        if (initialization) {
+            return;
+        }
 
         serviceCostTextField.setText(String.valueOf(servicePrice));
     }
@@ -162,7 +178,15 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     @Override
     public void setSearchTextFields(Product product) {
-        //
+        if (searchPresenter == null) {
+            return;
+        }
+        Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        serviceCostTextField.setText(attributes.get("SERVICIO"));
+        serviceTypeComboBox.setSelectedItem(attributes.get("TIPO_SERVICIO"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
+
 
     }
 

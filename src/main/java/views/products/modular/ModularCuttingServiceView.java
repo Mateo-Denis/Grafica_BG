@@ -198,17 +198,15 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void setPriceTextFields() {
-        profit = presenter.getIndividualPrice(GANANCIAS, "Servicio de corte");
-        vinylPrice = presenter.getIndividualPrice(MATERIALES, getVinylTypeSelected());
 
-        vinylCostTextField.setText(String.valueOf(vinylPrice));
-        profitTextField.setText(String.valueOf(profit));
+        vinylCostTextField.setText(String.valueOf(0));
+        profitTextField.setText(String.valueOf(0));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", vinylCostTextField.getText()));
+        attributes.add(new Attribute("PRECIO_VINILO", vinylCostTextField.getText()));
         attributes.add(new Attribute("VINILO", getVinylTypeSelected()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
@@ -223,8 +221,15 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void setSearchTextFields(Product product) {
+        if (searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         vinylsComboBox.setSelectedItem(attributes.get("VINILO"));
+        vinylCostTextField.setText(attributes.get("PRECIO_VINILO"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
     }
 
     private String getVinylTypeSelected() {

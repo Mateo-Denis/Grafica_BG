@@ -132,7 +132,6 @@ public class Product {
                 double printingPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_IMP"));
                 double printingAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_IMP"));
 
-
                 double clothPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TELA"));
                 double clothAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_TELA"));
 

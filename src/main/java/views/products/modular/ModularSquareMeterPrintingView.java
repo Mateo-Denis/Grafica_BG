@@ -237,24 +237,15 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
     public void setPriceTextFields() {
 
         squareMeterPrintingFinalPriceTextField.setText(String.valueOf(0));
-
-        materialMeterSqrPrice = presenter.getIndividualPrice(MATERIALES, getMaterialComboBoxSelection());
-        if (UVRadioButton.isSelected()) {
-            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
-        } else {
-            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");
-        }
-        profit = presenter.getIndividualPrice(GANANCIAS, "Impresión metro cuadrado");
-
-        profitTextField.setText(String.valueOf(profit));
-        materialSquareMetersPriceTextField.setText(String.valueOf(materialMeterSqrPrice));
-        inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
+        profitTextField.setText(String.valueOf(0));
+        materialSquareMetersPriceTextField.setText(String.valueOf(0));
+        inkBySquareMeterPriceTextField.setText(String.valueOf(0));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("PRECIO_MATERIAL", materialSquareMetersPriceTextField.getText()));
+        attributes.add(new Attribute("PRECIO_VINILO", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("MATERIAL", getMaterialComboBoxSelection()));
         attributes.add(new Attribute("PRECIO_TINTA", inkBySquareMeterPriceTextField.getText()));
         attributes.add(new Attribute("UV", UVRadioButton.isSelected() ? "SI" : "NO"));
@@ -274,10 +265,19 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void setSearchTextFields(Product product) {
+        if (searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         materialComboBox.setSelectedItem(attributes.get("MATERIAL"));
         UVRadioButton.setSelected(Boolean.parseBoolean(attributes.get("UV")));
         dollarComboBox.setSelectedItem(attributes.get("TIPO_DOLAR"));
+        materialSquareMetersPriceTextField.setText(attributes.get("PRECIO_VINILO"));
+        inkBySquareMeterPriceTextField.setText(attributes.get("PRECIO_TINTA"));
+        dollarValueTextField.setText(attributes.get("DOLAR"));
+        profitTextField.setText(attributes.get("GANANCIA"));
+        IVAcombobox.setSelectedItem(attributes.get("IVA"));
+        particularAddTextField.setText(attributes.get("RECARGO"));
     }
 
     private String getMaterialComboBoxSelection() {
