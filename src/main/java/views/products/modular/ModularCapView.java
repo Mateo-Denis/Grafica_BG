@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -152,11 +151,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-
-        profitTextField.setText(String.valueOf(0));
-        printingMetersPriceTextField.setText(String.valueOf(0));
-        plankLoweringPriceTextField.setText(String.valueOf(0));
-        capCostTextField.setText(String.valueOf(0));
+        if (createPresenter != null) {
+            profitTextField.setText(String.valueOf(0));
+            printingMetersPriceTextField.setText(String.valueOf(0));
+            plankLoweringPriceTextField.setText(String.valueOf(0));
+            capCostTextField.setText(String.valueOf(0));
+        }
     }
 
     @Override
@@ -186,11 +186,14 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
+        if(searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
-        plankLoweringAmountTextField.setText(attributes.get("T1A"));
-        plankLoweringPriceTextField.setText(attributes.get("T1B"));
-        printingMetersAmountTextField.setText(attributes.get("T2A"));
-        printingMetersPriceTextField.setText(attributes.get("T2B"));
+        plankLoweringAmountTextField.setText(attributes.get("CANTIDAD_BAJADA"));
+        plankLoweringPriceTextField.setText(attributes.get("PRECIO_BAJADA"));
+        printingMetersAmountTextField.setText(attributes.get("CANTIDAD_IMP"));
+        printingMetersPriceTextField.setText(attributes.get("PRECIO_IMP"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
         profitTextField.setText(attributes.get("GANANCIA"));

@@ -267,30 +267,22 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-        profit = presenter.getIndividualPrice(GANANCIAS, "Prendas");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
-        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En prenda");
-        clothMetersPrice = presenter.getIndividualPrice(TELAS, getMaterialSelected());
-        String seamstressType = (String) seamstressTypeComboBox.getSelectedItem();
-        seamstressPrice = presenter.getIndividualPrice(SERVICIOS, seamstressType);
-        String profitText = String.valueOf(profit);
-
-        profitTextField.setText(profitText);
-        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
-        clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
-        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
-        seamstressPriceTextField.setText(String.valueOf(seamstressPrice));
+        profitTextField.setText(String.valueOf(0));
+        printingMetersPriceTextField.setText(String.valueOf(0));
+        clothMetersPriceTextField.setText(String.valueOf(0));
+        plankLoweringPriceTextField.setText(String.valueOf(0));
+        seamstressPriceTextField.setText(String.valueOf(0));
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", printingMetersAmountTextField.getText()));
-        attributes.add(new Attribute("T1B", printingMetersPriceTextField.getText()));
-        attributes.add(new Attribute("T2A", clothMetersAmountTextField.getText()));
-        attributes.add(new Attribute("T2B", clothMetersPriceTextField.getText()));
-        attributes.add(new Attribute("T3A", plankLoweringAmountTextField.getText()));
-        attributes.add(new Attribute("T3B", plankLoweringPriceTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_IMP", printingMetersAmountTextField.getText()));
+        attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_TELA", clothMetersAmountTextField.getText()));
+        attributes.add(new Attribute("PRECIO_TELA", clothMetersPriceTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_BAJADA", plankLoweringAmountTextField.getText()));
+        attributes.add(new Attribute("PRECIO_BAJADA", plankLoweringPriceTextField.getText()));
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
         attributes.add(new Attribute("TELA", (String) materialComboBox.getSelectedItem()));
         attributes.add(new Attribute("TIPO_COSTURERA", (String) seamstressTypeComboBox.getSelectedItem()));
@@ -308,10 +300,13 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
+        if(searchPresenter == null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
-        printingMetersAmountTextField.setText(attributes.get("T1A"));
-        clothMetersAmountTextField.setText(attributes.get("T2A"));
-        plankLoweringAmountTextField.setText(attributes.get("T3A"));
+        printingMetersAmountTextField.setText(attributes.get("CANTIDAD_IMP"));
+        clothMetersAmountTextField.setText(attributes.get("CANTIDAD_TELA"));
+        plankLoweringAmountTextField.setText(attributes.get("CANTIDAD_BAJADA"));
         materialComboBox.setSelectedItem(attributes.get("TELA"));
         seamstressTypeComboBox.setSelectedItem(attributes.get("TIPO_COSTURERA"));
     }

@@ -6,7 +6,6 @@ import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
 import presenters.product.ProductPresenter;
 import presenters.product.ProductSearchPresenter;
-import utils.Attribute;
 import utils.CategoryParser;
 import utils.Product;
 import utils.TextUtils;
@@ -127,8 +126,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
             selectedView.getContainerPanel().setVisible(true);
             modularView.loadComboBoxValues();
             modularView.setSearchTextFields(product);
-            setModularPrices();
-            SetModularPriceTextFields(modularView);
             modularView.calculateDependantPrices();
 
         }
@@ -136,14 +133,6 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         // Actualizar el layout del panel
         modularContainer.revalidate();
         modularContainer.repaint();
-    }
-
-    public void SetModularPriceTextFields(IModularCategoryView paramModularView) {
-        modularView.comboBoxListenerSet(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                paramModularView.setPriceTextFields();
-            }
-        });
     }
 
     public IModularCategoryView getCorrespondingModularView(String category) {

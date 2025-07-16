@@ -7,10 +7,8 @@ import models.IProductModel;
 import models.ICategoryModel;
 import models.settings.ISettingsModel;
 import org.javatuples.Pair;
-import org.javatuples.Triplet;
 
 import java.awt.event.ItemEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

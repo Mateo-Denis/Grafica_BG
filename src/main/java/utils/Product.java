@@ -35,38 +35,18 @@ public class Product {
         switch (categoryID) {
             case 1:{ //taza
 
-                double t1aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T1A"));
+                double plPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_BAJADA"));
+                double plAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_BAJADA"));
 
-                double t1bV;
-                String t1bS = attributesDBConnection.getAttributeValue(ID, "T1B");
-                if(Objects.equals(t1bS, "###")){
-                    t1bV = getIndividualPrice(SettingsTableNames.BAJADA_PLANCHA, "En taza");
-                }else {
-                    t1bV = Double.parseDouble(t1bS);
-                }
+                double printingPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_IMP"));
+                double printingAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_IMP"));
 
-                double t2aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T2A"));
-
-                double t2bV;
-                String t2bS = attributesDBConnection.getAttributeValue(ID, "T2B");
-                if(Objects.equals(t2bS, "###")){
-                    t2bV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de Sublimación");
-                }else {
-                    t2bV = Double.parseDouble(t2bS);
-                }
-
-                double cupV;
-                String cupS = attributesDBConnection.getAttributeValue(ID, "TAZA");
-                if(Objects.equals(cupS, "###")) {
-                    cupV = getIndividualPrice(SettingsTableNames.GENERAL, "Taza");
-                }else {
-                    cupV = Double.parseDouble(cupS);
-                }
+                double capV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "TAZA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
 
-                return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + cupV) * profit, attributesDBConnection);            }
+                return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + capV) * profit, attributesDBConnection);            }
             case 2:{//gorra
 
                 double plPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_BAJADA"));
@@ -146,51 +126,21 @@ public class Product {
             }
             case 5: { //prendas
 
-                double t1aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T1A"));
+                double plPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_BAJADA"));
+                double plAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_BAJADA"));
 
-                double t1bV;
-                String t1bS = attributesDBConnection.getAttributeValue(ID, "T1B");
-                if(Objects.equals(t1bS, "###")) {
-                    t1bV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de Sublimación");
-                }else {
-                    t1bV = Double.parseDouble(t1bS);
-                }
+                double printingPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_IMP"));
+                double printingAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_IMP"));
 
 
-                double t2aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T2A"));
+                double clothPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TELA"));
+                double clothAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_TELA"));
 
-                String tela = attributesDBConnection.getAttributeValue(ID, "TELA");
-                double t2bV;
-                String t2bS = attributesDBConnection.getAttributeValue(ID, "T2B");
-                if(Objects.equals(t2bS, "###")) {
-                    t2bV = getIndividualPrice(SettingsTableNames.TELAS, tela);
-                }else {
-                    t2bV = Double.parseDouble(t2bS);
-                }
-
-                double t3aV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "T3A"));
-
-                double t3bV;
-                String t3bS = attributesDBConnection.getAttributeValue(ID, "T3B");
-                if(Objects.equals(t3bS, "###")) {
-                    t3bV = getIndividualPrice(SettingsTableNames.BAJADA_PLANCHA, "En prenda");
-                }else {
-                    t3bV = Double.parseDouble(t3bS);
-                }
-                
-
-                String seamstressType = attributesDBConnection.getAttributeValue(ID, "TIPO_COSTURERA");
-                double seamstressV;
-                String seamstressS = attributesDBConnection.getAttributeValue(ID, "COSTURERA");
-                if(Objects.equals(seamstressS, "###")) {
-                    seamstressV = getIndividualPrice(SettingsTableNames.SERVICIOS, seamstressType);
-                }else {
-                    seamstressV = Double.parseDouble(seamstressS);
-                }
+                double seamstressV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "COSTURERA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-                return applyIVA(((t1aV * t1bV) + (t2aV * t2bV) + (t3aV * t3bV) + seamstressV) * profit, attributesDBConnection);
+                return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + (clothPrice * clothAmount) + seamstressV) * profit, attributesDBConnection);
 
             }
             case 6: {
