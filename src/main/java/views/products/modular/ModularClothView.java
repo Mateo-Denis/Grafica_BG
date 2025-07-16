@@ -201,8 +201,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         profit = presenter.getIndividualPrice(GANANCIAS, "Telas");
         clothMetersPrice = presenter.getIndividualPrice(TELAS, getClothComboBoxSelection());
 
-        profitTextField.setText(String.valueOf(profit));
-        clothMetersPriceTextField.setText(String.valueOf(clothMetersPrice));
+        profitTextField.setText("0");
+        clothMetersPriceTextField.setText("0");
 
     }
 
