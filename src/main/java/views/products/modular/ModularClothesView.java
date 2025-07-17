@@ -269,9 +269,14 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     public void setPriceTextFields() {
         profitTextField.setText(String.valueOf(0));
         printingMetersPriceTextField.setText(String.valueOf(0));
+        printingMetersAmountTextField.setText(String.valueOf(0));
         clothMetersPriceTextField.setText(String.valueOf(0));
+        clothMetersAmountTextField.setText(String.valueOf(0));
         plankLoweringPriceTextField.setText(String.valueOf(0));
+        plankLoweringAmountTextField.setText(String.valueOf(0));
         seamstressPriceTextField.setText(String.valueOf(0));
+        particularAddTextField.setText(String.valueOf(0));
+
     }
 
     @Override

@@ -238,41 +238,26 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setPriceTextFields() {
-        profit = presenter.getIndividualPrice(GANANCIAS, "Tazas");
-        cupPrice = presenter.getIndividualPrice(GENERAL, "Taza");
-        plankLoweringPrice = presenter.getIndividualPrice(BAJADA_PLANCHA, "En taza");
-        printingMetersPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro de Sublimación");
-        particularRecharge = 0;
-
-        printingMetersPriceTextField.setText(String.valueOf(printingMetersPrice));
-        plankLoweringPriceTextField.setText(String.valueOf(plankLoweringPrice));
-        cupPriceTextField.setText(String.valueOf(cupPrice));
-        profitTextField.setText(String.valueOf(profit));
-        particularAddTextField.setText(String.valueOf(particularRecharge));
+        printingMetersPriceTextField.setText(String.valueOf(0));
+        plankLoweringPriceTextField.setText(String.valueOf(0));
+        cupPriceTextField.setText(String.valueOf(0));
+        profitTextField.setText(String.valueOf(0));
+        particularAddTextField.setText(String.valueOf(0));
 
     }
 
     @Override
     public ArrayList<Attribute> getAttributes() {
         ArrayList<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("T1A", plankLoweringAmountTextField.getText()));
+        attributes.add(new Attribute("CANTIDAD_BAJADA", plankLoweringAmountTextField.getText()));
 
-        String plankLoweringPrice = plankLoweringPriceTextField.getText();
-        String settingsPLP = settingsDBConnection.getModularValue(BAJADA_PLANCHA, "En taza");
-        String finalPLP = plankLoweringPrice.equals(settingsPLP) ? "###" : plankLoweringPrice;
-        attributes.add(new Attribute("T1B", finalPLP));
+        attributes.add(new Attribute("CANTIDAD_IMP", printingMetersAmountTextField.getText()));
 
-        attributes.add(new Attribute("T2A", printingMetersAmountTextField.getText()));
+        attributes.add(new Attribute("TAZA", cupPriceTextField.getText()));
 
-        String printingMetersPrice = printingMetersPriceTextField.getText();
-        String settingsPMP = settingsDBConnection.getModularValue(IMPRESIONES, "Metro de Sublimación");
-        String finalPMP = printingMetersPrice.equals(settingsPMP) ? "###" : printingMetersPrice;
-        attributes.add(new Attribute("T2B", finalPMP));
+        attributes.add(new Attribute("PRECIO_BAJADA", plankLoweringPriceTextField.getText()));
 
-        String capCost = cupPriceTextField.getText();
-        String settingsCC = settingsDBConnection.getModularValue(GENERAL, "Taza");
-        String finalCC = capCost.equals(settingsCC) ? "###" : capCost;
-        attributes.add(new Attribute("TAZA", finalCC));
+        attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
 
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
@@ -288,8 +273,19 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
+        if(searchPresenter==null) {
+            return;
+        }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
-        plankLoweringAmountTextField.setText(attributes.get("T1A"));
+        cupPriceTextField.setText(attributes.getOrDefault("TAZA", "0"));
+        plankLoweringAmountTextField.setText(attributes.getOrDefault("CANTIDAD_BAJADA", "0"));
+        plankLoweringPriceTextField.setText(attributes.getOrDefault("PRECIO_BAJADA", "0"));
+        printingMetersAmountTextField.setText(attributes.getOrDefault("CANTIDAD_IMP", "0"));
+        printingMetersPriceTextField.setText(attributes.getOrDefault("PRECIO_IMP", "0"));
+        profitTextField.setText(attributes.getOrDefault("GANANCIA", "0"));
+        particularAddTextField.setText(attributes.getOrDefault("RECARGO", "0"));
+        IVAcombobox.setSelectedItem(attributes.getOrDefault("IVA", "0"));
+
     }
 
 }

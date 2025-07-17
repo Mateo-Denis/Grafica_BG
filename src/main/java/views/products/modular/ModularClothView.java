@@ -200,6 +200,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
     public void setPriceTextFields() {
         profitTextField.setText("0");
         clothMetersPriceTextField.setText("0");
+        particularAddTextField.setText("0");
 
     }
 

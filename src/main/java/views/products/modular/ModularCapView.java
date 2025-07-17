@@ -190,6 +190,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
+        capCostTextField.setText(attributes.get("GORRA"));
         plankLoweringAmountTextField.setText(attributes.get("CANTIDAD_BAJADA"));
         plankLoweringPriceTextField.setText(attributes.get("PRECIO_BAJADA"));
         printingMetersAmountTextField.setText(attributes.get("CANTIDAD_IMP"));
@@ -264,8 +265,8 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
                 float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100);
 
-                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * iva / 100);
-                float finalPrice = priceWithIVA + (priceWithIVA * recharge / 100);
+                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * (iva / 100));
+                float finalPrice = priceWithIVA + (priceWithIVA * (recharge / 100));
                 clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWithIVA)));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
