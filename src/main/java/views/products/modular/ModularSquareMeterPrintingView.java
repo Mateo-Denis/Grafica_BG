@@ -149,17 +149,6 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             }
         });
 
-        UVRadioButton.addActionListener(e -> swapInk(true));
-        ecosolventeRadioButton.addActionListener(e -> swapInk(false));
-    }
-
-    private void swapInk(boolean isUV) {
-        if (isUV) {
-            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta UV");
-        } else {
-            inkByMeterPrice = presenter.getIndividualPrice(IMPRESIONES, "Metro2 de tinta ECO");
-        }
-        inkBySquareMeterPriceTextField.setText(String.valueOf(inkByMeterPrice));
     }
 
     @Override
@@ -172,7 +161,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
             float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
-            float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * (profit/100);
+            float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice;
 
             float priceWOiva = finalPrice * (profit / 100);
             float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
@@ -250,7 +239,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         attributes.add(new Attribute("PRECIO_MATERIAL", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("PRECIO_TINTA", inkBySquareMeterPriceTextField.getText()));
         attributes.add(new Attribute("UV", UVRadioButton.isSelected() ? "SI" : "NO"));
-        attributes.add(new Attribute("DOLAR", dollarValueTextField.getText()));
+        attributes.add(new Attribute("DOLAR", "###"));
         attributes.add(new Attribute("TIPO_DOLAR", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
