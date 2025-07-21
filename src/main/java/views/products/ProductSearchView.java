@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.CategoryParser.parseCategory;
+import static utils.WindowFormatter.relativeSizeAndCenter;
 
 public class ProductSearchView extends ToggleableView implements IProductSearchView {
 
@@ -64,7 +65,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
         this.productListPresenter = productListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setSize(1500, 800);
+        relativeSizeAndCenter(windowFrame, 0.8, 0.9);
         windowFrame.setResizable(false);
     }
 

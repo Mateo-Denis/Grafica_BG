@@ -27,6 +27,7 @@ import java.util.Map;
 import utils.TextUtils;
 
 import static utils.CategoryParser.parseCategory;
+import static utils.WindowFormatter.relativeSizeAndCenter;
 
 public class ProductCreateView extends ToggleableView implements IProductCreateView {
     @Getter
@@ -65,16 +66,9 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        //Aplica el filtro al documento asociado al JTextField
-        windowFrame.setSize(1500, 530);
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        relativeSizeAndCenter(windowFrame, 0.8, 0.7);
 
-        // Calculate position to center the frame
-        int x = (screenSize.width - windowFrame.getWidth()) / 2;
-        int y = (screenSize.height - windowFrame.getHeight()) / 2;
-
-        windowFrame.setLocation(x, y);
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setResizable(false);
         modularContainer.setLayout(new BorderLayout());

@@ -97,7 +97,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         settingsDBConnection = new SettingsDatabaseConnection();
         this.presenter = presenter;
         initListeners();
-        adjustPanels();
+        //adjustPanels();
     }
 
 

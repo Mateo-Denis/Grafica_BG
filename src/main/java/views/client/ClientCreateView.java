@@ -11,6 +11,8 @@ import utils.NumberInputVerifier;
 
 import java.awt.*;
 
+import static utils.WindowFormatter.relativeSizeAndCenter;
+
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
 	private JPanel containerPanel;
 	private JPanel clientContainer;
@@ -42,7 +44,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
 		windowFrame.pack();
 		windowFrame.setLocationRelativeTo(null);
 		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-		windowFrame.setSize(400, 300);
+		relativeSizeAndCenter(windowFrame, 0.4, 0.3);
 		windowFrame.setResizable(false);
 		((AbstractDocument) phoneTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		cambiarTamanioFuente(containerPanel, 14);
