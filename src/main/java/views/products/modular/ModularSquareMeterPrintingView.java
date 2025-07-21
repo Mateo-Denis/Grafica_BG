@@ -175,11 +175,11 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice * (profit/100);
 
             float priceWOiva = finalPrice * (profit / 100);
-            float priceWiva = priceWOiva + (priceWOiva * iva / 100);
+            float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
 
             dollarValueTextField.setText(String.valueOf(dollarPrice));
             clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
-            squareMeterPrintingFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva + (priceWiva * recharge / 100))));
+            squareMeterPrintingFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva + (priceWiva * (recharge / 100)))));
 
         } catch (NumberFormatException e) {
             showMessage(MessageTypes.ERROR_DEBUG, containerPanel);
@@ -247,6 +247,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("PRECIO_VINILO", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("MATERIAL", getMaterialComboBoxSelection()));
+        attributes.add(new Attribute("PRECIO_MATERIAL", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("PRECIO_TINTA", inkBySquareMeterPriceTextField.getText()));
         attributes.add(new Attribute("UV", UVRadioButton.isSelected() ? "SI" : "NO"));
         attributes.add(new Attribute("DOLAR", dollarValueTextField.getText()));

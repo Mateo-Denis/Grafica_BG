@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.*;
 
 public class ModularClothesView extends JPanel implements IModularCategoryView {
@@ -82,6 +83,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JTextField particularFinalPriceTextField;
     private JLabel shirt;
     private JCheckBox editPriceCheckBox;
     @Getter
@@ -222,6 +224,12 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             }
         });
 
+        IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
+
         seamstressTypeComboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 SwingUtilities.invokeLater(this::calculateDependantPrices);
@@ -245,13 +253,20 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
             float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+            float IVA = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
+            float particularAdd = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
 
                 clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
-                finalPriceTextField.setText(String.valueOf((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100)));
+                float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100);
+                float priceWIva = priceWOIva + (priceWOIva * (IVA / 100));
+
+
+                finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
+                particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva + (priceWIva * (particularAdd / 100)))));
                 isCalculating = false;
 
 

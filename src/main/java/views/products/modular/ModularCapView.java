@@ -52,7 +52,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
     private JTextField profitTextField;
     private JPanel rightSideComponentsContainer;
     private JPanel capFinalPriceContainer;
-    private JTextField capFinalPriceTextField;
+    private JTextField particularFinalPriceTextField;
     private JLabel profitMultiplyLabel;
     private JLabel capFinalPriceEqualsLabel;
     private JLabel profitLabel;
@@ -270,7 +270,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWithIVA)));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                capFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalPrice)));
+                particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalPrice)));
 
             } catch (NumberFormatException | NullPointerException e) {
                 showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);

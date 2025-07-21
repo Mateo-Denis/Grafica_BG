@@ -62,8 +62,6 @@ public class Product {
                 return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + capV) * profit, attributesDBConnection);
             }
             case 3: { //tela
-                String tela = attributesDBConnection.getAttributeValue(ID, "TELA");
-
                 double clothPrice =Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TELA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
@@ -93,64 +91,31 @@ public class Product {
 
             }
             case 6: {
+                double servicePrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "SERVICIO"));
 
-                String serviceType = attributesDBConnection.getAttributeValue(ID, "TIPO_SERVICIO");
-
-                double serviceV;
-                String serviceS = attributesDBConnection.getAttributeValue(ID, "SERVICIO");
-                if(Objects.equals(serviceS, "###")) {
-                    serviceV = getIndividualPrice(SettingsTableNames.SERVICIOS, serviceType);
-                }else {
-                    serviceV = Double.parseDouble(serviceS);
-                }
-
-                return applyIVA(serviceV, attributesDBConnection);
+                return applyIVA(servicePrice, attributesDBConnection);
             }
             case 7: { //servicio de corte
-                String vinilo = attributesDBConnection.getAttributeValue(ID, "VINILO");
-
-                double t1aV;
-                String t1aS = attributesDBConnection.getAttributeValue(ID, "T1A");
-                if(Objects.equals(t1aS, "###")) {
-                    t1aV = getIndividualPrice(SettingsTableNames.MATERIALES, vinilo);
-                }else {
-                    t1aV = Double.parseDouble(t1aS);
-                }
+                double vinylPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_VINILO"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-                return applyIVA(t1aV * profit, attributesDBConnection);
+                return applyIVA(vinylPrice * profit, attributesDBConnection);
             }
             case 8: { // impresión lineal
-                double t1aV;
-                String paper = attributesDBConnection.getAttributeValue(ID, "T1A");
+                double paperPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_PAPEL"));
+                double inkPrice =   Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TINTA"));
+                double profit =     Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-                if(Objects.equals(paper, "###")) {
-                    t1aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de papel");
-                }else {
-                    t1aV = Double.parseDouble(paper);
-                }
 
-                double t2aV;
-                String ink = attributesDBConnection.getAttributeValue(ID, "T2A");
-                if(Objects.equals(ink, "###")) {
-                    t2aV = getIndividualPrice(SettingsTableNames.IMPRESIONES, "Metro de tinta");
-                }else {
-                    t2aV = Double.parseDouble(ink);
-                }
-
-                String profitS = attributesDBConnection.getAttributeValue(ID, "GANANCIA");
-                double profitV = Double.parseDouble(profitS) / 100;
-
-                return applyIVA((t1aV + t2aV) * profitV, attributesDBConnection);
+                return applyIVA((paperPrice + inkPrice) * profit, attributesDBConnection);
             }
-            case 9: {
+            case 9: { // impresion por metro cuadrado
 
                 double materialPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_MATERIAL"));
-
                 double inkPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TINTA"));
-
                 String tipoDolar = attributesDBConnection.getAttributeValue(ID, "TIPO_DOLAR");
+
                 double dollarV;
                 String dollarS = attributesDBConnection.getAttributeValue(ID, "DOLAR");
                 if (Objects.equals(dollarS, "###")) {

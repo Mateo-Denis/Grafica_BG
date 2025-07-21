@@ -218,7 +218,7 @@
             <properties/>
             <border type="none" title="Precio final de la gorra: "/>
             <children>
-              <component id="21ff3" class="javax.swing.JTextField" binding="capFinalPriceTextField">
+              <component id="21ff3" class="javax.swing.JTextField" binding="particularFinalPriceTextField">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
