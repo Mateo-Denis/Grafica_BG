@@ -6,9 +6,9 @@ import presenters.settings.SettingsPresenter;
 import utils.MessageTypes;
 import utils.databases.SettingsTableNames;
 import views.ToggleableView;
+import utils.databases.SettingsTableNames.*;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
@@ -31,6 +31,14 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     private JTable generalValuesTable;
     private JPanel vinylValuesPanel;
     private JPanel serviceValuesPanel;
+    private JButton addDollarButton;
+    private JButton removeDollarButton;
+    private JButton addClothButton;
+    private JButton removeClothButton;
+    private JButton addServiceButton;
+    private JButton removeServiceButton;
+    private JButton addMaterialButton;
+    private JButton removeMaterialButton;
     private JTable profitValuesTable;
     private JTable measuresValuesTable;
     private SettingsPresenter settingsPresenter;
@@ -84,6 +92,56 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         //UPDATE PRICES WHEN JBUTTON IS PRESSED:
         updateDataButton.addActionListener(e -> settingsPresenter.onUpdateDataButtonPressed());
 
+        addClothButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.TELAS));
+        addDollarButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.GENERAL));
+        addServiceButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.SERVICIOS));
+        addMaterialButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.MATERIALES));
+
+        removeClothButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.TELAS, clothValuesTable.getSelectedRow()));
+        removeDollarButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.GENERAL, generalValuesTable.getSelectedRow()));
+        removeServiceButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.SERVICIOS, serviceValuesTable.getSelectedRow()));
+        removeMaterialButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.MATERIALES, materialsValuesTable.getSelectedRow()));
+
+    }
+
+
+    public void addEmptyRow(SettingsTableNames tableName){
+        JTable tableToAdd;
+        switch (tableName){
+            case GENERAL -> tableToAdd = generalValuesTable;
+            case TELAS -> tableToAdd = clothValuesTable;
+            case SERVICIOS -> tableToAdd = serviceValuesTable;
+            case MATERIALES -> tableToAdd = materialsValuesTable;
+            default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
+        }
+        DefaultTableModel model = (DefaultTableModel) tableToAdd.getModel();
+        if(tableToAdd == generalValuesTable) {
+            model.addRow(new Object[]{"", 0.0});
+        } else {
+            model.addRow(new Object[]{""});
+        }
+
+        autoResizeColumns(tableToAdd);
+
+        tableToAdd.editCellAt(model.getRowCount() - 1, 0);
+    }
+
+    public String removeRow(SettingsTableNames tableName, int rowIndex) {
+        JTable tableToRemoveFrom;
+        switch (tableName) {
+            case GENERAL -> tableToRemoveFrom = generalValuesTable;
+            case TELAS -> tableToRemoveFrom = clothValuesTable;
+            case SERVICIOS -> tableToRemoveFrom = serviceValuesTable;
+            case MATERIALES -> tableToRemoveFrom = materialsValuesTable;
+            default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
+        }
+        DefaultTableModel model = (DefaultTableModel) tableToRemoveFrom.getModel();
+        String field = tableToRemoveFrom.getValueAt(rowIndex, 0).toString();
+        if (rowIndex >= 0 && rowIndex < model.getRowCount()) {
+            model.removeRow(rowIndex);
+        }
+        autoResizeColumns(tableToRemoveFrom);
+        return field;
     }
 
 
@@ -246,12 +304,27 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                 return column != 0; // Disable editing for the index 0 column
             }
         };
+
+        DefaultTableModel oneFieldModel = new DefaultTableModel(new Object[]{"Campo"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column != 0; // Disable editing for the index 0 column
+            }
+        };
+
         // Convert the ArrayList<Pair<String, Double>> into table rows
         for (Pair<String, Double> pair : values) {
             model.addRow(new Object[]{pair.getValue0(), pair.getValue1()});
         }
+
         JTable table = getModularTable(tableName);
-        table.setModel(model);
+
+        if (tableName.equals(SettingsTableNames.GENERAL)) {
+            table.setModel(model);
+        } else {
+            table.setModel(oneFieldModel);
+        }
+
         autoResizeColumns(table);
     }
 
@@ -271,11 +344,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     public JTable getModularTable(SettingsTableNames table) {
         return switch (table) {
             case GENERAL -> generalValuesTable;
-            case BAJADA_PLANCHA -> plankLoweringValuesTable;
             case TELAS -> clothValuesTable;
             case SERVICIOS -> serviceValuesTable;
-            case IMPRESIONES -> printingValuesTable;
-            case GANANCIAS -> profitValuesTable;
             case MATERIALES -> materialsValuesTable;
         };
     }

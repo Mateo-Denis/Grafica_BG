@@ -17,5 +17,7 @@ public interface ISettingsModel {
 
 	void updateModularPrices(List<Triplet<String, String, Double>> modularPrices) throws SQLException;
 
+	void removeRow(SettingsTableNames tableName, String field);
+
 	String getModularValue(SettingsTableNames tableName, String selectedValue);
 }

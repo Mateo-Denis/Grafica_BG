@@ -33,13 +33,15 @@ public class SettingsModel implements ISettingsModel {
 	public ArrayList<SettingsTableNames> getTableNames() {
 		ArrayList<SettingsTableNames> list = new ArrayList<>();
 		list.add(GENERAL);
-		list.add(BAJADA_PLANCHA);
 		list.add(TELAS);
 		list.add(SERVICIOS);
-		list.add(IMPRESIONES);
 		list.add(MATERIALES);
-		list.add(GANANCIAS);
 		return list;
+	}
+
+	@Override
+	public void removeRow(SettingsTableNames tableName, String field) {
+		dbConnection.removeRow(tableName, field);
 	}
 
 	@Override

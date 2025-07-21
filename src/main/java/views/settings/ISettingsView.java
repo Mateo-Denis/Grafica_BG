@@ -17,4 +17,7 @@ public interface ISettingsView extends IToggleableView {
 	JTable getModularTable(SettingsTableNames table);
 
 	void showDetailedMessage(MessageTypes messageType, SettingsTableNames tableName);
+
+	void addEmptyRow(SettingsTableNames tableName);
+	String removeRow(SettingsTableNames tableName, int rowIndex);
 }

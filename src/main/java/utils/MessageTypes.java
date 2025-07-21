@@ -6,7 +6,9 @@ import javax.swing.*;
 
 @Getter
 public enum MessageTypes {
-
+    NO_ROW_SELECTED_FOR_DELETION("Error al eliminar fila"
+            , "Por favor seleccione una fila de la tabla correspondiente antes de presionar el botón de eliminar."
+            , JOptionPane.ERROR_MESSAGE),
     CLIENT_CREATION_SUCCESS("Cliente creado con éxito"
             , "El cliente fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),

@@ -13,12 +13,9 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	@Override
 	protected void createTable(Connection connection) {
 		createModularTable(connection, GENERAL);
-		createModularTable(connection, BAJADA_PLANCHA);
 		createModularTable(connection, TELAS);
 		createModularTable(connection, SERVICIOS);
-		createModularTable(connection, IMPRESIONES);
 		createModularTable(connection, MATERIALES);
-		createModularTable(connection, GANANCIAS);
 	}
 
 	private void createModularTable(Connection connection, SettingsTableNames tableName) {
@@ -137,5 +134,16 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 			System.out.println(e.getMessage());
 		}
 		return "";
+	}
+
+	public void removeRow(SettingsTableNames tableName, String field) {
+		String sql = "DELETE FROM " + tableName.getName() + " WHERE Campo = '" + field + "'";
+		try (Connection conn = connect();
+			 Statement stmt = conn.createStatement()) {
+			stmt.setQueryTimeout(QUERY_TIMEOUT);
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

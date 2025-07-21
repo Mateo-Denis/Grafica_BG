@@ -3,6 +3,7 @@ package presenters.settings;
 import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
 import org.javatuples.Pair;
+import utils.MessageTypes;
 import utils.databases.SettingsTableNames;
 import views.settings.ISettingsView;
 
@@ -11,9 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
-import static utils.MessageTypes.SETTINGS_SAVE_FAILURE;
-import static utils.MessageTypes.SETTINGS_SAVE_SUCCESS;
+import static utils.MessageTypes.*;
 
 public class SettingsPresenter extends StandardPresenter {
 
@@ -45,6 +46,23 @@ public class SettingsPresenter extends StandardPresenter {
 		}
 		if(!foundError){
 			settingsView.showMessage(SETTINGS_SAVE_SUCCESS);
+		}
+	}
+
+	public void onAddButtonPressed(SettingsTableNames tableName){
+		settingsView.addEmptyRow(tableName);
+	}
+
+	public void onDeleteRowButtonPressed(SettingsTableNames tableName, int selectedRow) {
+		if(selectedRow < 0) {
+			settingsView.showMessage(NO_ROW_SELECTED_FOR_DELETION);
+			return;
+		}
+		String removedField = settingsView.removeRow(tableName, selectedRow);
+		try {
+			settingsModel.removeRow(tableName, removedField);
+		} catch (NumberFormatException e) {
+			settingsView.showDetailedMessage(SETTINGS_SAVE_FAILURE, SettingsTableNames.valueOf(tableName.getName()));
 		}
 	}
 

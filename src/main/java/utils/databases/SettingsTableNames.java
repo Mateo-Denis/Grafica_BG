@@ -5,12 +5,9 @@ import lombok.Getter;
 @Getter
 public enum SettingsTableNames {
 	GENERAL("General"),
-	BAJADA_PLANCHA("Bajada_Plancha"),
 	TELAS("Telas"),
 	SERVICIOS("Servicios"),
-	IMPRESIONES("Impresiones"),
-	MATERIALES("Materiales"),
-	GANANCIAS("Ganancias");
+	MATERIALES("Materiales");
 
 
 	private final String name;
