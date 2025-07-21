@@ -22,8 +22,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     private JTable clothValuesTable;
     private JTable clothesValuesTable;
     private JButton updateDataButton;
-    private JPanel plankLoweringPanel;
-    private JPanel printingValuesPanel;
     private JTable cutValuesTable;
     private JTable plankLoweringValuesTable;
     private JTable serviceValuesTable;
@@ -33,7 +31,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     private JTable generalValuesTable;
     private JPanel vinylValuesPanel;
     private JPanel serviceValuesPanel;
-    private JPanel profitValuesPanel;
     private JTable profitValuesTable;
     private JTable measuresValuesTable;
     private SettingsPresenter settingsPresenter;
@@ -48,12 +45,9 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         wrapContainer();
 
         initTableListeners(generalValuesTable);
-        initTableListeners(plankLoweringValuesTable);
         initTableListeners(clothValuesTable);
         initTableListeners(serviceValuesTable);
-        initTableListeners(printingValuesTable);
         initTableListeners(materialsValuesTable);
-        initTableListeners(profitValuesTable);
 
         // Obtener el tamaño de la pantalla
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
