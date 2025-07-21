@@ -62,6 +62,7 @@ public class Product {
                 return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + capV) * profit, attributesDBConnection);
             }
             case 3: { //tela
+
                 double clothPrice =Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TELA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
