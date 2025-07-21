@@ -1,6 +1,7 @@
 package views.products.modular;
 
 import lombok.Getter;
+import net.miginfocom.swing.MigLayout;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductPresenter;
@@ -96,6 +97,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
         settingsDBConnection = new SettingsDatabaseConnection();
         this.presenter = presenter;
+
         initListeners();
         //adjustPanels();
     }

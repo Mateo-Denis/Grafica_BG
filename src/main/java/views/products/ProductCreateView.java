@@ -3,6 +3,7 @@ package views.products;
 import javax.swing.*;
 
 import lombok.Getter;
+import net.miginfocom.swing.MigLayout;
 import presenters.product.ProductPresenter;
 import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
@@ -70,9 +71,10 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         relativeSizeAndCenter(windowFrame, 0.8, 0.7);
 
         cambiarTamanioFuente(containerPanel, 14);
-        windowFrame.setResizable(false);
+        windowFrame.setResizable(true);
         modularContainer.setLayout(new BorderLayout());
         modularMap = getCategoryPanelsMap();
+
     }
 
 
