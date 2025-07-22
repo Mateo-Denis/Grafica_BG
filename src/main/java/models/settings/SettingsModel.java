@@ -20,8 +20,13 @@ public class SettingsModel implements ISettingsModel {
 	}
 
 	@Override
-	public ArrayList<Pair<String, Double>> getModularValues(SettingsTableNames tableName){
-		return dbConnection.getTableAsList(tableName);
+	public ArrayList<String> getModularValues(SettingsTableNames tableName){
+		return dbConnection.getOtherTablesAsList(tableName);
+	}
+
+	@Override
+	public ArrayList<Pair<String, Double>> getGeneralTableAsList(SettingsTableNames tableName) {
+		return dbConnection.getGeneralTableAsList(tableName);
 	}
 
 	@Override

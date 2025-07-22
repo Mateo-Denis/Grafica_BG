@@ -71,10 +71,6 @@ public class ProductSearchPresenter extends ProductPresenter {
         productModel.addProductSearchFailureListener(() -> productSearchView.showMessage(PRODUCT_SEARCH_FAILURE));
     }
 
-    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName) {
-        return settingsModel.getModularValues(tableName);
-    }
-
     public void onSearchButtonClicked() {
         productSearchView.clearView();
         String productName = productSearchView.getNameSearchText();

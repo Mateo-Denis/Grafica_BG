@@ -32,7 +32,11 @@ public class SettingsPresenter extends StandardPresenter {
 	}
 	private void showValues() {
 		for(SettingsTableNames table : tableNames){
-			settingsView.setModularTable(table, settingsModel.getModularValues(table));
+			if(table == SettingsTableNames.GENERAL){
+				settingsView.setModularTable(table, settingsModel.getGeneralTableAsList(table));
+			} else {
+				ArrayList<String> otherTables = settingsModel.getModularValues(table);
+			}
 		}
 	}
 

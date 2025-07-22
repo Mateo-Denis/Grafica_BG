@@ -262,9 +262,9 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> clothList = presenter.getTableAsArrayList(TELAS);
-        for (Pair<String, Double> pair : clothList) {
-            clothComboBox.addItem(pair.getValue0());
+        ArrayList<String> clothList = presenter.getOtherTablesAsArrayList(TELAS);
+        for (String cloth : clothList) {
+            clothComboBox.addItem(cloth);
         }
     }
 

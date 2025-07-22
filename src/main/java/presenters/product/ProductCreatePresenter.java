@@ -105,10 +105,6 @@ public class ProductCreatePresenter extends ProductPresenter {
         productCreateView.setCategorias(categoriesInSpanish);
     }
 
-    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName) {
-        return settingsModel.getModularValues(tableName);
-    }
-
     @Override
     public double getIndividualPrice(SettingsTableNames tableName, String selectedValue) {
         return Double.parseDouble(settingsModel.getModularValue(tableName, selectedValue));

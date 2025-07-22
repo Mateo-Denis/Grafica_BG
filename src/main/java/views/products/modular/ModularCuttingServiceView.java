@@ -174,9 +174,9 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> list = presenter.getTableAsArrayList(MATERIALES);
-        for (Pair<String, Double> pair : list) {
-            vinylsComboBox.addItem(pair.getValue0());
+        ArrayList<String> list = presenter.getOtherTablesAsArrayList(MATERIALES);
+        for (String material : list) {
+            vinylsComboBox.addItem(material);
         }
     }
 

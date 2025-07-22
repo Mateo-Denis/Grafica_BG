@@ -16,8 +16,12 @@ public abstract class ProductPresenter extends StandardPresenter {
 
     public abstract double getIndividualPrice(SettingsTableNames tableName, String selectedValue);
 
-    public ArrayList<Pair<String, Double>> getTableAsArrayList(SettingsTableNames tableName) {
+    public ArrayList<String> getOtherTablesAsArrayList(SettingsTableNames tableName) {
         return settingsModel.getModularValues(tableName);
+    }
+
+    public ArrayList<Pair<String, Double>> getGeneralTableAsArrayList(SettingsTableNames tableName) {
+        return settingsModel.getGeneralTableAsList(tableName);
     }
 }
 

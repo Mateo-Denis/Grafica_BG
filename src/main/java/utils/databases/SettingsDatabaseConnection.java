@@ -39,7 +39,33 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		}
 	}
 
-	public ArrayList<Pair<String, Double>> getTableAsList(SettingsTableNames tableName) {
+	public ArrayList<String> getOtherTablesAsList(SettingsTableNames tableName) {
+		String sql = "SELECT Nombre FROM " + tableName.getName();
+
+		try (Connection conn = connect();
+			Statement stmt = conn.createStatement()) {
+			stmt.setQueryTimeout(QUERY_TIMEOUT);
+			ResultSet resultSet = stmt.executeQuery(sql);
+
+			ArrayList<String> values = new ArrayList<>();
+			while (resultSet.next()) {
+				if(tableName != GENERAL) {
+					values.add(resultSet.getString("Nombre"));
+				}
+			}
+
+			resultSet.close();
+			stmt.close();
+			conn.close();
+			return values;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
+
+
+	public ArrayList<Pair<String, Double>> getGeneralTableAsList(SettingsTableNames tableName) {
 		String sql = "SELECT * FROM " + tableName.getName();
 
 		try (Connection conn = connect();
@@ -49,8 +75,10 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 
 			ArrayList<Pair<String, Double>> values = new ArrayList<>();
 			while (resultSet.next()) {
-				Pair<String, Double> pair = new Pair<>(resultSet.getString("Nombre"), resultSet.getDouble("Valor"));
-				values.add(pair);
+				if(tableName == GENERAL) {
+					Pair<String, Double> pair = new Pair<>(resultSet.getString("Nombre"), resultSet.getDouble("Valor"));
+					values.add(pair);
+				}
 			}
 
 			resultSet.close();

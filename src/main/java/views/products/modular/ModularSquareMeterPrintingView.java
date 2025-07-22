@@ -194,10 +194,10 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> materialLlist = presenter.getTableAsArrayList(MATERIALES);
-        ArrayList<Pair<String, Double>> dollarList = presenter.getTableAsArrayList(GENERAL);
-        for (Pair<String, Double> pair : materialLlist) {
-            materialComboBox.addItem(pair.getValue0());
+        ArrayList<String> materialLlist = presenter.getOtherTablesAsArrayList(MATERIALES);
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (String material : materialLlist) {
+            materialComboBox.addItem(material);
         }
         for (Pair<String, Double> pair : dollarList) {
             String s = pair.getValue0();
