@@ -63,16 +63,6 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		return new ArrayList<>();
 	}
 
-	public void insertOrUpdate(SettingsTableNames tableName, String field, double value){
-		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor) VALUES ('" + field + "', " + value + ")";
-		try (Connection conn = connect();
-			 Statement stmt = conn.createStatement()) {
-			stmt.setQueryTimeout(QUERY_TIMEOUT);
-			stmt.executeUpdate(sql);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
 
 	public void insertOrUpdateBatch(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException {
 		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor) VALUES (?, ?)";
@@ -88,6 +78,25 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		for (Pair<String, Double> row : rows) {
 			pstmt.setString(1, row.getValue0());
 			pstmt.setDouble(2, row.getValue1());
+			pstmt.addBatch();                   // Add to batch
+		}
+
+		pstmt.executeBatch(); // Execute the batch of SQL statements
+		conn.commit();        // Commit the transaction
+	}
+	public void insertOrUpdateBatchNames(SettingsTableNames tableName, ArrayList<String> rows) throws SQLException {
+		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre) VALUES (?)";
+
+		Connection conn = connect();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		conn.setAutoCommit(false); // Disable auto-commit for batch execution
+
+		pstmt.setQueryTimeout(QUERY_TIMEOUT);
+
+		// Iterate through the list of rows and add each row to the batch
+		for (String row : rows) {
+			pstmt.setString(1, row);
 			pstmt.addBatch();                   // Add to batch
 		}
 

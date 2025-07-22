@@ -12,7 +12,9 @@ public interface ISettingsView extends IToggleableView {
 
 	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues);
 
-	ArrayList<Pair<String, Double>> tableToArrayList(SettingsTableNames tableName) throws NumberFormatException;
+	ArrayList<Pair<String, Double>> generalTableToArrayList() throws NumberFormatException;
+
+	ArrayList<String> normalTableToArrayList(SettingsTableNames tableName);
 
 	JTable getModularTable(SettingsTableNames table);
 

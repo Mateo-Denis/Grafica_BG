@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
 
 import static utils.MessageTypes.*;
 
@@ -48,6 +49,20 @@ public class SettingsPresenter extends StandardPresenter {
 		try {
 			settingsModel.removeRow(tableName, removedField);
 		} catch (NumberFormatException e) {
+			settingsView.showDetailedMessage(SETTINGS_SAVE_FAILURE, SettingsTableNames.valueOf(tableName.getName()));
+		}
+	}
+
+	public void onSaveButtonPressed(SettingsTableNames tableName) {
+		try{
+			if(tableName == SettingsTableNames.GENERAL){
+
+				settingsModel.updateModularValue(SettingsTableNames.GENERAL, settingsView.generalTableToArrayList());
+
+			}else {
+				settingsModel.updateModularNames(tableName, settingsView.normalTableToArrayList(tableName));
+			}
+		}catch (SQLException e){
 			settingsView.showDetailedMessage(SETTINGS_SAVE_FAILURE, SettingsTableNames.valueOf(tableName.getName()));
 		}
 	}

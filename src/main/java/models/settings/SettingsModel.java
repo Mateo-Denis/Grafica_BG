@@ -28,6 +28,10 @@ public class SettingsModel implements ISettingsModel {
 	public void updateModularValue(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException {
 		dbConnection.insertOrUpdateBatch(tableName, rows);
 	}
+	@Override
+	public void updateModularNames(SettingsTableNames tableName, ArrayList<String> names) throws SQLException {
+		dbConnection.insertOrUpdateBatchNames(tableName, names);
+	}
 
 	@Override
 	public ArrayList<SettingsTableNames> getTableNames() {

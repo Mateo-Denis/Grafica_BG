@@ -54,10 +54,10 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
         wrapContainer();
 
-        initTableListeners(generalValuesTable);
-        initTableListeners(clothValuesTable);
-        initTableListeners(serviceValuesTable);
-        initTableListeners(materialsValuesTable);
+        initTableListeners(generalValuesTable, SettingsTableNames.GENERAL);
+        initTableListeners(clothValuesTable, SettingsTableNames.TELAS);
+        initTableListeners(serviceValuesTable, SettingsTableNames.SERVICIOS);
+        initTableListeners(materialsValuesTable, SettingsTableNames.MATERIALES);
 
         relativeSizeAndCenter(windowFrame, 0.7, 0.5);
 
@@ -77,10 +77,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
     @Override
     protected void initListeners() {
-        //UPDATE PRICES:
-
-        //UPDATE PRICES WHEN JBUTTON IS PRESSED:
-
         addClothButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.TELAS));
         addDollarButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.GENERAL));
         addServiceButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.SERVICIOS));
@@ -134,7 +130,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     }
 
 
-    private void initTableListeners(JTable table) {
+    private void initTableListeners(JTable table, SettingsTableNames name) {
 
         // ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
         // ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
@@ -165,7 +161,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                 switch (option) {
                     case JOptionPane.YES_OPTION:
                         // Guardar cambios
-
+                        settingsPresenter.onSaveButtonPressed(name);
                         break;
                     case JOptionPane.NO_OPTION:
                         // Continuar editando
@@ -199,9 +195,9 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                     if (row < table.getRowCount() - 1) {
                         table.changeSelection(row + 1, column, false, false);
                     }
-//                } else if (table.getSelectedRow() == -1 && !table.isEditing()) {
-
+                    settingsPresenter.onSaveButtonPressed(name);
                 } else if (!table.isEditing()) {
+                    settingsPresenter.onSaveButtonPressed(name);
                     // Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
                 }
             }
@@ -307,13 +303,23 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     }
 
     @Override
-    public ArrayList<Pair<String, Double>> tableToArrayList(SettingsTableNames tableName) throws NumberFormatException {
+    public ArrayList<Pair<String, Double>> generalTableToArrayList() throws NumberFormatException {
         ArrayList<Pair<String, Double>> arrayList = new ArrayList<>();
         Object obj;
-        JTable table = getModularTable(tableName);
+        JTable table = getModularTable(SettingsTableNames.GENERAL);
         for (int i = 0; i < table.getRowCount(); i++) {
             obj = table.getValueAt(i, 1);
             arrayList.add(new Pair<>(table.getValueAt(i, 0).toString(), Double.parseDouble(obj.toString())));
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList<String> normalTableToArrayList(SettingsTableNames tableName) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        JTable table = getModularTable(tableName);
+        for (int i = 0; i < table.getRowCount(); i++) {
+            arrayList.add(table.getValueAt(i, 0).toString());
         }
         return arrayList;
     }
