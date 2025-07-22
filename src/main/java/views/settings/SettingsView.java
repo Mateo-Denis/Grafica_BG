@@ -6,7 +6,6 @@ import presenters.settings.SettingsPresenter;
 import utils.MessageTypes;
 import utils.databases.SettingsTableNames;
 import views.ToggleableView;
-import utils.databases.SettingsTableNames.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +13,8 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+
+import static utils.WindowFormatter.relativeSizeAndCenter;
 
 public class SettingsView extends ToggleableView implements ISettingsView {
     private JPanel containerPanel;
@@ -39,6 +40,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     private JButton removeServiceButton;
     private JButton addMaterialButton;
     private JButton removeMaterialButton;
+    private JButton saveButton;
     private JTable profitValuesTable;
     private JTable measuresValuesTable;
     private SettingsPresenter settingsPresenter;
@@ -57,20 +59,8 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         initTableListeners(serviceValuesTable);
         initTableListeners(materialsValuesTable);
 
-        // Obtener el tamaño de la pantalla
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        relativeSizeAndCenter(windowFrame, 0.7, 0.5);
 
-        // Obtener ancho y alto
-        double screenWidth = screenSize.width * 0.69;
-        double screenHeight = screenSize.height * 0.73;
-
-        windowFrame.setSize((int) screenWidth, (int) screenHeight);
-
-        // Calculate position to center the frame
-        int x = (screenSize.width - windowFrame.getWidth()) / 2;
-        int y = (screenSize.height - windowFrame.getHeight()) / 2;
-
-        windowFrame.setLocation(x, y);
         windowFrame.setResizable(false);
 
     }
@@ -90,7 +80,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         //UPDATE PRICES:
 
         //UPDATE PRICES WHEN JBUTTON IS PRESSED:
-        updateDataButton.addActionListener(e -> settingsPresenter.onUpdateDataButtonPressed());
 
         addClothButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.TELAS));
         addDollarButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.GENERAL));
@@ -176,7 +165,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                 switch (option) {
                     case JOptionPane.YES_OPTION:
                         // Guardar cambios
-                        settingsPresenter.onUpdateDataButtonPressed();
+
                         break;
                     case JOptionPane.NO_OPTION:
                         // Continuar editando
@@ -214,7 +203,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
                 } else if (!table.isEditing()) {
                     // Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
-                    settingsPresenter.onUpdateDataButtonPressed();
                 }
             }
         });
@@ -298,19 +286,9 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
     @Override
     public void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> values) {
-        DefaultTableModel model = new DefaultTableModel(new Object[]{"Campo", "Valor"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column != 0; // Disable editing for the index 0 column
-            }
-        };
+        DefaultTableModel model = new DefaultTableModel(new Object[]{"Nombre", "Valor"}, 0);
 
-        DefaultTableModel oneFieldModel = new DefaultTableModel(new Object[]{"Campo"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column != 0; // Disable editing for the index 0 column
-            }
-        };
+        DefaultTableModel oneFieldModel = new DefaultTableModel(new Object[]{"Nombre"}, 0);
 
         // Convert the ArrayList<Pair<String, Double>> into table rows
         for (Pair<String, Double> pair : values) {

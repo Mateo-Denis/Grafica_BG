@@ -19,10 +19,18 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	private void createModularTable(Connection connection, SettingsTableNames tableName) {
-		String generalSQL = "CREATE TABLE IF NOT EXISTS " + tableName.getName() + " (" +
-				"Campo TEXT PRIMARY KEY NOT NULL," +
-				"Valor DOUBLE NOT NULL" +
-				")";
+		String generalSQL;
+		if(tableName == GENERAL){
+			generalSQL = "CREATE TABLE IF NOT EXISTS " + tableName.getName() + " (" +
+					"Nombre TEXT PRIMARY KEY NOT NULL," +
+					"Valor DOUBLE NOT NULL" +
+					")";
+		}else {
+			generalSQL = "CREATE TABLE IF NOT EXISTS " + tableName.getName() + " (" +
+					"Nombre TEXT PRIMARY KEY NOT NULL" +
+					")";
+		}
+
 		try (Statement stmt = connection.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);
 			stmt.execute(generalSQL);
@@ -41,7 +49,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 
 			ArrayList<Pair<String, Double>> values = new ArrayList<>();
 			while (resultSet.next()) {
-				Pair<String, Double> pair = new Pair<>(resultSet.getString("Campo"), resultSet.getDouble("Valor"));
+				Pair<String, Double> pair = new Pair<>(resultSet.getString("Nombre"), resultSet.getDouble("Valor"));
 				values.add(pair);
 			}
 
@@ -56,7 +64,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public void insertOrUpdate(SettingsTableNames tableName, String field, double value){
-		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Campo, Valor) VALUES ('" + field + "', " + value + ")";
+		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor) VALUES ('" + field + "', " + value + ")";
 		try (Connection conn = connect();
 			 Statement stmt = conn.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);
@@ -67,7 +75,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public void insertOrUpdateBatch(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException {
-		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Campo, Valor) VALUES (?, ?)";
+		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor) VALUES (?, ?)";
 
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -97,7 +105,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		}
 
 		for(String tableName : tableNames){
-			String sql = "INSERT OR REPLACE INTO " + tableName + " (Campo, Valor) VALUES (?, ?)";
+			String sql = "INSERT OR REPLACE INTO " + tableName + " (Nombre, Valor) VALUES (?, ?)";
 			Connection conn = connect();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			conn.setAutoCommit(false); // Disable auto-commit for batch execution
@@ -115,7 +123,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public String getModularValue(SettingsTableNames settingsTableNames, String field) {
-		String sql = "SELECT Valor FROM " + settingsTableNames.getName() + " WHERE Campo = '" + field + "'";
+		String sql = "SELECT Valor FROM " + settingsTableNames.getName() + " WHERE Nombre = '" + field + "'";
 		try (Connection conn = connect();
 			 Statement stmt = conn.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);
@@ -137,7 +145,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public void removeRow(SettingsTableNames tableName, String field) {
-		String sql = "DELETE FROM " + tableName.getName() + " WHERE Campo = '" + field + "'";
+		String sql = "DELETE FROM " + tableName.getName() + " WHERE Nombre = '" + field + "'";
 		try (Connection conn = connect();
 			 Statement stmt = conn.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);

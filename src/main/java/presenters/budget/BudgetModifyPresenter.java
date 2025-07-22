@@ -241,10 +241,6 @@ public class BudgetModifyPresenter extends StandardPresenter {
             productAmountStr = "1";
         }
 
-        if(globalClientType.equals("Particular")){
-            recharge = Double.parseDouble(settingsModel.getModularValue(GENERAL, "Recargo por particular"));
-        }
-
         if (unlockedMeasures) {//ONE OR BOTH TEXTFIELDS ARE ENABLED
 
             if (productHeightMeasures.isEmpty()) {

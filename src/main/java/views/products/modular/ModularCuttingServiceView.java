@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.GANANCIAS;
 import static utils.databases.SettingsTableNames.MATERIALES;
 
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {

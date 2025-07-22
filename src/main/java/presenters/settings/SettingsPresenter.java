@@ -34,20 +34,6 @@ public class SettingsPresenter extends StandardPresenter {
 			settingsView.setModularTable(table, settingsModel.getModularValues(table));
 		}
 	}
-	public void onUpdateDataButtonPressed() {
-		boolean foundError = false;
-		for(SettingsTableNames table : tableNames){
-			try{
-				settingsModel.updateModularValue(table, settingsView.tableToArrayList(table));
-			}catch (SQLException | NumberFormatException e){
-				foundError = true;
-				settingsView.showDetailedMessage(SETTINGS_SAVE_FAILURE, table);
-			}
-		}
-		if(!foundError){
-			settingsView.showMessage(SETTINGS_SAVE_SUCCESS);
-		}
-	}
 
 	public void onAddButtonPressed(SettingsTableNames tableName){
 		settingsView.addEmptyRow(tableName);
