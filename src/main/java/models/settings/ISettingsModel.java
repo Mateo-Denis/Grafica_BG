@@ -4,13 +4,12 @@ import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import utils.databases.SettingsTableNames;
 
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public interface ISettingsModel {
-	ArrayList<String> getModularValues(SettingsTableNames tableName);
+	ArrayList<String> getOtherTablesAsList(SettingsTableNames tableName);
 
 	void updateModularValue(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException;
 

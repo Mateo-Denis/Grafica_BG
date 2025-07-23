@@ -281,22 +281,25 @@ public class SettingsView extends ToggleableView implements ISettingsView {
     }
 
     @Override
-    public void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> values) {
+    public void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> values, ArrayList<String> oneFieldValues) {
         DefaultTableModel model = new DefaultTableModel(new Object[]{"Nombre", "Valor"}, 0);
 
         DefaultTableModel oneFieldModel = new DefaultTableModel(new Object[]{"Nombre"}, 0);
-
-        // Convert the ArrayList<Pair<String, Double>> into table rows
-        for (Pair<String, Double> pair : values) {
-            model.addRow(new Object[]{pair.getValue0(), pair.getValue1()});
-        }
 
         JTable table = getModularTable(tableName);
 
         if (tableName.equals(SettingsTableNames.GENERAL)) {
             table.setModel(model);
+            // Convert the ArrayList<Pair<String, Double>> into table rows
+            for (Pair<String, Double> pair : values) {
+                model.addRow(new Object[]{pair.getValue0(), pair.getValue1()});
+            }
         } else {
             table.setModel(oneFieldModel);
+            // Convert the ArrayList<String> into table rows
+            for (String value : oneFieldValues) {
+                oneFieldModel.addRow(new Object[]{value});
+            }
         }
 
         autoResizeColumns(table);

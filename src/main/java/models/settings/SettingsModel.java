@@ -20,7 +20,7 @@ public class SettingsModel implements ISettingsModel {
 	}
 
 	@Override
-	public ArrayList<String> getModularValues(SettingsTableNames tableName){
+	public ArrayList<String> getOtherTablesAsList(SettingsTableNames tableName){
 		return dbConnection.getOtherTablesAsList(tableName);
 	}
 

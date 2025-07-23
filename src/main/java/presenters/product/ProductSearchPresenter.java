@@ -4,6 +4,7 @@ package presenters.product;
 import models.ICategoryModel;
 import models.IProductModel;
 import models.settings.ISettingsModel;
+import models.settings.SettingsModel;
 import org.javatuples.Pair;
 import utils.Attribute;
 import utils.CategoryParser;
@@ -29,6 +30,7 @@ public class ProductSearchPresenter extends ProductPresenter {
     private IModularCategoryView modularView;
 
     public ProductSearchPresenter(ISettingsModel settingsModel, IProductSearchView productSearchView, IProductModel productModel, ICategoryModel categoryModel) {
+        super((SettingsModel) settingsModel);
         this.productSearchView = productSearchView;
         view = productSearchView;
         this.productModel = productModel;

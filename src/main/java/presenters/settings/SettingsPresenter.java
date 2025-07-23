@@ -3,17 +3,12 @@ package presenters.settings;
 import models.settings.ISettingsModel;
 import presenters.StandardPresenter;
 import org.javatuples.Pair;
-import utils.MessageTypes;
 import utils.databases.SettingsTableNames;
 import views.settings.ISettingsView;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
 
 import static utils.MessageTypes.*;
 
@@ -33,9 +28,9 @@ public class SettingsPresenter extends StandardPresenter {
 	private void showValues() {
 		for(SettingsTableNames table : tableNames){
 			if(table == SettingsTableNames.GENERAL){
-				settingsView.setModularTable(table, settingsModel.getGeneralTableAsList(table));
+				settingsView.setModularTable(table, settingsModel.getGeneralTableAsList(table), null);
 			} else {
-				ArrayList<String> otherTables = settingsModel.getModularValues(table);
+				settingsView.setModularTable(table,null, settingsModel.getOtherTablesAsList(table));
 			}
 		}
 	}

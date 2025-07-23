@@ -6,6 +6,7 @@ import static utils.MessageTypes.*;
 import models.IProductModel;
 import models.ICategoryModel;
 import models.settings.ISettingsModel;
+import models.settings.SettingsModel;
 import org.javatuples.Pair;
 
 import java.awt.event.ItemEvent;
@@ -25,6 +26,7 @@ public class ProductCreatePresenter extends ProductPresenter {
     private IModularCategoryView modularView;
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
+        super((SettingsModel) settingsModel);
         this.productCreateView = productCreateView;
         this.settingsModel = settingsModel;
         view = productCreateView;

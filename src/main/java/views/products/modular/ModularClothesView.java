@@ -162,14 +162,20 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
     @Override
     public void loadComboBoxValues() {
-        ArrayList<Pair<String, Double>> materialsList = presenter.getTableAsArrayList(TELAS);
-        ArrayList<Pair<String, Double>> seamstressList = presenter.getTableAsArrayList(SERVICIOS);
+        ArrayList<String> materialsList = presenter.getOtherTablesAsArrayList(TELAS);
+        ArrayList<String> seamstressList = presenter.getOtherTablesAsArrayList(SERVICIOS);
 
-        for (Pair<String, Double> pair : materialsList) {
-            if (pair.getValue0().contains("LINEAL")) materialComboBox.addItem(pair.getValue0());
+        // Limpia los items actuales
+        materialComboBox.removeAllItems();
+        seamstressTypeComboBox.removeAllItems();
+
+        // Agrega los materiales al comboBox
+        for (String material : materialsList) {
+            materialComboBox.addItem(material);
         }
-        for (Pair<String, Double> pair : seamstressList) {
-            if (pair.getValue0().contains("Costurera")) seamstressTypeComboBox.addItem(pair.getValue0());
+        // Agrega los tipos de costurera al comboBox
+        for (String seamstress : seamstressList) {
+            seamstressTypeComboBox.addItem(seamstress);
         }
     }
 
@@ -190,6 +196,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
         textFields.add(printingMetersPriceTextField);
         textFields.add(seamstressPriceTextField);
         textFields.add(profitTextField);
+        textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
             if(presenter instanceof ProductCreatePresenter){

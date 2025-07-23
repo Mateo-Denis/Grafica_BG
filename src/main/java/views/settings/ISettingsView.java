@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public interface ISettingsView extends IToggleableView {
 
-	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues);
+	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues, ArrayList<String> otherValues);
 
 	ArrayList<Pair<String, Double>> generalTableToArrayList() throws NumberFormatException;
 
