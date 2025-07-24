@@ -336,7 +336,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productHeightMeasures = budgetCreateView.getHeightMeasureTextField().getText();
         String productObservations = budgetCreateView.getObservationsTextField().getText();
         boolean unlockedMeasures = CheckMeasureFieldsAreEnabled();
-        double oneItemProductPrice = product.calculateRealTimePrice().getValue0();
+        JTable productsTable = budgetCreateView.getProductsResultTable();
+        int productTableSelectedRow = budgetCreateView.getProductTableSelectedRow();
+        double oneItemProductPrice = Double.parseDouble(budgetCreateView.getProductStringTableValueAt(productTableSelectedRow, 2));
         double totalItemsPrice = 0.0;
         double settingPrice = 0.0;
         String productMeasures = "";

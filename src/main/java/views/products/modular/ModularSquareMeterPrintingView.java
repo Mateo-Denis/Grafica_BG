@@ -201,9 +201,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         }
         for (Pair<String, Double> pair : dollarList) {
             String s = pair.getValue0();
-            if (s.contains("Dólar") || s.contains("Dolar")) {
                 dollarComboBox.addItem(pair.getValue0());
-            }
         }
     }
 

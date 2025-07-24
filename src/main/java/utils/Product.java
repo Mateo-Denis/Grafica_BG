@@ -71,6 +71,21 @@ public class Product {
             }
 
             case 4: { //bandera
+                double clothPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TELA"));
+
+                double printingPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_IMP"));
+                double printingAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_IMP"));
+
+                double seamstressPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "COSTURERA"));
+
+                double plankPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_BAJADA"));
+                double plankAmount = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "CANTIDAD_BAJADA"));
+
+                double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
+
+                double clothWidth = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "ANCHO_TELA"));
+
+                return applyIVA(((clothPrice * clothWidth) + (printingPrice * printingAmount) + seamstressPrice + (plankPrice * plankAmount)) * profit, attributesDBConnection);
 
             }
             case 5: { //prendas
