@@ -35,6 +35,11 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
+    private JPanel cupFinalPriceContainer;
+    private JTextField cupFinalPriceTextField;
+    private JTextField particularFinalPriceTField;
+    private JLabel particularPriceLabel;
+    private JLabel clientPriceLabel;
     private double servicePrice;
     private boolean initialization;
 
