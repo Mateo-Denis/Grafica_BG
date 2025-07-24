@@ -180,6 +180,8 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
                 productResultTable.setValueAt("", row, col);
             }
         }
+        productResultTable.clearSelection();
+        modularContainer.removeAll();
     }
 
     @Override

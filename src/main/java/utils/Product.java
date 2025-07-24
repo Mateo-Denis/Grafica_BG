@@ -45,8 +45,8 @@ public class Product {
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-
-                return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + capV) * profit, attributesDBConnection);            }
+                double price = (plPrice * plAmount) + (printingPrice * printingAmount) + capV;
+                return applyIVA((price + price * profit), attributesDBConnection);            }
             case 2:{//gorra
 
                 double plPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_BAJADA"));
@@ -58,8 +58,8 @@ public class Product {
                 double capV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GORRA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
-
-                return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + capV) * profit, attributesDBConnection);
+                double price = (plPrice * plAmount) + (printingPrice * printingAmount) + capV;
+                return applyIVA(price + (price * profit), attributesDBConnection);
             }
             case 3: { //tela
 
@@ -67,7 +67,7 @@ public class Product {
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-                return applyIVA(clothPrice * profit, attributesDBConnection);
+                return applyIVA(clothPrice + clothPrice * profit, attributesDBConnection);
             }
 
             case 4: { //bandera
@@ -84,8 +84,8 @@ public class Product {
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
                 double clothWidth = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "ANCHO_TELA"));
-
-                return applyIVA(((clothPrice * clothWidth) + (printingPrice * printingAmount) + seamstressPrice + (plankPrice * plankAmount)) * profit, attributesDBConnection);
+                double price = (clothPrice * clothWidth) + (printingPrice * printingAmount) + seamstressPrice + (plankPrice * plankAmount);
+                return applyIVA(price + (price * profit), attributesDBConnection);
 
             }
             case 5: { //prendas
@@ -102,8 +102,8 @@ public class Product {
                 double seamstressV = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "COSTURERA"));
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
-
-                return applyIVA(((plPrice * plAmount) + (printingPrice * printingAmount) + (clothPrice * clothAmount) + seamstressV) * profit, attributesDBConnection);
+                double price = (plPrice * plAmount) + (printingPrice * printingAmount) + (clothPrice * clothAmount) + seamstressV;
+                return applyIVA(price + (price * profit), attributesDBConnection);
 
             }
             case 6: {
@@ -116,34 +116,34 @@ public class Product {
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-                return applyIVA(vinylPrice * profit, attributesDBConnection);
+                return applyIVA(vinylPrice + (vinylPrice * profit), attributesDBConnection);
             }
             case 8: { // impresión lineal
                 double paperPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_PAPEL"));
                 double inkPrice =   Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TINTA"));
                 double profit =     Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-
-                return applyIVA((paperPrice + inkPrice) * profit, attributesDBConnection);
+                double price = (paperPrice + inkPrice);
+                return applyIVA(price + (price * profit), attributesDBConnection);
             }
             case 9: { // impresion por metro cuadrado
 
                 double materialPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_MATERIAL"));
                 double inkPrice = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "PRECIO_TINTA"));
-                String tipoDolar = attributesDBConnection.getAttributeValue(ID, "TIPO_DOLAR");
+                String tipoCambio = attributesDBConnection.getAttributeValue(ID, "TIPO_CAMBIO");
 
                 double dollarV;
-                String dollarS = attributesDBConnection.getAttributeValue(ID, "DOLAR");
+                String dollarS = attributesDBConnection.getAttributeValue(ID, "VALOR_TIPO_CAMBIO");
                 if (Objects.equals(dollarS, "###")) {
-                    dollarV = getIndividualPrice(SettingsTableNames.GENERAL, tipoDolar);
+                    dollarV = getIndividualPrice(SettingsTableNames.GENERAL, tipoCambio);
                 }else {
                     dollarV = Double.parseDouble(dollarS);
                 }
 
                 double profit = Double.parseDouble(attributesDBConnection.getAttributeValue(ID, "GANANCIA")) / 100;
 
-
-                return applyIVA((materialPrice + inkPrice) * dollarV * profit, attributesDBConnection);
+                double price = (materialPrice + inkPrice) * dollarV;
+                return applyIVA(price + (price * profit), attributesDBConnection);
 
             }
             default:

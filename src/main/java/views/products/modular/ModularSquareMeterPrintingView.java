@@ -237,8 +237,8 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         attributes.add(new Attribute("PRECIO_MATERIAL", materialSquareMetersPriceTextField.getText()));
         attributes.add(new Attribute("PRECIO_TINTA", inkBySquareMeterPriceTextField.getText()));
         attributes.add(new Attribute("UV", UVRadioButton.isSelected() ? "SI" : "NO"));
-        attributes.add(new Attribute("DOLAR", "###"));
-        attributes.add(new Attribute("TIPO_DOLAR", (String) dollarComboBox.getSelectedItem()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
