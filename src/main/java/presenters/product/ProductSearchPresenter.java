@@ -60,8 +60,9 @@ public class ProductSearchPresenter extends ProductPresenter {
             int rowCount = 0;
             for (Product product : products) {
                 String categoryName = productModel.getCategoryName(product.getCategoryID());
-                double clientPrice = product.calculateRealTimePrice().getValue0();
-                double particularPrice = product.calculateRealTimePrice().getValue1();
+                Pair<Double, Double> prices = product.calculateRealTimePrice();
+                double clientPrice = prices.getValue0();
+                double particularPrice = prices.getValue1();
                 productSearchView.setStringTableValueAt(rowCount, 0, product.getName());
                 productSearchView.setStringTableValueAt(rowCount, 1, CategoryParser.parseCategory(categoryName));
                 productSearchView.setDoubleTableValueAt(rowCount, 2, clientPrice);
