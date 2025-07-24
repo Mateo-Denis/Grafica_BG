@@ -163,7 +163,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
             float finalPrice = (materialSquareMetersPrice + inkBySquareMeterPrice) * dollarPrice;
 
-            float priceWOiva = finalPrice * (profit / 100);
+            float priceWOiva = finalPrice + (finalPrice * (profit / 100));
             float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
 
             dollarValueTextField.setText(String.valueOf(dollarPrice));

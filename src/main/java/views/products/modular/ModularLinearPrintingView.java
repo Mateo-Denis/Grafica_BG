@@ -149,7 +149,7 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
             float recharge = particularAddTextField.getText().isEmpty() ? 0
                     : Float.parseFloat(particularAddTextField.getText());
 
-            float priceWOIva = (paperMeterPrice + inkByMeterPrice) * (profit / 100);
+            float priceWOIva = (paperMeterPrice + inkByMeterPrice) + ((paperMeterPrice + inkByMeterPrice) * (profit / 100));
             float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
             float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
 

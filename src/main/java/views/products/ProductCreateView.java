@@ -68,7 +68,7 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
 
-        relativeSizeAndCenter(windowFrame, 0.8, 0.7);
+        relativeSizeAndCenter(windowFrame, 0.9, 0.7);
 
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setResizable(true);

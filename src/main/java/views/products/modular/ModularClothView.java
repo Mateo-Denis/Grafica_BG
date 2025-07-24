@@ -157,7 +157,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
             float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-            float priceWOiva = clothMeters * (profit / 100);
+            float priceWOiva = clothMeters + (clothMeters * (profit / 100));
             float priceWiva = priceWOiva + (priceWOiva * iva / 100);
 
             clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));

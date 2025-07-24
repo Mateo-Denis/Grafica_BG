@@ -240,7 +240,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat((String) IVAcombobox.getSelectedItem());
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-                float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100);
+                float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) + ((clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100));
                 float priceWIva = priceWOIva + (priceWOIva * iva / 100);
                 float particularFinalPrice = priceWIva + (priceWIva * recharge / 100);
 

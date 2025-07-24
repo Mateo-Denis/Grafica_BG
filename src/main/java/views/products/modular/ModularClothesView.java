@@ -268,7 +268,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
-                float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100);
+                float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) + ((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100));
                 float priceWIva = priceWOIva + (priceWOIva * (IVA / 100));
 
 

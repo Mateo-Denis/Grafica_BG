@@ -65,7 +65,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
 
         this.productListPresenter = productListPresenter;
         cambiarTamanioFuente(containerPanel, 14);
-        relativeSizeAndCenter(windowFrame, 0.8, 0.9);
+        relativeSizeAndCenter(windowFrame, 0.9, 0.9);
         windowFrame.setResizable(false);
     }
 

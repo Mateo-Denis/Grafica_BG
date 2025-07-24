@@ -199,7 +199,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
                 float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
 
-                float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100);
+                float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) + ((cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100));
                 float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
                 float cupParticularFinalPrice = priceWiva + (priceWiva * (recharge / 100));
 

@@ -265,7 +265,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
 
-                float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100);
+                float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) + ((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100));
 
                 float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * (iva / 100));
                 float finalPrice = priceWithIVA + (priceWithIVA * (recharge / 100));

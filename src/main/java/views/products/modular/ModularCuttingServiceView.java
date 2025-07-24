@@ -145,7 +145,7 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
             float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-            float priceWOIva = vinylCost * (profit/100);
+            float priceWOIva = vinylCost + (vinylCost * (profit/100));
             float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
             float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
 
