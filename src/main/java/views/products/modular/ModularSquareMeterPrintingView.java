@@ -259,10 +259,10 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
         materialComboBox.setSelectedItem(attributes.get("MATERIAL"));
         UVRadioButton.setSelected(Boolean.parseBoolean(attributes.get("UV")));
-        dollarComboBox.setSelectedItem(attributes.get("TIPO_DOLAR"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
         materialSquareMetersPriceTextField.setText(attributes.get("PRECIO_VINILO"));
         inkBySquareMeterPriceTextField.setText(attributes.get("PRECIO_TINTA"));
-        dollarValueTextField.setText(attributes.get("DOLAR"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
         profitTextField.setText(attributes.get("GANANCIA"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
