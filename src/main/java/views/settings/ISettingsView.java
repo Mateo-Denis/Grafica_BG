@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public interface ISettingsView extends IToggleableView {
 
+	boolean confirmDeletion(String rowName);
+
 	void setModularTable(SettingsTableNames tableName, ArrayList<Pair<String, Double>> generalValues, ArrayList<String> otherValues);
 
 	ArrayList<Pair<String, Double>> generalTableToArrayList() throws NumberFormatException;
@@ -22,4 +24,6 @@ public interface ISettingsView extends IToggleableView {
 
 	void addEmptyRow(SettingsTableNames tableName);
 	String removeRow(SettingsTableNames tableName, int rowIndex);
+
+	String getRowName(SettingsTableNames tableName, int selectedRow);
 }

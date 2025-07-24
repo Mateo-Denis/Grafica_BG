@@ -44,7 +44,11 @@ public class SettingsPresenter extends StandardPresenter {
 			settingsView.showMessage(NO_ROW_SELECTED_FOR_DELETION);
 			return;
 		}
-		String removedField = settingsView.removeRow(tableName, selectedRow);
+		String removedField = settingsView.getRowName(tableName, selectedRow);
+		boolean confirmed = settingsView.confirmDeletion(removedField);
+		if (!confirmed) return;
+
+		removedField = settingsView.removeRow(tableName, selectedRow);
 		try {
 			settingsModel.removeRow(tableName, removedField);
 		} catch (NumberFormatException e) {

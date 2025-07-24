@@ -9,6 +9,7 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
@@ -99,7 +100,18 @@ public class SettingsView extends ToggleableView implements ISettingsView {
             case MATERIALES -> tableToAdd = materialsValuesTable;
             default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
         }
+
         DefaultTableModel model = (DefaultTableModel) tableToAdd.getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object cellValue = model.getValueAt(i, 0);
+            if (cellValue == null || cellValue.toString().trim().isEmpty()) {
+                // Ya hay una fila vacía, no agregamos otra
+                focusAndEdit(tableToAdd, i);
+                return;
+            }
+        }
+
         if(tableToAdd == generalValuesTable) {
             model.addRow(new Object[]{"", 0.0});
         } else {
@@ -108,8 +120,22 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
         autoResizeColumns(tableToAdd);
 
-        tableToAdd.editCellAt(model.getRowCount() - 1, 0);
+//        tableToAdd.editCellAt(model.getRowCount() - 1, 0);
+        int lastRow = model.getRowCount() - 1;
+        focusAndEdit(tableToAdd, lastRow);
     }
+
+    private void focusAndEdit(JTable table, int row) {
+        table.requestFocus(); // Asegura que la tabla tenga el foco
+        table.changeSelection(row, 0, false, false); // Selecciona la celda
+        table.editCellAt(row, 0); // Pone la celda en modo edición
+
+        Component editor = table.getEditorComponent();
+        if (editor != null) {
+            editor.requestFocusInWindow(); // Enfoca el editor (ej: JTextField)
+        }
+    }
+
 
     public String removeRow(SettingsTableNames tableName, int rowIndex) {
         JTable tableToRemoveFrom;
@@ -129,11 +155,86 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         return field;
     }
 
+    @Override
+    public boolean confirmDeletion(String rowName) {
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                "¿Estás seguro que quieres borrar '" + rowName + "'?",
+                "Confirmar borrado",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+        return result == JOptionPane.YES_OPTION;
+    }
+
+    @Override
+    public String getRowName(SettingsTableNames tableName, int rowIndex) {
+        JTable tableToGetFrom;
+        switch (tableName) {
+            case GENERAL -> tableToGetFrom = generalValuesTable;
+            case TELAS -> tableToGetFrom = clothValuesTable;
+            case SERVICIOS -> tableToGetFrom = serviceValuesTable;
+            case MATERIALES -> tableToGetFrom = materialsValuesTable;
+            default -> throw new IllegalArgumentException("Invalid table name: " + tableName);
+        }
+        return tableToGetFrom.getValueAt(rowIndex, 0).toString();
+    }
+
 
     private void initTableListeners(JTable table, SettingsTableNames name) {
 
-        // ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
-        // ----> START OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
+
+        table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()) {
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value,
+                                                         boolean isSelected, int row, int column) {
+                JTextField editor = (JTextField) super.getTableCellEditorComponent(table, value, isSelected, row, column);
+
+                // Remove existing action listeners to prevent duplicates
+                for (ActionListener al : editor.getActionListeners()) {
+                    editor.removeActionListener(al);
+                }
+
+                editor.addActionListener(e -> {
+                    stopCellEditing(); // First commit the edit
+
+                    // Then call your custom logic
+                    settingsPresenter.onSaveButtonPressed(name);
+
+                    // Move to the next row if desired
+                    if (row < table.getRowCount() - 1) {
+                        table.changeSelection(row + 1, column, false, false);
+                    }
+                });
+
+                return editor;
+            }
+        });
+
+        table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterPressed");
+
+        table.getActionMap().put("enterPressed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing(); // Confirmamos edición
+
+                    int row = table.getSelectedRow();
+                    int column = table.getSelectedColumn();
+
+                    // Mueve a la siguiente fila si es posible
+                    if (row < table.getRowCount() - 1) {
+                        table.changeSelection(row + 1, column, false, false);
+                    }
+
+                    settingsPresenter.onSaveButtonPressed(name); // Guardar cambios
+                } else {
+                    settingsPresenter.onSaveButtonPressed(name);
+                }
+            }
+        });
+
 
         // Capturar tecla ESC para salir de la edición y deseleccionar la tabla
         table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
@@ -177,34 +278,6 @@ public class SettingsView extends ToggleableView implements ISettingsView {
                 }
             }
         });
-
-// Capturar tecla ENTER para moverse hacia abajo si está editando, o actualizar precios si no hay celda seleccionada
-        table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enterPressed");
-
-
-        table.getActionMap().put("enterPressed", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (table.isEditing()) {
-                    // Confirma la edición y mueve a la siguiente fila
-                    table.getCellEditor().stopCellEditing();
-                    int row = table.getSelectedRow();
-                    int column = table.getSelectedColumn();
-
-                    if (row < table.getRowCount() - 1) {
-                        table.changeSelection(row + 1, column, false, false);
-                    }
-                    settingsPresenter.onSaveButtonPressed(name);
-                } else if (!table.isEditing()) {
-                    settingsPresenter.onSaveButtonPressed(name);
-                    // Si no hay celdas seleccionadas y la edición está desactivada, ejecuta la actualización
-                }
-            }
-        });
-
-        // ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
-        // ----> END OF: SAVING CHANGES WITH ENTER KEY PRESSED: <----//
 
         //IF THE TABLE IS EDITING, STOP EDITING WHEN THE MOUSE IS PRESSED OUTSIDE THE TABLE
         containerPanel.addMouseListener(new MouseAdapter() {
@@ -261,6 +334,12 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         table.setSelectionForeground(table.getForeground());
         table.setShowGrid(true);
         table.setGridColor(Color.LIGHT_GRAY);
+        // Al final de initTableListeners(...)
+        TableCellEditor customEditor = table.getDefaultEditor(Object.class); // Ya contiene tu lógica de Enter
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellEditor(customEditor);
+        }
     }
 
     @Override
