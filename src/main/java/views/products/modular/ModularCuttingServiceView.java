@@ -48,6 +48,9 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
     private JTextField particularFinalPriceTextField;
+    private JPanel dollarPriceContainer;
+    private JComboBox dollarComboBox;
+    private JTextField dollarValueTextField;
     private double vinylPrice;
     private double profit;
     private boolean initialization;

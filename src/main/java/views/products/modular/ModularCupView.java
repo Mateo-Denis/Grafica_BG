@@ -62,7 +62,6 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private JLabel ivaPercentLabel;
     private JPanel IVAComboboxContainer;
     private JComboBox IVAcombobox;
-    private JPanel particularAddContainer;
     private JLabel particularAddSumLabel;
     private JPanel ParticularAddTextFieldContainer;
     private JTextField particularAddTextField;
@@ -70,6 +69,9 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
     private JTextField particularFinalPriceTField;
     private JLabel particularPriceLabel;
     private JLabel clientPriceLabel;
+    private JPanel dollarPriceContainer;
+    private JComboBox dollarComboBox;
+    private JTextField dollarValueTextField;
     private JRadioButton ceramicRadioButton;
     private JRadioButton plasticRadioButton;
     private JRadioButton whiteRadioButton;

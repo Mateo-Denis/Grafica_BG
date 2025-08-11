@@ -90,7 +90,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-        windowFrame.setSize(1000, 700);
         windowFrame.setResizable(true);
         ((AbstractDocument) amountTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) widthMeasureTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
@@ -99,7 +98,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
         if (priceTextArea != null) {
             priceTextArea.setRows(1);
-            priceTextArea.setSize(100, 100);
+            priceTextArea.setSize(100, 20);
             sb = new StringBuilder();
             sb.append("Precio Total: ");
             priceTextArea.setEditable(false);
@@ -112,7 +111,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(1000, 700);
+        windowFrame.setSize(1000, 500);
         windowFrame.setResizable(false);
 
         heightMeasureTextField.setEnabled(false);
@@ -129,6 +128,9 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     protected void initListeners() {
         budgetCreateButton.addActionListener(e -> {
             budgetCreatePresenter.onCreateButtonClicked();
+        });
+        clientTextField.addActionListener(e -> {
+            budgetCreatePresenter.OnSearchClientButtonClicked();
         });
         productSearchButton.addActionListener(e -> budgetCreatePresenter.OnSearchProductButtonClicked());
         addProductButton.addActionListener(e -> budgetCreatePresenter.onAddProductButtonClicked());
@@ -486,7 +488,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceTextArea.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
-        windowFrame.setSize(1000, 700);
+        windowFrame.setSize(1000, 500);
         windowFrame.setResizable(false);
     }
 

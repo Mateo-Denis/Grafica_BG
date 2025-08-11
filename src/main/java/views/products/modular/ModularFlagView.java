@@ -79,6 +79,9 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
     private JTextField particularFinalPriceTextField;
+    private JPanel dollarPriceContainer;
+    private JComboBox dollarComboBox;
+    private JTextField dollarValueTextField;
     private JTextField heightTextField;
     private JComboBox measuresComboBox;
     private JComboBox sizeComboBox;
