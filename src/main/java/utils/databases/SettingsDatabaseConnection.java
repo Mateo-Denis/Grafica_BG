@@ -22,8 +22,9 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		String generalSQL;
 		if(tableName == GENERAL){
 			generalSQL = "CREATE TABLE IF NOT EXISTS " + tableName.getName() + " (" +
-					"Nombre TEXT PRIMARY KEY NOT NULL," +
-					"Valor DOUBLE NOT NULL" +
+					"Nombre TEXT PRIMARY KEY NOT NULL, " +
+					"Valor REAL NOT NULL, " +
+					"Mostrar BOOLEAN NOT NULL DEFAULT TRUE" +
 					")";
 		}else {
 			generalSQL = "CREATE TABLE IF NOT EXISTS " + tableName.getName() + " (" +
@@ -76,8 +77,10 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 			ArrayList<Pair<String, Double>> values = new ArrayList<>();
 			while (resultSet.next()) {
 				if(tableName == GENERAL) {
-					Pair<String, Double> pair = new Pair<>(resultSet.getString("Nombre"), resultSet.getDouble("Valor"));
-					values.add(pair);
+					if (resultSet.getBoolean("Mostrar")) {
+						Pair<String, Double> pair = new Pair<>(resultSet.getString("Nombre"), resultSet.getDouble("Valor"));
+						values.add(pair);
+					}
 				}
 			}
 
@@ -93,7 +96,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 
 
 	public void insertOrUpdateBatch(SettingsTableNames tableName, ArrayList<Pair<String, Double>> rows) throws SQLException {
-		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor) VALUES (?, ?)";
+		String sql = "INSERT OR REPLACE INTO " + tableName.getName() + " (Nombre, Valor, Mostrar) VALUES (?, ?, ?)";
 
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -106,6 +109,7 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 		for (Pair<String, Double> row : rows) {
 			pstmt.setString(1, row.getValue0());
 			pstmt.setDouble(2, row.getValue1());
+			pstmt.setBoolean(3, true);
 			pstmt.addBatch();                   // Add to batch
 		}
 
@@ -182,11 +186,13 @@ public class SettingsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public void removeRow(SettingsTableNames tableName, String field) {
-		String sql = "DELETE FROM " + tableName.getName() + " WHERE Nombre = '" + field + "'";
+		String sql = "UPDATE General SET Mostrar = FALSE WHERE Nombre = '" + field + "'";
 		try (Connection conn = connect();
 			 Statement stmt = conn.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);
 			stmt.executeUpdate(sql);
+			stmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

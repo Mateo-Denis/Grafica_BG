@@ -97,6 +97,9 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         deleteOneProductButton.addActionListener(e -> productSearchPresenter.onDeleteProductButtonClicked());
         productListOpenButton.addActionListener(e -> productListPresenter.onSearchViewOpenListButtonClicked());
         modifyProductButton.addActionListener(e -> productSearchPresenter.onModifyButtonPressed());
+        searchField.addActionListener(e -> {
+            productSearchPresenter.onSearchButtonClicked();
+        });
     }
 
     public void setTableListener(ListSelectionListener listener) {

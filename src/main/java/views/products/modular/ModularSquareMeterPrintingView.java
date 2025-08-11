@@ -149,6 +149,12 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
             }
         });
 
+        dollarComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
+
     }
 
     @Override
