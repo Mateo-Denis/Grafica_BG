@@ -325,8 +325,6 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
-        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
-        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
