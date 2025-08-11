@@ -64,7 +64,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JTextField productTextField;
     private JPanel productTextFieldContainer;
     private JButton productSearchButton;
-    private JPanel productSearchButtonContainer;
     private JButton deleteProductButton;
     private JPanel priceContainer;
     @Getter
