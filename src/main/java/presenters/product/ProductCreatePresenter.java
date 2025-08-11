@@ -54,7 +54,7 @@ public class ProductCreatePresenter extends ProductPresenter {
     public void onHomeCreateProductButtonClicked() {
         productCreateView.showView();
     }
-    
+
     public int onCreateButtonClicked() {
         int idToReturn = -1;
         ArrayList<Attribute> instancedAttribute;
