@@ -281,14 +281,16 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
                 float iva = IVAcombobox.getSelectedItem()==null ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
+                float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
                 float plankLoweringFinalPrice = plankLoweringPrice * plankLoweringAmount;
                 float printingMetersFinalPrice = printingMetersPrice * printingMetersAmount;
 
                 float priceWithoutIVA = (capCost + plankLoweringFinalPrice + printingMetersFinalPrice) + ((capCost + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100));
 
-                float priceWithIVA = priceWithoutIVA + (priceWithoutIVA * (iva / 100));
+                float priceWithIVA = (priceWithoutIVA + (priceWithoutIVA * (iva / 100))) * dollarPrice;
                 float finalPrice = priceWithIVA + (priceWithIVA * (recharge / 100));
+                dollarValueTextField.setText(String.valueOf(dollarPrice));
                 clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWithIVA)));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
