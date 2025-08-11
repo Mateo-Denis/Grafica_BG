@@ -201,6 +201,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
                 float cupPrice = cupPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(cupPriceTextField.getText());
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
+                float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
                 float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
@@ -209,9 +210,10 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
                 float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
 
                 float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) + ((cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100));
-                float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
+                float priceWiva = (priceWOiva + (priceWOiva * (iva / 100))) * dollarPrice;
                 float cupParticularFinalPrice = priceWiva + (priceWiva * (recharge / 100));
 
+                dollarValueTextField.setText(String.valueOf(dollarPrice));
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
                 cupFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
@@ -271,7 +273,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("PRECIO_BAJADA", plankLoweringPriceTextField.getText()));
 
         attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
-
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));

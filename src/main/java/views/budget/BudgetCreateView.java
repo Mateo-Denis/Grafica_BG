@@ -20,6 +20,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import utils.MultiLineHeaderRenderer;
 
+import static utils.WindowFormatter.relativeSizeAndCenter;
+
 public class BudgetCreateView extends ToggleableView implements IBudgetCreateView {
     private JPanel containerPanel;
     private JPanel clientSearchingContainer;
@@ -97,7 +99,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
         if (priceTextArea != null) {
             priceTextArea.setRows(1);
-            priceTextArea.setSize(100, 20);
             sb = new StringBuilder();
             sb.append("Precio Total: ");
             priceTextArea.setEditable(false);
@@ -110,7 +111,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        windowFrame.setSize(1000, 500);
+        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
         windowFrame.setResizable(false);
 
         heightMeasureTextField.setEnabled(false);
@@ -194,7 +195,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public void restartWindow() {
-        windowFrame.setSize(1000, 700);
+        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
+        //windowFrame.setSize(1000, 700);
         sb.setLength(0);
         sb.append("Precio Total: ");
         priceTextArea.setEditable(false);
@@ -487,7 +489,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceTextArea.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
-        windowFrame.setSize(1000, 500);
+        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
         windowFrame.setResizable(false);
     }
 
@@ -498,7 +500,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetCreationButtonsContainer.setVisible(true);
         //priceContainer.setVisible(true);
         priceTextArea.setVisible(true);
-        windowFrame.setSize(1000, 700);
+        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
         windowFrame.setResizable(false);
     }
 

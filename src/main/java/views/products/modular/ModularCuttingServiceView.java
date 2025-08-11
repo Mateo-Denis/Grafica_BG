@@ -151,14 +151,16 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
 
             float vinylCost = vinylCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(vinylCostTextField.getText());
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
             float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(IVAcombobox.getSelectedItem().toString());
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-            float priceWOIva = vinylCost + (vinylCost * (profit/100));
+            float priceWOIva = (vinylCost + (vinylCost * (profit/100))) * dollarPrice;
             float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
             float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
 
+            dollarValueTextField.setText(String.valueOf(dollarPrice));
             cuttingServiceFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
             particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(finalParticularPrice)));
 
@@ -223,6 +225,8 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("PRECIO_VINILO", vinylCostTextField.getText()));
         attributes.add(new Attribute("VINILO", getVinylTypeSelected()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));

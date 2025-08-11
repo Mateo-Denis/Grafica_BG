@@ -165,10 +165,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
             float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
             float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
             float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
-            float priceWOiva = clothMeters + (clothMeters * (profit / 100));
+            float priceWOiva = (clothMeters + (clothMeters * (profit / 100))) * dollarPrice;
             float priceWiva = priceWOiva + (priceWOiva * iva / 100);
 
+            dollarValueTextField.setText(String.valueOf(dollarPrice));
             clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
             clothFinalPriceTextField.setText(truncateAndRound(String.valueOf( priceWiva + ( priceWiva * recharge / 100))));
         } catch (NumberFormatException | NullPointerException e) {
@@ -222,6 +224,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("PRECIO_TELA", clothMetersPriceTextField.getText()));
         attributes.add(new Attribute("TELA", getClothComboBoxSelection()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));

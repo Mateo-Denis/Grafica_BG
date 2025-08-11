@@ -158,11 +158,13 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
                     : Float.parseFloat(IVAcombobox.getSelectedItem().toString().replace("%", ""));
             float recharge = particularAddTextField.getText().isEmpty() ? 0
                     : Float.parseFloat(particularAddTextField.getText());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
-            float priceWOIva = (paperMeterPrice + inkByMeterPrice) + ((paperMeterPrice + inkByMeterPrice) * (profit / 100));
+            float priceWOIva = ((paperMeterPrice + inkByMeterPrice) + ((paperMeterPrice + inkByMeterPrice) * (profit / 100))) * dollarPrice;
             float priceWIva = priceWOIva + (priceWOIva * (iva / 100));
             float finalParticularPrice = priceWIva + (priceWIva * (recharge / 100));
 
+            dollarValueTextField.setText(String.valueOf(dollarPrice));
             finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
             finalParticularPriceTextField.setText(truncateAndRound(String.valueOf(finalParticularPrice)));
 
@@ -224,6 +226,8 @@ public class ModularLinearPrintingView extends JPanel implements IModularCategor
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("PRECIO_PAPEL", paperMeterPriceTextField.getText()));
         attributes.add(new Attribute("PRECIO_TINTA", inkByMeterPriceTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));

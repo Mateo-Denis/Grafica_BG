@@ -241,6 +241,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float printingMetersAmount = printingMetersAmountTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersAmountTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
+                float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
                 float clothPrice = width * metersPrice;
                 float plankLoweringPriceTotal = plankLoweringAmount * plankLoweringPrice;
@@ -250,14 +251,14 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
                 float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) + ((clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100));
-                float priceWIva = priceWOIva + (priceWOIva * iva / 100);
+                float priceWIva = (priceWOIva + (priceWOIva * iva / 100)) * dollarPrice;
                 float particularFinalPrice = priceWIva + (priceWIva * recharge / 100);
 
 
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringPriceTotal));
                 printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersPriceTotal));
                 clothFinalPriceTextField.setText(String.valueOf(clothPrice));
-
+                dollarValueTextField.setText(String.valueOf(dollarPrice));
                 flagFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
                 particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(particularFinalPrice)));
 
@@ -319,6 +320,8 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("PRECIO_IMP", printingMetersPriceTextField.getText()));
         attributes.add(new Attribute("TELA", getFlagComboBoxSelection()));
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));

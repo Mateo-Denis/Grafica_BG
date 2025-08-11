@@ -163,7 +163,6 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
     @Override
     public void loadComboBoxValues() {
         ArrayList<String> materialsList = presenter.getOtherTablesAsArrayList(TELAS);
-        ArrayList<String> seamstressList = presenter.getOtherTablesAsArrayList(SERVICIOS);
 
         // Limpia los items actuales
         materialComboBox.removeAllItems();
@@ -174,9 +173,9 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             materialComboBox.addItem(material);
         }
         // Agrega los tipos de costurera al comboBox
-        for (String seamstress : seamstressList) {
-            seamstressTypeComboBox.addItem(seamstress);
-        }
+        seamstressTypeComboBox.addItem("Remera");
+        seamstressTypeComboBox.addItem("Buzo");
+
 
         ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
         for (Pair<String, Double> pair : dollarList) {
@@ -267,6 +266,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             float clothMetersPrice = clothMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(clothMetersPriceTextField.getText());
             float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
             float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
+            float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 
             float clothMetersFinalPrice = clothMetersAmount * clothMetersPrice;
             float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
@@ -281,9 +281,9 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
                 plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
                 float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
                 float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) + ((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100));
-                float priceWIva = priceWOIva + (priceWOIva * (IVA / 100));
+                float priceWIva = (priceWOIva + (priceWOIva * (IVA / 100))) * dollarPrice;
 
-
+                dollarValueTextField.setText(String.valueOf(dollarPrice));
                 finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
                 particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva + (priceWIva * (particularAdd / 100)))));
                 isCalculating = false;
@@ -325,11 +325,11 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("COSTURERA", seamstressPriceTextField.getText()));
         attributes.add(new Attribute("TELA", (String) materialComboBox.getSelectedItem()));
         attributes.add(new Attribute("TIPO_COSTURERA", (String) seamstressTypeComboBox.getSelectedItem()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
-        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
-        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.GENERAL;
 import static utils.databases.SettingsTableNames.SERVICIOS;
 
@@ -37,7 +38,7 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
     private JTextField particularAddTextField;
     private JLabel particularAddPercentLabel;
     private JPanel cupFinalPriceContainer;
-    private JTextField cupFinalPriceTextField;
+    private JTextField clientFinalPriceTextField;
     private JTextField particularFinalPriceTField;
     private JLabel particularPriceLabel;
     private JLabel clientPriceLabel;
@@ -125,7 +126,17 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
     @Override
     public void calculateDependantPrices() {
+        float servicePrice = serviceCostTextField.getText().isEmpty() ? 0 : Float.parseFloat(serviceCostTextField.getText());
+        float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
+        float iva = String.valueOf(IVAcombobox.getSelectedItem()).isEmpty() ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+        float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
+        float priceWOiva = (servicePrice) * dollarPrice;
+
+        float priceWiva = priceWOiva + (priceWOiva * (iva / 100));
+        dollarValueTextField.setText(String.valueOf(dollarPrice));
+        clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
+        particularFinalPriceTField.setText(truncateAndRound(String.valueOf(priceWiva + (priceWiva * (recharge / 100)))));
     }
 
     @Override
@@ -187,10 +198,10 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         ArrayList<Attribute> attributes = new ArrayList<>();
         attributes.add(new Attribute("SERVICIO", serviceCostTextField.getText()));
         attributes.add(new Attribute("TIPO_SERVICIO", getServiceTypeSelected()));
-        attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
-        attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
         attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
         attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
+        attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
+        attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
         return attributes;
     }
 
@@ -211,7 +222,6 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         particularAddTextField.setText(attributes.get("RECARGO"));
         dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
         dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
-
 
     }
 
