@@ -42,18 +42,8 @@ public class ProductCreatePresenter extends ProductPresenter {
                 modularView = productCreateView.getModularView();
                 modularView.loadComboBoxValues();
                 setModularPrices();
-                SetModularPriceTextFields(modularView);
             }
         });
-    }
-
-    public void SetModularPriceTextFields(IModularCategoryView paramModularView)
-    {
-            modularView.comboBoxListenerSet(e -> {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    paramModularView.setPriceTextFields();
-                }
-            });
     }
 
     public void initListeners() {
@@ -64,11 +54,7 @@ public class ProductCreatePresenter extends ProductPresenter {
     public void onHomeCreateProductButtonClicked() {
         productCreateView.showView();
     }
-
-/*    private void updatePriceField(double price) {
-        productCreateView.setProductPriceField(Double.toString(price));
-    }*/
-
+    
     public int onCreateButtonClicked() {
         int idToReturn = -1;
         ArrayList<Attribute> instancedAttribute;
