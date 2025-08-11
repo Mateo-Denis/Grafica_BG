@@ -150,6 +150,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
                 calculateDependantPrices();
             }
         });
+
+        dollarComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -179,6 +185,12 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         ArrayList<String> list = presenter.getOtherTablesAsArrayList(TELAS);
         for (String cloth : list) {
             clothComboBox.addItem(cloth);
+        }
+
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
         }
     }
 
@@ -213,6 +225,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
@@ -232,6 +246,8 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
         profitTextField.setText(attributes.get("GANANCIA"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
     }
 
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static utils.databases.SettingsTableNames.GENERAL;
 import static utils.databases.SettingsTableNames.SERVICIOS;
 
 public class ModularCommonServicesView extends JPanel implements IModularCategoryView {
@@ -113,6 +114,12 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
                     SwingUtilities.invokeLater(this::calculateDependantPrices);
                 }
             });
+
+            dollarComboBox.addItemListener(e -> {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    calculateDependantPrices();
+                }
+            });
         }
     }
 
@@ -142,6 +149,12 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
 
         for (String service : serviceList) {
             serviceTypeComboBox.addItem(service);
+        }
+
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
         }
     }
 
@@ -176,6 +189,8 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         attributes.add(new Attribute("TIPO_SERVICIO", getServiceTypeSelected()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
@@ -194,6 +209,8 @@ public class ModularCommonServicesView extends JPanel implements IModularCategor
         serviceTypeComboBox.setSelectedItem(attributes.get("TIPO_SERVICIO"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
 
 
     }

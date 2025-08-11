@@ -1,6 +1,7 @@
 package views.products.modular;
 
 import lombok.Getter;
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductPresenter;
@@ -182,6 +183,12 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
             }
         });
 
+        dollarComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
+
     }
 
     @Override
@@ -220,7 +227,11 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
     @Override
     public void loadComboBoxValues() {
-
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
+        }
     }
 
     @Override
@@ -264,6 +275,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
 
         return attributes;
     }
@@ -287,6 +300,8 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
         profitTextField.setText(attributes.getOrDefault("GANANCIA", "0"));
         particularAddTextField.setText(attributes.getOrDefault("RECARGO", "0"));
         IVAcombobox.setSelectedItem(attributes.getOrDefault("IVA", "0"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
 
     }
 

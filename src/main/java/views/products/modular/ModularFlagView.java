@@ -221,6 +221,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 calculateDependantPrices();
             }
         });
+
+        dollarComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -269,6 +275,12 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         for (String cloth : clothList) {
             clothComboBox.addItem(cloth);
         }
+
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
+        }
     }
 
     @Override
@@ -310,6 +322,8 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
@@ -335,6 +349,8 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
         printingMetersPriceTextField.setText(attributes.get("PRECIO_IMP"));
         seamstressPriceTextField.setText(attributes.get("COSTURERA"));
         widthTextField.setText(attributes.get("ANCHO_TELA"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
     }
 
     private String getFlagComboBoxSelection() {

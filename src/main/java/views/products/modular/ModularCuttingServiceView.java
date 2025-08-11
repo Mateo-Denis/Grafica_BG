@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
+import static utils.databases.SettingsTableNames.GENERAL;
 import static utils.databases.SettingsTableNames.MATERIALES;
 
 public class ModularCuttingServiceView extends JPanel implements IModularCategoryView {
@@ -136,6 +137,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
                 calculateDependantPrices();
             }
         });
+
+        dollarComboBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
     }
 
     @Override
@@ -181,6 +188,12 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
         for (String material : list) {
             vinylsComboBox.addItem(material);
         }
+
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
+        }
     }
 
     @Override
@@ -213,6 +226,8 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
@@ -232,6 +247,8 @@ public class ModularCuttingServiceView extends JPanel implements IModularCategor
         profitTextField.setText(attributes.get("GANANCIA"));
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
     }
 
     private String getVinylTypeSelected() {

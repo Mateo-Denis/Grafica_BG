@@ -2,6 +2,7 @@ package views.products.modular;
 
 import lombok.Getter;
 import net.miginfocom.swing.MigLayout;
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductPresenter;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
+import static utils.databases.SettingsTableNames.GENERAL;
 
 public class ModularCapView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -136,7 +138,11 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void loadComboBoxValues() {
-
+        ArrayList<Pair<String, Double>> dollarList = presenter.getGeneralTableAsArrayList(GENERAL);
+        for (Pair<String, Double> pair : dollarList) {
+            String s = pair.getValue0();
+            dollarComboBox.addItem(pair.getValue0());
+        }
     }
 
     @Override
@@ -182,6 +188,9 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         attributes.add(new Attribute("GANANCIA", profitTextField.getText()));
         attributes.add(new Attribute("IVA", String.valueOf(IVAcombobox.getSelectedItem())));
         attributes.add(new Attribute("RECARGO", particularAddTextField.getText()));
+
+        attributes.add(new Attribute("VALOR_TIPO_CAMBIO", "###"));
+        attributes.add(new Attribute("TIPO_CAMBIO", (String) dollarComboBox.getSelectedItem()));
         return attributes;
     }
 
@@ -203,6 +212,8 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         IVAcombobox.setSelectedItem(attributes.get("IVA"));
         particularAddTextField.setText(attributes.get("RECARGO"));
         profitTextField.setText(attributes.get("GANANCIA"));
+        dollarValueTextField.setText(attributes.get("VALOR_TIPO_CAMBIO"));
+        dollarComboBox.setSelectedItem(attributes.get("TIPO_CAMBIO"));
     }
 
     public void initListeners() {
@@ -246,6 +257,12 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         }
 
         IVAcombobox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                calculateDependantPrices();
+            }
+        });
+
+        dollarComboBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 calculateDependantPrices();
             }
