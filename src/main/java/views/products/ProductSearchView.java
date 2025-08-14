@@ -16,7 +16,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +47,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     private JPanel modularContainer;
     private JButton modifyProductButton;
     private JPanel modifyProductButtonContainer;
+    private JTextField newProductNameTextField;
     private JButton deleteAllProductsButton;
     private ProductSearchPresenter productSearchPresenter;
     private ProductPresenter productPresenter;
@@ -105,6 +105,15 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public void setTableListener(ListSelectionListener listener) {
         productResultTable.getSelectionModel().addListSelectionListener(listener);
         productResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        //Add listener to all rows. When a row is selected, the listener will trigger the method "ChargeProductNameOnTextField".
+        productResultTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                if(getSelectedTableRow() != -1){
+                    ChargeProductNameOnTextField();
+                }
+            }
+        });
     }
 
     private void setModularPrices() {
@@ -139,6 +148,14 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         modularContainer.repaint();
     }
 
+    public void clearModularView() {
+        modularContainer.removeAll();
+        modularContainer.revalidate();
+        modularContainer.repaint();
+        newProductNameTextField.setText("");
+        modularView = null;
+    }
+
     public IModularCategoryView getCorrespondingModularView(String category) {
         IModularCategoryView correspondingModularView = null;
         Map<String, IModularCategoryView> panelesCategorias = getCategoryPanelsMap();
@@ -151,6 +168,11 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
             }
         }
         return correspondingModularView;
+    }
+
+    public void ChargeProductNameOnTextField() {
+        Object selectedProductName = productResultTable.getValueAt(getSelectedTableRow(), 0);
+        newProductNameTextField.setText((String) selectedProductName);
     }
 
     public Map<String, IModularCategoryView> getCategoryPanelsMap() {
@@ -190,6 +212,10 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     public String getNameSearchText() {
         return searchField.getText();
+    }
+
+    public JTextField getNewProductNameTextField() {
+        return newProductNameTextField;
     }
 
     public void setStringTableValueAt(int row, int col, String value) {

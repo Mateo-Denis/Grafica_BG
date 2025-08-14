@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IProductModel {
-    int createProduct(String productName, int categoryID);
+    int createProduct(String productName, int categoryID, boolean isModify);
 
     void addProductCreationSuccessListener(ProductCreationSuccessListener listener);
     void addProductCreationFailureListener(ProductCreationFailureListener listener);
@@ -21,7 +21,7 @@ public interface IProductModel {
     void queryProducts(String searchedName, String category);
     ArrayList<Product> getLastProductsQuery();
     int getProductID(String productName);
-    void deleteOneProduct(int productID);
+    void deleteOneProduct(int productID, boolean isModify);
     void deleteMultipleProducts(List<Integer> productIDs);
     //void deleteAllVisibleProducts(ArrayList<String> visibleProductNames);
     String getCategoryName(int categoryID);
@@ -32,4 +32,5 @@ public interface IProductModel {
     Product getOneProduct(int productID);
     Map<String, String> getProductAttributes(int productID);
     void DeleteProductAttributes(int productID);
+    void updateProductName(int productID, String newName);
 }

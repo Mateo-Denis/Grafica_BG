@@ -28,4 +28,6 @@ public interface IProductSearchView extends IToggleableView {
     IModularCategoryView getModularView();
     void hideModularView();
     void appearModularView();
+    JTextField getNewProductNameTextField();
+    void clearModularView();
 }

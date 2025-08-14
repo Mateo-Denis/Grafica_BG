@@ -97,13 +97,15 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void deleteOneProductFromDB(int productID) throws SQLException {
+    public void deleteOneProductFromDB(int productID, boolean isModify) throws SQLException {
             String sql = "DELETE FROM Productos WHERE ID = ?";
             try (Connection conn = connect();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, productID);
                 pstmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Producto eliminado con éxito!");
+                if(!isModify) {
+                    JOptionPane.showMessageDialog(null, "Producto eliminado con éxito!");
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al eliminar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
                 System.out.println(e.getMessage());
@@ -187,13 +189,12 @@ public class ProductsDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void insertProductWithAttributes(String productID, String attributeID, String value) {
-        String SQL = "INSERT INTO PRODUCTO_CON_ATRIBUTO (ID_PRODUCTO, ID_ATRIBUTO, VALOR) VALUES (?, ?, ?)";
+    public void updateProductName(int productID, String newName) throws SQLException {
+        String sql = "UPDATE Productos SET Nombre = ? WHERE ID = ?";
         try (Connection conn = connect();
-             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-            pstmt.setInt(1, Integer.parseInt(productID));
-            pstmt.setInt(2, Integer.parseInt(attributeID));
-            pstmt.setString(3, value);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, productID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

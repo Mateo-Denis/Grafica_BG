@@ -106,12 +106,13 @@ public class ProductSearchPresenter extends ProductPresenter {
             if (rowValue != null && !rowValue.equals("")) {
                 String selectedProductName = (String) rowValue;
                 productID = productModel.getProductID(selectedProductName);
-                productModel.deleteOneProduct(productID);
+                productModel.deleteOneProduct(productID, false);
                 productSearchView.setWorkingStatus();
                 productSearchView.clearView();
                 String searchedName = productSearchView.getNameSearchText();
                 productModel.queryProducts(searchedName, "Seleccione una categoría");
                 productSearchView.deselectAllRows();
+                productSearchView.clearModularView();
                 productSearchView.setWaitingStatus();
             } else {
                 productSearchView.showMessage(PRODUCT_DELETION_FAILURE);
@@ -149,22 +150,44 @@ public class ProductSearchPresenter extends ProductPresenter {
     public void onModifyButtonPressed(){
         int selectedRow = productSearchView.getProductResultTable().getSelectedRow();
         ArrayList<Attribute> attributes = new ArrayList<>();
+        JTextField newProductNameTextField = productSearchView.getNewProductNameTextField();
+
         if (selectedRow != -1) {
 
             String selectedCategory = (String) productSearchView.getProductResultTable().getValueAt(selectedRow, 1);
             String englishCategory = CategoryParser.getProductCategoryEnglish(selectedCategory);
 
+            String newProductName = newProductNameTextField.getText();
+            if (newProductName.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un nombre para el producto!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String selectedProductName = (String) productSearchView.getProductResultTable().getValueAt(selectedRow, 0);
             int categoryID = categoryModel.getCategoryID(englishCategory);
             attributes = modularView.getAttributes();
 
-            productModel.deleteOneProduct(productModel.getProductID(selectedProductName));
-            productModel.createProduct(selectedProductName, categoryID);
+            productModel.deleteOneProduct(productModel.getProductID(selectedProductName), true);
+            productModel.createProduct(selectedProductName, categoryID, true);
             int newproductID = productModel.getProductID(selectedProductName);
+
+            updateProductName(newproductID, newProductName);
             productModel.instantiateProductAttributes(newproductID, attributes, categoryID);
 
-            productSearchView.hideModularView();
+            //Show a message to the user
+            JOptionPane.showMessageDialog(null, "Producto modificado con éxito!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
+            productSearchView.hideModularView();
+            productSearchView.clearModularView();
+            onSearchButtonClicked(); //REFRESH THE TABLE WITH THE NEW PRODUCT
+
+        }
+    }
+
+    public void updateProductName(int productID, String newName) {
+        Product product = productModel.getOneProduct(productID);
+        if (product != null) {
+            productModel.updateProductName(productID, newName);
         }
     }
 }

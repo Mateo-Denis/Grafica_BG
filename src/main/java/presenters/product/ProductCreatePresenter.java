@@ -70,7 +70,7 @@ public class ProductCreatePresenter extends ProductPresenter {
             }
         } else {
             String productName = productCreateView.getProductName();
-            int productID = productModel.createProduct(productName, categoryID);
+            int productID = productModel.createProduct(productName, categoryID, false);
             instancedAttribute = modularView.getAttributes();
             productModel.instantiateProductAttributes(productID, instancedAttribute, categoryID);
             idToReturn = productID;

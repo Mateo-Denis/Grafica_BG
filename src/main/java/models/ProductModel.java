@@ -43,10 +43,20 @@ public class ProductModel implements IProductModel {
         this.productSearchFailureListeners = new LinkedList<>();
     }
 
-    public int createProduct(String productName, int categoryID) {
+    public void updateProductName(int productID, String newName) {
+        try {
+            productsDBConnection.updateProductName(productID, newName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int createProduct(String productName, int categoryID, boolean isModify) {
         try {
             int productID = productsDBConnection.insertProduct(productName, categoryID);
-            notifyProductCreationSuccess();
+            if(!isModify){
+                notifyProductCreationSuccess();
+            }
             return productID;
         } catch (Exception e) {
             notifyProductCreationFailure();
@@ -90,9 +100,9 @@ public class ProductModel implements IProductModel {
     }
 
     @Override
-    public void deleteOneProduct(int oneProductID) {
+    public void deleteOneProduct(int oneProductID, boolean isModify) {
         try {
-            productsDBConnection.deleteOneProductFromDB(oneProductID);
+            productsDBConnection.deleteOneProductFromDB(oneProductID, isModify);
             attributesDBConnection.deleteProductAttributesByID(oneProductID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
