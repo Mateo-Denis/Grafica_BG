@@ -145,6 +145,10 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
         productSearchButton.addActionListener(e -> budgetModifyPresenter.OnSearchProductButtonClicked());
 
+        productTextField.addActionListener(e -> budgetModifyPresenter.OnSearchProductButtonClicked());
+
+        clientTextField.addActionListener(e -> budgetModifyPresenter.OnSearchClientButtonClicked());
+
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -344,7 +348,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     }
 
     private void SetBudgetTableModel() {
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

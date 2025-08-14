@@ -138,6 +138,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         addClientButton.addActionListener(e -> budgetCreatePresenter.onAddClientButtonClicked());
         clientSearchButton.addActionListener(e -> budgetCreatePresenter.OnSearchClientButtonClicked());
         clientSelectedCheckBox.addItemListener(e -> budgetCreatePresenter.onClientSelectedCheckBoxClicked());
+        productTextField.addActionListener(e -> budgetCreatePresenter.OnSearchProductButtonClicked());
+        clientTextField.addActionListener(e -> budgetCreatePresenter.OnSearchClientButtonClicked());
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -250,6 +252,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 }
 
                 dataArray = new String[]{budgetProductName, String.valueOf(budgetProductAmount), budgetProductMeasures, budgetProductObservations, String.valueOf(budgetProductPrice)};
+
                 filledRowsData.add(dataArray);
 
             }
@@ -358,7 +361,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public void SetPreviewTableModel() {
-        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio Unitario", "Cliente / Particular"}, 200) {
+        previewTableModel = new DefaultTableModel(new Object[]{"Nombre del Cliente", "Nombre del producto", "Cantidad del producto", "Medidas", "Observaciones", "Precio", "Cliente / Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

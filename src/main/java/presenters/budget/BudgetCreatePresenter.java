@@ -415,9 +415,20 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
+            double productMeasures = 1;
+            if(!oneProduct.get(2).equals("-")){
+                if(oneProduct.get(2).contains("x")){
+                    String[] measures = oneProduct.get(2).split("m x ");
+                    measures[1] = measures[1].replace("m", "");
+                    productMeasures = (Double.parseDouble(measures[0]) * Double.parseDouble(measures[1]));
+                } else {
+                    String measure = oneProduct.get(2).replace("m", "");
+                    productMeasures = Double.parseDouble(measure);
+                }
+            }
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
             productPrice = isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
-            totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
+            totalPrice = productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures;
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
             productRowData.add(row);

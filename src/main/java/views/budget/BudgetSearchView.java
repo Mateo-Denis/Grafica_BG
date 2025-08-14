@@ -92,6 +92,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked(getSelectedBudgetNumber()));
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
         modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(isTheRowFilled(), getSelectedTableRow(), getSelectedBudgetNumber()));
+        searchField.addActionListener(e  -> budgetSearchPresenter.onSearchButtonClicked());
     }
 
     public void setStringTableValueAt(int row, int col, String value) {
