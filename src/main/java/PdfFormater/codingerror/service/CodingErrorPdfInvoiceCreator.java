@@ -41,7 +41,7 @@ public class CodingErrorPdfInvoiceCreator {
         this.pdfName=pdfName;
     }
 
-    public void createDocument() throws FileNotFoundException {
+    public String createDocument() throws FileNotFoundException {
         String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/";
         File pdfsFolder = new File(fileDir);
         if (!pdfsFolder.exists()) {
@@ -62,6 +62,7 @@ public class CodingErrorPdfInvoiceCreator {
         pdfDocument = new PdfDocument(pdfWriter);
         pdfDocument.setDefaultPageSize(PageSize.A4);
         this.document = new Document(pdfDocument);
+        return pdfFinalPath;
     }
 
     public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {

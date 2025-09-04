@@ -6,7 +6,10 @@ import PdfFormater.codingerror.model.Product;
 import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
 import utils.Client;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class PdfConverter implements IPdfConverter{
         }
         String imagePath="src/main/resources/BGLogo.png";
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
-        cepdf.createDocument();
+        String finalPath = cepdf.createDocument();
 
         //Create Header start
         HeaderDetails header=new HeaderDetails();
@@ -80,5 +83,16 @@ public class PdfConverter implements IPdfConverter{
         cepdf.createTnc(TncList,false,imagePath);
         // Term and condition end
 
+        try {
+            File pdf = new File(finalPath);
+            if (pdf.exists()) {
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(pdf); // Opens with system default viewer
+            } else {
+                System.out.println("File not found!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
