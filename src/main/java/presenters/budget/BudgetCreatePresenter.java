@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.GENERAL;
 
 
@@ -368,8 +369,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 meters = Double.parseDouble(productHeightMeasures);
             }
 
-            totalItemsPrice = oneItemProductPrice * Integer.parseInt(productAmountStr) * meters;
-            settingPrice = oneItemProductPrice * meters;
+            totalItemsPrice = Double.parseDouble(truncateAndRound(String.valueOf(oneItemProductPrice * Integer.parseInt(productAmountStr) * meters)));
+            settingPrice = Double.parseDouble(truncateAndRound(String.valueOf(oneItemProductPrice * meters)));
 
         } else { //NONE OF THE TEXTFIELDS ARE ENABLED
             productMeasures = "-";
@@ -427,8 +428,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 }
             }
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
-            totalPrice = productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures;
+            productPrice = Double.parseDouble(truncateAndRound(String.valueOf(isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1())));
+            totalPrice = Double.parseDouble(truncateAndRound(String.valueOf(productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures)));
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
             productRowData.add(row);

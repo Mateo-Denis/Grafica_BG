@@ -505,6 +505,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 productObservation = budgetModifyView.getPreviewStringTableValueAt(row, 4);
                 productPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(row, 5));
 
+                System.out.println("PRODUCT TO SAVE: " + productName + " | PRICE: " + productPrice);
+
 
                 productNames.add(productName);
                 productAmounts.add(productAmount);
@@ -554,8 +556,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
+            productPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(i, 5));
             totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
+
+            System.out.println("PRODUCT TO PDF: " + product.getName() + " | PRICE: " + productPrice + " | TOTAL PRICE: " + totalPrice);
 
             row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
             productRowData.add(row);

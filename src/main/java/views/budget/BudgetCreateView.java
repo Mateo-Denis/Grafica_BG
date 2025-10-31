@@ -111,7 +111,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
 
         cambiarTamanioFuente(containerPanel, 14);
 
-        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
+        relativeSizeAndCenter(windowFrame, 1, 0.90);
         windowFrame.setResizable(false);
 
         heightMeasureTextField.setEnabled(false);
@@ -197,7 +197,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     }
 
     public void restartWindow() {
-        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
+        relativeSizeAndCenter(windowFrame, 1, 0.90);
         //windowFrame.setSize(1000, 700);
         sb.setLength(0);
         sb.append("Precio Total: ");
@@ -492,7 +492,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         priceTextArea.setVisible(false);
         clientSearchingContainer.setVisible(true);
         budgetPreviewContainer.setVisible(true);
-        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
+        relativeSizeAndCenter(windowFrame, 1, 0.90);
         windowFrame.setResizable(false);
     }
 
@@ -503,7 +503,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetCreationButtonsContainer.setVisible(true);
         //priceContainer.setVisible(true);
         priceTextArea.setVisible(true);
-        relativeSizeAndCenter(windowFrame, 0.52, 0.70);
+        relativeSizeAndCenter(windowFrame, 1, 0.90);
         windowFrame.setResizable(false);
     }
 
