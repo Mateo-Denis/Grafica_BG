@@ -15,7 +15,6 @@ public interface IBudgetCreateView extends IToggleableView {
     void clearPreviewTable();
     void clearClientTable();
     void clearProductTable();
-    void setCategoriesComboBox(List<String> categorias);
     JComboBox<String> getCategoriesComboBox();
     void comboBoxListenerSet(ItemListener listener);
     void setProductStringTableValueAt(int row, int col, String value);

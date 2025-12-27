@@ -57,7 +57,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
         this.productModel = productModel;
         this.categoryModel = categoryModel;
 
-        cargarCategorias();
         cargarCiudades();
     }
 
@@ -70,12 +69,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
     protected void initListeners() {
         budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_FAILURE));
         budgetModel.addBudgetCreationFailureListener(() -> budgetCreateView.showMessage(MessageTypes.BUDGET_CREATION_SUCCESS));
-    }
-
-
-    private void cargarCategorias() {
-        List<String> categorias = categoryModel.getCategoriesName();
-        budgetCreateView.setCategoriesComboBox(categorias);
     }
 
     private void cargarCiudades() {
@@ -102,11 +95,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productName = budgetCreateView.getProductsTextField().getText(); // PRODUCT NAME SEARCHED
         List<String> categoriesName = categoryModel.getCategoriesName(); // GET CATEGORIES NAMES
         JComboBox categoryComboBox = budgetCreateView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
-        String selectedCategory = (String) categoryComboBox.getSelectedItem(); // GET SELECTED CATEGORY
         Pair<Double, Double> pricePair;
 
         //BUSCA SEGUN LOS FILTROS Y AGREGA LOS PRODUCTOS FILTRADOS A UN ARRAYLIST
-        ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory); // GET PRODUCTS BY NAME AND CATEGORY
+        ArrayList<Product> products = budgetModel.getProducts(productName, "Seleccione una categoría"); // GET PRODUCTS BY NAME AND CATEGORY
         String productCategoryName = ""; // PRODUCT CATEGORY NAME STRING VARIABLE
         budgetCreateView.clearProductTable(); // CLEAR PRODUCT TABLE
         int rowCount = 0; // ROW COUNT VARIABLE
