@@ -76,6 +76,8 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     private JPanel addClientContainer;
     private JTextField widthMeasureTextField;
     private JLabel widthMeasureLabel;
+    private JButton cutServiceAddButton;
+    private JLabel orLabel;
     private JButton saveModificationsButton;
     private BudgetCreatePresenter budgetCreatePresenter;
     private DefaultTableModel clientsTableModel;
@@ -302,13 +304,13 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         this.budgetCreatePresenter = (BudgetCreatePresenter) budgetCreatePresenter;
     }
 
-    @Override
+    /*@Override
     public void setCategoriesComboBox(List<String> categorias) {
         productCategoryComboBox.addItem("Seleccione una categoría");
         for (String categoria : categorias) {
             productCategoryComboBox.addItem(categoria);
         }
-    }
+    }*/
 
     @Override
     public void setCitiesComboBox(ArrayList<String> cities) {
