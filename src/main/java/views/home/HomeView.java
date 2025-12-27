@@ -8,13 +8,11 @@ import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.BudgetCreatePresenter;
 import presenters.categories.CategoryCreatePresenter;
 import presenters.settings.SettingsPresenter;
+import presenters.workbudget.WorkBudgetCreatePresenter;
+import presenters.workbudget.WorkBudgetSearchPresenter;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.Locale;
 
 public class HomeView extends JFrame implements IHomeView {
 
@@ -30,9 +28,9 @@ public class HomeView extends JFrame implements IHomeView {
     private JPanel iconPanel;
     private JPanel clientPanel;
     private JPanel productPanel;
-    private JButton categorySearchButton;
-    private JButton categoryCreateButton;
-    private JPanel categoryPanel;
+    private JButton workBudgetSearchButton;
+    private JButton workBudgetCreateButton;
+    private JPanel workBudgetPanel;
     private JLabel iconLabel;
     private JButton settingsButton;
     private final ClientCreatePresenter clientCreatePresenter;
@@ -41,13 +39,15 @@ public class HomeView extends JFrame implements IHomeView {
     private final ProductCreatePresenter productCreatePresenter;
     private final BudgetSearchPresenter budgetSearchPresenter;
     private final BudgetCreatePresenter budgetCreatePresenter;
-    private final CategoryCreatePresenter categoryCreatePresenter;
+    private final WorkBudgetSearchPresenter workBudgetSearchPresenter;
+    private final WorkBudgetCreatePresenter workBudgetCreatePresenter;
     private final SettingsPresenter settingsPresenter;
 
     public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
                     ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
                     BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
-                    CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
+                    WorkBudgetCreatePresenter workBudgetCreatePresenter, WorkBudgetSearchPresenter workBudgetSearchPresenter,
+                    SettingsPresenter settingsPresenter) {
 
         windowFrame = new JFrame("Gráfica Bahia");
         windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -73,11 +73,11 @@ public class HomeView extends JFrame implements IHomeView {
         this.productCreatePresenter = productCreatePresenter;
         this.budgetCreatePresenter = budgetCreatePresenter;
         this.budgetSearchPresenter = budgetSearchPresenter;
-        this.categoryCreatePresenter = categoryCreatePresenter;
+        this.workBudgetCreatePresenter = workBudgetCreatePresenter;
+        this.workBudgetSearchPresenter = workBudgetSearchPresenter;
         this.settingsPresenter = settingsPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
-        categoryPanel.setVisible(false);
         windowFrame.setSize(300, 788);
         windowFrame.setResizable(false);
 
@@ -95,7 +95,10 @@ public class HomeView extends JFrame implements IHomeView {
         budgetCreateButton.addActionListener(e -> budgetCreatePresenter.onHomeCreateBudgetButtonClicked());
         budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 
-        categoryCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+        //TODO: WORK BUDGET SEARCH BUTTON
+        workBudgetSearchButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+        //TODO: WORK BUDGET CREATE BUTTON
+        workBudgetCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
 
         settingsButton.addActionListener(e -> {
             settingsPresenter.onHomeSettingsButtonClicked();

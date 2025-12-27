@@ -116,31 +116,31 @@
           </component>
         </children>
       </grid>
-      <grid id="24f69" binding="categoryPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="24f69" binding="workBudgetPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="15" left="5" bottom="5" right="5"/>
         <constraints>
           <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
-        <border type="line" title="Categorías">
+        <border type="line" title="Presupuesto de trabajo">
           <font size="16"/>
           <color color="-16777216"/>
         </border>
         <children>
-          <component id="bd7a" class="javax.swing.JButton" binding="categorySearchButton">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Buscar"/>
-            </properties>
-          </component>
-          <component id="fd33a" class="javax.swing.JButton" binding="categoryCreateButton">
+          <component id="fd33a" class="javax.swing.JButton" binding="workBudgetCreateButton">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Crear"/>
+            </properties>
+          </component>
+          <component id="bd7a" class="javax.swing.JButton" binding="workBudgetSearchButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Buscar"/>
             </properties>
           </component>
         </children>
