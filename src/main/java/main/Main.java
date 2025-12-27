@@ -14,7 +14,7 @@ import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductListPresenter;
-import presenters.product.ProductPresenter;
+import presenters.budget.CuttingServiceFormPresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
 import utils.databases.*;
@@ -22,6 +22,7 @@ import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
 import views.budget.list.BudgetListView;
 import views.budget.modify.BudgetModifyView;
+import views.budget.cuttingService.CuttingServiceFormView;
 import views.categories.CategoryCreateView;
 import views.client.ClientCreateView;
 import views.client.ClientSearchView;
@@ -37,16 +38,7 @@ import views.settings.SettingsView;
 
 public class Main {
     public static void main(String[] args) {
-
-
-        /*ESTILOSSSSSSSSS
-        MyStyles.install(MyStyles.METRO_UI, NewStyles.COLOR_BLACK);
-        ESTILOSSSSSSSSS*/
         FlatLightLaf.setup();
-
-
-
-        //createWeirdAahPDF();
 
         CategoriesDatabaseConnection categoriesDB = new CategoriesDatabaseConnection();
         categoriesDB.loadDatabase();
@@ -77,6 +69,7 @@ public class Main {
         ProductListView productListView = new ProductListView();
         BudgetCreateView budgetCreateView = new BudgetCreateView();
         BudgetListView budgetListView = new BudgetListView();
+        CuttingServiceFormView cuttingServiceFormView = new CuttingServiceFormView();
         CategoryCreateView categoryCreateView = new CategoryCreateView();
         BudgetModifyView budgetModifyView = new BudgetModifyView();
         SettingsView settingsView = new SettingsView();
@@ -91,9 +84,10 @@ public class Main {
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);
         ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
+        CuttingServiceFormPresenter cuttingServiceFormPresenter = new CuttingServiceFormPresenter(cuttingServiceFormView, budgetCreateView);
         ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(settingsModel, productSearchView, productModel, categoryModel);
         ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
-        BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(budgetCreateView, budgetModel, productModel, categoryModel, settingsModel);
+        BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(cuttingServiceFormView, budgetCreateView, budgetModel, productModel, categoryModel, settingsModel);
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
@@ -106,13 +100,13 @@ public class Main {
         productSearchPresenter.start();
         budgetCreatePresenter.start();
         budgetSearchPresenter.start();
+        cuttingServiceFormPresenter.start();
         categoryCreatePresenter.start();
         budgetListPresenter.start();
         budgetModifyPresenter.start();
         settingsPresenter.start();
 
         clientCreateView.start();
-        //clientCreateView.setPresenter(clientCreatePresenter);
         clientSearchView.start();
         productCreateView.start();
         productSearchView.start();
@@ -122,9 +116,10 @@ public class Main {
         categoryCreateView.start();
         budgetListView.start();
         budgetModifyView.start();
+        cuttingServiceFormView.start();
         settingsView.start();
 
-        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
+        IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
                 productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter);
     }
 

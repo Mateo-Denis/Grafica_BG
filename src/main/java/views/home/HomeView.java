@@ -1,5 +1,6 @@
 package views.home;
 
+import presenters.budget.CuttingServiceFormPresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductSearchPresenter;
@@ -43,8 +44,9 @@ public class HomeView extends JFrame implements IHomeView {
     private final BudgetCreatePresenter budgetCreatePresenter;
     private final CategoryCreatePresenter categoryCreatePresenter;
     private final SettingsPresenter settingsPresenter;
+    private final CuttingServiceFormPresenter cuttingServiceFormPresenter;
 
-    public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
+    public HomeView(CuttingServiceFormPresenter cuttingServiceFormPresenter, ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
                     ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
                     BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
                     CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
@@ -75,6 +77,7 @@ public class HomeView extends JFrame implements IHomeView {
         this.budgetSearchPresenter = budgetSearchPresenter;
         this.categoryCreatePresenter = categoryCreatePresenter;
         this.settingsPresenter = settingsPresenter;
+        this.cuttingServiceFormPresenter = cuttingServiceFormPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
         categoryPanel.setVisible(false);

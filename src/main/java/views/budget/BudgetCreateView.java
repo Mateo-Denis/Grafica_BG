@@ -19,6 +19,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import utils.MultiLineHeaderRenderer;
+import utils.CuttingService;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 
@@ -148,6 +149,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
                 restartWindow();
             }
         });
+        cutServiceAddButton.addActionListener(e -> budgetCreatePresenter.OnAddCuttingServiceButtonClicked());
 
         productResultTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -303,14 +305,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     public void setPresenter(StandardPresenter budgetCreatePresenter) {
         this.budgetCreatePresenter = (BudgetCreatePresenter) budgetCreatePresenter;
     }
-
-    /*@Override
-    public void setCategoriesComboBox(List<String> categorias) {
-        productCategoryComboBox.addItem("Seleccione una categoría");
-        for (String categoria : categorias) {
-            productCategoryComboBox.addItem(categoria);
-        }
-    }*/
 
     @Override
     public void setCitiesComboBox(ArrayList<String> cities) {
@@ -527,6 +521,19 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
     @Override
     public JFrame getWindowFrame() {
         return windowFrame;
+    }
+
+    public void addCuttingService(CuttingService cuttingService) {
+        int nextRow = getFilledRowsCount(budgetPreviewingTable) + 1;
+
+        setPreviewStringTableValueAt(nextRow, 1, "Servicio de corte");
+        setPreviewStringTableValueAt(nextRow, 2, String.valueOf(cuttingService.getAmount()));
+        setPreviewStringTableValueAt(nextRow, 3, String.valueOf(cuttingService.getLinealMeters()));
+        setPreviewStringTableValueAt(nextRow, 4, cuttingService.getDescription());
+        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getTotal()));
+
+        budgetCreatePresenter.updateTextArea(true, cuttingService.getTotal());
+        budgetCreatePresenter.increaseRowCountOnPreviewTable();
     }
 
 }

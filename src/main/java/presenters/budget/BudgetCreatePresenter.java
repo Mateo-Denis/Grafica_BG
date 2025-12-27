@@ -15,6 +15,7 @@ import utils.*;
 
 //IMPORTS FROM VIEWS PACKAGE
 import views.budget.IBudgetCreateView;
+import views.budget.cuttingService.ICuttingServiceFormView;
 
 //IMPORTS FROM MODELS PACKAGE
 
@@ -35,6 +36,7 @@ import static utils.databases.SettingsTableNames.GENERAL;
 
 public class BudgetCreatePresenter extends StandardPresenter {
     private final IBudgetCreateView budgetCreateView;
+    private final ICuttingServiceFormView cuttingServiceFormView;
     private final IBudgetModel budgetModel;
     private final IProductModel productModel;
     private final ICategoryModel categoryModel;
@@ -48,7 +50,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private int productsRowCountOnPreviewTable = 0;
     private String globalClientType = "";
 
-    public BudgetCreatePresenter(IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
+    public BudgetCreatePresenter(ICuttingServiceFormView cuttingServiceFormView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, ISettingsModel settingsModel) {
         this.budgetCreateView = budgetCreateView;
         this.settingsModel = settingsModel;
@@ -56,6 +58,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
         this.budgetModel = budgetModel;
         this.productModel = productModel;
         this.categoryModel = categoryModel;
+        this.cuttingServiceFormView = cuttingServiceFormView;
 
         cargarCiudades();
     }
@@ -86,6 +89,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.getWidthMeasureTextField().setEnabled(false);
         budgetCreateView.getHeightMeasureTextField().setEnabled(false);
         budgetCreateView.showView();
+    }
+
+    public void OnAddCuttingServiceButtonClicked() {
+        cuttingServiceFormView.showView();
     }
 
 
@@ -121,7 +128,6 @@ public class BudgetCreatePresenter extends StandardPresenter {
             budgetCreateView.setProductStringTableValueAt(rowCount, 2, client.isClient() ? String.valueOf(pricePair.getValue0()) : String.valueOf(pricePair.getValue1())); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
             rowCount++; // INCREMENT ROW COUNT
         }
-        categoryComboBox.setSelectedIndex(0);
     }
 
 
@@ -304,8 +310,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
 
 
     public double GetSelectedTotalPrice(int selectedPreviewRow) {
+        System.out.println("GETSELECTED METHOD CALLED");
         double totalPrice = 0.0;
         double oneProductPrice = Double.parseDouble(budgetCreateView.getPreviewStringTableValueAt(selectedPreviewRow, 5));
+        System.out.println("ONE PRODUCT PRICE GETSELECTED METHOD: " + oneProductPrice);
         int productAmount = Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(selectedPreviewRow, 2));
         if (selectedPreviewRow != -1) {
             totalPrice = oneProductPrice * productAmount;
@@ -388,11 +396,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
         String productAmount = budgetCreateView.getPreviewStringTableValueAt(row, 2);
         String productMeasures = budgetCreateView.getPreviewStringTableValueAt(row, 3);
         String productObservations = budgetCreateView.getPreviewStringTableValueAt(row, 4);
+        String productTotalPrice = budgetCreateView.getPreviewStringTableValueAt(row, 5);
 
         productRowData.add(productName);
         productRowData.add(productAmount);
         productRowData.add(productMeasures);
         productRowData.add(productObservations);
+        productRowData.add(productTotalPrice);
 
         return productRowData;
     }
@@ -404,10 +414,13 @@ public class BudgetCreatePresenter extends StandardPresenter {
         Product product;
         double productPrice = 0.0;
         double totalPrice = 0.0;
+        String productName = "";
         Row row;
 
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
+            product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
+
             double productMeasures = 1;
             if(!oneProduct.get(2).equals("-")){
                 if(oneProduct.get(2).contains("x")){
@@ -419,11 +432,18 @@ public class BudgetCreatePresenter extends StandardPresenter {
                     productMeasures = Double.parseDouble(measure);
                 }
             }
-            product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = Double.parseDouble(truncateAndRound(String.valueOf(isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1())));
-            totalPrice = Double.parseDouble(truncateAndRound(String.valueOf(productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures)));
 
-            row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
+            if(product != null) {
+                productPrice = Double.parseDouble(truncateAndRound(String.valueOf(isParticular ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1())));
+                totalPrice = Double.parseDouble(truncateAndRound(String.valueOf(productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures)));
+                productName = product.getName();
+            } else {
+                totalPrice = Double.parseDouble(oneProduct.get(4));
+                productName = oneProduct.get(0);
+                productPrice = totalPrice;
+            }
+
+            row = new Row(productName, Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
             productRowData.add(row);
         }
         return productRowData;
@@ -432,6 +452,10 @@ public class BudgetCreatePresenter extends StandardPresenter {
     public Client GetOneClientByID(String clientName, String clientType) {
         int clientID = budgetModel.getClientID(clientName, clientType);
         return budgetModel.GetOneClientByID(clientID);
+    }
+
+    public void increaseRowCountOnPreviewTable() {
+        productsRowCountOnPreviewTable++;
     }
 
     public void onAddProductButtonClicked() {
@@ -449,6 +473,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     }
 
     public void onDeleteProductButtonClicked() {
+        System.out.println("DELETE PRODUCT METHOD CALLED");
         budgetCreateView.getProductsResultTable().clearSelection();
         JTable budgetResultTable = budgetCreateView.getPreviewTable();
         int selectedRow = budgetResultTable.getSelectedRow();
@@ -460,6 +485,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
             if (productsRowCountOnPreviewTable >= 1) {
                 if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow, 1).toString().isEmpty()){
                     totalSelectedPrice = GetSelectedTotalPrice(selectedRow);
+                    System.out.println("TOTAL SELECTED PRICE DELETE PRODUCT METHOD: " + totalSelectedPrice);
                     budgetCreateView.getPreviewTableModel().removeRow(selectedRow);
                     productsRowCountOnPreviewTable--;
                     updateTextArea(false, totalSelectedPrice);

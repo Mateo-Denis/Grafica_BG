@@ -1,5 +1,6 @@
 package views.budget;
 import presenters.budget.BudgetCreatePresenter;
+import utils.CuttingService;
 import views.IToggleableView;
 import utils.Product;
 
@@ -47,4 +48,5 @@ public interface IBudgetCreateView extends IToggleableView {
     JFrame getWindowFrame();
     List<String[]> getPreviewTableFilledRowsData();
     void restartWindow();
+    void addCuttingService(CuttingService cuttingService);
 }
