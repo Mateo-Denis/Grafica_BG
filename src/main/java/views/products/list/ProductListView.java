@@ -1,12 +1,11 @@
 package views.products.list;
 
 import presenters.StandardPresenter;
-import views.ToggleableView;
 import presenters.product.ProductListPresenter;
+import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class ProductListView extends ToggleableView implements IProductListView {
 

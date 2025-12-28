@@ -1,9 +1,5 @@
 package views.budget;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
 import PdfFormater.Row;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
@@ -11,7 +7,8 @@ import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
 
-import java.awt.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -92,7 +89,7 @@ public class BudgetSearchView extends ToggleableView implements IBudgetSearchVie
         pdfButton.addActionListener(e -> budgetSearchPresenter.onPDFButtonClicked(getSelectedBudgetNumber()));
         deleteButton.addActionListener(e -> budgetSearchPresenter.onDeleteButtonClicked());
         modifyButton.addActionListener(e -> budgetModifyPresenter.onModifySearchViewButtonClicked(isTheRowFilled(), getSelectedTableRow(), getSelectedBudgetNumber()));
-        searchField.addActionListener(e  -> budgetSearchPresenter.onSearchButtonClicked());
+        searchField.addActionListener(e -> budgetSearchPresenter.onSearchButtonClicked());
     }
 
     public void setStringTableValueAt(int row, int col, String value) {

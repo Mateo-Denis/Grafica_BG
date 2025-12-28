@@ -7,9 +7,7 @@ import presenters.client.ClientSearchPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class ClientSearchView extends ToggleableView implements IClientSearchView {
     private JPanel containerPanel;

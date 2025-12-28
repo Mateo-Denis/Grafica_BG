@@ -3,10 +3,14 @@ package views.budget.cuttingService;
 import presenters.StandardPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
 import utils.MessageTypes;
-import utils.TextUtils;
 import views.ToggleableView;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import static utils.TextUtils.truncateAndRound;
@@ -42,6 +46,15 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         addWindowBorders();
+        windowFrame.setMinimumSize(new Dimension(1080, 250));
+
+        // Reset fields on close
+        windowFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                setInititalValues();
+            }
+        });
     }
 
     @Override
@@ -52,6 +65,9 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     @Override
     public void start() {
         super.start();
+    }
+
+    public void setInititalValues() {
         amountTextField.setText("1");
         linealMetersTextField.setText("1");
         profitTextField.setText("100");
@@ -68,18 +84,18 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         textFields.add(profitTextField);
 
         for (JTextField textField : textFields) {
-            if(cuttingServiceFormPresenter != null) {
+            if (cuttingServiceFormPresenter != null) {
                 cuttingServiceFormPresenter.clearView();
-                textField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-                    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                textField.getDocument().addDocumentListener(new DocumentListener() {
+                    public void changedUpdate(DocumentEvent e) {
                         calculateDependantPrices();
                     }
 
-                    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                    public void removeUpdate(DocumentEvent e) {
                         calculateDependantPrices();
                     }
 
-                    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                    public void insertUpdate(DocumentEvent e) {
                         calculateDependantPrices();
                     }
                 });
@@ -98,11 +114,11 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
             double profit = profitTextField.getText().isEmpty() ? 0.0 : Double.parseDouble(profitTextField.getText());
             int amount = amountTextField.getText().isEmpty() ? 1 : Integer.parseInt(amountTextField.getText());
 
-            double subTotal = (materialCost * linealMeters) * amount;
-            subTotalTextField.setText(String.format("%.2f", subTotal));
+            double subTotal = Double.parseDouble(truncateAndRound(String.valueOf(materialCost * linealMeters * amount)));
+            subTotalTextField.setText(String.valueOf(subTotal));
 
-            String total = truncateAndRound(String.valueOf(subTotal + (subTotal * (profit / 100))));
-            finalTextArea.setText(String.format("%.2f", Double.parseDouble(total)));
+            double total = Double.parseDouble(truncateAndRound(String.valueOf(subTotal + (subTotal * (profit / 100)))));
+            finalTextArea.setText(String.valueOf(total));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
@@ -110,13 +126,15 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
 
     @Override
     public void clearView() {
+        amountTextField.setText("1");
+        linealMetersTextField.setText("1");
+        profitTextField.setText("100");
         materialCostTextField.setText("");
-        linealMetersTextField.setText("");
-        profitTextField.setText("");
         subTotalTextField.setText("");
         finalTextArea.setText("");
-        amountTextField.setText("");
         descriptionTextArea.setText("");
+        subTotalTextField.setEnabled(false);
+        finalTextArea.setEnabled(false);
     }
 
     @Override
@@ -128,7 +146,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     private void addWindowBorders() {
         int padding = 10;
         containerPanel.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
-        windowFrame.getRootPane().setBorder(BorderFactory.createLineBorder(java.awt.Color.BLACK, 2));
+        windowFrame.getRootPane().setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
     }
 
     public double getMaterialCost() {
@@ -168,7 +186,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     }
 
     public void setSubTotal(double subTotal) {
-        subTotalTextField.setText(String.format("%.2f", subTotal));
+        subTotalTextField.setText(String.valueOf(subTotal));
     }
 
     public void setFinalText(String finalText) {

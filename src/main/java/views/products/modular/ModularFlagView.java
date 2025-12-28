@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.GENERAL;
+import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularFlagView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -190,7 +191,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -250,7 +251,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
                 float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat((String) IVAcombobox.getSelectedItem());
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
-                float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) + ((clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit/100));
+                float priceWOIva = (clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) + ((clothPrice + plankLoweringPriceTotal + seamstressPrice + printingMetersPriceTotal) * (profit / 100));
                 float priceWIva = (priceWOIva + (priceWOIva * iva / 100)) * dollarPrice;
                 float particularFinalPrice = priceWIva + (priceWIva * recharge / 100);
 
@@ -335,7 +336,7 @@ public class ModularFlagView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
-        if(searchPresenter == null) {
+        if (searchPresenter == null) {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);

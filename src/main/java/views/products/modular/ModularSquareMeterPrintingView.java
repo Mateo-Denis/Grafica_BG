@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.GENERAL;
+import static utils.databases.SettingsTableNames.MATERIALES;
 
 public class ModularSquareMeterPrintingView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -117,7 +118,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
 
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -207,7 +208,7 @@ public class ModularSquareMeterPrintingView extends JPanel implements IModularCa
         }
         for (Pair<String, Double> pair : dollarList) {
             String s = pair.getValue0();
-                dollarComboBox.addItem(pair.getValue0());
+            dollarComboBox.addItem(pair.getValue0());
         }
     }
 

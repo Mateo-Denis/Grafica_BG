@@ -1,7 +1,6 @@
 package views.products.modular;
 
 import lombok.Getter;
-import net.miginfocom.swing.MigLayout;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import presenters.product.ProductCreatePresenter;
@@ -200,7 +199,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
-        if(searchPresenter == null) {
+        if (searchPresenter == null) {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
@@ -229,7 +228,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
         textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -279,7 +278,7 @@ public class ModularCapView extends JPanel implements IModularCategoryView {
                 float plankLoweringPrice = plankLoweringPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(plankLoweringPriceTextField.getText());
                 float printingMetersPrice = printingMetersPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(printingMetersPriceTextField.getText());
                 float profit = profitTextField.getText().isEmpty() ? 0 : Float.parseFloat(profitTextField.getText());
-                float iva = IVAcombobox.getSelectedItem()==null ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
+                float iva = IVAcombobox.getSelectedItem() == null ? 0 : Float.parseFloat(String.valueOf(IVAcombobox.getSelectedItem()));
                 float recharge = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
                 float dollarPrice = dollarComboBox.getSelectedItem() == null ? 0 : (float) presenter.getIndividualPrice(GENERAL, (String) dollarComboBox.getSelectedItem());
 

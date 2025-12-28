@@ -3,6 +3,7 @@ package views.budget.modify;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetModifyPresenter;
+import utils.MultiLineHeaderRenderer;
 import utils.NumberInputVerifier;
 import views.ToggleableView;
 
@@ -12,12 +13,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import utils.MultiLineHeaderRenderer;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 

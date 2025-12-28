@@ -1,12 +1,11 @@
 package views.client.list;
 
 import presenters.StandardPresenter;
-import views.ToggleableView;
 import presenters.client.ClientListPresenter;
+import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 
 public class ClientListView extends ToggleableView implements IClientListView {
     private DefaultTableModel tableModel;

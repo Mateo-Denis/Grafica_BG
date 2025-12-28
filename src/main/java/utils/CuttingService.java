@@ -2,8 +2,6 @@ package utils;
 
 import lombok.Getter;
 
-import static utils.TextUtils.truncateAndRound;
-
 public class CuttingService {
     @Getter
     private final String description;
@@ -24,6 +22,6 @@ public class CuttingService {
         this.linealMeters = linealMeters;
         this.profit = profit;
         this.amount = amount;
-        this.total = Double.parseDouble(truncateAndRound(String.valueOf(total)));
+        this.total = total;
     }
 }

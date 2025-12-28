@@ -1,21 +1,17 @@
 package views.home;
 
+import presenters.budget.BudgetCreatePresenter;
+import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
+import presenters.categories.CategoryCreatePresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
-import presenters.product.ProductSearchPresenter;
 import presenters.product.ProductCreatePresenter;
-import presenters.budget.BudgetSearchPresenter;
-import presenters.budget.BudgetCreatePresenter;
-import presenters.categories.CategoryCreatePresenter;
+import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.Locale;
 
 public class HomeView extends JFrame implements IHomeView {
 

@@ -1,9 +1,11 @@
 package presenters.budget;
 
 import presenters.StandardPresenter;
-import views.budget.cuttingService.ICuttingServiceFormView;
-import views.budget.IBudgetCreateView;
 import utils.CuttingService;
+import views.budget.IBudgetCreateView;
+import views.budget.cuttingService.ICuttingServiceFormView;
+
+import static utils.TextUtils.truncateAndRound;
 
 public class CuttingServiceFormPresenter extends StandardPresenter {
     private final ICuttingServiceFormView cuttingServiceView;
@@ -25,32 +27,35 @@ public class CuttingServiceFormPresenter extends StandardPresenter {
         cuttingServiceView.clearView();
     }
 
+
     public double calculateCuttingService() {
         double materialCost = cuttingServiceView.getMaterialCost();
         double linealMeters = cuttingServiceView.getLinealMeters();
         double profit = cuttingServiceView.getProfit();
 
-        double subTotal = materialCost * linealMeters;
+        double subTotal = Double.parseDouble(truncateAndRound(String.valueOf(materialCost * linealMeters)));
         cuttingServiceView.setSubTotal(subTotal);
 
-        double total = subTotal + (subTotal * (profit / 100));
-        cuttingServiceView.setFinalText(String.format("%.2f", total));
+        double total = Double.parseDouble(truncateAndRound(String.valueOf(subTotal + (subTotal * (profit / 100)))));
+        cuttingServiceView.setFinalText(String.valueOf(total));
 
         return total;
     }
 
     public void onAddCuttingServiceButtonClicked() {
+        budgetCreateView.addCuttingService(getCuttingService());
+    }
+
+    public CuttingService getCuttingService() {
         double total = calculateCuttingService();
 
-        CuttingService cuttingService = new CuttingService(
-            cuttingServiceView.getDescription(),
-            cuttingServiceView.getMaterialCost(),
-            cuttingServiceView.getLinealMeters(),
-            cuttingServiceView.getProfit(),
-            cuttingServiceView.getAmount(),
-            total
+        return new CuttingService(
+                cuttingServiceView.getDescription(),
+                cuttingServiceView.getMaterialCost(),
+                cuttingServiceView.getLinealMeters(),
+                cuttingServiceView.getProfit(),
+                cuttingServiceView.getAmount(),
+                total
         );
-
-        budgetCreateView.addCuttingService(cuttingService);
     }
 }

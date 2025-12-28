@@ -1,4 +1,3 @@
-
 package views.products;
 
 import lombok.Getter;
@@ -72,7 +71,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     @Override
     public void start() {
         super.start();
-        tableModel = new DefaultTableModel(new Object[] { "Nombre", "Categoría", "Precio Cliente", "Precio Particular" }, 200) {
+        tableModel = new DefaultTableModel(new Object[]{"Nombre", "Categoría", "Precio Cliente", "Precio Particular"}, 200) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -109,7 +108,7 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
         //Add listener to all rows. When a row is selected, the listener will trigger the method "ChargeProductNameOnTextField".
         productResultTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                if(getSelectedTableRow() != -1){
+                if (getSelectedTableRow() != -1) {
                     ChargeProductNameOnTextField();
                 }
             }
@@ -284,4 +283,5 @@ public class ProductSearchView extends ToggleableView implements IProductSearchV
     public void appearModularView() {
         modularContainer.setVisible(true);
     }
+
 }

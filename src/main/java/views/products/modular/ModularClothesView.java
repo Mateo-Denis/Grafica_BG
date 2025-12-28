@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.GENERAL;
+import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularClothesView extends JPanel implements IModularCategoryView {
     private JRadioButton tshirtRadioButton;
@@ -204,7 +205,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
         textFields.add(particularAddTextField);
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -276,17 +277,17 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
             float particularAdd = particularAddTextField.getText().isEmpty() ? 0 : Float.parseFloat(particularAddTextField.getText());
 
 
-                clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
-                printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
-                plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
-                float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
-                float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) + ((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100));
-                float priceWIva = (priceWOIva + (priceWOIva * (IVA / 100))) * dollarPrice;
+            clothMetersFinalPriceTextField.setText(String.valueOf(clothMetersFinalPrice));
+            printingMetersFinalPriceTextField.setText(String.valueOf(printingMetersFinalPrice));
+            plankLoweringFinalPriceTextField.setText(String.valueOf(plankLoweringFinalPrice));
+            float seamstressPrice = seamstressPriceTextField.getText().isEmpty() ? 0 : Float.parseFloat(seamstressPriceTextField.getText());
+            float priceWOIva = (clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) + ((clothMetersFinalPrice + printingMetersFinalPrice + plankLoweringFinalPrice + seamstressPrice) * (profit / 100));
+            float priceWIva = (priceWOIva + (priceWOIva * (IVA / 100))) * dollarPrice;
 
-                dollarValueTextField.setText(String.valueOf(dollarPrice));
-                finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
-                particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva + (priceWIva * (particularAdd / 100)))));
-                isCalculating = false;
+            dollarValueTextField.setText(String.valueOf(dollarPrice));
+            finalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva)));
+            particularFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWIva + (priceWIva * (particularAdd / 100)))));
+            isCalculating = false;
 
 
         } catch (NumberFormatException | NullPointerException e) {
@@ -341,7 +342,7 @@ public class ModularClothesView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
-        if(searchPresenter == null) {
+        if (searchPresenter == null) {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);

@@ -78,22 +78,22 @@ public class SettingsView extends ToggleableView implements ISettingsView {
 
     @Override
     protected void initListeners() {
-        addClothButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.TELAS));
-        addDollarButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.GENERAL));
-        addServiceButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.SERVICIOS));
-        addMaterialButton.addActionListener( e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.MATERIALES));
+        addClothButton.addActionListener(e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.TELAS));
+        addDollarButton.addActionListener(e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.GENERAL));
+        addServiceButton.addActionListener(e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.SERVICIOS));
+        addMaterialButton.addActionListener(e -> settingsPresenter.onAddButtonPressed(SettingsTableNames.MATERIALES));
 
-        removeClothButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.TELAS, clothValuesTable.getSelectedRow()));
-        removeDollarButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.GENERAL, generalValuesTable.getSelectedRow()));
-        removeServiceButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.SERVICIOS, serviceValuesTable.getSelectedRow()));
-        removeMaterialButton.addActionListener( e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.MATERIALES, materialsValuesTable.getSelectedRow()));
+        removeClothButton.addActionListener(e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.TELAS, clothValuesTable.getSelectedRow()));
+        removeDollarButton.addActionListener(e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.GENERAL, generalValuesTable.getSelectedRow()));
+        removeServiceButton.addActionListener(e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.SERVICIOS, serviceValuesTable.getSelectedRow()));
+        removeMaterialButton.addActionListener(e -> settingsPresenter.onDeleteRowButtonPressed(SettingsTableNames.MATERIALES, materialsValuesTable.getSelectedRow()));
 
     }
 
 
-    public void addEmptyRow(SettingsTableNames tableName){
+    public void addEmptyRow(SettingsTableNames tableName) {
         JTable tableToAdd;
-        switch (tableName){
+        switch (tableName) {
             case GENERAL -> tableToAdd = generalValuesTable;
             case TELAS -> tableToAdd = clothValuesTable;
             case SERVICIOS -> tableToAdd = serviceValuesTable;
@@ -112,7 +112,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
             }
         }
 
-        if(tableToAdd == generalValuesTable) {
+        if (tableToAdd == generalValuesTable) {
             model.addRow(new Object[]{"", 0.0});
         } else {
             model.addRow(new Object[]{""});

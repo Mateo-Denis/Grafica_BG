@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.GENERAL;
 
 public class ModularCupView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -151,7 +151,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -209,7 +209,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
                 float plankLoweringFinalPrice = plankLoweringAmount * plankLoweringPrice;
                 float printingMetersFinalPrice = printingMetersAmount * printingMetersPrice;
 
-                float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) + ((cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit/100));
+                float priceWOiva = (cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) + ((cupPrice + plankLoweringFinalPrice + printingMetersFinalPrice) * (profit / 100));
                 float priceWiva = (priceWOiva + (priceWOiva * (iva / 100))) * dollarPrice;
                 float cupParticularFinalPrice = priceWiva + (priceWiva * (recharge / 100));
 
@@ -289,7 +289,7 @@ public class ModularCupView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
-        if(searchPresenter==null) {
+        if (searchPresenter == null) {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);

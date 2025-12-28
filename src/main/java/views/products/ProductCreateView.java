@@ -1,31 +1,24 @@
 package views.products;
 
-import javax.swing.*;
-
 import lombok.Getter;
-import net.miginfocom.swing.MigLayout;
+import models.CategoryModel;
+import presenters.StandardPresenter;
+import presenters.categories.ModularCategoriesPresenter;
+import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductPresenter;
-import views.ToggleableView;
-import views.products.modular.IModularCategoryView;
+import utils.TextUtils;
 import utils.databases.CategoriesDatabaseConnection;
 import utils.databases.ProductsDatabaseConnection;
-import presenters.StandardPresenter;
-import presenters.product.ProductCreatePresenter;
-import presenters.categories.ModularCategoriesPresenter;
+import views.ToggleableView;
+import views.products.modular.IModularCategoryView;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
-//TEST
-import models.CategoryModel;
 import java.util.Map;
-import utils.TextUtils;
 
 import static utils.CategoryParser.parseCategory;
 import static utils.WindowFormatter.relativeSizeAndCenter;

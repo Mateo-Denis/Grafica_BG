@@ -3,9 +3,11 @@ package views.budget;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetCreatePresenter;
-import views.ToggleableView;
+import utils.CuttingService;
+import utils.MultiLineHeaderRenderer;
 import utils.NumberInputVerifier;
 import utils.Product;
+import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -13,13 +15,13 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import utils.MultiLineHeaderRenderer;
-import utils.CuttingService;
+import java.util.ArrayList;
+import java.util.List;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 
@@ -497,7 +499,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         budgetPreviewContainer.setVisible(true);
         productSearchingContainer.setVisible(true);
         budgetCreationButtonsContainer.setVisible(true);
-        //priceContainer.setVisible(true);
         priceTextArea.setVisible(true);
         relativeSizeAndCenter(windowFrame, 1, 0.90);
         windowFrame.setResizable(false);

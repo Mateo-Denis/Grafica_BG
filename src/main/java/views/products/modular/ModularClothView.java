@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.TextUtils.truncateAndRound;
-import static utils.databases.SettingsTableNames.*;
+import static utils.databases.SettingsTableNames.GENERAL;
+import static utils.databases.SettingsTableNames.TELAS;
 
 public class ModularClothView extends JPanel implements IModularCategoryView {
     private JPanel containerPanel;
@@ -113,7 +114,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
 
         for (JTextField textField : textFields) {
-            if(presenter instanceof ProductCreatePresenter){
+            if (presenter instanceof ProductCreatePresenter) {
                 textField.addActionListener(e -> {
                     int lastProductCreatedID = ((ProductCreatePresenter) presenter).onCreateButtonClicked();
                     if (lastProductCreatedID != -1) {
@@ -172,7 +173,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
             dollarValueTextField.setText(String.valueOf(dollarPrice));
             clientFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva)));
-            clothFinalPriceTextField.setText(truncateAndRound(String.valueOf( priceWiva + ( priceWiva * recharge / 100))));
+            clothFinalPriceTextField.setText(truncateAndRound(String.valueOf(priceWiva + (priceWiva * recharge / 100))));
         } catch (NumberFormatException | NullPointerException e) {
             showMessage(MessageTypes.FLOAT_PARSING_ERROR, containerPanel);
         }
@@ -239,7 +240,7 @@ public class ModularClothView extends JPanel implements IModularCategoryView {
 
     @Override
     public void setSearchTextFields(Product product) {
-        if(searchPresenter == null) {
+        if (searchPresenter == null) {
             return;
         }
         Map<String, String> attributes = searchPresenter.getProductAttributes(product);
