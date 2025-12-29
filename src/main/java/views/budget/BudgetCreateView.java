@@ -304,14 +304,6 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         this.budgetCreatePresenter = (BudgetCreatePresenter) budgetCreatePresenter;
     }
 
-    /*@Override
-    public void setCategoriesComboBox(List<String> categorias) {
-        productCategoryComboBox.addItem("Seleccione una categoría");
-        for (String categoria : categorias) {
-            productCategoryComboBox.addItem(categoria);
-        }
-    }*/
-
     @Override
     public void setCitiesComboBox(ArrayList<String> cities) {
         cityComboBox.addItem("Seleccione una ciudad");

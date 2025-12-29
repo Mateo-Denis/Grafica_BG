@@ -17,6 +17,7 @@ import presenters.product.ProductListPresenter;
 import presenters.product.ProductPresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
+import presenters.workbudget.WorkBudgetCreatePresenter;
 import utils.databases.*;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
@@ -34,6 +35,7 @@ import views.products.list.ProductListView;
 import views.products.modular.IModularCategoryView;
 import views.products.modular.ModularCapView;
 import views.settings.SettingsView;
+import views.workbudget.WorkBudgetCreateView;
 
 public class Main {
     public static void main(String[] args) {
@@ -97,6 +99,8 @@ public class Main {
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
+        WorkBudgetCreateView workBudgetCreateView = new WorkBudgetCreateView();
+        WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView);
         SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
 
         clientCreatePresenter.start();
@@ -109,6 +113,7 @@ public class Main {
         categoryCreatePresenter.start();
         budgetListPresenter.start();
         budgetModifyPresenter.start();
+        workBudgetCreatePresenter.start();
         settingsPresenter.start();
 
         clientCreateView.start();
@@ -122,10 +127,11 @@ public class Main {
         categoryCreateView.start();
         budgetListView.start();
         budgetModifyView.start();
+        workBudgetCreateView.start();
         settingsView.start();
 
         IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
-                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter);
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter, settingsPresenter);
     }
 
 }

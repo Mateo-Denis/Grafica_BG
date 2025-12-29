@@ -39,14 +39,14 @@ public class HomeView extends JFrame implements IHomeView {
     private final ProductCreatePresenter productCreatePresenter;
     private final BudgetSearchPresenter budgetSearchPresenter;
     private final BudgetCreatePresenter budgetCreatePresenter;
-    private final WorkBudgetSearchPresenter workBudgetSearchPresenter;
+    //TODO private final WorkBudgetSearchPresenter workBudgetSearchPresenter;
     private final WorkBudgetCreatePresenter workBudgetCreatePresenter;
     private final SettingsPresenter settingsPresenter;
 
     public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
                     ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
                     BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
-                    WorkBudgetCreatePresenter workBudgetCreatePresenter, WorkBudgetSearchPresenter workBudgetSearchPresenter,
+                    WorkBudgetCreatePresenter workBudgetCreatePresenter,
                     SettingsPresenter settingsPresenter) {
 
         windowFrame = new JFrame("Gráfica Bahia");
@@ -74,7 +74,7 @@ public class HomeView extends JFrame implements IHomeView {
         this.budgetCreatePresenter = budgetCreatePresenter;
         this.budgetSearchPresenter = budgetSearchPresenter;
         this.workBudgetCreatePresenter = workBudgetCreatePresenter;
-        this.workBudgetSearchPresenter = workBudgetSearchPresenter;
+        //TODO con argumento this.workBudgetSearchPresenter = workBudgetSearchPresenter;
         this.settingsPresenter = settingsPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
@@ -96,9 +96,9 @@ public class HomeView extends JFrame implements IHomeView {
         budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 
         //TODO: WORK BUDGET SEARCH BUTTON
-        workBudgetSearchButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+        //workBudgetSearchButton.addActionListener(e -> workBudgetSearchPresenter.onHomeSearchWorkBudgetButtonClicked());
         //TODO: WORK BUDGET CREATE BUTTON
-        workBudgetCreateButton.addActionListener(e -> categoryCreatePresenter.onHomeCreateCategoryButtonClicked());
+        workBudgetCreateButton.addActionListener(e -> workBudgetCreatePresenter.onHomeCreateWorkBudgetButtonClicked());
 
         settingsButton.addActionListener(e -> {
             settingsPresenter.onHomeSettingsButtonClicked();

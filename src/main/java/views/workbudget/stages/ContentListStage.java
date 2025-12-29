@@ -10,4 +10,5 @@ public class ContentListStage extends JPanel{
 	private JTextField textField4;
 	private JTextField textField5;
 	private JTable table1;
+	private JPanel root;
 }

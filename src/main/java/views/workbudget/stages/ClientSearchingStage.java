@@ -14,4 +14,5 @@ public class ClientSearchingStage extends JPanel {
 	private JLabel cityLabel;
 	private JComboBox cityComboBox;
 	private JButton clientSearchButton;
+	private JPanel root;
 }
