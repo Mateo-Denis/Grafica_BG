@@ -32,8 +32,6 @@ import views.home.IHomeView;
 import views.products.ProductCreateView;
 import views.products.ProductSearchView;
 import views.products.list.ProductListView;
-import views.products.modular.IModularCategoryView;
-import views.products.modular.ModularCapView;
 import views.settings.SettingsView;
 
 public class Main {
@@ -84,11 +82,11 @@ public class Main {
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);
         ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
-        CuttingServiceFormPresenter cuttingServiceFormPresenter = new CuttingServiceFormPresenter(cuttingServiceFormView, budgetCreateView);
+        CuttingServiceFormPresenter cuttingServiceFormPresenter = new CuttingServiceFormPresenter(budgetModifyView, cuttingServiceFormView, budgetCreateView);
         ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(settingsModel, productSearchView, productModel, categoryModel);
         ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
         BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(cuttingServiceFormView, budgetCreateView, budgetModel, productModel, categoryModel, settingsModel);
-        BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
+        BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(cuttingServiceFormView, budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
         SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);

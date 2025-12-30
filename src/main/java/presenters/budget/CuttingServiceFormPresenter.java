@@ -4,17 +4,21 @@ import presenters.StandardPresenter;
 import utils.CuttingService;
 import views.budget.IBudgetCreateView;
 import views.budget.cuttingService.ICuttingServiceFormView;
+import views.budget.modify.IBudgetModifyView;
 
 import static utils.TextUtils.truncateAndRound;
 
 public class CuttingServiceFormPresenter extends StandardPresenter {
     private final ICuttingServiceFormView cuttingServiceView;
     private final IBudgetCreateView budgetCreateView;
+    private final IBudgetModifyView budgetModifyView;
+    private boolean isInCreateMode = true;
 
 
-    public CuttingServiceFormPresenter(ICuttingServiceFormView cuttingServiceView, IBudgetCreateView budgetCreateView) {
+    public CuttingServiceFormPresenter(IBudgetModifyView budgetModifyView, ICuttingServiceFormView cuttingServiceView, IBudgetCreateView budgetCreateView) {
         this.cuttingServiceView = cuttingServiceView;
         this.budgetCreateView = budgetCreateView;
+        this.budgetModifyView = budgetModifyView;
         view = cuttingServiceView;
     }
 
@@ -43,7 +47,16 @@ public class CuttingServiceFormPresenter extends StandardPresenter {
     }
 
     public void onAddCuttingServiceButtonClicked() {
-        budgetCreateView.addCuttingService(getCuttingService());
+            if(!isInCreateMode) {
+                budgetModifyView.addCuttingService(getCuttingService());
+                isInCreateMode = true;
+            } else {
+                budgetCreateView.addCuttingService(getCuttingService());
+            }
+    }
+
+    public void setCreateMode(boolean isInCreateMode) {
+        this.isInCreateMode = isInCreateMode;
     }
 
     public CuttingService getCuttingService() {

@@ -3,6 +3,7 @@ package views.budget.modify;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetModifyPresenter;
+import utils.CuttingService;
 import utils.MultiLineHeaderRenderer;
 import utils.NumberInputVerifier;
 import views.ToggleableView;
@@ -77,6 +78,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     private JTextField widthMeasureTextField;
     private JLabel widthMeasureLabel;
     private JLabel previewTableLabe;
+    private JButton cutServiceAddButton;
+    private JLabel orLabel;
     private BudgetModifyPresenter budgetModifyPresenter;
     private DefaultTableModel clientsTableModel;
     private DefaultTableModel productsTableModel;
@@ -153,6 +156,8 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
 
         clientTextField.addActionListener(e -> budgetModifyPresenter.OnSearchClientButtonClicked());
 
+        cutServiceAddButton.addActionListener(e -> budgetModifyPresenter.OnAddCuttingServiceButtonClicked());
+
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -164,6 +169,22 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         SetProductTableListener();
 
     }
+
+    public void addCuttingService(CuttingService cuttingService) {
+        System.out.println("CUTTING SERVICE FROM MODIFY VIEW");
+        int nextRow = getFilledRowsCount(budgetPreviewTable) + 1;
+
+        setPreviewStringTableValueAt(nextRow, 1, "Servicio de corte");
+        setPreviewStringTableValueAt(nextRow, 2, String.valueOf(cuttingService.getAmount()));
+        setPreviewStringTableValueAt(nextRow, 3, String.valueOf(cuttingService.getLinealMeters()));
+        setPreviewStringTableValueAt(nextRow, 4, cuttingService.getDescription());
+        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getTotal()));
+
+        budgetModifyPresenter.updateTextArea(true, false, cuttingService.getTotal());
+        budgetModifyPresenter.increaseRowCountOnPreviewTable();
+    }
+
+
 
     private void SetProductTableListener() {
         productTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -275,14 +296,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
     @Override
     public void setPresenter(StandardPresenter budgetModifyPresenter) {
         this.budgetModifyPresenter = (BudgetModifyPresenter) budgetModifyPresenter;
-    }
-
-    @Override
-    public void setCategoriesComboBox(List<String> categorias) {
-        productComboBox.addItem("Seleccione una categoría");
-        for (String categoria : categorias) {
-            productComboBox.addItem(categoria);
-        }
     }
 
     @Override

@@ -76,7 +76,6 @@ public class ProductCreateView extends ToggleableView implements IProductCreateV
         modularContainer.removeAll();
 
         // Mostrar la vista correspondiente
-        //JPanel selectedView = getCorrespondingModularView(category);
         IModularCategoryView selectedView = getCorrespondingModularView(category);
         if (selectedView != null && selectedView.getContainerPanel() != null) {
             modularView = selectedView;

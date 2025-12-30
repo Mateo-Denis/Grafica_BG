@@ -19,5 +19,6 @@ public interface ICuttingServiceFormView extends IToggleableView {
                 , messageType.getTitle()
                 , messageType.getMessageType());
     }
+    public void setCreateMode(boolean isInCreateMode);
 
 }

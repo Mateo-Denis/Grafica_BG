@@ -104,10 +104,13 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
                 });
             }
         }
-
         // Dependant prices listeners
 
         addCuttingServiceButton.addActionListener(e -> cuttingServiceFormPresenter.onAddCuttingServiceButtonClicked());
+    }
+
+    public void setCreateMode(boolean isInCreateMode) {
+        cuttingServiceFormPresenter.setCreateMode(isInCreateMode);
     }
 
     public void calculateDependantPrices() {
@@ -127,6 +130,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         }
     }
 
+
     @Override
     public void clearView() {
         amountTextField.setText("1");
@@ -139,6 +143,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         subTotalTextField.setEnabled(false);
         finalTextArea.setEnabled(false);
     }
+
 
     @Override
     public void setPresenter(StandardPresenter cuttingServiceFormPresenter) {

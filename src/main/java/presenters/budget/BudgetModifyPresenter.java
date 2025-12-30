@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import views.budget.cuttingService.ICuttingServiceFormView;
 import views.budget.modify.IBudgetModifyView;
 
 import static utils.databases.SettingsTableNames.GENERAL;
@@ -33,6 +34,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final IBudgetModifyModel budgetModifyModel;
     private static final IPdfConverter pdfConverter = new PdfConverter();
     private static Logger LOGGER;
+    private final ICuttingServiceFormView cuttingServiceFormView;
 
     private int productsRowCountOnPreviewTable = -1;
     private int globalClientID = -1;
@@ -44,7 +46,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private static final CategoryParser categoryParser = new CategoryParser();
 
 
-    public BudgetModifyPresenter(IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
+    public BudgetModifyPresenter(ICuttingServiceFormView cuttingServiceFormView, IBudgetModifyView budgetModifyView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, IBudgetModifyModel budgetModifyModel, ISettingsModel settingsModel) {
         this.budgetModifyView = budgetModifyView;
         view = budgetModifyView;
@@ -53,8 +55,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         this.categoryModel = categoryModel;
         this.budgetModifyModel = budgetModifyModel;
         this.settingsModel = settingsModel;
+        this.cuttingServiceFormView = cuttingServiceFormView;
 
-        cargarCategorias();
         cargarCiudades();
     }
 
@@ -66,25 +68,17 @@ public class BudgetModifyPresenter extends StandardPresenter {
     protected void initListeners() {
     }
 
-
-    private void cargarCategorias() {
-        List<String> categorias = categoryModel.getCategoriesName();
-        budgetModifyView.setCategoriesComboBox(categorias);
-    }
-
     private void cargarCiudades() {
         ArrayList<String> ciudades = budgetModel.getCitiesName();
         budgetModifyView.setCitiesComboBox(ciudades);
     }
 
-
-    // IF THE SEARCH PRODUCTS BUTTON IS CLICKED:
+        // IF THE SEARCH PRODUCTS BUTTON IS CLICKED:
     public void OnSearchProductButtonClicked() {
         String productName = budgetModifyView.getProductsTextField().getText(); // PRODUCT NAME SEARCHED
         List<String> categoriesName = categoryModel.getCategoriesName(); // GET CATEGORIES NAMES
         JComboBox categoryComboBox = budgetModifyView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
-        String selectedCategory = (String) categoryComboBox.getSelectedItem(); // GET SELECTED CATEGORY
-        ArrayList<Product> products = budgetModel.getProducts(productName, selectedCategory); // GET PRODUCTS BY NAME AND CATEGORY
+        ArrayList<Product> products = budgetModel.getProducts(productName, "Seleccione una categoría");
         String productCategoryName = ""; // PRODUCT CATEGORY NAME STRING VARIABLE
         budgetModifyView.clearProductTable(); // CLEAR PRODUCT TABLE
         int rowCount = 0; // ROW COUNT VARIABLE
@@ -109,6 +103,10 @@ public class BudgetModifyPresenter extends StandardPresenter {
         categoryComboBox.setSelectedIndex(0);
     }
 
+    public void OnAddCuttingServiceButtonClicked() {
+        cuttingServiceFormView.showView();
+        cuttingServiceFormView.setCreateMode(false);
+    }
 
     public void onClientSelectedCheckBoxClicked() {
         JCheckBox clientSelectedCheckBox = budgetModifyView.getClientSelectedCheckBox();
@@ -551,20 +549,32 @@ public class BudgetModifyPresenter extends StandardPresenter {
         Product product;
         double productPrice = 0.0;
         double totalPrice = 0.0;
+        String productName = "";
         Row row;
 
         for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
             oneProduct = GetOneProductFromPreviewTable(i);
             product = productModel.getOneProduct(productModel.getProductID(oneProduct.get(0)));
-            productPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(i, 5));
-            totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
 
-            System.out.println("PRODUCT TO PDF: " + product.getName() + " | PRICE: " + productPrice + " | TOTAL PRICE: " + totalPrice);
+            if(product != null) {
+                productPrice = Double.parseDouble(budgetModifyView.getPreviewStringTableValueAt(i, 5));
+                totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
+                productName = product.getName();
+            } else {
+                totalPrice = Double.parseDouble(oneProduct.get(4));
+                productName = oneProduct.get(0);
+                productPrice = totalPrice;
+            }
 
-            row = new Row(product.getName(), Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
+            row = new Row(productName, Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
             productRowData.add(row);
         }
         return productRowData;
+    }
+
+
+    public void increaseRowCountOnPreviewTable() {
+        productsRowCountOnPreviewTable++;
     }
 
     public List<String> GetOneProductFromPreviewTable(int row) {
@@ -573,11 +583,13 @@ public class BudgetModifyPresenter extends StandardPresenter {
         String productAmount = budgetModifyView.getPreviewStringTableValueAt(row, 2);
         String productMeasures = budgetModifyView.getPreviewStringTableValueAt(row, 3);
         String productObservations = budgetModifyView.getPreviewStringTableValueAt(row, 4);
+        String productTotalPrice = budgetModifyView.getPreviewStringTableValueAt(row, 5);
 
         productRowData.add(productName);
         productRowData.add(productAmount);
         productRowData.add(productMeasures);
         productRowData.add(productObservations);
+        productRowData.add(productTotalPrice);
 
         return productRowData;
     }

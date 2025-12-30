@@ -1,4 +1,5 @@
 package views.budget.modify;
+import utils.CuttingService;
 import views.IToggleableView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +16,6 @@ public interface IBudgetModifyView extends IToggleableView {
     void clearPreviewTable();
     void clearClientTable();
     void clearProductTable();
-    void setCategoriesComboBox(List<String> categorias);
     JComboBox<String> getCategoriesComboBox();
     void comboBoxListenerSet(ItemListener listener);
     void setProductStringTableValueAt(int row, int col, String value);
@@ -44,4 +44,5 @@ public interface IBudgetModifyView extends IToggleableView {
     DefaultTableModel getClientResultTableModel();
     int getFilledRowsCount(JTable table);
     JFrame getWindowFrame();
+    void addCuttingService(CuttingService cuttingService);
 }
