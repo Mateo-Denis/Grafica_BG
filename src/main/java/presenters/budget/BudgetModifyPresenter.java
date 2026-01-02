@@ -33,7 +33,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     private final ICategoryModel categoryModel;
     private final IBudgetModifyModel budgetModifyModel;
     private static final IPdfConverter pdfConverter = new PdfConverter();
-    private static Logger LOGGER;
+    private static Logger LOGGER = Logger.getLogger(BudgetModifyPresenter.class.getName());
     private final ICuttingServiceFormView cuttingServiceFormView;
 
     private int productsRowCountOnPreviewTable = -1;
@@ -598,7 +598,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
         try {
             pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
-            LOGGER.log(null, "Error Generating PDF");
+            LOGGER.log(java.util.logging.Level.SEVERE, "Error generating PDF: " + e.getMessage(), e);
         }
     }
 

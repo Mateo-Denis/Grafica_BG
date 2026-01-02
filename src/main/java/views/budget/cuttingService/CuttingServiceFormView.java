@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import static utils.TextUtils.truncateAndRound;
 import static utils.WindowFormatter.relativeSizeAndCenter;
+import static utils.WindowFormatter.topSizeAndCenter;
 
 public class CuttingServiceFormView extends ToggleableView implements ICuttingServiceFormView {
     private JPanel containerPanel;
@@ -47,7 +48,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
         addWindowBorders();
-        relativeSizeAndCenter(windowFrame, 0.75, 0.3);
+        topSizeAndCenter(windowFrame, 0.75, 0.3);
         windowFrame.setResizable(false);
 
 

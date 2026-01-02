@@ -85,6 +85,7 @@ public class Main {
         CategoryCreatePresenter categoryCreatePresenter = new CategoryCreatePresenter(categoryCreateView);
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);
         ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
+        ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(settingsModel, productSearchView, productModel, categoryModel);
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
         BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(cuttingServiceFormView, budgetCreateView, budgetModel, productModel, categoryModel, settingsModel);
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(cuttingServiceFormView, budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
