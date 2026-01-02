@@ -9,6 +9,7 @@ import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
 import presenters.budget.BudgetSearchPresenter;
 import presenters.categories.CategoryCreatePresenter;
+import presenters.client.BudgetHistoryPresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
@@ -24,6 +25,7 @@ import views.budget.list.BudgetListView;
 import views.budget.modify.BudgetModifyView;
 import views.budget.cuttingService.CuttingServiceFormView;
 import views.categories.CategoryCreateView;
+import views.client.BudgetHistory.BudgetHistoryView;
 import views.client.ClientCreateView;
 import views.client.ClientSearchView;
 import views.client.list.ClientListView;
@@ -60,6 +62,7 @@ public class Main {
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
         ISettingsModel settingsModel = new SettingsModel(settingsDB);
+        IBudgetHistoryModel budgetHistoryModel = new BudgetHistoryModel(budgetsDB, clientsDB);
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();
@@ -71,6 +74,7 @@ public class Main {
         CategoryCreateView categoryCreateView = new CategoryCreateView();
         BudgetModifyView budgetModifyView = new BudgetModifyView();
         SettingsView settingsView = new SettingsView();
+        BudgetHistoryView budgetHistoryView = new BudgetHistoryView();
 
 
 
@@ -82,11 +86,12 @@ public class Main {
         BudgetListPresenter budgetListPresenter = new BudgetListPresenter(budgetListView, budgetListModel);
         ProductSearchView productSearchView = new ProductSearchView(productListPresenter);
         ClientSearchView clientSearchView = new ClientSearchView(clientListPresenter);
-        CuttingServiceFormPresenter cuttingServiceFormPresenter = new CuttingServiceFormPresenter(budgetModifyView, cuttingServiceFormView, budgetCreateView);
-        ProductSearchPresenter productSearchPresenter = new ProductSearchPresenter(settingsModel, productSearchView, productModel, categoryModel);
-        ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(clientSearchView, clientModel);
         BudgetCreatePresenter budgetCreatePresenter = new BudgetCreatePresenter(cuttingServiceFormView, budgetCreateView, budgetModel, productModel, categoryModel, settingsModel);
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(cuttingServiceFormView, budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
+        CuttingServiceFormPresenter cuttingServiceFormPresenter = new CuttingServiceFormPresenter(budgetModifyView, cuttingServiceFormView, budgetCreateView);
+        BudgetHistoryPresenter budgetHistoryPresenter = new BudgetHistoryPresenter(budgetHistoryModel, budgetHistoryView, clientSearchView);
+        ClientSearchPresenter clientSearchPresenter = new ClientSearchPresenter(budgetHistoryModel, budgetHistoryView, clientSearchView, clientModel);
+
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
         SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
@@ -103,6 +108,7 @@ public class Main {
         budgetListPresenter.start();
         budgetModifyPresenter.start();
         settingsPresenter.start();
+        budgetHistoryPresenter.start();
 
         clientCreateView.start();
         clientSearchView.start();
@@ -116,9 +122,10 @@ public class Main {
         budgetModifyView.start();
         cuttingServiceFormView.start();
         settingsView.start();
+        budgetHistoryView.start();
 
-        IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
-                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter);
+IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter, budgetHistoryPresenter);
     }
 
 }
