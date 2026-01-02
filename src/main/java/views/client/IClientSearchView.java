@@ -27,4 +27,8 @@ public interface IClientSearchView extends IToggleableView {
 
 	String getClientStringTableValueAt(int row, int col);
 
+    int getSelectedClientID();
+
+    void setBudgetHistoryTable();
+
 }

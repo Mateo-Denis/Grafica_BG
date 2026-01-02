@@ -1,10 +1,13 @@
 package views.client;
 
 import lombok.Getter;
+import models.BudgetHistoryModel;
 import presenters.StandardPresenter;
+import presenters.client.BudgetHistoryPresenter;
 import presenters.client.ClientListPresenter;
 import presenters.client.ClientSearchPresenter;
 import views.ToggleableView;
+import utils.PopupMenu;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -27,6 +30,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JButton deleteButton;
     private ClientSearchPresenter clientSearchPresenter;
     private final ClientListPresenter clientListPresenter;
+    private final PopupMenu popupMenu = new PopupMenu(this);
 
     public ClientSearchView(ClientListPresenter clientListPresenter) {
         windowFrame = new JFrame("Buscar Cliente");
@@ -46,6 +50,11 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         super.start();
         SetClientTable();
         SetCityComboBox();
+        popupMenu.createPopupMenu(clientResultTable);
+    }
+
+    public void setBudgetHistoryTable() {
+        clientSearchPresenter.onShowBudgetHistoryMenuItemClicked();
     }
 
     private void SetCityComboBox() {
@@ -69,6 +78,21 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         this.clientSearchPresenter = (ClientSearchPresenter) clientSearchPresenter;
     }
 
+    public int getSelectedClientID() {
+        int clientID = 0;
+
+        try {
+            int selectedRow = clientResultTable.getSelectedRow();
+            if(selectedRow != -1 && clientResultTable.getValueAt(selectedRow, 0) != null) {
+                clientID = clientSearchPresenter.getOneClientID(selectedRow);
+            }
+        } catch (NumberFormatException e) {
+            clientID = -1;
+        }
+
+        return clientID;
+    }
+
     @Override
     protected void wrapContainer() {
         containerPanelWrapper = containerPanel;
@@ -85,10 +109,10 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
 
     @Override
     public void clearView() {
-        clearTable();
         nameSearchField.setText("");
         cityComboBox.setSelectedItem("Cualquier localidad");
         clientResultTable.clearSelection();
+        clearTable();
     }
 
     public void clearTable() {

@@ -1,5 +1,6 @@
 package views.home;
 
+import presenters.client.BudgetHistoryPresenter;
 import presenters.client.ClientCreatePresenter;
 import presenters.client.ClientSearchPresenter;
 import presenters.product.ProductSearchPresenter;
@@ -43,11 +44,12 @@ public class HomeView extends JFrame implements IHomeView {
     private final BudgetCreatePresenter budgetCreatePresenter;
     private final CategoryCreatePresenter categoryCreatePresenter;
     private final SettingsPresenter settingsPresenter;
+    private final BudgetHistoryPresenter budgetHistoryPresenter;
 
     public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
                     ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
                     BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
-                    CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter) {
+                    CategoryCreatePresenter categoryCreatePresenter, SettingsPresenter settingsPresenter, BudgetHistoryPresenter budgetHistoryPresenter) {
 
         windowFrame = new JFrame("Gráfica Bahia");
         windowFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -75,6 +77,7 @@ public class HomeView extends JFrame implements IHomeView {
         this.budgetSearchPresenter = budgetSearchPresenter;
         this.categoryCreatePresenter = categoryCreatePresenter;
         this.settingsPresenter = settingsPresenter;
+        this.budgetHistoryPresenter = budgetHistoryPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
         categoryPanel.setVisible(false);

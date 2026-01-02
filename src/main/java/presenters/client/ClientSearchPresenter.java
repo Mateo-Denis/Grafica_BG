@@ -1,8 +1,10 @@
 package presenters.client;
 
+import models.IBudgetHistoryModel;
 import models.IClientModel;
 import presenters.StandardPresenter;
 import utils.Client;
+import views.client.BudgetHistory.IBudgetHistoryView;
 import views.client.IClientSearchView;
 
 import java.util.ArrayList;
@@ -11,9 +13,13 @@ import static utils.MessageTypes.*;
 public class ClientSearchPresenter extends StandardPresenter {
 	private final IClientSearchView clientSearchView;
 	private final IClientModel clientModel;
+    private final IBudgetHistoryModel budgetHistoryModel;
+    private final IBudgetHistoryView budgetHistoryView;
 
-	public ClientSearchPresenter(IClientSearchView clientSearchView, IClientModel clientModel) {
+	public ClientSearchPresenter(IBudgetHistoryModel budgetHistoryModel, IBudgetHistoryView budgetHistoryView, IClientSearchView clientSearchView, IClientModel clientModel) {
 		this.clientSearchView = clientSearchView;
+        this.budgetHistoryModel = budgetHistoryModel;
+        this.budgetHistoryView = budgetHistoryView;
 		view = clientSearchView;
 		this.clientModel = clientModel;
 	}
@@ -124,4 +130,10 @@ public class ClientSearchPresenter extends StandardPresenter {
 
 		return clientID;
 	}
+
+    public void onShowBudgetHistoryMenuItemClicked() {
+            BudgetHistoryPresenter budgetHistoryPresenter = new BudgetHistoryPresenter(budgetHistoryModel, budgetHistoryView, clientSearchView);
+            budgetHistoryPresenter.setBudgetHistoryTable();
+            budgetHistoryView.showView();
+    }
 }

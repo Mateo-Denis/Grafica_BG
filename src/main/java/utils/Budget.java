@@ -1,6 +1,7 @@
 package utils;
 
 import lombok.Getter;
+import models.BudgetModel;
 
 public class Budget {
     @Getter
@@ -21,4 +22,5 @@ public class Budget {
     public String getBudgetNumber() {
         return String.valueOf(budgetNumber);
     }
+
 }
