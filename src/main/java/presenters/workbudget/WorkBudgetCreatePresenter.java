@@ -7,9 +7,7 @@ import models.WorkBudgetModel;
 import presenters.StandardPresenter;
 import utils.Client;
 import views.workbudget.WorkBudgetCreateView;
-import views.workbudget.stages.ClientSearchingStage;
-import views.workbudget.stages.ContentListReferences;
-import views.workbudget.stages.ContentListStage;
+import views.workbudget.stages.*;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 
 import static utils.MessageTypes.CLIENT_NOT_SELECTED;
 import static utils.MessageTypes.INCOMPLETE_MATERIAL_FIELDS;
+import static views.workbudget.stages.FinalPriceReferences.*;
 
 public class WorkBudgetCreatePresenter extends StandardPresenter {
 	private final WorkBudgetCreateView workBudgetCreateView;
@@ -77,6 +76,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 			case CONTENT_LIST -> {
 				stage = WorkBudgetCreationStage.FINAL_PRICE;
 				workBudgetCreateView.showFinalPriceStage();
+				calculateFinalPrice();
+				setDepositAndBalance(true, true);
 			}
 			case FINAL_PRICE -> {
 				stage = WorkBudgetCreationStage.CLIENT_SIDE_INFO;
@@ -88,6 +89,70 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 				// Generate PDF using pdfConverter
 			}
 		}
+	}
+
+	public void calculateFinalPrice() {
+		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
+		DefaultTableModel materialsTableModel = (DefaultTableModel) contentListStage.getMaterialsTable().getModel();
+		double materialsCost = 0.0;
+
+		// Calculate total materials cost
+		for (int i = 0; i < materialsTableModel.getRowCount(); i++) {
+			materialsCost += Double.parseDouble((String) materialsTableModel.getValueAt(i, 1));
+		}
+
+		String logisticsCostStr = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
+		String placingCostStr = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
+
+		double logisticsCost = Double.parseDouble(logisticsCostStr);
+		double placingCost = Double.parseDouble(placingCostStr);
+
+		double totalCosts = materialsCost + logisticsCost + placingCost;
+
+		FinalPriceStage finalPriceStage = workBudgetCreateView.getFinalPriceStage();
+
+		finalPriceStage.setTextContentByName(
+				MATERIALS_COST, String.format("%.2f", materialsCost)
+		);
+		finalPriceStage.setTextContentByName(
+				LOGISTICS_COST, String.format("%.2f", logisticsCost)
+		);
+		finalPriceStage.setTextContentByName(
+				PLACING_COST, String.format("%.2f", placingCost)
+		);
+		finalPriceStage.setTextContentByName(
+				TOTAL_COSTS, String.format("%.2f", totalCosts)
+		);
+
+		double finalPrice = totalCosts + totalCosts * ( Double.parseDouble(finalPriceStage.getTextContentByName(PROFIT_MARGIN)) / 100 );
+		finalPriceStage.setTextContentByName(
+				FINAL_PRICE, String.format("%.2f", finalPrice)
+		);
+	}
+
+	public void setDepositAndBalance(boolean defaultValue, boolean depositModified){
+		FinalPriceStage finalPriceStage = workBudgetCreateView.getFinalPriceStage();
+		double finalPrice = Double.parseDouble(finalPriceStage.getTextContentByName(FINAL_PRICE));
+		double deposit = 0;
+		double balance = 0;
+		if(defaultValue){
+			deposit = finalPrice * 0.5;
+			balance = finalPrice * 0.5;
+		}else if(depositModified) {
+			deposit = Double.parseDouble(finalPriceStage.getTextContentByName(DEPOSIT));
+			balance = finalPrice - deposit;
+		}else{
+			balance = Double.parseDouble(finalPriceStage.getTextContentByName(BALANCE_TO_PAY));
+			deposit = finalPrice - balance;
+		}
+
+
+		finalPriceStage.setTextContentByName(
+				DEPOSIT, String.format("%.2f", deposit)
+		);
+		finalPriceStage.setTextContentByName(
+				BALANCE_TO_PAY, String.format("%.2f", balance)
+		);
 	}
 
 	public void onHomeCreateWorkBudgetButtonClicked() {

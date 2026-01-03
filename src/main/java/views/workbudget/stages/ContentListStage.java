@@ -68,4 +68,8 @@ public class ContentListStage extends JPanel {
 		materialTextField.setText("");
 		materialPriceTextField.setText("");
 	}
+
+	public JTable getMaterialsTable() {
+		return materialsTable;
+	}
 }

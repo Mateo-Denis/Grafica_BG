@@ -1,14 +1,15 @@
 package views.workbudget;
 
+import lombok.Getter;
 import presenters.StandardPresenter;
+import presenters.product.ProductCreatePresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import views.ToggleableView;
-import views.workbudget.stages.ClientSearchingStage;
-import views.workbudget.stages.ContentListReferences;
-import views.workbudget.stages.ContentListStage;
-import views.workbudget.stages.FinalPriceStage;
+import views.workbudget.stages.*;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -21,9 +22,12 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	private JPanel finalPriceStageContainer;
 	private JPanel contentListStageContainer;
 	private JPanel clientSideInfoStage;
+	@Getter
 	private ContentListStage contentListStage;
+	@Getter
 	private ClientSearchingStage clientSearchingStage;
-	private FinalPriceStage finalPriceStage1;
+	@Getter
+	private FinalPriceStage finalPriceStage;
 	private WorkBudgetCreatePresenter workBudgetCreatePresenter;
 
 
@@ -39,7 +43,6 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		finalPriceStageContainer.setVisible(false);
 		clientSideInfoStage.setVisible(false);
 		backButton.setEnabled(false);
-
 
 		cambiarTamanioFuente(containerPanel, 14);
 		windowFrame.setSize(550, 588);
@@ -65,13 +68,62 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	protected void initListeners() {
 		backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
 		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed() );
+
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
-		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
-	}
 
-	public ClientSearchingStage getClientSearchingStage() {
-		return clientSearchingStage;
+		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
+
+		ArrayList<JTextField> textFields = new ArrayList<>();
+
+		textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
+
+		for (JTextField textField : textFields) {
+			textField.getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.calculateFinalPrice();
+				}
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.calculateFinalPrice();
+				}
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.calculateFinalPrice();
+				}
+			});
+		}
+
+		finalPriceStage.getTextFieldByName(FinalPriceReferences.DEPOSIT).getDocument().addDocumentListener(new DocumentListener() {
+				@Override
+				public void insertUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+				}
+				@Override
+				public void removeUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+				}
+				@Override
+				public void changedUpdate(DocumentEvent e) {
+					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+				}
+			});
+
+		finalPriceStage.getTextFieldByName(FinalPriceReferences.BALANCE_TO_PAY).getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+			}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+			}
+		});
 	}
 
 	@Override
