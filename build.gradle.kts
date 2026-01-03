@@ -37,6 +37,7 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.34")
     implementation("com.itextpdf:kernel:8.0.2")
     implementation("com.itextpdf:layout:8.0.5")
+    implementation("com.itextpdf:itext7-core:7.2.5")
     implementation("com.jgoodies:jgoodies-forms:1.6.0")
     implementation("org.swinglabs.swingx:swingx-all:1.6.5-1")
     implementation("org.javatuples:javatuples:1.2")

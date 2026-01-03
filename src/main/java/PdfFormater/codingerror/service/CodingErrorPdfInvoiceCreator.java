@@ -42,15 +42,15 @@ public class CodingErrorPdfInvoiceCreator {
     }
 
     public String createDocument() throws FileNotFoundException {
-        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/";
-        File pdfsFolder = new File(fileDir);
+        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
+        File pdfsFolder = new File(fileDir); // Crea la carpeta si no existe
         if (!pdfsFolder.exists()) {
             pdfsFolder.mkdirs();
         }
 
         String baseName = pdfName.replace(".pdf", ""); // Eliminamos la extensión para manipular el nombre
         String pdfFinalPath = fileDir + File.separator + pdfName;
-        int counter = 1;
+        int counter = 1; // Contador para las copias
 
         // Verifica si ya existe el archivo y genera un nombre único
         while (new File(pdfFinalPath).exists()) {
@@ -58,8 +58,8 @@ public class CodingErrorPdfInvoiceCreator {
             counter++;
         }
 
-        PdfWriter pdfWriter = new PdfWriter(pdfFinalPath);
-        pdfDocument = new PdfDocument(pdfWriter);
+        PdfWriter pdfWriter = new PdfWriter(pdfFinalPath); // Crea el PdfWriter con la ruta final única
+        pdfDocument = new PdfDocument(pdfWriter); // Crea el PdfDocument
         pdfDocument.setDefaultPageSize(PageSize.A4);
         this.document = new Document(pdfDocument);
         return pdfFinalPath;
@@ -67,10 +67,10 @@ public class CodingErrorPdfInvoiceCreator {
 
     public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {
         if(lastPage) {
-            float threecol = 190f;
-            float[] fullwidth = {threecol * 3};
-            Table tb = new Table(fullwidth);
-            tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER));
+            float threecol = 190f; // Ancho de cada columna
+            float[] fullwidth = {threecol * 3}; // Ancho total de la tabla (3 columnas)
+            Table tb = new Table(fullwidth); // Crea la tabla con el ancho total
+            tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER)); // Encabezado de la tabla
             for (String tnc : TncList) {
                 tb.addCell(new Cell().add(new Paragraph(tnc)).setBorder(Border.NO_BORDER)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER);
             }
@@ -169,7 +169,7 @@ public class CodingErrorPdfInvoiceCreator {
         //float x = pdfDocument.getDefaultPageSize().getWidth();
         float y = pdfDocument.getDefaultPageSize().getHeight() ;
 //        System.out.println("x= " + x + " y= " + y);
-        image.setFixedPosition(70, y-110);
+        image.setFixedPosition(70, y-110); // Posicion desde la esquina superior izquierda
         //image.setOpacity(0.1f);
         document.add(image);
         //
