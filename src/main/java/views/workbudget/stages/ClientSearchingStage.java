@@ -1,13 +1,16 @@
 package views.workbudget.stages;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+
+import static utils.TableSettings.adjustColumnWidthsToHeader;
 
 public class ClientSearchingStage extends JPanel {
 	private JPanel clientResultContainer;
 	private JScrollPane clientResultScrollPanel;
 	private JTable clientResultTable;
-	private JPanel addClientContainer;
-	private JButton addClientButton;
+	private DefaultTableModel clientsTableModel;
 	private JPanel nameAndCityContainer;
 	private JTextField clientTextField;
 	private JLabel clientLabel;
@@ -15,4 +18,58 @@ public class ClientSearchingStage extends JPanel {
 	private JComboBox cityComboBox;
 	private JButton clientSearchButton;
 	private JPanel root;
+
+
+	public JButton getSearchButton() {
+		return clientSearchButton;
+	}
+
+	public void setCitiesComboBox(ArrayList<String> cities) {
+		cityComboBox.addItem("Seleccione una ciudad");
+		for (String city : cities) {
+			cityComboBox.addItem(city);
+		}
+	}
+
+	public String getSelectedCity() {
+		return (String) cityComboBox.getSelectedItem();
+	}
+
+	public String getClientNameInput() {
+		return clientTextField.getText();
+	}
+
+	public void clearClientTable() {
+		for (int row = 0; row < clientResultTable.getRowCount(); row++) {
+			for (int col = 0; col < clientResultTable.getColumnCount(); col++) {
+				clientResultTable.setValueAt("", row, col);
+			}
+		}
+		clientResultTable.clearSelection();
+	}
+
+	public void setClientIntTableValueAt(int rowCount, int i, int clientID) {
+		clientResultTable.setValueAt(clientID, rowCount, i);
+	}
+
+	public void setClientStringTableValueAt(int rowCount, int i, String value) {
+		clientResultTable.setValueAt(value, rowCount, i);
+	}
+
+	public void setClientsTableModel() {
+		clientsTableModel = new DefaultTableModel(new Object[]{"ID", "Nombre", "Dirección", "Localidad", "Teléfono", "Cliente/Particular"}, 200) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		clientResultTable.setModel(clientsTableModel);
+		clientResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		adjustColumnWidthsToHeader(clientResultTable);
+	}
+
+	public boolean isTableSelected() {
+		return clientResultTable.getSelectedRow() != -1;
+	}
 }

@@ -6,6 +6,9 @@ import javax.swing.*;
 
 @Getter
 public enum MessageTypes {
+    INCOMPLETE_MATERIAL_FIELDS("Campos de material incompletos"
+            , "Por favor, complete ambos campos relacionados al material antes de agregarlo a la lista."
+            , JOptionPane.ERROR_MESSAGE),
     NO_ROW_SELECTED_FOR_DELETION("Error al eliminar fila"
             , "Por favor seleccione una fila de la tabla correspondiente antes de presionar el botón de eliminar."
             , JOptionPane.ERROR_MESSAGE),

@@ -65,13 +65,14 @@ public class Main {
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
-        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB);
+        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB, clientsDB);
         ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
         IProductListModel productListModel = new ProductListModel(productsDB);
         IClientListModel clientListModel = new ClientListModel(clientsDB);
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
         ISettingsModel settingsModel = new SettingsModel(settingsDB);
+        WorkBudgetModel workBudgetModel = new WorkBudgetModel(clientsDB);
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();
@@ -100,7 +101,7 @@ public class Main {
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
         WorkBudgetCreateView workBudgetCreateView = new WorkBudgetCreateView();
-        WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView);
+        WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView, workBudgetModel);
         SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
 
         clientCreatePresenter.start();

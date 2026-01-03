@@ -3,8 +3,14 @@ package views.workbudget;
 import presenters.StandardPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import views.ToggleableView;
+import views.workbudget.stages.ClientSearchingStage;
+import views.workbudget.stages.ContentListReferences;
+import views.workbudget.stages.ContentListStage;
+import views.workbudget.stages.FinalPriceStage;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
 public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
 	private JPanel containerPanel;
@@ -15,7 +21,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	private JPanel finalPriceStageContainer;
 	private JPanel contentListStageContainer;
 	private JPanel clientSideInfoStage;
+	private ContentListStage contentListStage;
+	private ClientSearchingStage clientSearchingStage;
+	private FinalPriceStage finalPriceStage1;
 	private WorkBudgetCreatePresenter workBudgetCreatePresenter;
+
 
 	public WorkBudgetCreateView(){
 		windowFrame = new JFrame("Crear Presupuesto de Trabajo");
@@ -29,6 +39,23 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		finalPriceStageContainer.setVisible(false);
 		clientSideInfoStage.setVisible(false);
 		backButton.setEnabled(false);
+
+
+		cambiarTamanioFuente(containerPanel, 14);
+		windowFrame.setSize(550, 588);
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - windowFrame.getWidth()) / 2;    // Centered horizontally
+		int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
+
+		// Set the location of the frame
+		windowFrame.setLocation(x, y);
+	}
+
+	@Override
+	public void start(){
+		super.start();
+		clientSearchingStage.setClientsTableModel();
 	}
 
 	@Override
@@ -38,6 +65,13 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	protected void initListeners() {
 		backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
 		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed() );
+		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
+		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
+		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
+	}
+
+	public ClientSearchingStage getClientSearchingStage() {
+		return clientSearchingStage;
 	}
 
 	@Override
