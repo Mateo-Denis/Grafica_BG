@@ -10,20 +10,6 @@ import java.awt.AWTKeyStroke;
 import java.awt.KeyboardFocusManager;
 
 public class TextAreaTab {
-    public static void changeTabKeyBehavior(JTextArea textArea) {
-        // 1. Desvinculamos la tecla TAB de la acción de insertar tabulación
-        textArea.getInputMap().put(KeyStroke.getKeyStroke("TAB"), "none");
-        textArea.getInputMap().put(KeyStroke.getKeyStroke("shift TAB"), "none");
-
-        // 2. Definimos explícitamente el comportamiento de navegación
-        Set<AWTKeyStroke> forwardKeys = new HashSet<>();
-        forwardKeys.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB, 0));
-        textArea.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardKeys);
-
-        Set<AWTKeyStroke> backwardKeys = new HashSet<>();
-        backwardKeys.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB, KeyEvent.SHIFT_DOWN_MASK));
-        textArea.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardKeys);
-    }
 
     public static void keyListenerMethod(JTextArea textArea) {
         textArea.addKeyListener(new KeyAdapter() {
