@@ -49,9 +49,11 @@ public class CuttingServiceFormPresenter extends StandardPresenter {
     public void onAddCuttingServiceButtonClicked() {
             if(!isInCreateMode) {
                 budgetModifyView.addCuttingService(getCuttingService());
+                cuttingServiceView.clearView();
                 isInCreateMode = true;
             } else {
                 budgetCreateView.addCuttingService(getCuttingService());
+                cuttingServiceView.clearView();
             }
     }
 
