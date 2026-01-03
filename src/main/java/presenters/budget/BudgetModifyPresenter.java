@@ -77,7 +77,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
     public void OnSearchProductButtonClicked() {
         String productName = budgetModifyView.getProductsTextField().getText(); // PRODUCT NAME SEARCHED
         List<String> categoriesName = categoryModel.getCategoriesName(); // GET CATEGORIES NAMES
-        JComboBox categoryComboBox = budgetModifyView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
+        // JComboBox categoryComboBox = budgetModifyView.getCategoriesComboBox(); // GET CATEGORIES COMBO BOX
         ArrayList<Product> products = budgetModel.getProducts(productName, "Seleccione una categoría");
         String productCategoryName = ""; // PRODUCT CATEGORY NAME STRING VARIABLE
         budgetModifyView.clearProductTable(); // CLEAR PRODUCT TABLE
@@ -100,7 +100,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
             budgetModifyView.setProductStringTableValueAt(rowCount, 2, String.valueOf(productPrice)); // SET PRODUCT STRING TABLE VALUE AT ROW COUNT, 3, PRODUCT PRICE
             rowCount++; // INCREMENT ROW COUNT
         }
-        categoryComboBox.setSelectedIndex(0);
+        //categoryComboBox.setSelectedIndex(0);
     }
 
     public void OnAddCuttingServiceButtonClicked() {

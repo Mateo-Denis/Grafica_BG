@@ -1,9 +1,9 @@
 package presenters.client;
 
-import models.BudgetHistoryModel;
 import models.IBudgetHistoryModel;
 import presenters.StandardPresenter;
 import utils.Budget;
+import utils.PDFOpener;
 import views.client.IClientSearchView;
 import views.client.BudgetHistory.IBudgetHistoryView;
 
@@ -13,6 +13,7 @@ public class BudgetHistoryPresenter extends StandardPresenter {
     private final IBudgetHistoryView budgetHistoryView;
     private final IClientSearchView clientSearchView;
     private final IBudgetHistoryModel budgetHistoryModel;
+    private final PDFOpener pdfOpener = new PDFOpener();
 
     public BudgetHistoryPresenter(IBudgetHistoryModel budgetHistoryModel, IBudgetHistoryView budgetHistoryView, IClientSearchView clientSearchView) {
         this.budgetHistoryView = budgetHistoryView;
@@ -47,6 +48,25 @@ public class BudgetHistoryPresenter extends StandardPresenter {
             budgetHistoryView.setTableValueAt(rowCount, 3, String.valueOf(budgetTotal));
             rowCount++;
         }
+    }
+
+    public void onDoubleClickBudget() {
+        int selectedBudgetRow = budgetHistoryView.getBudgetHistoryTable().getSelectedRow();
+        if(selectedBudgetRow != -1 && budgetHistoryView.getBudgetHistoryTable().getValueAt(selectedBudgetRow, 1) != null) {
+            openBudgetPDF(selectedBudgetRow);
+        }
+    }
+
+    public void openBudgetPDF(int selectedBudgetRow) {
+
+        int budgetNumber = Integer.parseInt((String) budgetHistoryView.getBudgetHistoryTable().getValueAt(selectedBudgetRow, 1));
+        String clientName = (String) budgetHistoryView.getBudgetHistoryTable().getValueAt(selectedBudgetRow, 0);
+        int budgetId = budgetHistoryModel.getBudgetID(clientName, budgetNumber);
+        Budget budget = budgetHistoryModel.getOneBudget(budgetId);
+        String budgetDate = budget.getDate();
+
+
+        pdfOpener.openPDF(budgetNumber, clientName, budgetDate);
     }
 
     public ArrayList<Budget> getClientBudgets() {
