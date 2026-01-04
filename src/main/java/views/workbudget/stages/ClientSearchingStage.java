@@ -76,7 +76,7 @@ public class ClientSearchingStage extends JPanel {
 		int row = clientResultTable.getSelectedRow();
 		if( row == -1 ){
 			return false;
-		}else if(clientResultTable.getModel().getValueAt(row, 0) == ""){
+		}else if(clientResultTable.getModel().getValueAt(row, 0) == null){
 			return false;
 		}else {
 			return true;

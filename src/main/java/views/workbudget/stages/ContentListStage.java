@@ -1,5 +1,6 @@
 package views.workbudget.stages;
 
+import lombok.Getter;
 import utils.NumberInputVerifier;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class ContentListStage extends JPanel {
 	private JPanel placingPanel;
 	private JPanel logisticsPanel;
 	private JPanel materialsPanel;
+	@Getter
 	private JTable materialsTable;
 
 	public ContentListStage() {
@@ -69,7 +71,4 @@ public class ContentListStage extends JPanel {
 		materialPriceTextField.setText("");
 	}
 
-	public JTable getMaterialsTable() {
-		return materialsTable;
-	}
 }

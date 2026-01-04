@@ -2,7 +2,6 @@ package views.workbudget;
 
 import lombok.Getter;
 import presenters.StandardPresenter;
-import presenters.product.ProductCreatePresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import views.ToggleableView;
 import views.workbudget.stages.*;
@@ -21,13 +20,14 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	private JPanel clientStageContainer;
 	private JPanel finalPriceStageContainer;
 	private JPanel contentListStageContainer;
-	private JPanel clientSideInfoStage;
+	private JPanel clientSideInfoStageContainer;
 	@Getter
 	private ContentListStage contentListStage;
 	@Getter
 	private ClientSearchingStage clientSearchingStage;
 	@Getter
 	private FinalPriceStage finalPriceStage;
+	private ClientSideInfoStage clientSideInfoStage;
 	private WorkBudgetCreatePresenter workBudgetCreatePresenter;
 
 
@@ -41,7 +41,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 		contentListStageContainer.setVisible(false);
 		finalPriceStageContainer.setVisible(false);
-		clientSideInfoStage.setVisible(false);
+		clientSideInfoStageContainer.setVisible(false);
 		backButton.setEnabled(false);
 
 		cambiarTamanioFuente(containerPanel, 14);
@@ -162,11 +162,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	public void showFinalPriceStage(){
 		contentListStageContainer.setVisible(false);
 		finalPriceStageContainer.setVisible(true);
-		clientSideInfoStage.setVisible(false);
+		clientSideInfoStageContainer.setVisible(false);
 	}
 
 	public void showClientSideInfoStage(){
 		finalPriceStageContainer.setVisible(false);
-		clientSideInfoStage.setVisible(true);
+		clientSideInfoStageContainer.setVisible(true);
 	}
 }
