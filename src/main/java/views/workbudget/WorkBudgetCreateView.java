@@ -73,7 +73,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 
 		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
-
+		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
 		ArrayList<JTextField> textFields = new ArrayList<>();
 
 		textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
@@ -82,15 +82,15 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 			textField.getDocument().addDocumentListener(new DocumentListener() {
 				@Override
 				public void insertUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.calculateFinalPrice();
+					workBudgetCreatePresenter.onProfitMarginChanged();
 				}
 				@Override
 				public void removeUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.calculateFinalPrice();
+					workBudgetCreatePresenter.onProfitMarginChanged();
 				}
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.calculateFinalPrice();
+					workBudgetCreatePresenter.onProfitMarginChanged();
 				}
 			});
 		}
@@ -98,30 +98,30 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		finalPriceStage.getTextFieldByName(FinalPriceReferences.DEPOSIT).getDocument().addDocumentListener(new DocumentListener() {
 				@Override
 				public void insertUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+					workBudgetCreatePresenter.onDepositChanged(true);
 				}
 				@Override
 				public void removeUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+					workBudgetCreatePresenter.onDepositChanged(true);
 				}
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.setDepositAndBalance(false, true);
+					workBudgetCreatePresenter.onDepositChanged(true);
 				}
 			});
 
 		finalPriceStage.getTextFieldByName(FinalPriceReferences.BALANCE_TO_PAY).getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+				workBudgetCreatePresenter.onDepositChanged(false);
 			}
 			@Override
 			public void removeUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+				workBudgetCreatePresenter.onDepositChanged(false);
 			}
 			@Override
 			public void changedUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.setDepositAndBalance(false, false);
+				workBudgetCreatePresenter.onDepositChanged(false);
 			}
 		});
 	}

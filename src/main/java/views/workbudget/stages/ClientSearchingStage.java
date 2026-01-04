@@ -1,5 +1,7 @@
 package views.workbudget.stages;
 
+import lombok.Getter;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class ClientSearchingStage extends JPanel {
 	private JTable clientResultTable;
 	private DefaultTableModel clientsTableModel;
 	private JPanel nameAndCityContainer;
+	@Getter
 	private JTextField clientTextField;
 	private JLabel clientLabel;
 	private JLabel cityLabel;
@@ -70,6 +73,13 @@ public class ClientSearchingStage extends JPanel {
 	}
 
 	public boolean isTableSelected() {
-		return clientResultTable.getSelectedRow() != -1;
+		int row = clientResultTable.getSelectedRow();
+		if( row == -1 ){
+			return false;
+		}else if(clientResultTable.getModel().getValueAt(row, 0) == ""){
+			return false;
+		}else {
+			return true;
+		}
 	}
 }

@@ -9,6 +9,7 @@ import utils.Client;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.stages.*;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.ArrayList;
@@ -91,7 +92,30 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		}
 	}
 
-	public void calculateFinalPrice() {
+	private boolean updating = false;
+
+	public void onProfitMarginChanged() {
+		if (updating) return;
+
+		SwingUtilities.invokeLater(() -> {
+			updating = true;
+			calculateFinalPrice();
+			setDepositAndBalance(true, true);
+			updating = false;
+		});
+	}
+
+	public void onDepositChanged(boolean depositModified) {
+		if (updating) return;
+
+		SwingUtilities.invokeLater(() -> {
+			updating = true;
+			setDepositAndBalance(false, depositModified);
+			updating = false;
+		});
+	}
+
+	private void calculateFinalPrice() {
 		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
 		DefaultTableModel materialsTableModel = (DefaultTableModel) contentListStage.getMaterialsTable().getModel();
 		double materialsCost = 0.0;
@@ -104,8 +128,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		String logisticsCostStr = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
 		String placingCostStr = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
 
-		double logisticsCost = Double.parseDouble(logisticsCostStr);
-		double placingCost = Double.parseDouble(placingCostStr);
+		double logisticsCost = logisticsCostStr.isEmpty() ? 0.0 : Double.parseDouble(logisticsCostStr);
+		double placingCost = placingCostStr.isEmpty() ? 0.0 : Double.parseDouble(placingCostStr);
 
 		double totalCosts = materialsCost + logisticsCost + placingCost;
 
@@ -130,11 +154,11 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		);
 	}
 
-	public void setDepositAndBalance(boolean defaultValue, boolean depositModified){
+	private void setDepositAndBalance(boolean defaultValue, boolean depositModified){
 		FinalPriceStage finalPriceStage = workBudgetCreateView.getFinalPriceStage();
 		double finalPrice = Double.parseDouble(finalPriceStage.getTextContentByName(FINAL_PRICE));
-		double deposit = 0;
-		double balance = 0;
+		double deposit;
+		double balance;
 		if(defaultValue){
 			deposit = finalPrice * 0.5;
 			balance = finalPrice * 0.5;

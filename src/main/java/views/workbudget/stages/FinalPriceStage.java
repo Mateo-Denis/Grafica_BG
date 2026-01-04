@@ -24,6 +24,8 @@ public class FinalPriceStage extends JPanel{
 	public FinalPriceStage(){
 		profitTextField.setText("100");
 		((AbstractDocument) profitTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+		((AbstractDocument) depositTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
+		((AbstractDocument) balanceTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 	}
 
 	public JTextField getTextFieldByName(FinalPriceReferences name) {
