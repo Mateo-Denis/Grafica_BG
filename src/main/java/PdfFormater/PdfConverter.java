@@ -25,18 +25,22 @@ public class PdfConverter implements IPdfConverter{
         LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
 
         String pdfName;
+
+        // Generate PDF file name
         if(isPreview){
             pdfName = "temp_preview.pdf";
         }else {
             pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
         }
-        String imagePath="src/main/resources/BGLogo.png";
+
+        String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
+
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
         String finalPath = cepdf.createDocument();
 
         //Create Header start
         HeaderDetails header=new HeaderDetails();
-        header.setInvoiceNo(billNumber+"").
+        header.setInvoiceNo(billNumber+""). // Set invoice number
                 setInvoiceDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
                 .setInvoiceTitle("")
                 .setInvoiceNoText("N° presupuesto")
