@@ -1,14 +1,34 @@
 package testing;
 
 
+import PdfFormater.JobBudgetClientPDFConverter;
 import PdfFormater.JobBudgetPDFConverter;
+import PdfFormater.NewRow;
+import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
+import utils.Client;
+import utils.NewProduct;
+
+import java.util.ArrayList;
 
 public class testingMain {
     private final JobBudgetPDFConverter jobBudgetPDFConverter = new JobBudgetPDFConverter();
+    private static final JobBudgetClientPDFConverter jobBudgetClientPDFConverter = new JobBudgetClientPDFConverter();
 
     public static void main(String[] args) {
         try {
+/*
             JobBudgetPDFConverter.generarFactura();
+
+*/
+            CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator("test.pdf");
+            Client client = new Client("Cliente de prueba", "Calle Falsa 123", "Ciudad Ejemplo", "12345", true);
+            int billNumber = 1;
+            ArrayList<NewRow> tableContent = new ArrayList<>();
+            tableContent.add(new NewRow("Producto 1", 100.0));
+            tableContent.add(new NewRow("Producto 2", 200.0));
+            double total = 300.0;
+
+            jobBudgetClientPDFConverter.generateBill(false, client, billNumber, tableContent, total);
         } catch (Exception e) {
             e.printStackTrace();
         }

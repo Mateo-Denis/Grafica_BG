@@ -1,5 +1,6 @@
 package PdfFormater.codingerror.service;
 
+import PdfFormater.NewRow;
 import PdfFormater.Row;
 import PdfFormater.codingerror.model.*;
 import com.itextpdf.io.image.ImageData;
@@ -18,6 +19,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
+import utils.NewProduct;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -31,14 +33,24 @@ public class CodingErrorPdfInvoiceCreator {
     PdfDocument pdfDocument;
     String pdfName;
     float threecol=190f;
+    float newthreecol=285f;
     float twocol=285f;
     float twocol150=twocol+150f;
     float[] twocolumnWidth ={twocol150,twocol};
     float[] threeColumnWidth ={threecol, threecol, threecol, threecol, threecol, threecol};
+    float[] newThreeColumnWidth ={newthreecol, newthreecol};
     float[] fullwidth = {threecol*6}; //Cambiose
 
     public CodingErrorPdfInvoiceCreator(String pdfName){
         this.pdfName=pdfName;
+    }
+
+    public List<NewProduct> formatNewProductsToProductsList(ArrayList<NewRow> nRows){
+        List<NewProduct> productList = new ArrayList<>();
+        for(NewRow nRow:nRows){
+            productList.add(new NewProduct(nRow.getProductDescription(), nRow.getTotal()));
+        }
+        return productList;
     }
 
     public String createDocument() throws FileNotFoundException {
@@ -112,6 +124,33 @@ public class CodingErrorPdfInvoiceCreator {
         totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         totalTable.addCell(new Cell().add(new Paragraph("Total")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+
+        document.add(totalTable);
+
+        document.add(fullwidthDashedBorder(fullwidth));
+        document.add(new Paragraph("\n"));
+        document.add(getDividerTable(fullwidth).setBorder(new SolidBorder(new DeviceGray(0.75f),1)).setMarginBottom(15f));
+    }
+
+    public void createNewProduct(List<NewProduct> productList, double totalPrice) {
+        Table productsTable = new Table(newThreeColumnWidth);
+
+        productsTable.addCell(new Cell().add(new Paragraph("Descripcion")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Precio total del item")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+
+        for(NewProduct product : productList) {
+            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription())).setBorder(Border.NO_BORDER));
+            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
+        }
+
+        document.add(productsTable);
+        document.add(new Paragraph("\n"));
+        document.add(fullwidthDashedBorder(fullwidth));
+
+
+        Table totalTable = new Table(newThreeColumnWidth);
+        totalTable.addCell(new Cell().add(new Paragraph("TOTAL:")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
         totalTable.addCell(new Cell().add(new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
 
         document.add(totalTable);
