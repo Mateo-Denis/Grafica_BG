@@ -22,25 +22,17 @@ public class JobBudgetPDFConverter {
     private static int counter;
     private static final Random Random = new Random();
     private static PdfFont FONT;
-/*    private static PdfFont FONT_BOLD;*/
 
     private static void initFonts() throws IOException {
 
         FontProgram arialNarrowProgram =
                 FontProgramFactory.createFont("src/main/resources/fonts/arial_narrow_7.ttf");
 
-/*        FontProgram arialNarrowBoldProgram =
-                FontProgramFactory.createFont("src/main/resources/fonts/ArialNarrow-Bold.ttf");*/
-
         FONT = PdfFontFactory.createFont(
                 arialNarrowProgram,
                 PdfEncodings.IDENTITY_H
         );
 
-/*        PdfFont arialNarrowBold = PdfFontFactory.createFont(
-                arialNarrowBoldProgram,
-                PdfEncodings.IDENTITY_H
-        );*/
     }
 
     public static void generarFactura() throws IOException {
@@ -154,14 +146,6 @@ public class JobBudgetPDFConverter {
 
     // ================= UTILIDADES =================
 
-    private static Paragraph label(String text) {
-        return new Paragraph(text).setFontSize(10).setBold();
-    }
-
-    private static Paragraph value(String text) {
-        return new Paragraph(text).setFontSize(10);
-    }
-
     private static Table bloquePagos() {
         Table t = new Table(1);
         t.setWidth(UnitValue.createPercentValue(100));
@@ -222,18 +206,6 @@ public class JobBudgetPDFConverter {
 
     private static Paragraph espacio() {
         return new Paragraph("").setMarginBottom(10);
-    }
-
-    private static Cell celdaLibre(float altura) {
-        return new Cell()
-                .setHeight(altura)
-                .setBorder(new SolidBorder(1));
-    }
-
-    private static Cell celdaSeccion(String titulo) {
-        return new Cell()
-                .add(new Paragraph(titulo).setBold())
-                .setBorder(new SolidBorder(1));
     }
 
     private static Table bloqueColocacion() {
