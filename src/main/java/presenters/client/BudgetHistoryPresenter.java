@@ -3,6 +3,7 @@ package presenters.client;
 import models.IBudgetHistoryModel;
 import presenters.StandardPresenter;
 import utils.Budget;
+import utils.MessageTypes;
 import utils.PDFOpener;
 import views.client.IClientSearchView;
 import views.client.BudgetHistory.IBudgetHistoryView;
@@ -31,29 +32,39 @@ public class BudgetHistoryPresenter extends StandardPresenter {
         return budgetHistoryModel.getBudgetTotal(budgetNumber, clientName);
     }
 
-    public void setBudgetHistoryTable() {
+    public boolean setBudgetHistoryTable() {
         ArrayList<Budget> budgets = getClientBudgets();
-        budgetHistoryView.clearView();
+        boolean thereAreBudgets = !budgets.isEmpty();
         int rowCount = 0;
         double budgetTotal = 0.0;
-        budgetHistoryView.setClientName(budgets.get(0).getName());
 
-        for (Budget budget : budgets) {
-            budgetTotal = getBudgetTotal(Integer.parseInt(budget.getBudgetNumber()), budget.getName());
+        budgetHistoryView.clearView();
+
+        if(thereAreBudgets){
+            budgetHistoryView.setClientName(budgets.get(0).getName());
+            for (Budget budget : budgets) {
+                budgetTotal = getBudgetTotal(Integer.parseInt(budget.getBudgetNumber()), budget.getName());
 
 
-            budgetHistoryView.setTableValueAt(rowCount, 0, String.valueOf(budget.getName()));
-            budgetHistoryView.setTableValueAt(rowCount, 1, budget.getBudgetNumber());
-            budgetHistoryView.setTableValueAt(rowCount, 2, budget.getDate());
-            budgetHistoryView.setTableValueAt(rowCount, 3, String.valueOf(budgetTotal));
-            rowCount++;
+                budgetHistoryView.setTableValueAt(rowCount, 0, String.valueOf(budget.getName()));
+                budgetHistoryView.setTableValueAt(rowCount, 1, budget.getBudgetNumber());
+                budgetHistoryView.setTableValueAt(rowCount, 2, budget.getDate());
+                budgetHistoryView.setTableValueAt(rowCount, 3, String.valueOf(budgetTotal));
+                rowCount++;
+            }
         }
+
+        return thereAreBudgets;
     }
 
     public void onDoubleClickBudget() {
         int selectedBudgetRow = budgetHistoryView.getBudgetHistoryTable().getSelectedRow();
         if(selectedBudgetRow != -1 && budgetHistoryView.getBudgetHistoryTable().getValueAt(selectedBudgetRow, 1) != null) {
-            openBudgetPDF(selectedBudgetRow);
+            try {
+                openBudgetPDF(selectedBudgetRow);
+            } catch (Exception e) {
+                budgetHistoryView.showMessage(MessageTypes.CLIENT_BUDGET_OPENING_FAILURE);
+            }
         }
     }
 

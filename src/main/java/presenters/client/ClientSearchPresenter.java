@@ -4,6 +4,7 @@ import models.IBudgetHistoryModel;
 import models.IClientModel;
 import presenters.StandardPresenter;
 import utils.Client;
+import utils.MessageTypes;
 import views.client.BudgetHistory.IBudgetHistoryView;
 import views.client.IClientSearchView;
 
@@ -133,7 +134,13 @@ public class ClientSearchPresenter extends StandardPresenter {
 
     public void onShowBudgetHistoryMenuItemClicked() {
             BudgetHistoryPresenter budgetHistoryPresenter = new BudgetHistoryPresenter(budgetHistoryModel, budgetHistoryView, clientSearchView);
-            budgetHistoryPresenter.setBudgetHistoryTable();
+            boolean thereAreBudgets = budgetHistoryPresenter.setBudgetHistoryTable();
+
+            if(!thereAreBudgets){
+                clientSearchView.showMessage(CLIENT_BUDGET_NO_BUDGETS);
+                return;
+            }
+
             budgetHistoryView.showView();
     }
 }

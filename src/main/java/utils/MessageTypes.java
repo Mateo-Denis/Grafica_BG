@@ -108,6 +108,15 @@ public enum MessageTypes {
     SETTINGS_SAVE_SUCCESS("Configuración guardada con éxito"
             , "La configuración de las tablas fue guardada con éxito."
             , JOptionPane.INFORMATION_MESSAGE),
+    CLIENT_BUDGET_SEARCH_FAILURE("Error al buscar los presupuestos del cliente"
+            , "Ha ocurrido un error al intentar buscar los presupuestos del cliente."
+            , JOptionPane.ERROR_MESSAGE),
+    CLIENT_BUDGET_OPENING_FAILURE("Error al abrir el presupuesto del cliente"
+            , "Ha ocurrido un error al intentar abrir el presupuesto del cliente."
+            , JOptionPane.ERROR_MESSAGE),
+    CLIENT_BUDGET_NO_BUDGETS("El cliente no tiene presupuestos"
+            , "El cliente seleccionado no tiene presupuestos asociados."
+            , JOptionPane.INFORMATION_MESSAGE)
 
     ;
 
