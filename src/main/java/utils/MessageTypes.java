@@ -6,6 +6,9 @@ import javax.swing.*;
 
 @Getter
 public enum MessageTypes {
+    INCOMPLETE_INFO_FIELDS("Campos incompletos"
+            , "Por favor, complete todos los campos obligatorios antes de continuar."
+            , JOptionPane.ERROR_MESSAGE),
     INCOMPLETE_MATERIAL_FIELDS("Campos de material incompletos"
             , "Por favor, complete ambos campos relacionados al material antes de agregarlo a la lista."
             , JOptionPane.ERROR_MESSAGE),

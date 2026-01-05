@@ -62,6 +62,8 @@ public class Main {
         attributesDB.loadDatabase();
         SettingsDatabaseConnection settingsDB = new SettingsDatabaseConnection();
         settingsDB.loadDatabase();
+        WorkBudgetsDatabaseConnection workBudgetsDB = new WorkBudgetsDatabaseConnection();
+        workBudgetsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
@@ -72,7 +74,7 @@ public class Main {
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
         ISettingsModel settingsModel = new SettingsModel(settingsDB);
-        WorkBudgetModel workBudgetModel = new WorkBudgetModel(clientsDB);
+        WorkBudgetModel workBudgetModel = new WorkBudgetModel(clientsDB, workBudgetsDB);
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();

@@ -76,10 +76,11 @@ public class ClientSearchingStage extends JPanel {
 		int row = clientResultTable.getSelectedRow();
 		if( row == -1 ){
 			return false;
-		}else if(clientResultTable.getModel().getValueAt(row, 0) == null){
-			return false;
-		}else {
-			return true;
-		}
+		}else return (clientResultTable.getModel().getValueAt(row, 0) != null) && !clientResultTable.getModel().getValueAt(row, 0).equals("");
+	}
+
+	public int getSelectedClientID() {
+		int row = clientResultTable.getSelectedRow();
+		return (int) clientResultTable.getModel().getValueAt(row, 0);
 	}
 }

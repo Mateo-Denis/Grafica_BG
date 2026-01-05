@@ -2,20 +2,21 @@ package presenters.workbudget;
 
 import PdfFormater.IPdfConverter;
 import PdfFormater.PdfConverter;
-import models.IBudgetModel;
 import models.WorkBudgetModel;
 import presenters.StandardPresenter;
 import utils.Client;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.stages.*;
 
+import static utils.MessageTypes.*;
+import static utils.TextUtils.truncateAndRound;
+
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.ArrayList;
 
-import static utils.MessageTypes.CLIENT_NOT_SELECTED;
-import static utils.MessageTypes.INCOMPLETE_MATERIAL_FIELDS;
 import static views.workbudget.stages.FinalPriceReferences.*;
 
 public class WorkBudgetCreatePresenter extends StandardPresenter {
@@ -32,6 +33,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		view = workBudgetCreateView;
 		workBudgetCreateView.setBackButton(false);
 		loadCities();
+		workBudgetCreateView.setBudgetNumberLabelText("Presupuesto N°: " + workBudgetModel.getNextBudgetNumber());
 	}
 
 	@Override
@@ -86,7 +88,15 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 				workBudgetCreateView.showClientSideInfoStage();
 			}
 			case CLIENT_SIDE_INFO -> {
-
+				workBudgetModel.saveWorkBudget(
+						workBudgetCreateView.getSelectedClientId(),
+						workBudgetCreateView.getMaterialsList(),
+						workBudgetCreateView.getLogisticsData(),
+						workBudgetCreateView.getPlacingData(),
+						workBudgetCreateView.getProfitMargin(),
+						workBudgetCreateView.getFinalPrice(),
+						workBudgetCreateView.getClientInfoItems()
+				);
 				// Generate PDF using pdfConverter
 			}
 		}
@@ -147,10 +157,12 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		finalPriceStage.setTextContentByName(
 				TOTAL_COSTS, String.format("%.2f", totalCosts)
 		);
-
-		double finalPrice = totalCosts + totalCosts * ( Double.parseDouble(finalPriceStage.getTextContentByName(PROFIT_MARGIN)) / 100 );
+		String profit = finalPriceStage.getTextContentByName(PROFIT_MARGIN);
+		double profitMargin = profit.isEmpty() ? 0.00 : Double.parseDouble(profit);
+		double finalPrice = totalCosts + totalCosts * ( profitMargin / 100 );
+		;
 		finalPriceStage.setTextContentByName(
-				FINAL_PRICE, String.format("%.2f", finalPrice)
+				FINAL_PRICE, String.format("%.2f", Double.parseDouble(truncateAndRound(Double.toString(finalPrice))))
 		);
 	}
 
@@ -192,6 +204,19 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 			contentListStage.addMaterialToTable(material, materialPrice);
 			contentListStage.clearMaterialInputFields();
+			contentListStage.setFocusToMaterialField();
+		}
+	}
+
+	public void onInfoItemEnterPressed(ClientSideInfoStage clientSideInfoStage) {
+		String description = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL);
+		String price = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL_PRICE);
+		if( description.isEmpty() || price.isEmpty()){
+			workBudgetCreateView.showMessage(INCOMPLETE_INFO_FIELDS);
+		}else {
+			clientSideInfoStage.addInfoItemToTable(description, price);
+			clientSideInfoStage.clearMaterialInputFields();
+			clientSideInfoStage.setFocusToMaterialField();
 		}
 	}
 

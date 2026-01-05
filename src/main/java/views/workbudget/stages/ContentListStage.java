@@ -1,12 +1,14 @@
 package views.workbudget.stages;
 
 import lombok.Getter;
+import org.javatuples.Pair;
 import utils.NumberInputVerifier;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
-import java.awt.event.ActionEvent;
+
+import java.util.ArrayList;
 
 import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTable;
 import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTextArea;
@@ -71,4 +73,21 @@ public class ContentListStage extends JPanel {
 		materialPriceTextField.setText("");
 	}
 
+	public void setFocusToMaterialField() {
+		materialTextField.requestFocusInWindow();
+	}
+
+	public ArrayList<Pair<String, String>> getMaterialsListFromTable() {
+		ArrayList<Pair<String, String>> materials = new ArrayList<>();
+		DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
+		for (int row = 0; row < model.getRowCount(); row++) {
+			String materialName = (String) model.getValueAt(row, 0);
+			String materialPriceString = (String) model.getValueAt(row, 1);
+			if (materialName != null && !materialName.isEmpty() &&
+					materialPriceString != null && !materialPriceString.isEmpty()) {
+				materials.add(new Pair<>(materialName, materialPriceString));
+			}
+		}
+		return materials;
+	}
 }

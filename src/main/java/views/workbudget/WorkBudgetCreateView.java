@@ -1,6 +1,7 @@
 package views.workbudget;
 
 import lombok.Getter;
+import org.javatuples.Pair;
 import presenters.StandardPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import views.ToggleableView;
@@ -75,6 +76,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
 		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
 		ArrayList<JTextField> textFields = new ArrayList<>();
+
+		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.DESCRIPTION).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
+		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.TOTAL).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
+
+
 
 		textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
 
@@ -168,5 +174,47 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	public void showClientSideInfoStage(){
 		finalPriceStageContainer.setVisible(false);
 		clientSideInfoStageContainer.setVisible(true);
+	}
+
+	public int getSelectedClientId(){
+		return clientSearchingStage.getSelectedClientID();
+	}
+
+	public ArrayList<Pair<String, String>> getMaterialsList(){
+		return contentListStage.getMaterialsListFromTable();
+	}
+
+	public Pair<String, String> getLogisticsData(){
+		String logisticsCostText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
+		String logisticsDescriptionText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION);
+		if (logisticsCostText == null || logisticsCostText.isEmpty()) {
+			return new Pair<>(logisticsDescriptionText, "0.00");
+		}
+		return new Pair<>(logisticsDescriptionText, logisticsCostText);
+	}
+
+	public Pair<String, String> getPlacingData(){
+		String placingCostText = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
+		String placerText = contentListStage.getTextContentByName(ContentListReferences.PLACER);
+		if (placingCostText == null || placingCostText.isEmpty()) {
+			return new Pair<>(placerText, "0.0");
+		}
+		return new Pair<>(placerText, placingCostText);
+	}
+
+	public String getProfitMargin() {
+		return finalPriceStage.getTextContentByName(FinalPriceReferences.PROFIT_MARGIN);
+	}
+
+	public String getFinalPrice() {
+		return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
+	}
+
+	public ArrayList<Pair<String, String>> getClientInfoItems(){
+		return clientSideInfoStage.getItemsListFromTable();
+	}
+
+	public void setBudgetNumberLabelText(String text){
+		budgetNumberLabel.setText(text);
 	}
 }
