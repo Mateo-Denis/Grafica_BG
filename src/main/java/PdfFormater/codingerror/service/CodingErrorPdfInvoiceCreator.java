@@ -136,8 +136,15 @@ public class CodingErrorPdfInvoiceCreator {
     public void createNewProduct(List<NewProduct> productList, double totalPrice) {
         Table productsTable = new Table(newThreeColumnWidth);
 
-        productsTable.addCell(new Cell().add(new Paragraph("Descripcion")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
-        productsTable.addCell(new Cell().add(new Paragraph("Precio total del item")).setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setTextAlignment(TextAlignment.CENTER).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+        productsTable.addCell(new Cell().add(new Paragraph("Descripcion"))
+                .setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+
+        productsTable.addCell(new Cell().add(new Paragraph("Precio total del item"))
+                .setBorder(Border.NO_BORDER)
+                .setBold()
+                .setFontColor(DeviceGray.WHITE)
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBackgroundColor(DeviceGray.BLACK, 0.7f));
 
         for(NewProduct product : productList) {
             productsTable.addCell(new Cell().add(new Paragraph(product.getDescription())).setBorder(Border.NO_BORDER));

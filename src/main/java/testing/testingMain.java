@@ -20,7 +20,6 @@ public class testingMain {
             JobBudgetPDFConverter.generarFactura();
 
 */
-            CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator("test.pdf");
             Client client = new Client("Cliente de prueba", "Calle Falsa 123", "Ciudad Ejemplo", "12345", true);
             int billNumber = 1;
             ArrayList<NewRow> tableContent = new ArrayList<>();

@@ -77,17 +77,12 @@ public class JobBudgetClientPDFConverter {
 
         //Product Start
         List<NewProduct> productList = cepdf.formatNewProductsToProductsList(tableContent);
-        // productList=cepdf.modifyProductList(productList);
         cepdf.createNewProduct(productList, total);
         //Product End
 
         //Term and Condition Start
         List<String> TncList=new ArrayList<>();
-        TncList.add("Presupuesto válido por 48hs.");
-        //I left this as a sample, you can add more stuff here
-        /*
-        TncList.add("1. The Seller shall not be liable to the Buyer directly or indirectly for any loss or damage suffered by the Buyer.");
-        TncList.add("2. The Seller warrants the product for one (1) year from the date of shipment");*/
+        TncList.add("Presupuesto válido por 48hs. \n ");
         cepdf.createTnc(TncList,false,imagePath);
         // Term and condition end
 
