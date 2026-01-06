@@ -3,6 +3,7 @@ package PdfFormater;
 import PdfFormater.codingerror.model.AddressDetails;
 import PdfFormater.codingerror.model.HeaderDetails;
 import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
+import com.itextpdf.layout.element.Paragraph;
 import utils.Client;
 import utils.NewProduct;
 
@@ -65,11 +66,9 @@ public class JobBudgetClientPDFConverter {
                 .setBillingAddress(client.getCity())
                 .setBillingEmailText("Teléfono")
                 .setBillingEmail(client.getPhone())
-                //.setShippingName("Customer Name \n")
                 .setShippingInfoText("")
                 .setShippingNameText("")
                 .setShippingAddressText("")
-                //.setShippingAddress("Banglore Name sdss\n swjs\n")
                 .build();
 
         cepdf.createAddress(addressDetails);
@@ -81,8 +80,13 @@ public class JobBudgetClientPDFConverter {
         //Product End
 
         //Term and Condition Start
-        List<String> TncList=new ArrayList<>();
-        TncList.add("Presupuesto válido por 48hs. \n ");
+        Paragraph tncLine1 = new Paragraph("Presupuesto válido por 48 hs. \n ").setItalic();
+        Paragraph tncLine2 = new Paragraph("Modalidad de pago: 50% al confirmar y 50% al finalizar. \n ").setItalic();
+        Paragraph tncLine3 = new Paragraph("\n Por cualquier consulta, no dude en comunicarse con nosotros. \n ").setUnderline();
+        List<Paragraph> TncList=new ArrayList<>();
+        TncList.add(tncLine1);
+        TncList.add(tncLine2);
+        TncList.add(tncLine3);
         cepdf.createTnc(TncList,false,imagePath);
         // Term and condition end
 
