@@ -74,18 +74,7 @@ public class SettingsPresenter extends StandardPresenter {
 	protected void initListeners() {
 
 	}
-
-	private ArrayList<Pair<String, Double>> tableToArrayList(JTable table) throws NumberFormatException{
-		ArrayList<Pair<String, Double>> arrayList = new ArrayList<>();
-		Object obj;
-		for (int i = 0; i < table.getRowCount(); i++) {
-			obj = table.getValueAt(i, 1);
-			arrayList.add(new Pair<>(table.getValueAt(i, 0).toString(), Double.parseDouble(obj.toString())));
-		}
-		return arrayList;
-	}
-
-	public void onHomeSettingsButtonClicked() {
+    public void onHomeSettingsButtonClicked() {
 		settingsView.showView();
 		showValues();
 	}
