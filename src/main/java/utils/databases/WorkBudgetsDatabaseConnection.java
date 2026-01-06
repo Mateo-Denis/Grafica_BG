@@ -1,6 +1,9 @@
 package utils.databases;
 
+import org.javatuples.Pair;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 	@Override
@@ -25,7 +28,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		}
 	}
 
-	public void insertWorkBudget(String clientID, String date, String budgetNumber, String logistics, String logisticsPrice,
+	public int insertWorkBudget(String clientID, String date, String budgetNumber, String logistics, String logisticsPrice,
 								 String placer, String placingCost, String profit, String total) throws SQLException {
 		String sql = "INSERT INTO Presupuestos_Trabajo(ID_Cliente, Fecha, Numero_presupuesto, Desc_logistica, Precio_logistica," +
 				"Colocador, Precio_colocacion, Ganancia, Precio_Total) " +
@@ -42,11 +45,33 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		pstmt.setString(7, placingCost);
 		pstmt.setString(8, profit);
 		pstmt.setString(9, total);
+		//i want to get the created budget ID after the insert. do this, copilot
+		ResultSet rs = pstmt.executeQuery("SELECT last_insert_rowid() AS ID");
 
 		pstmt.executeUpdate();
 
 		pstmt.close();
 		conn.close();
+
+		return rs.getInt("ID");
+	}
+
+	public void insertMaterials(ArrayList<Pair<String, String>> materialsList, int budgetID) throws SQLException {
+		String sql = "INSERT INTO PRESUPUESTO_MATERIAL(ID_PRESUPUESTO, NOMBRE_MATERIAL, PRECIO_MATERIAL) " +
+				"VALUES(?, ?, ?)";
+		Connection conn = connect();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		for (Pair<String, String> material : materialsList) {
+			pstmt.setInt(1, budgetID);
+			pstmt.setString(2, material.getValue0());
+			pstmt.setString(3, material.getValue1());
+			pstmt.executeUpdate();
+		}
+
+		pstmt.close();
+		conn.close();
+
 	}
 
 	public int getNextBudgetNumber() {
