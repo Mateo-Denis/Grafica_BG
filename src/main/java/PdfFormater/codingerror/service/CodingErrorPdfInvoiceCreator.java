@@ -77,14 +77,14 @@ public class CodingErrorPdfInvoiceCreator {
         return pdfFinalPath;
     }
 
-    public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {
+    public   void createTnc(List<Paragraph> TncList,Boolean lastPage,String imagePath) {
         if(lastPage) {
             float threecol = 190f; // Ancho de cada columna
             float[] fullwidth = {threecol * 3}; // Ancho total de la tabla (3 columnas)
             Table tb = new Table(fullwidth); // Crea la tabla con el ancho total
             tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER)); // Encabezado de la tabla
-            for (String tnc : TncList) {
-                tb.addCell(new Cell().add(new Paragraph(tnc)).setBorder(Border.NO_BORDER)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER);
+            for (Paragraph tnc : TncList) {
+                tb.addCell(new Cell().add(tnc).setBorder(Border.NO_BORDER)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER);
             }
 
             document.add(tb);

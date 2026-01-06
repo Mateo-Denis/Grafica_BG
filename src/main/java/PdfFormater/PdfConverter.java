@@ -4,6 +4,7 @@ import PdfFormater.codingerror.model.AddressDetails;
 import PdfFormater.codingerror.model.HeaderDetails;
 import PdfFormater.codingerror.model.Product;
 import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
+import com.itextpdf.layout.element.Paragraph;
 import utils.Client;
 
 import java.awt.*;
@@ -78,8 +79,9 @@ public class PdfConverter implements IPdfConverter{
         //Product End
 
         //Term and Condition Start
-        List<String> TncList=new ArrayList<>();
-        TncList.add("Presupuesto válido por 48hs.");
+        Paragraph tncLine1 = new Paragraph("Presupuesto válido por 48hs.");
+        List<Paragraph> TncList=new ArrayList<>();
+        TncList.add(tncLine1);
         //I left this as a sample, you can add more stuff here
         /*
         TncList.add("1. The Seller shall not be liable to the Buyer directly or indirectly for any loss or damage suffered by the Buyer.");
