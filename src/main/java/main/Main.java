@@ -52,6 +52,8 @@ public class Main {
         attributesDB.loadDatabase();
         SettingsDatabaseConnection settingsDB = new SettingsDatabaseConnection();
         settingsDB.loadDatabase();
+        BudgetProductsDatabaseConnection budgetProductsDB = new BudgetProductsDatabaseConnection();
+        budgetProductsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
