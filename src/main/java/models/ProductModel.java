@@ -110,15 +110,6 @@ public class ProductModel implements IProductModel {
     }
 
     @Override
-    public void deleteMultipleProducts(List<Integer> productIDs) {
-        try {
-            productsDBConnection.deleteMultipleProductsFromDB(productIDs);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void addProductCreationSuccessListener(ProductCreationSuccessListener listener) {
         productCreationSuccessListeners.add(listener);
     }

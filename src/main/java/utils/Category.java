@@ -8,15 +8,23 @@ import java.util.ArrayList;
 public class Category {
 
     private final String name;
-    private final ArrayList<Attribute> attributes;
 
     public Category(String name) {
         this.name = name;
-        this.attributes = new ArrayList<Attribute>();
     }
 
-    public void addAttribute(Attribute attribute) {
-        attributes.add(attribute);
+    public ArrayList<String> categoriesNamesList() {
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Cup");
+        names.add("Cap");
+        names.add("Cloth");
+        names.add("Flag");
+        names.add("Clothes");
+        names.add("CommonServices");
+        names.add("CuttingService");
+        names.add("LinearPrinting");
+        names.add("SquareMeterPrinting");
+        return names;
     }
 
 }

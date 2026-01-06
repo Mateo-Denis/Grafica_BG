@@ -10,13 +10,8 @@ import java.util.List;
 
 
 public interface ICategoryModel {
-    void createCategory(String categoryName);
-    void addCategoryCreationSuccessListener(CategoryCreationSuccessListener listener);
-    void addCategoryCreationFailureListener(CategoryCreationFailureListener listener);
-    void addCategorySearchSuccessListener(CategorySearchSuccessListener listener);
-    void addCategorySearchFailureListener(CategorySearchFailureListener listener);
     List<String> getCategoriesName();
-
-    void addAttributes(String categoryName, ArrayList<String> attributesNames);
+    void insertCategories(ArrayList<String> categoriesNames);
     int getCategoryID(String categoryName);
+    boolean categoriesAlreadyInserted();
 }

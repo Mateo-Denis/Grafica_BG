@@ -56,7 +56,7 @@ public class Main {
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
         IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB);
-        ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
+        ICategoryModel categoryModel = new CategoryModel(categoriesDB);
         IProductListModel productListModel = new ProductListModel(productsDB);
         IClientListModel clientListModel = new ClientListModel(clientsDB);
         IBudgetListModel budgetListModel = new BudgetListModel(budgetsDB);

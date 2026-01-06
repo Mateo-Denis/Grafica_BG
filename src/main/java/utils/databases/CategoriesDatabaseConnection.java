@@ -23,17 +23,33 @@ public class CategoriesDatabaseConnection extends DatabaseConnection {
         }
     }
 
-    public void insertCategory(String nombre) throws SQLException {
+    public void insertCategories(ArrayList<String> categories) throws SQLException {
         String sql = "INSERT INTO Categorias(Nombre) VALUES(?)";
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, nombre);
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Categoria creada con éxito!");
+            for (String category : categories) {
+                pstmt.setString(1, category);
+                pstmt.addBatch();
+            }
+            pstmt.executeBatch();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al crear la categoria.", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al crear las categorías.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public boolean categoriesAlreadyInserted() throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM Categorias";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet resultSet = pstmt.executeQuery()) {
+            if (resultSet.next()) {
+                int count = resultSet.getInt("total");
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            LOGGER.log(null,"ERROR IN METHOD 'categoriesAlreadyInserted' IN CLASS->'CategoriesDatabaseConnection'", e);
+        }
+        return false;
     }
 
     public ArrayList<String> getCategories() throws SQLException {

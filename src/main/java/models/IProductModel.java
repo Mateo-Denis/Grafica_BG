@@ -22,8 +22,6 @@ public interface IProductModel {
     ArrayList<Product> getLastProductsQuery();
     int getProductID(String productName);
     void deleteOneProduct(int productID, boolean isModify);
-    void deleteMultipleProducts(List<Integer> productIDs);
-    //void deleteAllVisibleProducts(ArrayList<String> visibleProductNames);
     String getCategoryName(int categoryID);
 
     void instantiateProductAttributes(int productID, ArrayList<Attribute> attributes, int categoryID);
