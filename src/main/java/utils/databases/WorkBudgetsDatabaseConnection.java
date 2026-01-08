@@ -33,6 +33,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		String sql = "INSERT INTO Presupuestos_Trabajo(ID_Cliente, Fecha, Numero_presupuesto, Desc_logistica, Precio_logistica," +
 				"Colocador, Precio_colocacion, Ganancia, Precio_Total) " +
 				"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		String budgetNumber = Integer.toString(getNextBudgetNumber());
@@ -46,14 +47,12 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		pstmt.setString(8, profit);
 		pstmt.setString(9, total);
 
-		ResultSet rs = pstmt.executeQuery("SELECT last_insert_rowid() AS ID");
 
 		pstmt.executeUpdate();
-
 		pstmt.close();
 		conn.close();
 
-		return rs.getInt("ID");
+		return Integer.parseInt(budgetNumber);
 	}
 
 	public void insertMaterials(ArrayList<Pair<String, String>> materialsList, int budgetID) throws SQLException {
@@ -134,4 +133,27 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 	}
 
 
+	public void rollbackById(int id) {
+		//copilot, delete every row in Presupuestos_Trabajo, PRESUPUESTO_MATERIAL and PRESUPUESTO_DESCRIPCION with the given id
+		String sqlWorkBudget = "DELETE FROM Presupuestos_Trabajo WHERE ID = ?";
+		String sqlMaterials = "DELETE FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
+		String sqlDescriptions = "DELETE FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
+		try (Connection conn = connect();
+			 PreparedStatement pstmtWorkBudget = conn.prepareStatement(sqlWorkBudget);
+			 PreparedStatement pstmtMaterials = conn.prepareStatement(sqlMaterials);
+			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions)) {
+
+			pstmtWorkBudget.setInt(1, id);
+			pstmtWorkBudget.executeUpdate();
+
+			pstmtMaterials.setInt(1, id);
+			pstmtMaterials.executeUpdate();
+
+			pstmtDescriptions.setInt(1, id);
+			pstmtDescriptions.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }

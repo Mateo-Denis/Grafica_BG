@@ -110,6 +110,8 @@ public class WorkBudgetModel {
 
 	public void rollbackWorkBudgetCreation() {
 		int id = budgetsDBConnection.getNextBudgetNumber() - 1;
-
+		if (budgetsDBConnection.checkFailedInserts(id)){
+			budgetsDBConnection.rollbackById(id);
+		}
 	}
 }
