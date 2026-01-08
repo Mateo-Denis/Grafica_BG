@@ -28,14 +28,14 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		}
 	}
 
-	public int insertWorkBudget(String clientID, String date, String budgetNumber, String logistics, String logisticsPrice,
+	public int insertWorkBudget(String clientID, String date, String logistics, String logisticsPrice,
 								 String placer, String placingCost, String profit, String total) throws SQLException {
 		String sql = "INSERT INTO Presupuestos_Trabajo(ID_Cliente, Fecha, Numero_presupuesto, Desc_logistica, Precio_logistica," +
 				"Colocador, Precio_colocacion, Ganancia, Precio_Total) " +
 				"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-
+		String budgetNumber = Integer.toString(getNextBudgetNumber());
 		pstmt.setString(1, clientID);
 		pstmt.setString(2, date);
 		pstmt.setString(3, budgetNumber);
@@ -45,7 +45,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		pstmt.setString(7, placingCost);
 		pstmt.setString(8, profit);
 		pstmt.setString(9, total);
-		//i want to get the created budget ID after the insert. do this, copilot
+
 		ResultSet rs = pstmt.executeQuery("SELECT last_insert_rowid() AS ID");
 
 		pstmt.executeUpdate();
@@ -74,6 +74,24 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 	}
 
+	public void insertDescriptions(ArrayList<Pair<String, String>> descriptionsList, int budgetID) throws SQLException {
+		String sql = "INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL, PRECIO) " +
+				"VALUES(?, ?, ?)";
+		Connection conn = connect();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+
+		for (Pair<String, String> material : descriptionsList) {
+			pstmt.setInt(1, budgetID);
+			pstmt.setString(2, material.getValue0());
+			pstmt.setString(3, material.getValue1());
+			pstmt.executeUpdate();
+		}
+
+		pstmt.close();
+		conn.close();
+
+	}
+
 	public int getNextBudgetNumber() {
 		int bnumber = 1;
 		String sql = "SELECT MAX(Numero_presupuesto) FROM Presupuestos_Trabajo";
@@ -90,4 +108,30 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 		return bnumber;
 	}
+
+	public boolean checkFailedInserts(int id){
+		String sqlMaterials = "SELECT COUNT(*) AS count FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
+		String sqlDescriptions = "SELECT COUNT(*) AS count FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmtMaterials = conn.prepareStatement(sqlMaterials);
+			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions)) {
+
+			pstmtMaterials.setInt(1, id);
+			ResultSet rsMaterials = pstmtMaterials.executeQuery();
+			int materialsCount = rsMaterials.getInt("count");
+
+			pstmtDescriptions.setInt(1, id);
+			ResultSet rsDescriptions = pstmtDescriptions.executeQuery();
+			int descriptionsCount = rsDescriptions.getInt("count");
+
+			return materialsCount == 0 || descriptionsCount == 0;
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return true; // Assume failure if there's an exception
+		}
+	}
+
+
 }

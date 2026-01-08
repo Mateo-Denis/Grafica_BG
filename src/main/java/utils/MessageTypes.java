@@ -114,8 +114,12 @@ public enum MessageTypes {
     SETTINGS_SAVE_SUCCESS("Configuración guardada con éxito"
             , "La configuración de las tablas fue guardada con éxito."
             , JOptionPane.INFORMATION_MESSAGE),
-
-    ;
+	WORK_BUDGET_CREATION_SUCCESS("Presupuesto de trabajo creado con éxito"
+            , "El presupuesto fue agregado a la base de datos y sus correspondientes PDF fueron generados correctamente."
+            , JOptionPane.INFORMATION_MESSAGE),
+    WORK_BUDGET_CREATION_FAILURE("Error al crear presupuesto de trabajo"
+            , "Ha ocurrido un error al intentar crear el presupuesto de trabajo."
+            , JOptionPane.ERROR_MESSAGE);
 
     private final String title;
     private final String message;

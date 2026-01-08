@@ -5,6 +5,7 @@ import PdfFormater.PdfConverter;
 import models.WorkBudgetModel;
 import presenters.StandardPresenter;
 import utils.Client;
+import utils.MessageTypes;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.stages.*;
 
@@ -38,7 +39,14 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	@Override
 	protected void initListeners() {
-
+		workBudgetModel.addBudgetCreationSuccessListener(() -> {
+			workBudgetCreateView.showMessage(WORK_BUDGET_CREATION_SUCCESS);
+			view.hideView();
+		});
+		workBudgetModel.addBudgetCreationFailureListener(() -> {
+			workBudgetCreateView.showMessage(MessageTypes.WORK_BUDGET_CREATION_FAILURE);
+			workBudgetModel.rollbackWorkBudgetCreation();
+		});
 	}
 
 	private void loadCities() {
@@ -97,7 +105,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 						workBudgetCreateView.getFinalPrice(),
 						workBudgetCreateView.getClientInfoItems()
 				);
-				// Generate PDF using pdfConverter
+
+				//TODO aquí crear los PDFs
 			}
 		}
 	}
