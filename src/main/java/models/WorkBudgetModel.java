@@ -1,10 +1,13 @@
 package models;
 
-import models.listeners.failed.BudgetCreationFailureListener;
+import models.listeners.failed.BudgetSearchFailureListener;
 import models.listeners.failed.WorkBudgetCreationFailureListener;
-import models.listeners.successful.BudgetCreationSuccessListener;
+import models.listeners.failed.WorkBudgetSearchFailureListener;
+import models.listeners.successful.BudgetSearchSuccessListener;
 import models.listeners.successful.WorkBudgetCreationSuccessListener;
+import models.listeners.successful.WorkBudgetSearchSuccessListener;
 import org.javatuples.Pair;
+import utils.Budget;
 import utils.Client;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.WorkBudgetsDatabaseConnection;
@@ -24,6 +27,12 @@ public class WorkBudgetModel {
 	private final WorkBudgetsDatabaseConnection budgetsDBConnection;
 	private static Logger LOGGER;
 
+	private ArrayList<Budget> budgets;
+
+	private final List<WorkBudgetSearchSuccessListener> workBudgetSearchSuccessListeners;
+	private final List<WorkBudgetSearchFailureListener> workBudgetSearchFailureListeners;
+
+
 	public WorkBudgetModel(ClientsDatabaseConnection clientsDBConnection,
 						   WorkBudgetsDatabaseConnection budgetsDBConnection) {
 		this.clientsDBConnection = clientsDBConnection;
@@ -31,6 +40,8 @@ public class WorkBudgetModel {
 
 		this.workBudgetCreationSuccessListeners = new ArrayList<>();
 		this.workBudgetCreationFailureListeners = new ArrayList<>();
+		this.workBudgetSearchSuccessListeners = new ArrayList<>();
+		this.workBudgetSearchFailureListeners = new ArrayList<>();
 	}
 
 	public ArrayList<String> getCitiesName() {
@@ -108,10 +119,39 @@ public class WorkBudgetModel {
 		workBudgetCreationFailureListeners.add(listener);
 	}
 
+	public void addBudgetSearchSuccessListener(WorkBudgetSearchSuccessListener listener) { // ADD BUDGET SEARCH SUCCESS LISTENER
+		workBudgetSearchSuccessListeners.add(listener);
+	}
+
+	public void addBudgetSearchFailureListener(WorkBudgetSearchFailureListener listener) { // ADD BUDGET SEARCH FAILURE LISTENER
+		workBudgetSearchFailureListeners.add(listener);
+	}
+
 	public void rollbackWorkBudgetCreation() {
 		int id = budgetsDBConnection.getNextBudgetNumber() - 1;
 		if (budgetsDBConnection.checkFailedInserts(id)){
-			budgetsDBConnection.rollbackById(id);
+			budgetsDBConnection.deleteBudgetById(id);
+		}
+	}
+
+	public void queryBudgets(String budgetSearch) {
+		try {
+			budgets = budgetsDBConnection.getBudgets(budgetSearch);
+			notifyBudgetSearchSuccess();
+		} catch (Exception e) {
+			notifyBudgetSearchFailure();
+		}
+	}
+
+	private void notifyBudgetSearchSuccess() {
+		for (WorkBudgetSearchSuccessListener listener : workBudgetSearchSuccessListeners) {
+			listener.onSuccess();
+		}
+	}
+
+	private void notifyBudgetSearchFailure() {
+		for (WorkBudgetSearchFailureListener listener : workBudgetSearchFailureListeners) {
+			listener.onFailure();
 		}
 	}
 }

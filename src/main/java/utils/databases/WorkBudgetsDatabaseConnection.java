@@ -1,6 +1,7 @@
 package utils.databases;
 
 import org.javatuples.Pair;
+import utils.Budget;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 	}
 
 
-	public void rollbackById(int id) {
+	public void deleteBudgetById(int id) {
 		//copilot, delete every row in Presupuestos_Trabajo, PRESUPUESTO_MATERIAL and PRESUPUESTO_DESCRIPCION with the given id
 		String sqlWorkBudget = "DELETE FROM Presupuestos_Trabajo WHERE ID = ?";
 		String sqlMaterials = "DELETE FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
@@ -155,5 +156,41 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public ArrayList<Budget> getBudgets(String budgetSearch) throws SQLException {
+		String sql;
+		Connection conn = connect();
+		PreparedStatement pstmt;
+
+		// Verifica si el budgetSearch es numérico
+		if (budgetSearch.matches("\\d+")) {
+			// Si es numérico, buscar por número de presupuesto
+			sql = "SELECT * FROM Presupuestos WHERE Numero_presupuesto= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(budgetSearch));
+		} else {
+			// Si no es numérico, buscar por nombre
+			sql = "SELECT * FROM Presupuestos WHERE Nombre_Cliente LIKE ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + budgetSearch + "%");
+		}
+
+		ResultSet resultSet = pstmt.executeQuery();
+		ArrayList<Budget> budgets = new ArrayList<>();
+
+		while (resultSet.next()) {
+			Budget budget = new Budget(
+					resultSet.getString("ID_Cliente"),
+					resultSet.getString("Fecha"),
+					resultSet.getString("Precio_Total"),
+					resultSet.getInt("Numero_presupuesto")
+			);
+			budgets.add(budget);
+		}
+
+		pstmt.close();
+		conn.close();
+		return budgets;
 	}
 }
