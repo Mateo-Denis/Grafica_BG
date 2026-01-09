@@ -2,7 +2,12 @@ package presenters.workbudget;
 
 import models.WorkBudgetModel;
 import presenters.StandardPresenter;
+import utils.WorkBudget;
 import views.workbudget.WorkBudgetSearchView;
+
+import java.util.ArrayList;
+
+import static utils.MessageTypes.BUDGET_SEARCH_FAILURE;
 
 public class WorkBudgetSearchPresenter extends StandardPresenter {
 
@@ -18,7 +23,19 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 
 	@Override
 	protected void initListeners() {
+		workBudgetModel.addBudgetSearchSuccessListener(() -> {
+			ArrayList<WorkBudget> budgets = workBudgetModel.getLastBudgetsQuery();
+			int rowCount = 0;
+			for (WorkBudget budget : budgets) {
+				workBudgetSearchView.setStringTableValueAt(rowCount, 0, budget.getName());
+				workBudgetSearchView.setStringTableValueAt(rowCount, 1, budget.getDate());
+				workBudgetSearchView.setStringTableValueAt(rowCount, 2, budget.getWorkBudgetNumber());
+				workBudgetSearchView.setStringTableValueAt(rowCount, 3, budget.getFinalPrice());
+				rowCount++;
+			}
+		});
 
+		workBudgetModel.addBudgetSearchFailureListener(() -> workBudgetSearchView.showMessage(BUDGET_SEARCH_FAILURE));
 	}
 
 	public void onSearchButtonClicked() {
@@ -29,5 +46,7 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 		workBudgetSearchView.setWaitingStatus();
 	}
 
-
+	public void onHomeSearchWorkBudgetButtonClicked(){
+		workBudgetSearchView.showView();
+	}
 }

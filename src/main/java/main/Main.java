@@ -18,6 +18,7 @@ import presenters.product.ProductPresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
+import presenters.workbudget.WorkBudgetSearchPresenter;
 import utils.databases.*;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
@@ -36,6 +37,7 @@ import views.products.modular.IModularCategoryView;
 import views.products.modular.ModularCapView;
 import views.settings.SettingsView;
 import views.workbudget.WorkBudgetCreateView;
+import views.workbudget.WorkBudgetSearchView;
 
 public class Main {
     public static void main(String[] args) {
@@ -104,9 +106,11 @@ public class Main {
         BudgetModifyPresenter budgetModifyPresenter = new BudgetModifyPresenter(budgetModifyView, budgetModel, productModel, categoryModel, budgetModifyModel, settingsModel);
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
+        SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
         WorkBudgetCreateView workBudgetCreateView = new WorkBudgetCreateView();
         WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView, workBudgetModel);
-        SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
+        WorkBudgetSearchView workBudgetSearchView = new WorkBudgetSearchView();
+        WorkBudgetSearchPresenter workBudgetSearchPresenter = new WorkBudgetSearchPresenter(workBudgetSearchView, workBudgetModel);
 
         clientCreatePresenter.start();
         clientSearchPresenter.start();
@@ -118,8 +122,9 @@ public class Main {
         categoryCreatePresenter.start();
         budgetListPresenter.start();
         budgetModifyPresenter.start();
-        workBudgetCreatePresenter.start();
         settingsPresenter.start();
+        workBudgetCreatePresenter.start();
+        workBudgetSearchPresenter.start();
 
         clientCreateView.start();
         //clientCreateView.setPresenter(clientCreatePresenter);
@@ -132,11 +137,12 @@ public class Main {
         categoryCreateView.start();
         budgetListView.start();
         budgetModifyView.start();
-        workBudgetCreateView.start();
         settingsView.start();
+        workBudgetCreateView.start();
+        workBudgetSearchView.start();
 
         IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
-                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter, settingsPresenter);
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter, workBudgetSearchPresenter, settingsPresenter);
     }
 
 }

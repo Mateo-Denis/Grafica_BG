@@ -2,6 +2,7 @@ package utils.databases;
 
 import org.javatuples.Pair;
 import utils.Budget;
+import utils.WorkBudget;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -158,7 +159,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		}
 	}
 
-	public ArrayList<Budget> getBudgets(String budgetSearch) throws SQLException {
+	public ArrayList<WorkBudget> getBudgets(String budgetSearch) throws SQLException {
 		String sql;
 		Connection conn = connect();
 		PreparedStatement pstmt;
@@ -166,21 +167,21 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		// Verifica si el budgetSearch es numérico
 		if (budgetSearch.matches("\\d+")) {
 			// Si es numérico, buscar por número de presupuesto
-			sql = "SELECT * FROM Presupuestos WHERE Numero_presupuesto= ?";
+			sql = "SELECT * FROM Presupuestos_Trabajo WHERE Numero_presupuesto= ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(budgetSearch));
 		} else {
 			// Si no es numérico, buscar por nombre
-			sql = "SELECT * FROM Presupuestos WHERE Nombre_Cliente LIKE ?";
+			sql = "SELECT * FROM Presupuestos_Trabajo WHERE ID_Cliente LIKE ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + budgetSearch + "%");
 		}
 
 		ResultSet resultSet = pstmt.executeQuery();
-		ArrayList<Budget> budgets = new ArrayList<>();
+		ArrayList<WorkBudget> budgets = new ArrayList<>();
 
 		while (resultSet.next()) {
-			Budget budget = new Budget(
+			WorkBudget budget = new WorkBudget(
 					resultSet.getString("ID_Cliente"),
 					resultSet.getString("Fecha"),
 					resultSet.getString("Precio_Total"),

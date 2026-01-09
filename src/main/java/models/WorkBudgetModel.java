@@ -9,6 +9,7 @@ import models.listeners.successful.WorkBudgetSearchSuccessListener;
 import org.javatuples.Pair;
 import utils.Budget;
 import utils.Client;
+import utils.WorkBudget;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.WorkBudgetsDatabaseConnection;
 
@@ -27,7 +28,7 @@ public class WorkBudgetModel {
 	private final WorkBudgetsDatabaseConnection budgetsDBConnection;
 	private static Logger LOGGER;
 
-	private ArrayList<Budget> budgets;
+	private ArrayList<WorkBudget> budgets;
 
 	private final List<WorkBudgetSearchSuccessListener> workBudgetSearchSuccessListeners;
 	private final List<WorkBudgetSearchFailureListener> workBudgetSearchFailureListeners;
@@ -141,6 +142,10 @@ public class WorkBudgetModel {
 		} catch (Exception e) {
 			notifyBudgetSearchFailure();
 		}
+	}
+
+	public ArrayList<WorkBudget> getLastBudgetsQuery() {
+		return budgets;
 	}
 
 	private void notifyBudgetSearchSuccess() {

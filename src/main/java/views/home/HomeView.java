@@ -10,6 +10,7 @@ import presenters.categories.CategoryCreatePresenter;
 import presenters.settings.SettingsPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import presenters.workbudget.WorkBudgetSearchPresenter;
+import views.workbudget.WorkBudgetSearchView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,14 +40,14 @@ public class HomeView extends JFrame implements IHomeView {
     private final ProductCreatePresenter productCreatePresenter;
     private final BudgetSearchPresenter budgetSearchPresenter;
     private final BudgetCreatePresenter budgetCreatePresenter;
-    //TODO private final WorkBudgetSearchPresenter workBudgetSearchPresenter;
+    private final WorkBudgetSearchPresenter workBudgetSearchPresenter;
     private final WorkBudgetCreatePresenter workBudgetCreatePresenter;
     private final SettingsPresenter settingsPresenter;
 
     public HomeView(ClientCreatePresenter clientCreatePresenter, ClientSearchPresenter clientSearchPresenter,
                     ProductSearchPresenter productSearchPresenter, ProductCreatePresenter productCreatePresenter,
                     BudgetSearchPresenter budgetSearchPresenter, BudgetCreatePresenter budgetCreatePresenter,
-                    WorkBudgetCreatePresenter workBudgetCreatePresenter,
+                    WorkBudgetCreatePresenter workBudgetCreatePresenter, WorkBudgetSearchPresenter workBudgetSearchPresenter,
                     SettingsPresenter settingsPresenter) {
 
         windowFrame = new JFrame("Gráfica Bahia");
@@ -74,7 +75,7 @@ public class HomeView extends JFrame implements IHomeView {
         this.budgetCreatePresenter = budgetCreatePresenter;
         this.budgetSearchPresenter = budgetSearchPresenter;
         this.workBudgetCreatePresenter = workBudgetCreatePresenter;
-        //TODO con argumento this.workBudgetSearchPresenter = workBudgetSearchPresenter;
+        this.workBudgetSearchPresenter = workBudgetSearchPresenter;
         this.settingsPresenter = settingsPresenter;
 
         cambiarTamanioFuente(containerPanel, 14);
@@ -96,7 +97,7 @@ public class HomeView extends JFrame implements IHomeView {
         budgetSearchButton.addActionListener(e -> budgetSearchPresenter.onHomeSearchBudgetButtonClicked());
 
         //TODO: WORK BUDGET SEARCH BUTTON
-        //workBudgetSearchButton.addActionListener(e -> workBudgetSearchPresenter.onHomeSearchWorkBudgetButtonClicked());
+        workBudgetSearchButton.addActionListener(e -> workBudgetSearchPresenter.onHomeSearchWorkBudgetButtonClicked());
         //TODO: WORK BUDGET CREATE BUTTON
         workBudgetCreateButton.addActionListener(e -> workBudgetCreatePresenter.onHomeCreateWorkBudgetButtonClicked());
 

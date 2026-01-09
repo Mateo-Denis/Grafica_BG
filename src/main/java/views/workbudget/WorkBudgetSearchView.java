@@ -75,6 +75,8 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 
 	@Override
 	protected void initListeners() {
+		searchButton.addActionListener(e-> workBudgetSearchPresenter.onSearchButtonClicked());
+		//cleanTableButton.addActionListener(e -> clearTable());
 
 	}
 
@@ -132,5 +134,9 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 	@Override
 	public void setPresenter(StandardPresenter workBudgetSearchPresenter) {
 		this.workBudgetSearchPresenter = (WorkBudgetSearchPresenter) workBudgetSearchPresenter;
+	}
+
+	public void setStringTableValueAt(int row, int col, String value) {
+		budgetResultTable.setValueAt(value, row, col);
 	}
 }
