@@ -245,6 +245,14 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
 	}
 
+	public String getDeposit() {
+		return finalPriceStage.getTextContentByName(FinalPriceReferences.DEPOSIT);
+	}
+
+	public String getBalanceToPay() {
+		return finalPriceStage.getTextContentByName(FinalPriceReferences.BALANCE_TO_PAY);
+	}
+
 
 	public ArrayList<Pair<String, String>> getClientInfoItems(){
 		return clientSideInfoStage.getItemsListFromTable();

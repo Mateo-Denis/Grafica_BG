@@ -15,6 +15,9 @@ public enum MessageTypes {
     NO_ROW_SELECTED_FOR_DELETION("Error al eliminar fila"
             , "Por favor seleccione una fila de la tabla correspondiente antes de presionar el botón de eliminar."
             , JOptionPane.ERROR_MESSAGE),
+    NO_ROW_SELECTED_FOR_MODIFYING("Error al modificar fila"
+            , "Por favor seleccione una fila válida antes de presionar el botón de modificar."
+            , JOptionPane.ERROR_MESSAGE),
     CLIENT_CREATION_SUCCESS("Cliente creado con éxito"
             , "El cliente fue agregado a la base de datos correctamente."
             , JOptionPane.INFORMATION_MESSAGE),
@@ -128,7 +131,14 @@ WORK_BUDGET_CREATION_SUCCESS("Presupuesto de trabajo creado con éxito"
             , JOptionPane.ERROR_MESSAGE),
     CLIENT_BUDGET_NO_BUDGETS("El cliente no tiene presupuestos"
             , "El cliente seleccionado no tiene presupuestos asociados."
-            , JOptionPane.INFORMATION_MESSAGE);
+            , JOptionPane.INFORMATION_MESSAGE),
+    WORK_BUDGET_UPDATE_SUCCESS("Presupuesto de trabajo modificado con éxito"
+            , "El presupuesto fue modificado en la base de datos y sus correspondientes PDF fueron generados correctamente."
+            , JOptionPane.INFORMATION_MESSAGE),
+    WORK_BUDGET_UPDATE_FAILURE("Error al modificar presupuesto de trabajo"
+            , "Ha ocurrido un error al intentar modificar el presupuesto de trabajo."
+            , JOptionPane.ERROR_MESSAGE);
+
 
     private final String title;
     private final String message;

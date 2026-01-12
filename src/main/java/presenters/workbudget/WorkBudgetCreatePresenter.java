@@ -50,6 +50,14 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 			workBudgetCreateView.showMessage(MessageTypes.WORK_BUDGET_CREATION_FAILURE);
 			workBudgetModel.rollbackWorkBudgetCreation();
 		});
+		workBudgetModel.addBudgetUpdateSuccessListener(() -> {
+			workBudgetCreateView.showMessage(WORK_BUDGET_UPDATE_SUCCESS);
+			view.hideView();
+		});
+		workBudgetModel.addBudgetUpdateFailureListener(() -> {
+			workBudgetCreateView.showMessage(WORK_BUDGET_UPDATE_FAILURE);
+			view.hideView();
+		});
 	}
 
 	private void loadCities() {

@@ -104,6 +104,13 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 		budgetResultTable.clearSelection();
 	}
 
+	public boolean isTableSelected() {
+		int row = budgetResultTable.getSelectedRow();
+		if( row == -1 ){
+			return false;
+		}else return (budgetResultTable.getModel().getValueAt(row, 0) != null) && !budgetResultTable.getModel().getValueAt(row, 2).equals("");
+	}
+
 
 	public int getSelectedBudgetNumber() {
 		int budgetNumber = 0;

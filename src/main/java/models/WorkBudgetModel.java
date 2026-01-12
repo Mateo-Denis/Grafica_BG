@@ -2,8 +2,10 @@ package models;
 
 import models.listeners.failed.WorkBudgetCreationFailureListener;
 import models.listeners.failed.WorkBudgetSearchFailureListener;
+import models.listeners.failed.WorkBudgetUpdateFailureListener;
 import models.listeners.successful.WorkBudgetCreationSuccessListener;
 import models.listeners.successful.WorkBudgetSearchSuccessListener;
+import models.listeners.successful.WorkBudgetUpdateSuccessListener;
 import org.javatuples.Pair;
 import utils.Client;
 import utils.WorkBudget;
@@ -32,6 +34,9 @@ public class WorkBudgetModel {
 	private final List<WorkBudgetSearchSuccessListener> workBudgetSearchSuccessListeners;
 	private final List<WorkBudgetSearchFailureListener> workBudgetSearchFailureListeners;
 
+	private final List<WorkBudgetUpdateSuccessListener> workBudgetUpdateSuccessListeners;
+	private final List<WorkBudgetUpdateFailureListener> workBudgetUpdateFailureListeners;
+
 
 	public WorkBudgetModel(ClientsDatabaseConnection clientsDBConnection,
 						   WorkBudgetsDatabaseConnection budgetsDBConnection) {
@@ -42,6 +47,9 @@ public class WorkBudgetModel {
 		this.workBudgetCreationFailureListeners = new ArrayList<>();
 		this.workBudgetSearchSuccessListeners = new ArrayList<>();
 		this.workBudgetSearchFailureListeners = new ArrayList<>();
+		this.workBudgetUpdateSuccessListeners = new ArrayList<>();
+		this.workBudgetUpdateFailureListeners = new ArrayList<>();
+
 	}
 
 	public ArrayList<String> getCitiesName() {
@@ -129,8 +137,9 @@ public class WorkBudgetModel {
 					materials,
 					descriptions
 			);
+			notifyBudgetUpdateSuccess();
 		}catch (SQLException e){
-			notifyBudgetCreationFailure();
+			notifyBudgetUpdateFailure();
 		}
 	}
 
@@ -159,6 +168,18 @@ public class WorkBudgetModel {
 		}
 	}
 
+	private void notifyBudgetUpdateSuccess() {
+		for (WorkBudgetUpdateSuccessListener listener : workBudgetUpdateSuccessListeners) {
+			listener.onSuccess();
+		}
+	}
+
+	private void notifyBudgetUpdateFailure() {
+		for (WorkBudgetUpdateFailureListener listener : workBudgetUpdateFailureListeners) {
+			listener.onFailure();
+		}
+	}
+
 	public void addBudgetCreationSuccessListener(WorkBudgetCreationSuccessListener listener) { // ADD BUDGET CREATION SUCCESS LISTENER
 		workBudgetCreationSuccessListeners.add(listener);
 	}
@@ -171,8 +192,16 @@ public class WorkBudgetModel {
 		workBudgetSearchSuccessListeners.add(listener);
 	}
 
-	public void addBudgetSearchFailureListener(WorkBudgetSearchFailureListener listener) { // ADD BUDGET SEARCH FAILURE LISTENER
+	public void addBudgetSearchFailureListener(WorkBudgetSearchFailureListener listener) {
 		workBudgetSearchFailureListeners.add(listener);
+	}
+
+	public void addBudgetUpdateSuccessListener(WorkBudgetUpdateSuccessListener listener) {
+		workBudgetUpdateSuccessListeners.add(listener);
+	}
+
+	public void addBudgetUpdateFailureListener(WorkBudgetUpdateFailureListener listener) {
+		workBudgetUpdateFailureListeners.add(listener);
 	}
 
 	public void rollbackWorkBudgetCreation() {

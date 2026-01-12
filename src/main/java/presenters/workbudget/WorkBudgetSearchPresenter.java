@@ -8,7 +8,7 @@ import views.workbudget.WorkBudgetSearchView;
 
 import java.util.ArrayList;
 
-import static utils.MessageTypes.BUDGET_SEARCH_FAILURE;
+import static utils.MessageTypes.*;
 
 public class WorkBudgetSearchPresenter extends StandardPresenter {
 
@@ -40,6 +40,8 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 		});
 
 		workBudgetModel.addBudgetSearchFailureListener(() -> workBudgetSearchView.showMessage(BUDGET_SEARCH_FAILURE));
+
+		workBudgetModel.addBudgetUpdateSuccessListener(workBudgetSearchView::clearTable);
 	}
 
 	public void onSearchButtonClicked() {
@@ -51,17 +53,24 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 	}
 
 	public void onModifyButtonClicked(){
-		workBudgetCreateView.showView();
-		workBudgetCreateView.clearView();
-		workBudgetCreateView.loadExistingBudget(workBudgetSearchView.getSelectedBudgetNumber());
-
+		if(workBudgetSearchView.isTableSelected()){
+			workBudgetCreateView.showView();
+			workBudgetCreateView.clearView();
+			workBudgetCreateView.loadExistingBudget(workBudgetSearchView.getSelectedBudgetNumber());
+		}else {
+			workBudgetSearchView.showMessage(NO_ROW_SELECTED_FOR_MODIFYING);
+		}
 	}
 
 	public void onDeleteButtonClicked(){
-		int budgetNumber = workBudgetSearchView.getSelectedBudgetNumber();
-		workBudgetModel.deleteWorkBudget(budgetNumber);
-		workBudgetSearchView.clearTable();
-		workBudgetModel.queryBudgets("");
+		if(workBudgetSearchView.isTableSelected()) {
+			int budgetNumber = workBudgetSearchView.getSelectedBudgetNumber();
+			workBudgetModel.deleteWorkBudget(budgetNumber);
+			workBudgetSearchView.clearTable();
+			workBudgetModel.queryBudgets("");
+		}else {
+			workBudgetSearchView.showMessage(NO_ROW_SELECTED_FOR_DELETION);
+		}
 	}
 
 	public void onHomeSearchWorkBudgetButtonClicked(){
