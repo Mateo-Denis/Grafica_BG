@@ -1,18 +1,16 @@
 package testing;
 
 
-import PdfFormater.JobBudgetClientPDFConverter;
-import PdfFormater.JobBudgetPDFConverter;
+import PdfFormater.WorkBudgetClientPDFConverter;
+import PdfFormater.WorkBudgetPDFConverter;
 import PdfFormater.NewRow;
-import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
 import utils.Client;
-import utils.NewProduct;
 
 import java.util.ArrayList;
 
 public class testingMain {
-    private final JobBudgetPDFConverter jobBudgetPDFConverter = new JobBudgetPDFConverter();
-    private static final JobBudgetClientPDFConverter jobBudgetClientPDFConverter = new JobBudgetClientPDFConverter();
+    private final WorkBudgetPDFConverter jobBudgetPDFConverter = new WorkBudgetPDFConverter();
+    private static final WorkBudgetClientPDFConverter jobBudgetClientPDFConverter = new WorkBudgetClientPDFConverter();
 
     public static void main(String[] args) {
         try {

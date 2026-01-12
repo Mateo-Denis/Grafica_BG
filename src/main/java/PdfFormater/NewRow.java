@@ -2,8 +2,10 @@ package PdfFormater;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.javatuples.Pair;
 
-//Someone pls find a better place for this class
+import java.util.ArrayList;
+
 @Getter
 @Setter
 public class NewRow {

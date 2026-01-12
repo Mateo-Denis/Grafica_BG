@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Logger;
 
+import PdfFormater.NewRow;
+import org.javatuples.Pair;
 import org.reflections.Reflections;
 import presenters.product.ProductCreatePresenter;
 import presenters.product.ProductPresenter;
@@ -121,6 +123,15 @@ public class TextUtils {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("El valor ingresado no es un número válido: " + valor);
         }
+    }
+
+    public static ArrayList<NewRow> toTableRow(ArrayList<Pair<String, String>> material){
+        ArrayList<NewRow> tableRows = new ArrayList<>();
+        for(Pair<String, String> item : material){
+            NewRow row = new NewRow(item.getValue0(), Double.parseDouble(item.getValue1()));
+            tableRows.add(row);
+        }
+        return tableRows;
     }
 }
 
