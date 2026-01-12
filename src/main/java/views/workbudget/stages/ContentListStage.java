@@ -63,6 +63,16 @@ public class ContentListStage extends JPanel {
 		};
 	}
 
+	public void setTextContentByName(ContentListReferences name, String text) {
+		switch (name) {
+			case MATERIAL -> materialTextField.setText(text);
+			case MATERIAL_PRICE -> materialPriceTextField.setText(text);
+			case LOGISTICS_COST -> logisticsCostTextField.setText(text);
+			case PLACER -> placerTextField.setText(text);
+			case PLACING_COST -> placingCostTextField.setText(text);
+		}
+	}
+
 	public void addMaterialToTable(String name, String price) {
 		DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
 		model.addRow(new Object[]{ name, price });
@@ -89,5 +99,16 @@ public class ContentListStage extends JPanel {
 			}
 		}
 		return materials;
+	}
+
+	public void clearView() {
+		logisticsTextArea.setText("");
+		logisticsCostTextField.setText("");
+		placerTextField.setText("");
+		placingCostTextField.setText("");
+		materialTextField.setText("");
+		materialPriceTextField.setText("");
+		DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
+		model.setRowCount(0);
 	}
 }

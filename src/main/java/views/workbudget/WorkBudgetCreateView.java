@@ -1,9 +1,11 @@
 package views.workbudget;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.javatuples.Pair;
 import presenters.StandardPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
+import presenters.workbudget.WorkBudgetCreationStage;
 import views.ToggleableView;
 import views.workbudget.stages.*;
 
@@ -28,8 +30,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	private ClientSearchingStage clientSearchingStage;
 	@Getter
 	private FinalPriceStage finalPriceStage;
+	@Getter
 	private ClientSideInfoStage clientSideInfoStage;
 	private WorkBudgetCreatePresenter workBudgetCreatePresenter;
+	@Setter
+	private boolean isBeingModified  = false;
 
 
 	public WorkBudgetCreateView(){
@@ -68,7 +73,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	@Override
 	protected void initListeners() {
 		backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
-		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed() );
+		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified));
 
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
@@ -134,12 +139,42 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 	@Override
 	public void clearView() {
-
+		workBudgetCreatePresenter.setStage(WorkBudgetCreationStage.CLIENT_SELECTION);
+		clientStageContainer.setVisible(true);
+		contentListStageContainer.setVisible(false);
+		finalPriceStageContainer.setVisible(false);
+		clientSideInfoStageContainer.setVisible(false);
+		isBeingModified = false;
+		clientSearchingStage.clearView();
+		contentListStage.clearView();
+		finalPriceStage.clearView();
+		clientSideInfoStage.clearView();
+		backButton.setEnabled(false);
+		nextButton.setText("Siguiente");
 	}
 
 	@Override
 	public void setPresenter(StandardPresenter standardPresenter) {
 		this.workBudgetCreatePresenter = (WorkBudgetCreatePresenter) standardPresenter;
+	}
+
+	public void loadExistingBudget(int budgetId){
+		isBeingModified = true;
+		workBudgetCreatePresenter.loadExistingBudget(budgetId);
+	}
+
+	public void setLogisticsData(String description, String cost){
+		contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION, description);
+		contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_COST, cost);
+	}
+
+	public void setPlacingData(String placer, String cost){
+		contentListStage.setTextContentByName(ContentListReferences.PLACER, placer);
+		contentListStage.setTextContentByName(ContentListReferences.PLACING_COST, cost);
+	}
+
+	public void setProfitMargin(String profitMargin){
+		finalPriceStage.setTextContentByName(FinalPriceReferences.PROFIT_MARGIN, profitMargin);
 	}
 
 	public void setBackButton( boolean enabled ){
@@ -210,6 +245,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
 	}
 
+
 	public ArrayList<Pair<String, String>> getClientInfoItems(){
 		return clientSideInfoStage.getItemsListFromTable();
 	}
@@ -217,4 +253,18 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	public void setBudgetNumberLabelText(String text){
 		budgetNumberLabel.setText(text);
 	}
+
+	public int getBudgetNumberLabelValue(){
+		String labelText = budgetNumberLabel.getText();
+		String[] parts = labelText.split("#");
+		if (parts.length > 1) {
+			try {
+				return Integer.parseInt(parts[1].trim());
+			} catch (NumberFormatException e) {
+				return -1;
+			}
+		}
+		return -1;
+	}
+
 }

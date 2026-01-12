@@ -69,7 +69,16 @@ public class FinalPriceStage extends JPanel{
 		}
 	}
 
-
+	public void clearView() {
+		materialsTextField.setText("");
+		logisticsTextField.setText("");
+		placingTextField.setText("");
+		totalCostsTextField.setText("");
+		profitTextField.setText("100");
+		finalPriceTextField.setText("");
+		depositTextField.setText("");
+		balanceTextField.setText("");
+	}
 
 
 

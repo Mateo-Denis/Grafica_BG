@@ -71,4 +71,11 @@ public class ClientSideInfoStage extends JPanel {
 		}
 		return items;
 	}
+
+	public void clearView() {
+		descriptionTextField.setText("");
+		totalTextField.setText("");
+		DefaultTableModel model = (DefaultTableModel) itemsTable.getModel();
+		model.setRowCount(0);
+	}
 }

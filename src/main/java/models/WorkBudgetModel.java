@@ -1,18 +1,17 @@
 package models;
 
-import models.listeners.failed.BudgetSearchFailureListener;
 import models.listeners.failed.WorkBudgetCreationFailureListener;
 import models.listeners.failed.WorkBudgetSearchFailureListener;
-import models.listeners.successful.BudgetSearchSuccessListener;
 import models.listeners.successful.WorkBudgetCreationSuccessListener;
 import models.listeners.successful.WorkBudgetSearchSuccessListener;
 import org.javatuples.Pair;
-import utils.Budget;
 import utils.Client;
 import utils.WorkBudget;
+import utils.WorkBudgetData;
 import utils.databases.ClientsDatabaseConnection;
 import utils.databases.WorkBudgetsDatabaseConnection;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -72,6 +71,18 @@ public class WorkBudgetModel {
 		return -1;
 	}
 
+	public Client getClientByID(int clientID) {
+		try {
+			Client client = clientsDBConnection.getOneClient(clientID);
+			if (client != null) {
+				return client;
+			}
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting client by ID");
+		}
+		return null;
+	}
+
 	public void saveWorkBudget(int selectedClientId, ArrayList<Pair<String, String>> materialsList,
 							   Pair<String, String> logisticsData, Pair<String, String> placingData,
 							   String profitMargin, String finalPrice, ArrayList<Pair<String, String>> clientInfoItems) {
@@ -89,6 +100,42 @@ public class WorkBudgetModel {
 		} catch (Exception e) {
 			notifyBudgetCreationFailure();
 		}
+	}
+
+	public void updateWorkBudget(
+			int budgetId,
+			String clientID,
+			Pair<String, String> logisticsData,
+			Pair<String, String> placingData,
+			String profit,
+			String total,
+			ArrayList<Pair<String, String>> materials,
+			ArrayList<Pair<String, String>> descriptions
+	){
+		try {
+			LocalDate fechaActual = LocalDate.now();
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			fechaActual.format(formato);
+			budgetsDBConnection.updateWorkBudget(
+					budgetId,
+					clientID,
+					fechaActual.format(formato),
+					logisticsData.getValue0(),
+					logisticsData.getValue1(),
+					placingData.getValue0(),
+					placingData.getValue1(),
+					profit,
+					total,
+					materials,
+					descriptions
+			);
+		}catch (SQLException e){
+			notifyBudgetCreationFailure();
+		}
+	}
+
+	public void deleteWorkBudget(int budgetId) {
+		budgetsDBConnection.deleteBudgetById(budgetId);
 	}
 
 	public int getNextBudgetNumber() {
@@ -139,8 +186,17 @@ public class WorkBudgetModel {
 		try {
 			budgets = budgetsDBConnection.getBudgets(budgetSearch);
 			notifyBudgetSearchSuccess();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			notifyBudgetSearchFailure();
+		}
+	}
+
+	public WorkBudgetData getWorkBudgetById(int budgetId) {
+		try {
+			return budgetsDBConnection.getWorkBudgetData(budgetId);
+		} catch (SQLException e) {
+			System.out.println("Failed to get Work Budget by ID: " + e.getMessage());
+			return null;
 		}
 	}
 

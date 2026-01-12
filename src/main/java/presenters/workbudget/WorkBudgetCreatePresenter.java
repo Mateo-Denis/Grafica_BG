@@ -2,10 +2,13 @@ package presenters.workbudget;
 
 import PdfFormater.IPdfConverter;
 import PdfFormater.PdfConverter;
+import lombok.Setter;
 import models.WorkBudgetModel;
+import org.javatuples.Pair;
 import presenters.StandardPresenter;
 import utils.Client;
 import utils.MessageTypes;
+import utils.WorkBudgetData;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.stages.*;
 
@@ -24,7 +27,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	private final WorkBudgetCreateView workBudgetCreateView;
 	private static final IPdfConverter pdfConverter = new PdfConverter();
 	private final WorkBudgetModel workBudgetModel;
-
+	@Setter
 	private WorkBudgetCreationStage stage;
 
 	public WorkBudgetCreatePresenter(WorkBudgetCreateView workBudgetCreateView, WorkBudgetModel workBudgetModel) {
@@ -73,7 +76,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		}
 	}
 
-	public void onNextButtonPressed() {
+	public void onNextButtonPressed(boolean isBeingModified) {
 		switch (stage) {
 			case CLIENT_SELECTION -> {
 				if(workBudgetCreateView.getClientSearchingStage().isTableSelected()){
@@ -96,17 +99,32 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 				workBudgetCreateView.showClientSideInfoStage();
 			}
 			case CLIENT_SIDE_INFO -> {
-				workBudgetModel.saveWorkBudget(
-						workBudgetCreateView.getSelectedClientId(),
-						workBudgetCreateView.getMaterialsList(),
-						workBudgetCreateView.getLogisticsData(),
-						workBudgetCreateView.getPlacingData(),
-						workBudgetCreateView.getProfitMargin(),
-						workBudgetCreateView.getFinalPrice(),
-						workBudgetCreateView.getClientInfoItems()
-				);
+				if(isBeingModified){
+					workBudgetModel.updateWorkBudget(workBudgetCreateView.getBudgetNumberLabelValue(),
+							Integer.toString(workBudgetCreateView.getSelectedClientId()),
+							workBudgetCreateView.getLogisticsData(),
+							workBudgetCreateView.getPlacingData(),
+							workBudgetCreateView.getProfitMargin(),
+							workBudgetCreateView.getFinalPrice(),
+							workBudgetCreateView.getMaterialsList(),
+							workBudgetCreateView.getClientInfoItems()
+					);
+					//TODO aquí crear los PDFs junto a la palabra MODIFICADO
+				}else {
+					workBudgetModel.saveWorkBudget(
+							workBudgetCreateView.getSelectedClientId(),
+							workBudgetCreateView.getMaterialsList(),
+							workBudgetCreateView.getLogisticsData(),
+							workBudgetCreateView.getPlacingData(),
+							workBudgetCreateView.getProfitMargin(),
+							workBudgetCreateView.getFinalPrice(),
+							workBudgetCreateView.getClientInfoItems()
+					);
+					//TODO aquí crear los PDFs
+				}
 
-				//TODO aquí crear los PDFs
+
+
 			}
 		}
 	}
@@ -202,6 +220,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	public void onHomeCreateWorkBudgetButtonClicked() {
 		view.showView();
+		stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+		workBudgetCreateView.setBeingModified(false);
 	}
 
 	public void onMaterialEnterPressed(ContentListStage contentListStage) {
@@ -263,5 +283,39 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 			clientSearchingStage.setClientStringTableValueAt(rowCount, 5, client.isClient() ? "Cliente" : "Particular");
 			rowCount++; // INCREMENT ROW COUNT
 		}
+	}
+
+	public void loadExistingBudget(int budgetId) {
+		stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+		WorkBudgetData data = workBudgetModel.getWorkBudgetById(budgetId);
+
+		workBudgetCreateView.setBudgetNumberLabelText("Presupuesto N°: " + data.getBudgetNumber());
+		int clientID = data.getClientID();
+
+		ClientSearchingStage clientSearchingStage = workBudgetCreateView.getClientSearchingStage();
+		clientSearchingStage.setClientIntTableValueAt(0,0, clientID);
+
+		Client client = workBudgetModel.getClientByID(clientID);
+		clientSearchingStage.setClientStringTableValueAt(0,1,client.getName());
+		clientSearchingStage.setClientStringTableValueAt(0,2,client.getAddress());
+		clientSearchingStage.setClientStringTableValueAt(0,3,client.getCity());
+		clientSearchingStage.setClientStringTableValueAt(0,4,client.getPhone());
+		clientSearchingStage.setClientStringTableValueAt(0,5, client.isClient() ? "Cliente" : "Particular");
+		clientSearchingStage.selectRow(0);
+
+		workBudgetCreateView.setLogisticsData(data.getLogistics(), data.getLogisticsCost());
+		workBudgetCreateView.setPlacingData(data.getPlacer(), data.getPlacingCost());
+		workBudgetCreateView.setProfitMargin(data.getProfit());
+
+		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
+		for (Pair<String, String> material : data.getMaterials()) {
+			contentListStage.addMaterialToTable(material.getValue0(), material.getValue1());
+		}
+
+		ClientSideInfoStage clientSideInfoStage = workBudgetCreateView.getClientSideInfoStage();
+		for (Pair<String, String> description : data.getDescriptions()) {
+			clientSideInfoStage.addInfoItemToTable(description.getValue0(), description.getValue1());
+		}
+
 	}
 }

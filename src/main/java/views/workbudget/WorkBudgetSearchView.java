@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.logging.Logger;
 
+import static utils.TableSettings.adjustColumnWidthsToHeader;
+
 public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetSearchView {
 	private JPanel budgetSearchContainer;
 	private JPanel searchFieldContainer;
@@ -21,7 +23,6 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 	private JScrollPane budgetResultScrollPanel;
 	private JTable budgetResultTable;
 	private JPanel budgetListButtonsContainer;
-	private JButton budgetListOpenButton;
 	private JButton pdfButton;
 	private JButton deleteButton;
 	private JButton modifyButton;
@@ -57,7 +58,7 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 
 	private void setBudgetTableModel() {
 		DefaultTableModel tableModel = new DefaultTableModel(
-				new Object[]{"Nombre del Cliente", "Fecha del presupuesto", "Numero de Presupuesto", "Precio final"}, 200
+				new Object[]{"ID de cliente", "Nombre del Cliente", "Fecha del presupuesto", "Número de Presupuesto", "Precio final"}, 200
 		) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -66,6 +67,7 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 		};
 		budgetResultTable.setModel(tableModel);
 		budgetResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		adjustColumnWidthsToHeader(budgetResultTable);
 	}
 
 	@Override
@@ -76,12 +78,16 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 	@Override
 	protected void initListeners() {
 		searchButton.addActionListener(e-> workBudgetSearchPresenter.onSearchButtonClicked());
-		//cleanTableButton.addActionListener(e -> clearTable());
+		modifyButton.addActionListener(e-> workBudgetSearchPresenter.onModifyButtonClicked());
+		deleteButton.addActionListener(e-> workBudgetSearchPresenter.onDeleteButtonClicked());
+		cleanTableButton.addActionListener(e -> clearTable());
 
 	}
 
 	@Override
 	public void clearView() {
+		searchField.setText("");
+		clearTable();
 
 	}
 
@@ -98,20 +104,12 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 		budgetResultTable.clearSelection();
 	}
 
-	public String getSelectedBudgetName() {
-		String budgetName = "";
-		int selectedRow = getSelectedTableRow();
-		if (selectedRow != -1) {
-			budgetName = (String) budgetResultTable.getValueAt(getSelectedTableRow(), 0);
-		}
-		return budgetName;
-	}
 
 	public int getSelectedBudgetNumber() {
 		int budgetNumber = 0;
 		int selectedRow = getSelectedTableRow();
 		if (selectedRow != -1) {
-			Object budgetNumberObj = budgetResultTable.getValueAt(selectedRow, 2);
+			Object budgetNumberObj = budgetResultTable.getValueAt(selectedRow, 3);
 			if (budgetNumberObj != null) {
 				try {
 					String budgetNumberStr = (String) budgetNumberObj;

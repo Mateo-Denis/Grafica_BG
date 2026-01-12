@@ -34,6 +34,10 @@ public class ClientSearchingStage extends JPanel {
 		}
 	}
 
+	public void setClientTextField(String text) {
+		clientTextField.setText(text);
+	}
+
 	public String getSelectedCity() {
 		return (String) cityComboBox.getSelectedItem();
 	}
@@ -51,8 +55,8 @@ public class ClientSearchingStage extends JPanel {
 		clientResultTable.clearSelection();
 	}
 
-	public void setClientIntTableValueAt(int rowCount, int i, int clientID) {
-		clientResultTable.setValueAt(clientID, rowCount, i);
+	public void setClientIntTableValueAt(int rowCount, int column, int clientID) {
+		clientResultTable.setValueAt(clientID, rowCount, column);
 	}
 
 	public void setClientStringTableValueAt(int rowCount, int i, String value) {
@@ -82,5 +86,15 @@ public class ClientSearchingStage extends JPanel {
 	public int getSelectedClientID() {
 		int row = clientResultTable.getSelectedRow();
 		return (int) clientResultTable.getModel().getValueAt(row, 0);
+	}
+
+	public void selectRow(int row) {
+		clientResultTable.setRowSelectionInterval(row, row);
+	}
+
+	public void clearView() {
+		clientTextField.setText("");
+		cityComboBox.setSelectedIndex(0);
+		clearClientTable();
 	}
 }

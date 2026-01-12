@@ -110,7 +110,7 @@ public class Main {
         WorkBudgetCreateView workBudgetCreateView = new WorkBudgetCreateView();
         WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView, workBudgetModel);
         WorkBudgetSearchView workBudgetSearchView = new WorkBudgetSearchView();
-        WorkBudgetSearchPresenter workBudgetSearchPresenter = new WorkBudgetSearchPresenter(workBudgetSearchView, workBudgetModel);
+        WorkBudgetSearchPresenter workBudgetSearchPresenter = new WorkBudgetSearchPresenter(workBudgetSearchView, workBudgetCreateView, workBudgetModel);
 
         clientCreatePresenter.start();
         clientSearchPresenter.start();
