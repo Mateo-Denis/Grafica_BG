@@ -16,6 +16,7 @@ import com.itextpdf.layout.properties.*;
 import com.itextpdf.layout.borders.*;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import org.javatuples.Pair;
+import utils.PDFOpener;
 import utils.TextUtils;
 import utils.databases.ClientsDatabaseConnection;
 
@@ -32,6 +33,8 @@ public class WorkBudgetPDFConverter {
     private static PdfFont TAHOMA_FONT;
     private static final TextUtils textUtils = new TextUtils();
     private static final ClientsDatabaseConnection clientsDB = new ClientsDatabaseConnection();
+    private static PDFOpener pdfOpener = new PDFOpener();
+    private int copyCounter = 1;
 
 
     private static void initFonts() throws IOException {
@@ -58,21 +61,37 @@ public class WorkBudgetPDFConverter {
         return clientsDB.getClientNameByID(clientID);
     }
 
-    public void generateWorkBill(boolean modified,int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, Pair<String,String> placing,
+    public void generateWorkBill(boolean modified, int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, Pair<String,String> placing,
                                         String deposit, String balance, String budgetCost, String finalCost) throws IOException {
         initFonts();
 
         ArrayList<NewRow> materials = textUtils.toTableRow(strMaterials);
 
-        String outputPath = "presupuesto_trabajo_" + billNumber + ".pdf";
-        if(modified) {
-            outputPath = "presupuesto_trabajo_" + billNumber + "_modificado.pdf";
+        String actualDir = System.getProperty("user.dir");
+        String folderDir = "/Presupuestos_Trabajo_Internos_PDF/";
+
+        String clientName = getClientName(clientID);
+        String fechaActual = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        File pdfsFolder = new File(actualDir + folderDir);
+        if (!pdfsFolder.exists()) {
+            pdfsFolder.mkdir();
         }
+
+        String outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActual + "_" + billNumber + ".pdf";
+
+        final String copiesRegex = "presupuesto_interno_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
+
+        int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
+
+        if(maxCopyNumber != -2) {
+            outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActual + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
+        }
+
 
         PdfWriter writer = new PdfWriter(outputPath);
         PdfDocument pdf = new PdfDocument(writer);
         Document doc = new Document(pdf, PageSize.A4);
-        String clientName = getClientName(clientID);
 
         doc.setMargins(20, 20, 20, 20);
 
@@ -109,7 +128,7 @@ public class WorkBudgetPDFConverter {
                 .setFont(TAHOMA_FONT);
 
         filaFecha.addCell(new Cell()
-                .add(new Paragraph(LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .add(new Paragraph(fechaActual)
                         .setFontSize(10)
                         .setFont(TAHOMA_FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
@@ -191,7 +210,7 @@ public class WorkBudgetPDFConverter {
         doc.add(espacio());
 
         // ================= COSTO PRESUPUESTO =================
-        double doubleBudgetCost = Double.parseDouble(truncateAndRound(finalCost));
+        double doubleBudgetCost = Double.parseDouble(truncateAndRound(budgetCost));
         doc.add(bloquesSubtotalYTotal(doubleBudgetCost, "COSTO DE PRESUPUESTO"));
         doc.add(espacio());
 
@@ -201,7 +220,9 @@ public class WorkBudgetPDFConverter {
         doc.add(espacio());
 
         doc.close();
-        openPDF(outputPath);
+
+        //GeneratePDF
+        pdfOpener.openPDF(true, folderDir, billNumber, clientName, fechaActual);
     }
 
     // ================= UTILIDADES =================
@@ -429,20 +450,6 @@ public class WorkBudgetPDFConverter {
         t.addCell(bloque);
 
         return t;
-    }
-
-    private static void openPDF(String finalPath) {
-        try {
-            File pdf = new File(finalPath);
-            if (pdf.exists()) {
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(pdf); // Opens with system default viewer
-            } else {
-                System.out.println("File not found!");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private static Paragraph autoShrinkParagraph(String text, float baseSize) {

@@ -75,9 +75,10 @@ public class BudgetHistoryPresenter extends StandardPresenter {
         int budgetId = budgetHistoryModel.getBudgetID(clientName, budgetNumber);
         Budget budget = budgetHistoryModel.getOneBudget(budgetId);
         String budgetDate = budget.getDate();
+        String folderDir = "/PresupuestosPDF/";
 
 
-        pdfOpener.openPDF(budgetNumber, clientName, budgetDate);
+        pdfOpener.openPDF(false, folderDir, budgetNumber, clientName, budgetDate);
     }
 
     public ArrayList<Budget> getClientBudgets() {

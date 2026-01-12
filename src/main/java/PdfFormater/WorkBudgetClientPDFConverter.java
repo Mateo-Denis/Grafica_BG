@@ -7,6 +7,7 @@ import com.itextpdf.layout.element.Paragraph;
 import org.javatuples.Pair;
 import utils.Client;
 import utils.NewProduct;
+import utils.PDFOpener;
 import utils.TextUtils;
 
 import java.awt.*;
@@ -24,6 +25,7 @@ public class WorkBudgetClientPDFConverter {
     String pdfName = "Hola.pdf";
     CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
     private final TextUtils textUtils = new TextUtils();
+    private final PDFOpener pdfOpener = new PDFOpener();
 /*
     String pdfName = "job_budget_client.pdf";
 */
@@ -34,19 +36,11 @@ public class WorkBudgetClientPDFConverter {
         String formattedDate = ld.format(formatter);
         LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
 
-        String pdfName;
-
-        // Generate PDF file name
-        if(isModification){
-            pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + "_MOD.pdf";
-        }else {
-            pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
-        }
+        String pdfName = "presupuesto_cliente_" + client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
 
         String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
-
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
-        String finalPath = cepdf.createDocument();
+        cepdf.createDocument(true);
 
         //Create Header start
         HeaderDetails header=new HeaderDetails();
@@ -99,16 +93,7 @@ public class WorkBudgetClientPDFConverter {
         cepdf.createTnc(TncList,false,imagePath);
         // Term and condition end
 
-        try {
-            File pdf = new File(finalPath);
-            if (pdf.exists()) {
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(pdf); // Opens with system default viewer
-            } else {
-                System.out.println("File not found!");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String folderDir = "/Presupuestos_Trabajo_Clientes_PDF/";
+        pdfOpener.openPDF(false, folderDir, billNumber, client.getName(), parsedDate.toString());
     }
 }

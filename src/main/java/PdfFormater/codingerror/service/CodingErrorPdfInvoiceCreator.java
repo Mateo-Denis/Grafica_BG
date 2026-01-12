@@ -53,8 +53,14 @@ public class CodingErrorPdfInvoiceCreator {
         return productList;
     }
 
-    public String createDocument() throws FileNotFoundException {
-        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
+    public String createDocument(boolean clientWorkPDF) throws FileNotFoundException {
+        String fileDir = "";
+        if(!clientWorkPDF){
+            fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
+        } else {
+            fileDir = System.getProperty("user.dir") + "/Presupuestos_Trabajo_Clientes_PDF/"; // Directorio donde se guardarán los PDFs de trabajo para clientes
+        }
+
         File pdfsFolder = new File(fileDir); // Crea la carpeta si no existe
         if (!pdfsFolder.exists()) {
             pdfsFolder.mkdirs();

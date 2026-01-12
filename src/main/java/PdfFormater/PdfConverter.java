@@ -37,7 +37,7 @@ public class PdfConverter implements IPdfConverter{
         String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
 
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
-        String finalPath = cepdf.createDocument();
+        String finalPath = cepdf.createDocument(false);
 
         //Create Header start
         HeaderDetails header=new HeaderDetails();
