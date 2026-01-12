@@ -1,5 +1,6 @@
 package views.workbudget.stages;
 
+import lombok.Getter;
 import org.javatuples.Pair;
 import utils.NumberInputVerifier;
 
@@ -16,6 +17,7 @@ public class ClientSideInfoStage extends JPanel {
 	private JPanel dataPanel;
 	private JTextField descriptionTextField;
 	private JTextField totalTextField;
+	@Getter
 	private JTable itemsTable;
 
 	public ClientSideInfoStage() {

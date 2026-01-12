@@ -19,6 +19,7 @@ import static utils.TextUtils.truncateAndRound;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import static views.workbudget.stages.FinalPriceReferences.*;
@@ -324,6 +325,26 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		for (Pair<String, String> description : data.getDescriptions()) {
 			clientSideInfoStage.addInfoItemToTable(description.getValue0(), description.getValue1());
 		}
-
 	}
+
+	public void onTableRightClicked(MouseEvent evt, JTable table, String toEliminate) {
+		int row = table.rowAtPoint(evt.getPoint());
+		if (row >= 0) {
+			table.setRowSelectionInterval(row, row);
+		}
+
+		JPopupMenu popup = new JPopupMenu();
+		JMenuItem deleteItem = new JMenuItem("Eliminar "+ toEliminate);
+
+		deleteItem.addActionListener(e -> {
+			int selected = table.getSelectedRow();
+			if (selected >= 0) {
+				((DefaultTableModel) table.getModel()).removeRow(selected);
+			}
+		});
+
+		popup.add(deleteItem);
+		popup.show(table, evt.getX(), evt.getY());
+	}
+
 }

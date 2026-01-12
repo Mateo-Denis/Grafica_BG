@@ -13,7 +13,11 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
 	private JPanel containerPanel;
@@ -77,6 +81,13 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
+		contentListStage.getMaterialsTable().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				if (isRightMouseButton(evt)) {
+					workBudgetCreatePresenter.onTableRightClicked(evt, contentListStage.getMaterialsTable(), "material");
+				}
+			}
+		});
 
 		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
 		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
@@ -84,6 +95,14 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.DESCRIPTION).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
 		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.TOTAL).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
+		clientSideInfoStage.getItemsTable().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				if (isRightMouseButton(evt)) {
+					workBudgetCreatePresenter.onTableRightClicked(evt, clientSideInfoStage.getItemsTable(), "descripción");
+				}
+			}
+		});
+
 
 
 
