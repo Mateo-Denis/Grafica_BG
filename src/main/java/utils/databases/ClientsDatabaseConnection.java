@@ -44,6 +44,22 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
         conn.close();
     }
 
+    public String getClientNameByID(int clientID) {
+        String sql = "SELECT Nombre FROM Clientes WHERE ID = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, clientID);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("Nombre");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(null,"ERROR IN METHOD 'getClientNameByID' IN CLASS->'ClientsDatabaseConnection'",e);
+        }
+        return null;
+    }
+
     public ArrayList<String> getCities() throws SQLException {
         String sql = "SELECT DISTINCT Localidad FROM Clientes";
         Connection conn = connect();

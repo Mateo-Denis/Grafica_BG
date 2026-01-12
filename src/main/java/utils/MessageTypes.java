@@ -140,6 +140,9 @@ WORK_BUDGET_CREATION_SUCCESS("Presupuesto de trabajo creado con éxito"
             , JOptionPane.ERROR_MESSAGE),
     WORK_BUDGET_PDF_CREATION_FAILURE("Error al generar los PDFs del presupuesto de trabajo"
             , "Ha ocurrido un error al intentar generar los PDFs del presupuesto de trabajo."
+            , JOptionPane.ERROR_MESSAGE),
+    MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE("Error al generar los PDFs modificados del presupuesto de trabajo"
+            , "Ha ocurrido un error al intentar generar los PDFs modificados del presupuesto de trabajo."
             , JOptionPane.ERROR_MESSAGE);
 
 

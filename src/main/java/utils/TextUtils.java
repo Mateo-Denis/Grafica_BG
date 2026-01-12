@@ -125,7 +125,7 @@ public class TextUtils {
         }
     }
 
-    public static ArrayList<NewRow> toTableRow(ArrayList<Pair<String, String>> material){
+    public ArrayList<NewRow> toTableRow(ArrayList<Pair<String, String>> material){
         ArrayList<NewRow> tableRows = new ArrayList<>();
         for(Pair<String, String> item : material){
             NewRow row = new NewRow(item.getValue0(), Double.parseDouble(item.getValue1()));

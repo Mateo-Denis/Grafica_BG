@@ -1,7 +1,7 @@
 package presenters.workbudget;
 
-import PdfFormater.IPdfConverter;
-import PdfFormater.PdfConverter;
+import PdfFormater.WorkBudgetClientPDFConverter;
+import PdfFormater.WorkBudgetPDFConverter;
 import lombok.Setter;
 import models.WorkBudgetModel;
 import org.javatuples.Pair;
@@ -26,7 +26,8 @@ import static views.workbudget.stages.FinalPriceReferences.*;
 
 public class WorkBudgetCreatePresenter extends StandardPresenter {
 	private final WorkBudgetCreateView workBudgetCreateView;
-	private static final IPdfConverter pdfConverter = new PdfConverter();
+	private final WorkBudgetPDFConverter workBudgetPDFConverter = new WorkBudgetPDFConverter();
+    private final WorkBudgetClientPDFConverter workBudgetClientPDFConverter = new WorkBudgetClientPDFConverter();
 	private final WorkBudgetModel workBudgetModel;
 	@Setter
 	private WorkBudgetCreationStage stage;
@@ -118,22 +119,90 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 							workBudgetCreateView.getMaterialsList(),
 							workBudgetCreateView.getClientInfoItems()
 					);
-					//TODO aquí crear los PDFs junto a la palabra MODIFICADO
+
+
+					//Modified budget PDF Generation
+                    //BUDGET PDF
+                    try {
+                        workBudgetPDFConverter.generateWorkBill(
+                                true,
+                                workBudgetCreateView.getBudgetNumberLabelValue(),
+                                workBudgetCreateView.getSelectedClientId(),
+                                workBudgetCreateView.getMaterialsList(),
+                                workBudgetCreateView.getLogisticsData(),
+                                workBudgetCreateView.getPlacingData(),
+                                workBudgetCreateView.getDeposit(),
+                                workBudgetCreateView.getBalanceToPay(),
+                                workBudgetCreateView.getBudgetCost(),
+                                workBudgetCreateView.getFinalPrice()
+                        );
+                    } catch (Exception e) {
+                        workBudgetCreateView.showMessage(MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE);
+                        System.err.println("Error generating PDF: " + e.getMessage());
+                    }
+
+                    //CLIENT PDF
+                    try {
+                        workBudgetClientPDFConverter.generateBill(
+                                true,
+                                workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
+                                workBudgetCreateView.getBudgetNumberLabelValue(),
+                                workBudgetCreateView.getClientInfoItems(),
+                                workBudgetCreateView.getFinalPrice()
+                        );
+                    } catch (Exception e) { workBudgetCreateView.showMessage(MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE);
+                        System.err.println("Error generating Client PDF: " + e.getMessage());
+                    }
+                    //Modified budget PDF Generation
+
+
 				}else {
-					workBudgetModel.saveWorkBudget(
-							workBudgetCreateView.getSelectedClientId(),
-							workBudgetCreateView.getMaterialsList(),
-							workBudgetCreateView.getLogisticsData(),
-							workBudgetCreateView.getPlacingData(),
-							workBudgetCreateView.getProfitMargin(),
-							workBudgetCreateView.getFinalPrice(),
-							workBudgetCreateView.getClientInfoItems()
-					);
-					//TODO aquí crear los PDFs
-				}
+                    workBudgetModel.saveWorkBudget(
+                            workBudgetCreateView.getSelectedClientId(),
+                            workBudgetCreateView.getMaterialsList(),
+                            workBudgetCreateView.getLogisticsData(),
+                            workBudgetCreateView.getPlacingData(),
+                            workBudgetCreateView.getProfitMargin(),
+                            workBudgetCreateView.getFinalPrice(),
+                            workBudgetCreateView.getClientInfoItems()
+                    );
 
+                    //PDF Generation
+                    //WORK BUDGET PDF
+                    try {
+                        workBudgetPDFConverter.generateWorkBill(
+                                false,
+                                workBudgetCreateView.getBudgetNumberLabelValue(),
+                                workBudgetCreateView.getSelectedClientId(),
+                                workBudgetCreateView.getMaterialsList(),
+                                workBudgetCreateView.getLogisticsData(),
+                                workBudgetCreateView.getPlacingData(),
+                                workBudgetCreateView.getDeposit(),
+                                workBudgetCreateView.getBalanceToPay(),
+                                workBudgetCreateView.getBudgetCost(),
+                                workBudgetCreateView.getFinalPrice()
+                        );
+                    } catch (Exception e) {
+                        workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
+                        System.err.println("Error generating PDF: " + e.getMessage());
+                    }
 
+                    // CLIENT PDF
+                    try {
+                        workBudgetClientPDFConverter.generateBill(
+                                false,
+                                workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
+                                workBudgetCreateView.getBudgetNumberLabelValue(),
+                                workBudgetCreateView.getClientInfoItems(),
+                                workBudgetCreateView.getFinalPrice()
+                        );
+                    } catch (Exception e) {
+                        workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
+                        System.err.println("Error generating Client PDF: " + e.getMessage());
+                    }
+                    // PDF Generation
 
+                }
 			}
 		}
 	}

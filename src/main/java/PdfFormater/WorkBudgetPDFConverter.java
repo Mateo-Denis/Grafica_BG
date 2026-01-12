@@ -1,4 +1,3 @@
-/*
 package PdfFormater;
 
 import com.itextpdf.io.font.FontProgram;
@@ -18,18 +17,20 @@ import com.itextpdf.layout.borders.*;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import org.javatuples.Pair;
 import utils.TextUtils;
+import utils.databases.ClientsDatabaseConnection;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
+
+import static utils.TextUtils.truncateAndRound;
 
 public class WorkBudgetPDFConverter {
-    private static int counter;
-    private static final Random Random = new Random();
     private static PdfFont FONT;
     private static final TextUtils textUtils = new TextUtils();
+    private static final ClientsDatabaseConnection clientsDB = new ClientsDatabaseConnection();
 
 
     private static void initFonts() throws IOException {
@@ -44,14 +45,25 @@ public class WorkBudgetPDFConverter {
 
     }
 
-    public void generateWorkBill(ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, Pair<String,String> placing,
-                                        ArrayList<Double> depositAndBalanceList, double budgetCost, double finalCost) throws IOException {
+    private String getClientName(int clientID) {
+        return clientsDB.getClientNameByID(clientID);
+    }
+
+    public void generateWorkBill(boolean modified,int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, Pair<String,String> placing,
+                                        String deposit, String balance, String budgetCost, String finalCost) throws IOException {
         initFonts();
+
         ArrayList<NewRow> materials = textUtils.toTableRow(strMaterials);
-        counter = Random.nextInt(1000, 9999); // Generar un número aleatorio para el nombre del archivo
-        PdfWriter writer = new PdfWriter("factura" + counter + ".pdf");
+
+        String outputPath = "factura" + billNumber + ".pdf";
+        if(modified) {
+            outputPath = "factura" + billNumber + "_modificada.pdf";
+        }
+
+        PdfWriter writer = new PdfWriter(outputPath);
         PdfDocument pdf = new PdfDocument(writer);
         Document doc = new Document(pdf, PageSize.A4);
+        String clientName = getClientName(clientID);
 
         doc.setMargins(20, 20, 20, 20);
 
@@ -88,7 +100,7 @@ public class WorkBudgetPDFConverter {
                 .setFont(FONT);
 
         filaFecha.addCell(new Cell()
-                .add(new Paragraph("01/01/2026")
+                .add(new Paragraph(LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                         .setFontSize(10)
                         .setFont(FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
@@ -96,6 +108,29 @@ public class WorkBudgetPDFConverter {
 
         datos.addCell(new Cell()
                 .add(filaFecha)
+                .setBorder(new SolidBorder(1))
+                .setPadding(6)
+        );
+
+        // ===== FILA NÚMERO PRESUPUESTO =====
+        Table filaNumeroPresupuesto = new Table(new float[]{3, 2});
+        filaNumeroPresupuesto.setWidth(UnitValue.createPercentValue(100));
+
+        filaNumeroPresupuesto.addCell(new Cell()
+                .add(new Paragraph("N° Presupuesto:")
+                        .setFontSize(10))
+                .setFont(FONT)
+                .setBorder(Border.NO_BORDER));
+
+        filaNumeroPresupuesto.addCell(new Cell()
+                .add(new Paragraph(String.valueOf(billNumber))
+                        .setFontSize(10)
+                        .setFont(FONT)
+                        .setTextAlignment(TextAlignment.RIGHT))
+                .setBorder(Border.NO_BORDER));
+
+        datos.addCell(new Cell()
+                .add(filaNumeroPresupuesto)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6)
         );
@@ -111,7 +146,7 @@ public class WorkBudgetPDFConverter {
                 .setBorder(Border.NO_BORDER));
 
         filaNombre.addCell(new Cell()
-                .add(new Paragraph("Cliente BD")
+                .add(new Paragraph(clientName)
                         .setFontSize(10)
                         .setFont(FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
@@ -141,21 +176,23 @@ public class WorkBudgetPDFConverter {
         doc.add(espacio());
 
         // ================= PAGOS =================
-        double deposit = depositAndBalanceList.get(0);
-        double balance = depositAndBalanceList.get(1);
-        doc.add(bloquePagos(deposit, balance));
+        double doubleDepositValue = Double.parseDouble(truncateAndRound(deposit));
+        double doubleBalanceValue = Double.parseDouble(truncateAndRound(balance));
+        doc.add(bloquePagos(doubleDepositValue, doubleBalanceValue));
         doc.add(espacio());
 
         // ================= COSTO PRESUPUESTO =================
-        doc.add(bloquesSubtotalYTotal(budgetCost, "COSTO PRESUPUESTO"));
+        double doubleBudgetCost = Double.parseDouble(truncateAndRound(finalCost));
+        doc.add(bloquesSubtotalYTotal(doubleBudgetCost, "COSTO PRESUPUESTO"));
         doc.add(espacio());
 
         // ================= PRESUPUESTO FINAL =================
-        doc.add(bloquesSubtotalYTotal(finalCost, "PRESUPUESTO FINAL"));
+        double doubleFinalCost = Double.parseDouble(truncateAndRound(finalCost));
+        doc.add(bloquesSubtotalYTotal(doubleFinalCost, "PRESUPUESTO FINAL"));
         doc.add(espacio());
 
         doc.close();
-        openPDF("factura" + counter + ".pdf");
+        openPDF(outputPath);
     }
 
     // ================= UTILIDADES =================
@@ -165,7 +202,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setHeight(70)
+                .setHeight(50)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -177,7 +214,7 @@ public class WorkBudgetPDFConverter {
                 .setMarginBottom(4));
 
         // Agregar el valor del costo subtotal, pegado al fondo del bloque, sin etiqueta
-        bloque.add(new Paragraph("").setHeight(25));
+        bloque.add(new Paragraph("").setHeight(10));
         bloque.add(new Paragraph(String.format("%.2f", cost))
                 .setBold()
                 .setFontSize(10)
@@ -193,7 +230,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setHeight(70)
+                .setHeight(50)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -216,7 +253,7 @@ public class WorkBudgetPDFConverter {
                 .setBorder(Border.NO_BORDER));
 
         // Empuja la fila hacia abajo del bloque
-        bloque.add(new Paragraph("").setHeight(25));
+        bloque.add(new Paragraph("").setHeight(10));
         bloque.add(fila);
 
         t.addCell(bloque);
@@ -228,7 +265,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setHeight(120)
+                .setMinHeight(20)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -267,7 +304,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setMinHeight(70) // ← mínimo, no fijo
+                .setMinHeight(20) // ← mínimo, no fijo
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -284,8 +321,7 @@ public class WorkBudgetPDFConverter {
                 .setBold()
                 .setFontSize(10);
 
-        Paragraph descInfo = new Paragraph(description)
-                .setFontSize(10);
+        Paragraph descInfo = autoShrinkParagraph(description, 10);
 
         Paragraph desc = new Paragraph("");
 
@@ -296,7 +332,7 @@ public class WorkBudgetPDFConverter {
                 .add(desc)
                 .setFont(FONT)
                 .setBorder(Border.NO_BORDER))
-                        .setMinHeight(70); // ← mínimo, no fijo
+                .setMaxHeight(500); // ← para que se expanda si es necesario
 
         fila.addCell(new Cell()
                 .add(new Paragraph("Precio: $" + String.format("%.2f", price))
@@ -325,7 +361,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setHeight(70)
+                .setHeight(50)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -355,7 +391,7 @@ public class WorkBudgetPDFConverter {
                         .setBorder(Border.NO_BORDER));
 
         // Empuja la fila hacia abajo del bloque
-        bloque.add(new Paragraph("").setHeight(25));
+        bloque.add(new Paragraph("").setHeight(10));
         bloque.add(fila);
 
         t.addCell(bloque);
@@ -375,168 +411,18 @@ public class WorkBudgetPDFConverter {
             e.printStackTrace();
         }
     }
-}
 
-*/
-
-package PdfFormater;
-
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.borders.*;
-import com.itextpdf.layout.properties.*;
-import com.itextpdf.layout.splitting.DefaultSplitCharacters;
-
-import java.io.File;
-import java.io.IOException;
-import java.awt.Desktop;
-
-public class WorkBudgetPDFConverter {
-
-    private static PdfFont FONT;
-
-    // ======================= PUBLIC API =======================
-    public static void generate(
-            String clientName,
-            String logisticsDescription,
-            double logisticsPrice,
-            double cost,
-            double total
-    ) throws IOException {
-
-        initFonts();
-
-        String outputPath = "factura" + System.currentTimeMillis() + ".pdf";
-        PdfWriter writer = new PdfWriter(outputPath);
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf, PageSize.A4);
-        document.setMargins(20, 20, 20, 20);
-
-        // TABLA CONTENEDORA (CLAVE PARA 1 A4)
-        Table layout = new Table(1);
-        layout.setWidth(UnitValue.createPercentValue(100));
-        layout.setKeepTogether(true);
-
-        layout.addCell(bloqueCliente(clientName));
-        layout.addCell(bloqueLogistica(logisticsDescription, logisticsPrice));
-        layout.addCell(bloqueValor("COSTO PRESUPUESTO", cost));
-        layout.addCell(bloqueValor("PRESUPUESTO FINAL", total));
-
-        document.add(layout);
-        document.close();
-
-        abrirPDF(outputPath);
-    }
-
-    // ======================= BLOQUES =======================
-
-    private static Cell bloqueCliente(String nombre) {
-        Cell c = baseBlock();
-
-        c.add(titulo("CLIENTE"));
-
-        c.add(autoShrinkParagraph(nombre, 10));
-
-        return c;
-    }
-
-    private static Cell bloqueLogistica(String desc, double price) {
-        Cell c = baseBlock();
-
-        c.add(titulo("LOGÍSTICA"));
-
-        Table fila = new Table(new float[]{3, 2});
-        fila.setWidth(UnitValue.createPercentValue(100));
-
-        Cell descCell = new Cell().setBorder(Border.NO_BORDER);
-        descCell.setProperty(Property.SPLIT_CHARACTERS, new DefaultSplitCharacters());
-        descCell.add(autoShrinkParagraph("Descripción: " + desc, 10));
-
-        fila.addCell(descCell);
-
-        fila.addCell(new Cell()
-                .add(autoShrinkParagraph("Precio: $" + format(price), 10))
-                .setBorder(Border.NO_BORDER)
-                .setTextAlignment(TextAlignment.RIGHT));
-
-        c.add(fila);
-        return c;
-    }
-
-    private static Cell bloqueValor(String titulo, double valor) {
-        Cell c = baseBlock();
-
-        c.add(titulo(titulo));
-
-        c.add(autoShrinkParagraph("$" + format(valor), 12)
-                .setTextAlignment(TextAlignment.CENTER));
-
-        return c;
-    }
-
-    // ======================= HELPERS =======================
-
-    private static Cell baseBlock() {
-        return new Cell()
-                .setBorder(new SolidBorder(1))
-                .setPadding(8)
-                .setKeepTogether(true);
-    }
-
-    private static Paragraph titulo(String text) {
-        return new Paragraph(text)
-                .setFont(FONT)
-                .setBold()
-                .setFontSize(11)
-                .setMarginBottom(6);
-    }
-
-    /**
-     * 🔥 Auto-shrink real: reduce tamaño si el texto es muy largo
-     */
     private static Paragraph autoShrinkParagraph(String text, float baseSize) {
         float size = baseSize;
 
-        if (text.length() > 250) size -= 2;
-        if (text.length() > 500) size -= 2;
-        if (text.length() > 800) size -= 2;
+        if (text.length() > 250) size -= 0.5;
+        if (text.length() > 500) size -= 0.5;
+        if (text.length() > 800) size -= 0.5;
         if (size < 7) size = 7;
 
         return new Paragraph(text)
                 .setFont(FONT)
                 .setFontSize(size);
-    }
-
-    private static String format(double v) {
-        return String.format("%.2f", v);
-    }
-
-    private static void initFonts() throws IOException {
-
-        FontProgram arialNarrowProgram =
-                FontProgramFactory.createFont("src/main/resources/fonts/arial_narrow_7.ttf");
-
-        FONT = PdfFontFactory.createFont(
-                arialNarrowProgram,
-                PdfEncodings.IDENTITY_H
-        );
-    }
-
-    private static void abrirPDF(String path) {
-        try {
-            File pdf = new File(path);
-            if (pdf.exists() && Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(pdf);
-            }
-        } catch (Exception ignored) {}
     }
 }
 

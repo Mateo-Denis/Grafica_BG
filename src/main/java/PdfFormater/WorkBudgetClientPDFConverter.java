@@ -4,8 +4,10 @@ import PdfFormater.codingerror.model.AddressDetails;
 import PdfFormater.codingerror.model.HeaderDetails;
 import PdfFormater.codingerror.service.CodingErrorPdfInvoiceCreator;
 import com.itextpdf.layout.element.Paragraph;
+import org.javatuples.Pair;
 import utils.Client;
 import utils.NewProduct;
+import utils.TextUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -16,14 +18,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utils.TextUtils.truncateAndRound;
+
 public class WorkBudgetClientPDFConverter {
     String pdfName = "Hola.pdf";
     CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
+    private final TextUtils textUtils = new TextUtils();
 /*
     String pdfName = "job_budget_client.pdf";
 */
 
-    public void generateBill(boolean isPreview, Client client, int billNumber, ArrayList<NewRow> tableContent, double total) throws FileNotFoundException {
+    public void generateBill(boolean isModification, Client client, int billNumber, ArrayList<Pair<String, String>> baseTableContent, String budgetTotal) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate ld = LocalDate.now();
         String formattedDate = ld.format(formatter);
@@ -32,8 +37,8 @@ public class WorkBudgetClientPDFConverter {
         String pdfName;
 
         // Generate PDF file name
-        if(isPreview){
-            pdfName = "temp_preview.pdf";
+        if(isModification){
+            pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + "_MOD.pdf";
         }else {
             pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
         }
@@ -75,7 +80,9 @@ public class WorkBudgetClientPDFConverter {
         //Address end
 
         //Product Start
+        ArrayList<NewRow> tableContent = textUtils.toTableRow(baseTableContent);
         List<NewProduct> productList = cepdf.formatNewProductsToProductsList(tableContent);
+        double total = Double.parseDouble(truncateAndRound(budgetTotal));
         cepdf.createNewProduct(productList, total);
         //Product End
 
