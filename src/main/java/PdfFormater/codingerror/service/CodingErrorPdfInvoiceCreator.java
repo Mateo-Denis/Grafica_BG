@@ -139,7 +139,7 @@ public class CodingErrorPdfInvoiceCreator {
         productsTable.addCell(new Cell().add(new Paragraph("Descripcion"))
                 .setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
 
-        productsTable.addCell(new Cell().add(new Paragraph("Precio total del item"))
+        productsTable.addCell(new Cell().add(new Paragraph("Precio"))
                 .setBorder(Border.NO_BORDER)
                 .setBold()
                 .setFontColor(DeviceGray.WHITE)
@@ -148,7 +148,7 @@ public class CodingErrorPdfInvoiceCreator {
 
         for(NewProduct product : productList) {
             productsTable.addCell(new Cell().add(new Paragraph(product.getDescription())).setBorder(Border.NO_BORDER));
-            productsTable.addCell(new Cell().add(new Paragraph(String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
+            productsTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
         }
 
         document.add(productsTable);
@@ -158,7 +158,7 @@ public class CodingErrorPdfInvoiceCreator {
 
         Table totalTable = new Table(newThreeColumnWidth);
         totalTable.addCell(new Cell().add(new Paragraph("TOTAL:")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
-        totalTable.addCell(new Cell().add(new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
 
         document.add(totalTable);
 

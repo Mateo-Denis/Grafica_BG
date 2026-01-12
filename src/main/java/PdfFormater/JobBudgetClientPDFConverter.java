@@ -82,11 +82,13 @@ public class JobBudgetClientPDFConverter {
         //Term and Condition Start
         Paragraph tncLine1 = new Paragraph("Presupuesto válido por 48 hs. \n ").setItalic();
         Paragraph tncLine2 = new Paragraph("Modalidad de pago: 50% al confirmar y 50% al finalizar. \n ").setItalic();
-        Paragraph tncLine3 = new Paragraph("\n Por cualquier consulta, no dude en comunicarse con nosotros. \n ").setUnderline();
+        Paragraph tncLine3 = new Paragraph("En caso de necesitar factura, al precio se le agregará el IVA. \n").setBold();
+        Paragraph tncLine4 = new Paragraph("\n Por cualquier consulta, no dude en comunicarse con nosotros. \n ").setUnderline();
         List<Paragraph> TncList=new ArrayList<>();
         TncList.add(tncLine1);
         TncList.add(tncLine2);
         TncList.add(tncLine3);
+        TncList.add(tncLine4);
         cepdf.createTnc(TncList,false,imagePath);
         // Term and condition end
 
