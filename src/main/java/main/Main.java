@@ -142,8 +142,9 @@ public class Main {
         workBudgetCreateView.start();
         workBudgetSearchView.start();
 
-        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
-                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter, workBudgetSearchPresenter, settingsPresenter, budgetHistoryPresenter);
+        IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter,
+                workBudgetSearchPresenter, settingsPresenter, budgetHistoryPresenter);
         }
 
 }

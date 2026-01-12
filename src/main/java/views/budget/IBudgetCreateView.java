@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IBudgetCreateView extends IToggleableView {
-    StandardPresenter getPresenter();
     String getBudgetClientName();
     String getBudgetDate();
     void clearPreviewTable();
