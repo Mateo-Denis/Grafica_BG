@@ -256,7 +256,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 	public int getBudgetNumberLabelValue(){
 		String labelText = budgetNumberLabel.getText();
-		String[] parts = labelText.split("#");
+		String[] parts = labelText.split(":");
 		if (parts.length > 1) {
 			try {
 				return Integer.parseInt(parts[1].trim());

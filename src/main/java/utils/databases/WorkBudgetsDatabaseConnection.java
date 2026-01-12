@@ -138,7 +138,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 	public void deleteBudgetById(int id) {
 		//copilot, delete every row in Presupuestos_Trabajo, PRESUPUESTO_MATERIAL and PRESUPUESTO_DESCRIPCION with the given id
-		String sqlWorkBudget = "DELETE FROM Presupuestos_Trabajo WHERE ID = ?";
+		String sqlWorkBudget = "DELETE FROM Presupuestos_Trabajo WHERE Numero_presupuesto = ?";
 		String sqlMaterials = "DELETE FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
 		String sqlDescriptions = "DELETE FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
 		try (Connection conn = connect();
@@ -319,7 +319,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
                Precio_colocacion,
                Ganancia
         FROM Presupuestos_Trabajo
-        WHERE ID = ?
+        WHERE Numero_presupuesto = ?
     """;
 
 		String sqlMaterials = """
