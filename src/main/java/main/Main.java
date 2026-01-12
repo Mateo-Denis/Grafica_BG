@@ -40,9 +40,12 @@ import views.settings.SettingsView;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.WorkBudgetSearchView;
 
+import java.util.Locale;
+
 public class Main {
     public static void main(String[] args) {
         FlatLightLaf.setup();
+        Locale.setDefault(Locale.US);
 
         CategoriesDatabaseConnection categoriesDB = new CategoriesDatabaseConnection();
         categoriesDB.loadDatabase();
@@ -147,6 +150,6 @@ public class Main {
         IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
                 productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter,
                 workBudgetSearchPresenter, settingsPresenter, budgetHistoryPresenter);
-        }
+    }
 
 }

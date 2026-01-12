@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobBudgetClientPDFConverter {
+public class WorkBudgetClientPDFConverter {
     String pdfName = "Hola.pdf";
     CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
 /*
