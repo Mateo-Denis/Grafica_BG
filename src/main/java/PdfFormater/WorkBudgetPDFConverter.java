@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import static utils.TextUtils.truncateAndRound;
 
 public class WorkBudgetPDFConverter {
-    private static PdfFont FONT;
+    private static PdfFont ARIAL_FONT;
+    private static PdfFont TAHOMA_FONT;
     private static final TextUtils textUtils = new TextUtils();
     private static final ClientsDatabaseConnection clientsDB = new ClientsDatabaseConnection();
 
@@ -38,8 +39,16 @@ public class WorkBudgetPDFConverter {
         FontProgram arialNarrowProgram =
                 FontProgramFactory.createFont("src/main/resources/fonts/arial_narrow_7.ttf");
 
-        FONT = PdfFontFactory.createFont(
+        FontProgram tahomaProgram =
+                FontProgramFactory.createFont("src/main/resources/fonts/tahoma.ttf");
+
+        ARIAL_FONT = PdfFontFactory.createFont(
                 arialNarrowProgram,
+                PdfEncodings.IDENTITY_H
+        );
+
+        TAHOMA_FONT = PdfFontFactory.createFont(
+                tahomaProgram,
                 PdfEncodings.IDENTITY_H
         );
 
@@ -97,12 +106,12 @@ public class WorkBudgetPDFConverter {
                 .add(new Paragraph("Fecha:")
                         .setFontSize(10))
                 .setBorder(Border.NO_BORDER))
-                .setFont(FONT);
+                .setFont(TAHOMA_FONT);
 
         filaFecha.addCell(new Cell()
                 .add(new Paragraph(LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                         .setFontSize(10)
-                        .setFont(FONT)
+                        .setFont(TAHOMA_FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
                 .setBorder(Border.NO_BORDER));
 
@@ -119,13 +128,13 @@ public class WorkBudgetPDFConverter {
         filaNumeroPresupuesto.addCell(new Cell()
                 .add(new Paragraph("N° Presupuesto:")
                         .setFontSize(10))
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         filaNumeroPresupuesto.addCell(new Cell()
                 .add(new Paragraph(String.valueOf(billNumber))
                         .setFontSize(10)
-                        .setFont(FONT)
+                        .setFont(TAHOMA_FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
                 .setBorder(Border.NO_BORDER));
 
@@ -142,13 +151,13 @@ public class WorkBudgetPDFConverter {
         filaNombre.addCell(new Cell()
                 .add(new Paragraph("Nombre del cliente:")
                         .setFontSize(10))
-                        .setFont(FONT)
+                        .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         filaNombre.addCell(new Cell()
                 .add(new Paragraph(clientName)
                         .setFontSize(10)
-                        .setFont(FONT)
+                        .setFont(TAHOMA_FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
                 .setBorder(Border.NO_BORDER));
 
@@ -209,7 +218,7 @@ public class WorkBudgetPDFConverter {
         bloque.add(new Paragraph(titulo)
                 .setBold()
                 .setFontSize(10)
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setTextAlignment(TextAlignment.LEFT)
                 .setMarginBottom(4));
 
@@ -218,7 +227,7 @@ public class WorkBudgetPDFConverter {
         bloque.add(new Paragraph(String.format("%.2f", cost))
                 .setBold()
                 .setFontSize(10)
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setTextAlignment(TextAlignment.LEFT));
 
         t.addCell(bloque);
@@ -242,14 +251,14 @@ public class WorkBudgetPDFConverter {
                 .add(new Paragraph("Seña: $" + String.format("%.2f", deposit))
                         .setBold()
                         .setFontSize(10))
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         fila.addCell(new Cell()
                 .add(new Paragraph("Saldo: $" + String.format("%.2f", balance))
                         .setBold()
                         .setFontSize(10))
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         // Empuja la fila hacia abajo del bloque
@@ -282,14 +291,14 @@ public class WorkBudgetPDFConverter {
             materialesTable.addCell(new Cell()
                     .add(new Paragraph(row.getProductDescription())
                             .setFontSize(10))
-                    .setFont(FONT)
+                    .setFont(TAHOMA_FONT)
                     .setBorder(Border.NO_BORDER));
 
             materialesTable.addCell(new Cell()
                     .add(new Paragraph("$" + String.format("%.2f", row.getTotal()))
                             .setFontSize(10)
                             .setTextAlignment(TextAlignment.RIGHT))
-                    .setFont(FONT)
+                    .setFont(TAHOMA_FONT)
                     .setBorder(Border.NO_BORDER));
         }
 
@@ -299,48 +308,47 @@ public class WorkBudgetPDFConverter {
     }
 
     private static Table bloqueLogistica(String description, double price) {
-
+        // 1. Tabla principal (contenedor)
         Table t = new Table(1);
         t.setWidth(UnitValue.createPercentValue(100));
 
+        // 2. Celda contenedora principal
         Cell bloque = new Cell()
-                .setMinHeight(20) // ← mínimo, no fijo
+                .setMinHeight(50)
                 .setBorder(new SolidBorder(1))
-                .setPadding(6);
+                .setPadding(6)
+                .setFont(TAHOMA_FONT); // Aplicamos la fuente a nivel de celda
 
+        // Título de la sección
         bloque.add(new Paragraph("LOGÍSTICA")
                 .setBold()
                 .setFontSize(10)
-                .setTextAlignment(TextAlignment.LEFT)
                 .setMarginBottom(4));
 
-        Table fila = new Table(new float[]{3, 2});
+        // 3. Tabla interna para Descripción y Precio
+        Table fila = new Table(UnitValue.createPercentArray(new float[]{70, 30})); // Usar porcentajes 70/30
         fila.setWidth(UnitValue.createPercentValue(100));
 
-        Paragraph descTitle = new Paragraph("Descripción: ")
-                .setBold()
-                .setFontSize(10);
-
-        Paragraph descInfo = autoShrinkParagraph(description, 10);
-
-        Paragraph desc = new Paragraph("");
-
-        desc.add(descTitle);
-        desc.add(descInfo);
+        // Celda de Descripción
+        Paragraph descPara = new Paragraph()
+                .add(new Text("Descripción: ").setBold())
+                .add(autoShrinkParagraph(description, 10)); // Asumiendo que devuelve un Paragraph o Text
 
         fila.addCell(new Cell()
-                .add(desc)
-                .setFont(FONT)
-                .setBorder(Border.NO_BORDER))
-                .setMaxHeight(500); // ← para que se expanda si es necesario
+                .add(descPara)
+                .setFontSize(10)
+                .setBorder(Border.NO_BORDER));
+
+        // Celda de Precio
+        Paragraph pricePara = new Paragraph()
+                .add(new Text("Precio: ").setBold())
+                .add(new Text("$" + String.format("%.2f", price)));
 
         fila.addCell(new Cell()
-                .add(new Paragraph("Precio: $" + String.format("%.2f", price))
-                        .setBold()
-                        .setFontSize(10))
-                .setFont(FONT)
-                .setBorder(Border.NO_BORDER)
-                .setTextAlignment(TextAlignment.RIGHT));
+                .add(pricePara)
+                .setFontSize(10)
+                .setTextAlignment(TextAlignment.RIGHT) // Generalmente los precios se alinean a la derecha
+                .setBorder(Border.NO_BORDER));
 
         bloque.add(fila);
         t.addCell(bloque);
@@ -357,44 +365,54 @@ public class WorkBudgetPDFConverter {
     }
 
     private static Table bloqueColocacion(String colocatorName, double price) {
+        // 1. Tabla contenedora
         Table t = new Table(1);
         t.setWidth(UnitValue.createPercentValue(100));
 
+        // 2. Celda con borde y estilo base
         Cell bloque = new Cell()
-                .setHeight(50)
+                .setMinHeight(50)
                 .setBorder(new SolidBorder(1))
-                .setPadding(6);
+                .setPadding(6)
+                .setFont(TAHOMA_FONT); // Fuente aplicada a todo el bloque
 
+        // Título de la sección
         bloque.add(new Paragraph("COLOCACIÓN")
                 .setBold()
                 .setFontSize(10)
-                .setTextAlignment(TextAlignment.LEFT)
                 .setMarginBottom(4));
 
-        // Tabla interna para Colocador y Precio en horizontal
-        Table fila = new Table(new float[]{3, 2});
+        // 3. Tabla interna para Colocador y Precio (Distribuida 60/40)
+        Table fila = new Table(UnitValue.createPercentArray(new float[]{3, 2}));
         fila.setWidth(UnitValue.createPercentValue(100));
 
-        fila.addCell(new Cell()
-                .add(new Paragraph("Colocador: " + colocatorName)
-                        .setBold()
-                        .setFontSize(10))
-                        .setFont(FONT)
-                        .setBorder(Border.NO_BORDER));
+        // Celda: Colocador
+        Paragraph pColocador = new Paragraph()
+                .add(new Text("Colocador: ").setBold())
+                .add(new Text(colocatorName))
+                .setFontSize(10);
 
         fila.addCell(new Cell()
-                .add(new Paragraph("Precio: $" + String.format("%.2f", price))
-                        .setBold()
-                        .setFontSize(10))
-                        .setFont(FONT)
-                        .setTextAlignment(TextAlignment.RIGHT)
-                        .setBorder(Border.NO_BORDER));
+                .add(pColocador)
+                .setBorder(Border.NO_BORDER));
 
-        // Empuja la fila hacia abajo del bloque
-        bloque.add(new Paragraph("").setHeight(10));
+        // Celda: Precio
+        Paragraph pPrecio = new Paragraph()
+                .add(new Text("Precio: ").setBold())
+                .add(new Text("$" + String.format("%.2f", price)))
+                .setFontSize(10);
+
+        fila.addCell(new Cell()
+                .add(pPrecio)
+                .setTextAlignment(TextAlignment.RIGHT) // Alineación a la derecha para legibilidad
+                .setBorder(Border.NO_BORDER));
+
+        // Espaciado opcional antes de la fila (reemplaza el Paragraph vacío con setHeight)
+        fila.setMarginTop(10);
+
         bloque.add(fila);
-
         t.addCell(bloque);
+
         return t;
     }
 
@@ -421,7 +439,7 @@ public class WorkBudgetPDFConverter {
         if (size < 7) size = 7;
 
         return new Paragraph(text)
-                .setFont(FONT)
+                .setFont(TAHOMA_FONT)
                 .setFontSize(size);
     }
 }
