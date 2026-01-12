@@ -1,0 +1,218 @@
+package models;
+
+import models.listeners.failed.WorkBudgetCreationFailureListener;
+import models.listeners.failed.WorkBudgetSearchFailureListener;
+import models.listeners.successful.WorkBudgetCreationSuccessListener;
+import models.listeners.successful.WorkBudgetSearchSuccessListener;
+import org.javatuples.Pair;
+import utils.Client;
+import utils.WorkBudget;
+import utils.WorkBudgetData;
+import utils.databases.ClientsDatabaseConnection;
+import utils.databases.WorkBudgetsDatabaseConnection;
+
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+public class WorkBudgetModel {
+
+	private final List<WorkBudgetCreationSuccessListener> workBudgetCreationSuccessListeners;
+	private final List<WorkBudgetCreationFailureListener> workBudgetCreationFailureListeners;
+
+	private final ClientsDatabaseConnection clientsDBConnection;
+	private final WorkBudgetsDatabaseConnection budgetsDBConnection;
+	private static Logger LOGGER;
+
+	private ArrayList<WorkBudget> budgets;
+
+	private final List<WorkBudgetSearchSuccessListener> workBudgetSearchSuccessListeners;
+	private final List<WorkBudgetSearchFailureListener> workBudgetSearchFailureListeners;
+
+
+	public WorkBudgetModel(ClientsDatabaseConnection clientsDBConnection,
+						   WorkBudgetsDatabaseConnection budgetsDBConnection) {
+		this.clientsDBConnection = clientsDBConnection;
+		this.budgetsDBConnection = budgetsDBConnection;
+
+		this.workBudgetCreationSuccessListeners = new ArrayList<>();
+		this.workBudgetCreationFailureListeners = new ArrayList<>();
+		this.workBudgetSearchSuccessListeners = new ArrayList<>();
+		this.workBudgetSearchFailureListeners = new ArrayList<>();
+	}
+
+	public ArrayList<String> getCitiesName() {
+		try {
+			return clientsDBConnection.getCities();
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting cities");
+		}
+		return new ArrayList<>();
+	}
+
+	public ArrayList<Client> getClients(String name, String city) {
+		try {
+			return clientsDBConnection.getClientsFromNameAndCity(name, city);
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting clients");
+		}
+		return new ArrayList<>();
+	}
+
+	public int getClientID(String name, String clientType) {
+		try {
+			return clientsDBConnection.getClientID(name, clientType);
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting client ID");
+		}
+		return -1;
+	}
+
+	public Client getClientByID(int clientID) {
+		try {
+			Client client = clientsDBConnection.getOneClient(clientID);
+			if (client != null) {
+				return client;
+			}
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting client by ID");
+		}
+		return null;
+	}
+
+	public void saveWorkBudget(int selectedClientId, ArrayList<Pair<String, String>> materialsList,
+							   Pair<String, String> logisticsData, Pair<String, String> placingData,
+							   String profitMargin, String finalPrice, ArrayList<Pair<String, String>> clientInfoItems) {
+		try {
+			LocalDate fechaActual = LocalDate.now();
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			fechaActual.format(formato);
+			int newNumber = budgetsDBConnection.insertWorkBudget(Integer.toString(selectedClientId), fechaActual.format(formato), logisticsData.getValue0(), logisticsData.getValue1()
+					, placingData.getValue0(), placingData.getValue1(), profitMargin, finalPrice);
+
+			budgetsDBConnection.insertMaterials(materialsList, newNumber);
+			budgetsDBConnection.insertDescriptions(clientInfoItems, newNumber);
+
+			notifyBudgetCreationSuccess();
+		} catch (Exception e) {
+			notifyBudgetCreationFailure();
+		}
+	}
+
+	public void updateWorkBudget(
+			int budgetId,
+			String clientID,
+			Pair<String, String> logisticsData,
+			Pair<String, String> placingData,
+			String profit,
+			String total,
+			ArrayList<Pair<String, String>> materials,
+			ArrayList<Pair<String, String>> descriptions
+	){
+		try {
+			LocalDate fechaActual = LocalDate.now();
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			fechaActual.format(formato);
+			budgetsDBConnection.updateWorkBudget(
+					budgetId,
+					clientID,
+					fechaActual.format(formato),
+					logisticsData.getValue0(),
+					logisticsData.getValue1(),
+					placingData.getValue0(),
+					placingData.getValue1(),
+					profit,
+					total,
+					materials,
+					descriptions
+			);
+		}catch (SQLException e){
+			notifyBudgetCreationFailure();
+		}
+	}
+
+	public void deleteWorkBudget(int budgetId) {
+		budgetsDBConnection.deleteBudgetById(budgetId);
+	}
+
+	public int getNextBudgetNumber() {
+		try {
+			return budgetsDBConnection.getNextBudgetNumber();
+		} catch (Exception e) {
+			LOGGER.log(null, "Error getting next budget number");
+		}
+		return -1;
+	}
+
+	private void notifyBudgetCreationSuccess() {
+		for (WorkBudgetCreationSuccessListener listener : workBudgetCreationSuccessListeners) {
+			listener.onSuccess();
+		}
+	}
+
+	private void notifyBudgetCreationFailure() {
+		for (WorkBudgetCreationFailureListener listener : workBudgetCreationFailureListeners) {
+			listener.onFailure();
+		}
+	}
+
+	public void addBudgetCreationSuccessListener(WorkBudgetCreationSuccessListener listener) { // ADD BUDGET CREATION SUCCESS LISTENER
+		workBudgetCreationSuccessListeners.add(listener);
+	}
+
+	public void addBudgetCreationFailureListener(WorkBudgetCreationFailureListener listener) { // ADD BUDGET CREATION FAILURE LISTENER
+		workBudgetCreationFailureListeners.add(listener);
+	}
+
+	public void addBudgetSearchSuccessListener(WorkBudgetSearchSuccessListener listener) { // ADD BUDGET SEARCH SUCCESS LISTENER
+		workBudgetSearchSuccessListeners.add(listener);
+	}
+
+	public void addBudgetSearchFailureListener(WorkBudgetSearchFailureListener listener) { // ADD BUDGET SEARCH FAILURE LISTENER
+		workBudgetSearchFailureListeners.add(listener);
+	}
+
+	public void rollbackWorkBudgetCreation() {
+		int id = budgetsDBConnection.getNextBudgetNumber() - 1;
+		if (budgetsDBConnection.checkFailedInserts(id)){
+			budgetsDBConnection.deleteBudgetById(id);
+		}
+	}
+
+	public void queryBudgets(String budgetSearch) {
+		try {
+			budgets = budgetsDBConnection.getBudgets(budgetSearch);
+			notifyBudgetSearchSuccess();
+		} catch (SQLException e) {
+			notifyBudgetSearchFailure();
+		}
+	}
+
+	public WorkBudgetData getWorkBudgetById(int budgetId) {
+		try {
+			return budgetsDBConnection.getWorkBudgetData(budgetId);
+		} catch (SQLException e) {
+			System.out.println("Failed to get Work Budget by ID: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public ArrayList<WorkBudget> getLastBudgetsQuery() {
+		return budgets;
+	}
+
+	private void notifyBudgetSearchSuccess() {
+		for (WorkBudgetSearchSuccessListener listener : workBudgetSearchSuccessListeners) {
+			listener.onSuccess();
+		}
+	}
+
+	private void notifyBudgetSearchFailure() {
+		for (WorkBudgetSearchFailureListener listener : workBudgetSearchFailureListeners) {
+			listener.onFailure();
+		}
+	}
+}

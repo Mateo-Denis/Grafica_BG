@@ -18,6 +18,8 @@ import presenters.product.ProductListPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
 import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
+import presenters.workbudget.WorkBudgetCreatePresenter;
+import presenters.workbudget.WorkBudgetSearchPresenter;
 import utils.databases.*;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
@@ -35,6 +37,8 @@ import views.products.ProductCreateView;
 import views.products.ProductSearchView;
 import views.products.list.ProductListView;
 import views.settings.SettingsView;
+import views.workbudget.WorkBudgetCreateView;
+import views.workbudget.WorkBudgetSearchView;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,10 +56,14 @@ public class Main {
         attributesDB.loadDatabase();
         SettingsDatabaseConnection settingsDB = new SettingsDatabaseConnection();
         settingsDB.loadDatabase();
+        WorkBudgetsDatabaseConnection workBudgetsDB = new WorkBudgetsDatabaseConnection();
+        workBudgetsDB.loadDatabase();
+        WorkBudgetMaterialsDatabaseConnection workBudgetMaterialsDB = new WorkBudgetMaterialsDatabaseConnection();
+        workBudgetMaterialsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
-        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB,clientsDB);
+        IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB, clientsDB);
         ICategoryModel categoryModel = new CategoryModel(categoriesDB, attributesDB);
         IProductListModel productListModel = new ProductListModel(productsDB);
         IClientListModel clientListModel = new ClientListModel(clientsDB);
@@ -63,6 +71,8 @@ public class Main {
         IBudgetModifyModel budgetModifyModel = new BudgetModifyModel(budgetsDB);
         ISettingsModel settingsModel = new SettingsModel(settingsDB);
         IBudgetHistoryModel budgetHistoryModel = new BudgetHistoryModel(budgetsDB, clientsDB);
+        WorkBudgetModel workBudgetModel = new WorkBudgetModel(clientsDB, workBudgetsDB);
+
 
         ClientCreateView clientCreateView = new ClientCreateView();
         ClientListView clientListView = new ClientListView();
@@ -96,6 +106,10 @@ public class Main {
         BudgetSearchView budgetSearchView = new BudgetSearchView(budgetListPresenter, budgetModifyPresenter);
         BudgetSearchPresenter budgetSearchPresenter = new BudgetSearchPresenter(budgetSearchView, budgetCreateView, budgetModel, budgetModifyModel);
         SettingsPresenter settingsPresenter = new SettingsPresenter(settingsView, settingsModel);
+        WorkBudgetCreateView workBudgetCreateView = new WorkBudgetCreateView();
+        WorkBudgetCreatePresenter workBudgetCreatePresenter = new WorkBudgetCreatePresenter(workBudgetCreateView, workBudgetModel);
+        WorkBudgetSearchView workBudgetSearchView = new WorkBudgetSearchView();
+        WorkBudgetSearchPresenter workBudgetSearchPresenter = new WorkBudgetSearchPresenter(workBudgetSearchView, workBudgetCreateView, workBudgetModel);
 
         clientCreatePresenter.start();
         clientSearchPresenter.start();
@@ -110,6 +124,8 @@ public class Main {
         budgetModifyPresenter.start();
         settingsPresenter.start();
         budgetHistoryPresenter.start();
+        workBudgetCreatePresenter.start();
+        workBudgetSearchPresenter.start();
 
         clientCreateView.start();
         clientSearchView.start();
@@ -123,10 +139,11 @@ public class Main {
         budgetModifyView.start();
         cuttingServiceFormView.start();
         settingsView.start();
-        budgetHistoryView.start();
+        workBudgetCreateView.start();
+        workBudgetSearchView.start();
 
-IHomeView home = new HomeView(cuttingServiceFormPresenter, clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
-                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, categoryCreatePresenter, settingsPresenter, budgetHistoryPresenter);
-    }
+        IHomeView home = new HomeView(clientCreatePresenter, clientSearchPresenter, productSearchPresenter,
+                productCreatePresenter, budgetSearchPresenter, budgetCreatePresenter, workBudgetCreatePresenter, workBudgetSearchPresenter, settingsPresenter, budgetHistoryPresenter);
+        }
 
 }
