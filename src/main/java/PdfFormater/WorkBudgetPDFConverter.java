@@ -192,7 +192,7 @@ public class WorkBudgetPDFConverter {
 
         // ================= COSTO PRESUPUESTO =================
         double doubleBudgetCost = Double.parseDouble(truncateAndRound(finalCost));
-        doc.add(bloquesSubtotalYTotal(doubleBudgetCost, "COSTO PRESUPUESTO"));
+        doc.add(bloquesSubtotalYTotal(doubleBudgetCost, "COSTO DE PRESUPUESTO"));
         doc.add(espacio());
 
         // ================= PRESUPUESTO FINAL =================
@@ -224,11 +224,10 @@ public class WorkBudgetPDFConverter {
 
         // Agregar el valor del costo subtotal, pegado al fondo del bloque, sin etiqueta
         bloque.add(new Paragraph("").setHeight(10));
-        bloque.add(new Paragraph(String.format("%.2f", cost))
-                .setBold()
+        bloque.add(new Paragraph("$" + String.format("%.2f", cost))
                 .setFontSize(10)
                 .setFont(TAHOMA_FONT)
-                .setTextAlignment(TextAlignment.LEFT));
+                .setTextAlignment(TextAlignment.RIGHT));
 
         t.addCell(bloque);
         return t;
@@ -239,7 +238,7 @@ public class WorkBudgetPDFConverter {
         t.setWidth(UnitValue.createPercentValue(100));
 
         Cell bloque = new Cell()
-                .setHeight(50)
+                .setMinHeight(50)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -247,17 +246,33 @@ public class WorkBudgetPDFConverter {
         Table fila = new Table(new float[]{3, 2});
         fila.setWidth(UnitValue.createPercentValue(100));
 
+        Paragraph depositParagraph = new Paragraph("");
+        depositParagraph.add(new Paragraph("Seña: ")
+                .setBold()
+                .setFontSize(10)
+                .setFont(TAHOMA_FONT));
+
+        depositParagraph.add(new Paragraph("$" + String.format("%.2f", deposit))
+                .setFontSize(10)
+                .setFont(TAHOMA_FONT));
+
+        Paragraph balanceParagraph = new Paragraph("");
+        balanceParagraph.add(new Paragraph("Saldo: ")
+                .setBold()
+                .setFontSize(10)
+                .setFont(TAHOMA_FONT));
+
+        balanceParagraph.add(new Paragraph("$" + String.format("%.2f", balance))
+                .setFontSize(10)
+                .setFont(TAHOMA_FONT));
+
         fila.addCell(new Cell()
-                .add(new Paragraph("Seña: $" + String.format("%.2f", deposit))
-                        .setBold()
-                        .setFontSize(10))
+                .add(depositParagraph)
                 .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         fila.addCell(new Cell()
-                .add(new Paragraph("Saldo: $" + String.format("%.2f", balance))
-                        .setBold()
-                        .setFontSize(10))
+                .add(balanceParagraph)
                 .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
