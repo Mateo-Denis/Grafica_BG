@@ -12,6 +12,7 @@ import utils.WorkBudgetData;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.stages.*;
 
+import static presenters.workbudget.WorkBudgetCreationStage.CLIENT_SELECTION;
 import static utils.MessageTypes.*;
 import static utils.TextUtils.truncateAndRound;
 
@@ -35,7 +36,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	public WorkBudgetCreatePresenter(WorkBudgetCreateView workBudgetCreateView, WorkBudgetModel workBudgetModel) {
 		this.workBudgetCreateView = workBudgetCreateView;
 		this.workBudgetModel = workBudgetModel;
-		stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+		stage = CLIENT_SELECTION;
 		view = workBudgetCreateView;
 		workBudgetCreateView.setBackButton(false);
 		loadCities();
@@ -47,6 +48,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		workBudgetModel.addBudgetCreationSuccessListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_CREATION_SUCCESS);
 			view.hideView();
+			workBudgetCreateView.clearView();
 		});
 		workBudgetModel.addBudgetCreationFailureListener(() -> {
 			workBudgetCreateView.showMessage(MessageTypes.WORK_BUDGET_CREATION_FAILURE);
@@ -70,7 +72,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	public void onBackButtonPressed() {
 		switch (stage) {
 			case CONTENT_LIST -> {
-				stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+				stage = CLIENT_SELECTION;
 				workBudgetCreateView.setBackButton(false);
 				workBudgetCreateView.showClientSelectionStage();
 			}
@@ -119,10 +121,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 							workBudgetCreateView.getMaterialsList(),
 							workBudgetCreateView.getClientInfoItems()
 					);
-
-
-					//Modified budget PDF Generation
-                    //BUDGET PDF
                     try {
                         workBudgetPDFConverter.generateWorkBill(
                                 true,
@@ -141,7 +139,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                         System.err.println("Error generating PDF: " + e.getMessage());
                     }
 
-                    //CLIENT PDF
                     try {
                         workBudgetClientPDFConverter.generateBill(
                                 true,
@@ -153,8 +150,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                     } catch (Exception e) { workBudgetCreateView.showMessage(MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE);
                         System.err.println("Error generating Client PDF: " + e.getMessage());
                     }
-                    //Modified budget PDF Generation
-
 
 				}else {
                     workBudgetModel.saveWorkBudget(
@@ -166,9 +161,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                             workBudgetCreateView.getFinalPrice(),
                             workBudgetCreateView.getClientInfoItems()
                     );
-
-                    //PDF Generation
-                    //WORK BUDGET PDF
                     try {
                         workBudgetPDFConverter.generateWorkBill(
                                 false,
@@ -187,7 +179,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                         System.err.println("Error generating PDF: " + e.getMessage());
                     }
 
-                    // CLIENT PDF
                     try {
                         workBudgetClientPDFConverter.generateBill(
                                 false,
@@ -200,8 +191,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                         workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
                         System.err.println("Error generating Client PDF: " + e.getMessage());
                     }
-                    // PDF Generation
-
                 }
 			}
 		}
@@ -298,7 +287,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	public void onHomeCreateWorkBudgetButtonClicked() {
 		view.showView();
-		stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+		stage = CLIENT_SELECTION;
 		workBudgetCreateView.setBeingModified(false);
 	}
 
@@ -364,7 +353,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	}
 
 	public void loadExistingBudget(int budgetId) {
-		stage = WorkBudgetCreationStage.CLIENT_SELECTION;
+		stage = CLIENT_SELECTION;
 		WorkBudgetData data = workBudgetModel.getWorkBudgetById(budgetId);
 
 		workBudgetCreateView.setBudgetNumberLabelText("Presupuesto N°: " + data.getBudgetNumber());
