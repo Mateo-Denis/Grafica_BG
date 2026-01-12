@@ -139,6 +139,36 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 		return budgetNumber;
 	}
 
+	public String getSelectedBudgetClientName(){
+		int selectedRow = getSelectedTableRow();
+		if (selectedRow != -1) {
+			Object clientNameObj = budgetResultTable.getValueAt(selectedRow, 1);
+			if (clientNameObj != null) {
+				try {
+					return (String) clientNameObj;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					LOGGER.log(null, "ERROR IN METHOD 'getSelectedBudgetClientName', CLASS->BudgetSearchPresenter");
+				}
+			}
+		}
+		return "";
+	}
+
+	public String getSelectedBudgetDate(){
+		int selectedRow = getSelectedTableRow();
+		if (selectedRow != -1) {
+			Object budgetDateObj = budgetResultTable.getValueAt(selectedRow, 2);
+			if (budgetDateObj != null) {
+				try {
+					return (String) budgetDateObj;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					LOGGER.log(null, "ERROR IN METHOD 'getSelectedBudgetDate', CLASS->BudgetSearchPresenter");
+				}
+			}
+		}
+		return "";
+	}
+
 	public int getSelectedTableRow() {
 		return budgetResultTable.getSelectedRow();
 	}

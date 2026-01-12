@@ -55,9 +55,9 @@ public class WorkBudgetPDFConverter {
 
         ArrayList<NewRow> materials = textUtils.toTableRow(strMaterials);
 
-        String outputPath = "factura" + billNumber + ".pdf";
+        String outputPath = "presupuesto_trabajo_" + billNumber + ".pdf";
         if(modified) {
-            outputPath = "factura" + billNumber + "_modificada.pdf";
+            outputPath = "presupuesto_trabajo_" + billNumber + "_modificado.pdf";
         }
 
         PdfWriter writer = new PdfWriter(outputPath);

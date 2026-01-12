@@ -77,12 +77,17 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 	}
 
 	public void onDoubleClickBudget(){
-		File pdf1 = new File("C:/path/to/file1.pdf");
-		File pdf2 = new File("C:/path/to/file2.pdf");
+
+		int budgetNumber = workBudgetSearchView.getSelectedBudgetNumber();
+		String clientName = workBudgetSearchView.getSelectedBudgetClientName();
+		String budgetDate = workBudgetSearchView.getSelectedBudgetDate();
+
+		File dataPDF = new File("C:/path/to/presupuesto_trabajo_" + budgetNumber + ".pdf");
+		File clientPDF = new File("C:/path/to/" + clientName + "_" + budgetDate + "_" + budgetNumber + ".pdf");
 
 		try {
-			Desktop.getDesktop().open(pdf1);
-			Desktop.getDesktop().open(pdf2);
+			Desktop.getDesktop().open(dataPDF);
+			Desktop.getDesktop().open(clientPDF);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
