@@ -8,6 +8,8 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.logging.Logger;
 
 import static utils.TableSettings.adjustColumnWidthsToHeader;
@@ -81,7 +83,13 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 		modifyButton.addActionListener(e-> workBudgetSearchPresenter.onModifyButtonClicked());
 		deleteButton.addActionListener(e-> workBudgetSearchPresenter.onDeleteButtonClicked());
 		cleanTableButton.addActionListener(e -> clearTable());
-
+		budgetResultTable.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				if (evt.getClickCount() == 2) {
+					workBudgetSearchPresenter.onDoubleClickBudget();
+				}
+			}
+		});
 	}
 
 	@Override

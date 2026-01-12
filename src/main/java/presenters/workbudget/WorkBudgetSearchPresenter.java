@@ -6,6 +6,9 @@ import utils.WorkBudget;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.WorkBudgetSearchView;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static utils.MessageTypes.*;
@@ -70,6 +73,18 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 			workBudgetModel.queryBudgets("");
 		}else {
 			workBudgetSearchView.showMessage(NO_ROW_SELECTED_FOR_DELETION);
+		}
+	}
+
+	public void onDoubleClickBudget(){
+		File pdf1 = new File("C:/path/to/file1.pdf");
+		File pdf2 = new File("C:/path/to/file2.pdf");
+
+		try {
+			Desktop.getDesktop().open(pdf1);
+			Desktop.getDesktop().open(pdf2);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 	}
 

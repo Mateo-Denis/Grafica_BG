@@ -47,6 +47,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	protected void initListeners() {
 		workBudgetModel.addBudgetCreationSuccessListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_CREATION_SUCCESS);
+			generateDataPDF();
+			generateClientPDF();
 			view.hideView();
 			workBudgetCreateView.clearView();
 		});
@@ -56,7 +58,10 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		});
 		workBudgetModel.addBudgetUpdateSuccessListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_UPDATE_SUCCESS);
+			generateDataPDF();
+			generateClientPDF();
 			view.hideView();
+			workBudgetCreateView.clearView();
 		});
 		workBudgetModel.addBudgetUpdateFailureListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_UPDATE_FAILURE);
@@ -121,36 +126,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 							workBudgetCreateView.getMaterialsList(),
 							workBudgetCreateView.getClientInfoItems()
 					);
-                    try {
-                        workBudgetPDFConverter.generateWorkBill(
-                                true,
-                                workBudgetCreateView.getBudgetNumberLabelValue(),
-                                workBudgetCreateView.getSelectedClientId(),
-                                workBudgetCreateView.getMaterialsList(),
-                                workBudgetCreateView.getLogisticsData(),
-                                workBudgetCreateView.getPlacingData(),
-                                workBudgetCreateView.getDeposit(),
-                                workBudgetCreateView.getBalanceToPay(),
-                                workBudgetCreateView.getBudgetCost(),
-                                workBudgetCreateView.getFinalPrice()
-                        );
-                    } catch (Exception e) {
-                        workBudgetCreateView.showMessage(MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE);
-                        System.err.println("Error generating PDF: " + e.getMessage());
-                    }
-
-                    try {
-                        workBudgetClientPDFConverter.generateBill(
-                                true,
-                                workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
-                                workBudgetCreateView.getBudgetNumberLabelValue(),
-                                workBudgetCreateView.getClientInfoItems(),
-                                workBudgetCreateView.getFinalPrice()
-                        );
-                    } catch (Exception e) { workBudgetCreateView.showMessage(MODIFIED_WORK_BUDGET_PDF_CREATION_FAILURE);
-                        System.err.println("Error generating Client PDF: " + e.getMessage());
-                    }
-
 				}else {
                     workBudgetModel.saveWorkBudget(
                             workBudgetCreateView.getSelectedClientId(),
@@ -161,38 +136,43 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
                             workBudgetCreateView.getFinalPrice(),
                             workBudgetCreateView.getClientInfoItems()
                     );
-                    try {
-                        workBudgetPDFConverter.generateWorkBill(
-                                false,
-                                workBudgetCreateView.getBudgetNumberLabelValue(),
-                                workBudgetCreateView.getSelectedClientId(),
-                                workBudgetCreateView.getMaterialsList(),
-                                workBudgetCreateView.getLogisticsData(),
-                                workBudgetCreateView.getPlacingData(),
-                                workBudgetCreateView.getDeposit(),
-                                workBudgetCreateView.getBalanceToPay(),
-                                workBudgetCreateView.getBudgetCost(),
-                                workBudgetCreateView.getFinalPrice()
-                        );
-                    } catch (Exception e) {
-                        workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
-                        System.err.println("Error generating PDF: " + e.getMessage());
-                    }
-
-                    try {
-                        workBudgetClientPDFConverter.generateBill(
-                                false,
-                                workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
-                                workBudgetCreateView.getBudgetNumberLabelValue(),
-                                workBudgetCreateView.getClientInfoItems(),
-                                workBudgetCreateView.getFinalPrice()
-                        );
-                    } catch (Exception e) {
-                        workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
-                        System.err.println("Error generating Client PDF: " + e.getMessage());
-                    }
                 }
 			}
+		}
+	}
+
+	private void generateDataPDF(){
+		try {
+			workBudgetPDFConverter.generateWorkBill(
+					false,
+					workBudgetCreateView.getBudgetNumberLabelValue(),
+					workBudgetCreateView.getSelectedClientId(),
+					workBudgetCreateView.getMaterialsList(),
+					workBudgetCreateView.getLogisticsData(),
+					workBudgetCreateView.getPlacingData(),
+					workBudgetCreateView.getDeposit(),
+					workBudgetCreateView.getBalanceToPay(),
+					workBudgetCreateView.getBudgetCost(),
+					workBudgetCreateView.getFinalPrice()
+			);
+		} catch (Exception e) {
+			workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
+			System.err.println("Error generating PDF: " + e.getMessage());
+		}
+	}
+
+	private void generateClientPDF(){
+		try {
+			workBudgetClientPDFConverter.generateBill(
+					false,
+					workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
+					workBudgetCreateView.getBudgetNumberLabelValue(),
+					workBudgetCreateView.getClientInfoItems(),
+					workBudgetCreateView.getFinalPrice()
+			);
+		} catch (Exception e) {
+			workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
+			System.err.println("Error generating Client PDF: " + e.getMessage());
 		}
 	}
 
