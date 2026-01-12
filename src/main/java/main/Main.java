@@ -60,6 +60,8 @@ public class Main {
         workBudgetsDB.loadDatabase();
         WorkBudgetMaterialsDatabaseConnection workBudgetMaterialsDB = new WorkBudgetMaterialsDatabaseConnection();
         workBudgetMaterialsDB.loadDatabase();
+        BudgetProductsDatabaseConnection budgetProductsDB = new BudgetProductsDatabaseConnection();
+        budgetProductsDB.loadDatabase();
 
         IClientModel clientModel = new ClientModel(clientsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);

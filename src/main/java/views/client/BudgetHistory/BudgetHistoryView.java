@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 public class BudgetHistoryView extends ToggleableView implements IBudgetHistoryView {
     @Getter
     private JPanel containerPanel;
+    @Getter
     private JTable budgetHistoryTable;
     private JScrollPane budgetHistoryScrollPanel;
     @Getter
@@ -43,7 +44,13 @@ public class BudgetHistoryView extends ToggleableView implements IBudgetHistoryV
 
     @Override
     protected void initListeners() {
-
+        budgetHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    budgetHistoryPresenter.onDoubleClickBudget();
+                }
+            }
+        });
     }
 
     public void setPresenter(StandardPresenter budgetHistoryPresenter) {

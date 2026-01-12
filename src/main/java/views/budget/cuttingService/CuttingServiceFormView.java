@@ -3,6 +3,7 @@ package views.budget.cuttingService;
 import presenters.StandardPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
 import utils.MessageTypes;
+import utils.TextAreaTab;
 import views.ToggleableView;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import lombok.Getter;
 
 import static utils.TextUtils.truncateAndRound;
 import static utils.WindowFormatter.relativeSizeAndCenter;
@@ -22,7 +24,9 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     private JPanel materialCostContainer;
     private JPanel linealMetersContainer;
     private JLabel materialCostLabel;
+    @Getter
     private JTextField materialCostTextField;
+    @Getter
     private JTextField linealMetersTextField;
     private JLabel linealMetersLabel;
     private JPanel subTotalContainer;
@@ -36,10 +40,12 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     private JButton addCuttingServiceButton;
     private JPanel totalContainer;
     private JPanel amountContainer;
+    @Getter
     private JTextField amountTextField;
     private JLabel amountLabel;
     private JLabel descriptionLabel;
     private JTextArea descriptionTextArea;
+    private JPanel descriptionContainer;
     private CuttingServiceFormPresenter cuttingServiceFormPresenter;
 
     public CuttingServiceFormView() {
@@ -50,8 +56,6 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         addWindowBorders();
         topSizeAndCenter(windowFrame, 0.75, 0.3);
         windowFrame.setResizable(false);
-
-
         // Reset fields on close
         windowFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -59,6 +63,10 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
                 setInititalValues();
             }
         });
+
+        //Cambiar el comportamiento del tab en el textArea de descripcion (no tabula, cambia de foco)
+        TextAreaTab.keyListenerMethod(descriptionTextArea);
+
     }
 
     @Override
@@ -72,11 +80,10 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
     }
 
     public void setInititalValues() {
-        amountTextField.setText("1");
-        linealMetersTextField.setText("1");
         profitTextField.setText("100");
         subTotalTextField.setEnabled(false);
         finalTextArea.setEnabled(false);
+
     }
 
     @Override
@@ -134,8 +141,8 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
 
     @Override
     public void clearView() {
-        amountTextField.setText("1");
-        linealMetersTextField.setText("1");
+        amountTextField.setText("");
+        linealMetersTextField.setText("");
         profitTextField.setText("100");
         materialCostTextField.setText("");
         subTotalTextField.setText("");
@@ -170,7 +177,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         try {
             return Double.parseDouble(linealMetersTextField.getText());
         } catch (NumberFormatException e) {
-            return 0.0;
+            return 1.0;
         }
     }
 
@@ -186,7 +193,7 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         try {
             return Integer.parseInt(amountTextField.getText());
         } catch (NumberFormatException e) {
-            return 0;
+            return 1;
         }
     }
 

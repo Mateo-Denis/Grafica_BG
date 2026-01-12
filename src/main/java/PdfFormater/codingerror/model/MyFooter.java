@@ -21,10 +21,10 @@ import java.util.List;
 public class MyFooter implements IEventHandler {
     float[] fullwidth = {500f};
     protected Document doc;
-    private final List<String> tncList;
+    private final List<Paragraph> tncList;
     private final String imagePath;
 
-    public MyFooter(Document doc, List<String> tncList, String imagePath) {
+    public MyFooter(Document doc, List<Paragraph> tncList, String imagePath) {
         this.doc = doc;
         this.tncList = tncList;
         this.imagePath = imagePath;
@@ -47,8 +47,8 @@ public class MyFooter implements IEventHandler {
         //PdfCanvas pdfCanvas = new PdfCanvas(docEvent.getPage());
         Table tb = new Table(fullwidth);
         tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER));
-        for (String tnc : tncList) {
-            tb.addCell(new Cell().add(new Paragraph(tnc)).setBorder(Border.NO_BORDER));
+        for (Paragraph tnc : tncList) {
+            tb.addCell(new Cell().add(tnc).setBorder(Border.NO_BORDER));
         }
         tb.setFixedPosition(40f, footerY, 530f);
         this.doc.add(tb);

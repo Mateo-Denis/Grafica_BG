@@ -1,5 +1,6 @@
 package PdfFormater.codingerror.service;
 
+import PdfFormater.NewRow;
 import PdfFormater.Row;
 import PdfFormater.codingerror.model.*;
 import com.itextpdf.io.image.ImageData;
@@ -18,6 +19,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
+import utils.NewProduct;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -31,26 +33,36 @@ public class CodingErrorPdfInvoiceCreator {
     PdfDocument pdfDocument;
     String pdfName;
     float threecol=190f;
+    float newthreecol=285f;
     float twocol=285f;
     float twocol150=twocol+150f;
     float[] twocolumnWidth ={twocol150,twocol};
     float[] threeColumnWidth ={threecol, threecol, threecol, threecol, threecol, threecol};
+    float[] newThreeColumnWidth ={newthreecol, newthreecol};
     float[] fullwidth = {threecol*6}; //Cambiose
 
     public CodingErrorPdfInvoiceCreator(String pdfName){
         this.pdfName=pdfName;
     }
 
+    public List<NewProduct> formatNewProductsToProductsList(ArrayList<NewRow> nRows){
+        List<NewProduct> productList = new ArrayList<>();
+        for(NewRow nRow:nRows){
+            productList.add(new NewProduct(nRow.getProductDescription(), nRow.getTotal()));
+        }
+        return productList;
+    }
+
     public String createDocument() throws FileNotFoundException {
-        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/";
-        File pdfsFolder = new File(fileDir);
+        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
+        File pdfsFolder = new File(fileDir); // Crea la carpeta si no existe
         if (!pdfsFolder.exists()) {
             pdfsFolder.mkdirs();
         }
 
         String baseName = pdfName.replace(".pdf", ""); // Eliminamos la extensión para manipular el nombre
         String pdfFinalPath = fileDir + File.separator + pdfName;
-        int counter = 1;
+        int counter = 1; // Contador para las copias
 
         // Verifica si ya existe el archivo y genera un nombre único
         while (new File(pdfFinalPath).exists()) {
@@ -58,21 +70,21 @@ public class CodingErrorPdfInvoiceCreator {
             counter++;
         }
 
-        PdfWriter pdfWriter = new PdfWriter(pdfFinalPath);
-        pdfDocument = new PdfDocument(pdfWriter);
+        PdfWriter pdfWriter = new PdfWriter(pdfFinalPath); // Crea el PdfWriter con la ruta final única
+        pdfDocument = new PdfDocument(pdfWriter); // Crea el PdfDocument
         pdfDocument.setDefaultPageSize(PageSize.A4);
         this.document = new Document(pdfDocument);
         return pdfFinalPath;
     }
 
-    public   void createTnc(List<String> TncList,Boolean lastPage,String imagePath) {
+    public   void createTnc(List<Paragraph> TncList,Boolean lastPage,String imagePath) {
         if(lastPage) {
-            float threecol = 190f;
-            float[] fullwidth = {threecol * 3};
-            Table tb = new Table(fullwidth);
-            tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER));
-            for (String tnc : TncList) {
-                tb.addCell(new Cell().add(new Paragraph(tnc)).setBorder(Border.NO_BORDER)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER);
+            float threecol = 190f; // Ancho de cada columna
+            float[] fullwidth = {threecol * 3}; // Ancho total de la tabla (3 columnas)
+            Table tb = new Table(fullwidth); // Crea la tabla con el ancho total
+            tb.addCell(new Cell().add(new Paragraph(/*"TERMS AND CONDITIONS\n"*/"")).setBold().setBorder(Border.NO_BORDER)); // Encabezado de la tabla
+            for (Paragraph tnc : TncList) {
+                tb.addCell(new Cell().add(tnc).setBorder(Border.NO_BORDER)).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER);
             }
 
             document.add(tb);
@@ -113,6 +125,40 @@ public class CodingErrorPdfInvoiceCreator {
         totalTable.addCell(new Cell().add(new Paragraph("")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         totalTable.addCell(new Cell().add(new Paragraph("Total")).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
         totalTable.addCell(new Cell().add(new Paragraph(String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+
+        document.add(totalTable);
+
+        document.add(fullwidthDashedBorder(fullwidth));
+        document.add(new Paragraph("\n"));
+        document.add(getDividerTable(fullwidth).setBorder(new SolidBorder(new DeviceGray(0.75f),1)).setMarginBottom(15f));
+    }
+
+    public void createNewProduct(List<NewProduct> productList, double totalPrice) {
+        Table productsTable = new Table(newThreeColumnWidth);
+
+        productsTable.addCell(new Cell().add(new Paragraph("Descripcion"))
+                .setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
+
+        productsTable.addCell(new Cell().add(new Paragraph("Precio"))
+                .setBorder(Border.NO_BORDER)
+                .setBold()
+                .setFontColor(DeviceGray.WHITE)
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBackgroundColor(DeviceGray.BLACK, 0.7f));
+
+        for(NewProduct product : productList) {
+            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription())).setBorder(Border.NO_BORDER));
+            productsTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
+        }
+
+        document.add(productsTable);
+        document.add(new Paragraph("\n"));
+        document.add(fullwidthDashedBorder(fullwidth));
+
+
+        Table totalTable = new Table(newThreeColumnWidth);
+        totalTable.addCell(new Cell().add(new Paragraph("TOTAL:")).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER));
+        totalTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(totalPrice))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
 
         document.add(totalTable);
 
@@ -169,7 +215,7 @@ public class CodingErrorPdfInvoiceCreator {
         //float x = pdfDocument.getDefaultPageSize().getWidth();
         float y = pdfDocument.getDefaultPageSize().getHeight() ;
 //        System.out.println("x= " + x + " y= " + y);
-        image.setFixedPosition(70, y-110);
+        image.setFixedPosition(70, y-110); // Posicion desde la esquina superior izquierda
         //image.setOpacity(0.1f);
         document.add(image);
         //

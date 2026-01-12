@@ -10,10 +10,12 @@ import models.settings.SettingsModel;
 import org.javatuples.Pair;
 
 import java.awt.event.ItemEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import utils.Attribute;
+import utils.Category;
 import utils.databases.SettingsTableNames;
 import views.products.IProductCreateView;
 import views.products.modular.*;
@@ -24,6 +26,8 @@ public class ProductCreatePresenter extends ProductPresenter {
     private final ICategoryModel categoryModel;
     private final ISettingsModel settingsModel;
     private IModularCategoryView modularView;
+    private boolean alreadyInsertedCategories;
+    private static Category categoryUtil = new Category("");
 
     public ProductCreatePresenter(IProductCreateView productCreateView, IProductModel productModel, ICategoryModel categoryModel, ISettingsModel settingsModel) {
         super((SettingsModel) settingsModel);
@@ -31,8 +35,12 @@ public class ProductCreatePresenter extends ProductPresenter {
         this.settingsModel = settingsModel;
         view = productCreateView;
         this.productModel = productModel;
+
         this.categoryModel = categoryModel;
-        cargarCategorias();
+        alreadyInsertedCategories = categoryModel.categoriesAlreadyInserted();
+        ArrayList<String> categoriesNames = categoryUtil.categoriesNamesList();
+        cargarCategorias(categoriesNames, alreadyInsertedCategories);
+
         this.productCreateView.comboBoxListenerSet(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 String selectedCategory = productCreateView.getProductCategory();
@@ -84,7 +92,10 @@ public class ProductCreatePresenter extends ProductPresenter {
     }
 
 
-    private void cargarCategorias() {
+    private void cargarCategorias(ArrayList<String> categoriesNames, boolean alreadyInserted) {
+        if(!alreadyInserted){
+            categoryModel.insertCategories(categoriesNames);
+        }
         List<String> categories = categoryModel.getCategoriesName();
         List<String> categoriesInSpanish = new ArrayList<>();
         for (String category : categories) {

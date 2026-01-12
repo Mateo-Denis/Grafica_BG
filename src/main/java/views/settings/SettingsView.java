@@ -240,6 +240,7 @@ public class SettingsView extends ToggleableView implements ISettingsView {
         table.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cancelEdit");
 
+
         table.getActionMap().put("cancelEdit", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {

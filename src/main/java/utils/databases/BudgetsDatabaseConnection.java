@@ -303,6 +303,8 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
     }
 
 
+
+
     public int getNextBudgetNumber() {
         int bnumber = 1;  // Por defecto será 1 si no hay presupuestos en la tabla.
         String sql = "SELECT MAX(Numero_presupuesto) FROM Presupuestos";
@@ -341,5 +343,27 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         pstmt.close();
         conn.close();
         return budgets;
+    }
+
+    public Budget getOneBudget(int budgetId) throws SQLException {
+        String sql = "SELECT * FROM Presupuestos WHERE ID = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, budgetId);
+        ResultSet resultSet = pstmt.executeQuery();
+
+        Budget budget = null;
+        if (resultSet.next()) {
+            budget = new Budget(
+                    resultSet.getString("Nombre_Cliente"),
+                    resultSet.getString("Fecha"),
+                    resultSet.getString("Tipo_Cliente"),
+                    resultSet.getInt("Numero_Presupuesto")
+            );
+        }
+
+        pstmt.close();
+        conn.close();
+        return budget;
     }
 }
