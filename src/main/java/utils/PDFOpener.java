@@ -7,9 +7,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PDFOpener {
-    public void openPDF(boolean isClientWorkBudget, String folderDir, int budgetNumber, String clientName, String date) {
+    public void openPDF(boolean isTraditionalBudget, boolean isClientWorkBudget, String folderDir, int budgetNumber, String clientName, String date) {
         File pdfFile = new File("");
-        if (isClientWorkBudget) {
+        if(isTraditionalBudget){
+            pdfFile = pdfSearch(false, folderDir, budgetNumber, clientName, date);
+        }else if (isClientWorkBudget) {
             pdfFile = pdfSearch(true, folderDir, budgetNumber, clientName, date);
         } else {
             pdfFile = workPdfSearch(folderDir, budgetNumber, clientName, date);

@@ -84,8 +84,8 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 		String clientName = workBudgetSearchView.getSelectedBudgetClientName();
 		String budgetDate = workBudgetSearchView.getSelectedBudgetDate();
 
-		pdfOpener.openPDF(false, "\\Presupuestos_Trabajo_Internos_PDF\\", budgetNumber, clientName, budgetDate);
-		pdfOpener.openPDF(true, "\\Presupuestos_Trabajo_Clientes_PDF\\", budgetNumber, clientName, budgetDate);
+		pdfOpener.openPDF(false, false, "\\Presupuestos_Trabajo_Internos_PDF\\", budgetNumber, clientName, budgetDate);
+		pdfOpener.openPDF(false, true, "\\Presupuestos_Trabajo_Clientes_PDF\\", budgetNumber, clientName, budgetDate);
 	}
 
 	public void onHomeSearchWorkBudgetButtonClicked(){
