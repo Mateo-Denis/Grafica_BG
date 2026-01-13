@@ -38,7 +38,7 @@ public class testingMain {
             jobBudgetPDFConverter.generateWorkBill(
                     false,
                     3,
-                    1,
+                    27,
                     testList,
                     logistics,
                     placing,
