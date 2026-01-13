@@ -78,14 +78,14 @@ public class WorkBudgetPDFConverter {
             pdfsFolder.mkdir();
         }
 
-        String outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActualYankee + "_" + billNumber + ".pdf";
+        String outputPath = actualDir + folderDir + "presupuesto_interno_" + clientName + "_" + fechaActualYankee + "_" + billNumber + ".pdf";
         boolean isFirstFile = !new File(outputPath).exists();
 
         final String copiesRegex = "presupuesto_interno_" + clientName + "_" + fechaActualYankee + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
 
-        if(!isFirstFile) {
+        if (!isFirstFile) {
             int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
-            outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActualYankee + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
+            outputPath = actualDir + folderDir + "presupuesto_interno_" + clientName + "_" + fechaActualYankee + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
         }
 
 
@@ -122,9 +122,9 @@ public class WorkBudgetPDFConverter {
         filaFecha.setWidth(UnitValue.createPercentValue(100));
 
         filaFecha.addCell(new Cell()
-                .add(new Paragraph("Fecha:")
-                        .setFontSize(10))
-                .setBorder(Border.NO_BORDER))
+                        .add(new Paragraph("Fecha:")
+                                .setFontSize(10))
+                        .setBorder(Border.NO_BORDER))
                 .setFont(TAHOMA_FONT);
 
         filaFecha.addCell(new Cell()
@@ -170,7 +170,7 @@ public class WorkBudgetPDFConverter {
         filaNombre.addCell(new Cell()
                 .add(new Paragraph("Nombre del cliente:")
                         .setFontSize(10))
-                        .setFont(TAHOMA_FONT)
+                .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
         filaNombre.addCell(new Cell().add(new Paragraph(clientName).setFontSize(10).setFont(TAHOMA_FONT).setTextAlignment(TextAlignment.RIGHT)).setBorder(Border.NO_BORDER));
@@ -217,7 +217,8 @@ public class WorkBudgetPDFConverter {
         doc.close();
 
         //GeneratePDF
-        pdfOpener.openPDF(false, false, folderDir, billNumber, clientName, fechaActual);
+        pdfOpener.openPDF(false, false, folderDir, billNumber, clientName, fechaActualArg);
+    }
 
     // ================= UTILIDADES =================
 
