@@ -184,7 +184,7 @@ public class BudgetModel implements IBudgetModel {
         try {
             budgetsDBConnection.saveProducts(budgetID, productAmounts, productNames, observations, productMeasures, productPrices);
         } catch (Exception e) {
-            LOGGER.log(null, "Error saving products");
+            //LOGGER.log(null, "Error saving products");
         }
     }
 
