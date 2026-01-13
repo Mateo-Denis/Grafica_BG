@@ -144,6 +144,7 @@ public class Main {
         budgetModifyView.start();
         cuttingServiceFormView.start();
         settingsView.start();
+        budgetHistoryView.start();
         workBudgetCreateView.start();
         workBudgetSearchView.start();
 
