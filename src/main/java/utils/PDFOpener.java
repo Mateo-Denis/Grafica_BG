@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PDFOpener {
-    public void openPDF(boolean isWorkBudget, String folderDir, int budgetNumber, String clientName, String date) {
+    public void openPDF(boolean isClientWorkBudget, String folderDir, int budgetNumber, String clientName, String date) {
         File pdfFile = new File("");
-        if (!isWorkBudget) {
+        if (isClientWorkBudget) {
             pdfFile = pdfSearch(true, folderDir, budgetNumber, clientName, date);
         } else {
             pdfFile = workPdfSearch(folderDir, budgetNumber, clientName, date);
@@ -38,7 +38,7 @@ public class PDFOpener {
 
         File pdfFile;
 
-        //Search for copies (fileNames containing COPIA 1, COPIA 2, etc)
+        //Search for copies (fileNames containing COPIA 1, COPIA 2, etc.)
         String regex = "presupuesto_interno_" + "_" + clientName + "_" + date + "_" + billNumber + "( - COPIA \\d+)?\\.pdf";
         File dir = new File(fileDir);
         System.out.println("Searching in directory: " + fileDir);

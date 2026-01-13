@@ -2,6 +2,7 @@ package presenters.workbudget;
 
 import models.WorkBudgetModel;
 import presenters.StandardPresenter;
+import utils.PDFOpener;
 import utils.WorkBudget;
 import views.workbudget.WorkBudgetCreateView;
 import views.workbudget.WorkBudgetSearchView;
@@ -18,6 +19,7 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 	private final WorkBudgetSearchView workBudgetSearchView;
 	private final WorkBudgetCreateView workBudgetCreateView;
 	private final WorkBudgetModel workBudgetModel;
+	private final PDFOpener pdfOpener = new PDFOpener();
 
 	public WorkBudgetSearchPresenter(WorkBudgetSearchView workBudgetSearchView, WorkBudgetCreateView workBudgetCreateView, WorkBudgetModel workBudgetModel) {
 		this.workBudgetSearchView = workBudgetSearchView;
@@ -82,15 +84,8 @@ public class WorkBudgetSearchPresenter extends StandardPresenter {
 		String clientName = workBudgetSearchView.getSelectedBudgetClientName();
 		String budgetDate = workBudgetSearchView.getSelectedBudgetDate();
 
-		File dataPDF = new File("C:/path/to/presupuesto_trabajo_" + budgetNumber + ".pdf");
-		File clientPDF = new File("C:/path/to/" + clientName + "_" + budgetDate + "_" + budgetNumber + ".pdf");
-
-		try {
-			Desktop.getDesktop().open(dataPDF);
-			Desktop.getDesktop().open(clientPDF);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		pdfOpener.openPDF(false, "\\Presupuestos_Trabajo_Internos_PDF\\", budgetNumber, clientName, budgetDate);
+		pdfOpener.openPDF(true, "\\Presupuestos_Trabajo_Clientes_PDF\\", budgetNumber, clientName, budgetDate);
 	}
 
 	public void onHomeSearchWorkBudgetButtonClicked(){

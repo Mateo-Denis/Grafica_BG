@@ -173,12 +173,7 @@ public class WorkBudgetPDFConverter {
                         .setFont(TAHOMA_FONT)
                 .setBorder(Border.NO_BORDER));
 
-        filaNombre.addCell(new Cell()
-                .add(new Paragraph(clientName)
-                        .setFontSize(10)
-                        .setFont(TAHOMA_FONT)
-                        .setTextAlignment(TextAlignment.RIGHT))
-                .setBorder(Border.NO_BORDER));
+        filaNombre.addCell(new Cell().add(new Paragraph(clientName).setFontSize(10).setFont(TAHOMA_FONT).setTextAlignment(TextAlignment.RIGHT)).setBorder(Border.NO_BORDER));
 
         datos.addCell(new Cell()
                 .add(filaNombre)
