@@ -20,7 +20,6 @@ import utils.PDFOpener;
 import utils.TextUtils;
 import utils.databases.ClientsDatabaseConnection;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -71,21 +70,22 @@ public class WorkBudgetPDFConverter {
         String folderDir = "/Presupuestos_Trabajo_Internos_PDF/";
 
         String clientName = getClientName(clientID);
-        String fechaActual = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String fechaActualYankee = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String fechaActualArg = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         File pdfsFolder = new File(actualDir + folderDir);
         if (!pdfsFolder.exists()) {
             pdfsFolder.mkdir();
         }
 
-        String outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActual + "_" + billNumber + ".pdf";
+        String outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActualYankee + "_" + billNumber + ".pdf";
+        boolean isFirstFile = !new File(outputPath).exists();
 
-        final String copiesRegex = "presupuesto_interno_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
+        final String copiesRegex = "presupuesto_interno_" + clientName + "_" + fechaActualYankee + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
 
-        int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
-
-        if(maxCopyNumber != -2) {
-            outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActual + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
+        if(!isFirstFile) {
+            int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
+            outputPath = actualDir + folderDir + "presupuesto_interno_"+ clientName + "_" + fechaActualYankee + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
         }
 
 
@@ -128,7 +128,7 @@ public class WorkBudgetPDFConverter {
                 .setFont(TAHOMA_FONT);
 
         filaFecha.addCell(new Cell()
-                .add(new Paragraph(fechaActual)
+                .add(new Paragraph(fechaActualArg)
                         .setFontSize(10)
                         .setFont(TAHOMA_FONT)
                         .setTextAlignment(TextAlignment.RIGHT))
@@ -218,7 +218,6 @@ public class WorkBudgetPDFConverter {
 
         //GeneratePDF
         pdfOpener.openPDF(false, false, folderDir, billNumber, clientName, fechaActual);
-    }
 
     // ================= UTILIDADES =================
 

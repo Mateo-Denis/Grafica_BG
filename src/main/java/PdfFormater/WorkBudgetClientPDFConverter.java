@@ -32,20 +32,23 @@ public class WorkBudgetClientPDFConverter {
 
     public void generateBill(boolean isModification, Client client, int billNumber, ArrayList<Pair<String, String>> baseTableContent, String budgetTotal) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate ld = LocalDate.now();
-        String formattedDate = ld.format(formatter);
-        LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
+        DateTimeFormatter fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String pdfName = "presupuesto_cliente_" + client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
+        LocalDate ld = LocalDate.now();
+
+        String formattedDate = ld.format(formatter);
+        String fileFormattedDate = ld.format(fileFormatter);
+
+        String pdfName = "presupuesto_cliente_" + client.getName() +"_"+ fileFormattedDate + "_" + billNumber + ".pdf";
 
         String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
-        cepdf.createDocument(true);
+        cepdf.createClientWorkDocument(client.getName(), fileFormattedDate, billNumber);
 
         //Create Header start
         HeaderDetails header=new HeaderDetails();
         header.setInvoiceNo(billNumber+""). // Set invoice number
-                setInvoiceDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                setInvoiceDate(formattedDate) // Set invoice date
                 .setInvoiceTitle("")
                 .setInvoiceNoText("N° presupuesto")
                 .setInvoiceDateText("Fecha:")

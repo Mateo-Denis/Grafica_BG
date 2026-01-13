@@ -20,6 +20,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import utils.NewProduct;
+import utils.PDFOpener;
 
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
@@ -32,6 +33,7 @@ public class CodingErrorPdfInvoiceCreator {
     Document document;
     PdfDocument pdfDocument;
     String pdfName;
+    PDFOpener pdfOpener = new PDFOpener();
     float threecol=190f;
     float newthreecol=285f;
     float twocol=285f;
@@ -53,13 +55,34 @@ public class CodingErrorPdfInvoiceCreator {
         return productList;
     }
 
-    public String createDocument(boolean clientWorkPDF) throws FileNotFoundException {
-        String fileDir = "";
-        if(!clientWorkPDF){
-            fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
-        } else {
-            fileDir = System.getProperty("user.dir") + "/Presupuestos_Trabajo_Clientes_PDF/"; // Directorio donde se guardarán los PDFs de trabajo para clientes
+    public String createClientWorkDocument(String clientName, String fechaActual, int billNumber) throws FileNotFoundException {
+        String actualDir = System.getProperty("user.dir");
+        String folderDir = "/Presupuestos_Trabajo_Clientes_PDF/";
+
+        File pdfsFolder = new File(actualDir + folderDir); // Crea la carpeta si no existe
+        if (!pdfsFolder.exists()) {
+            pdfsFolder.mkdirs();
         }
+
+        String outputPath = actualDir + folderDir + "presupuesto_cliente_"+ clientName + "_" + fechaActual + "_" + billNumber + ".pdf";
+        boolean isFirstFile = !new File(outputPath).exists();
+
+        final String copiesRegex = "presupuesto_cliente_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
+
+        if(!isFirstFile) {
+            int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
+            outputPath = actualDir + folderDir + "presupuesto_cliente_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
+        }
+
+        PdfWriter pdfWriter = new PdfWriter(outputPath); // Crea el PdfWriter con la ruta final única
+        pdfDocument = new PdfDocument(pdfWriter); // Crea el PdfDocument
+        pdfDocument.setDefaultPageSize(PageSize.A4);
+        this.document = new Document(pdfDocument);
+        return outputPath;
+    }
+
+    public String createDocument() throws FileNotFoundException {
+        String fileDir = System.getProperty("user.dir") + "/PresupuestosPDF/"; // Directorio donde se guardarán los PDFs
 
         File pdfsFolder = new File(fileDir); // Crea la carpeta si no existe
         if (!pdfsFolder.exists()) {

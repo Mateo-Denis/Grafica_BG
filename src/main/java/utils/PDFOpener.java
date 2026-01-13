@@ -136,7 +136,7 @@ public class PDFOpener {
                 }
             }
         } else {
-            copyCounter = -2; // No se encontraron archivos, por lo que no hay copias.
+            copyCounter = 0; // No se encontraron archivos, por lo que no hay copias.
         }
 
         return copyCounter;
