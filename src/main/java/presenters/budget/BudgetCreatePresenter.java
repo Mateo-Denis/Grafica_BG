@@ -49,6 +49,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
     private int globalClientID = -1;
     private int productsRowCountOnPreviewTable = 0;
     private String globalClientType = "";
+    private boolean thereAreProductsInPreviewTable = false;
 
     public BudgetCreatePresenter(ICuttingServiceFormView cuttingServiceFormView, IBudgetCreateView budgetCreateView, IBudgetModel budgetModel, IProductModel productModel,
                                  ICategoryModel categoryModel, ISettingsModel settingsModel) {
@@ -202,7 +203,7 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 globalClientID = budgetModel.getClientID(clientName, clientType); // SET GLOBAL CLIENT ID TO CLIENT ID
                 clientSelectedCheckBox.setSelected(true); // SET CLIENT SELECTED CHECK BOX TO SELECTED
                 globalClientType = clientType; // SET GLOBAL CLIENT TYPE TO CLIENT TYPE
-                updatePriceColumnByRecharge();
+                updatePriceColumnByRecharge(clientType);
             } else {
                 budgetCreateView.showMessage(MessageTypes.CLIENT_NOT_SELECTED); // SHOW MESSAGE CLIENT NOT SELECTED
             }
@@ -211,17 +212,23 @@ public class BudgetCreatePresenter extends StandardPresenter {
         }
     }
 
-    public void updatePriceColumnByRecharge() {
-        String clientType = budgetCreateView.getPreviewStringTableValueAt(0, 6);
-        updateTextArea(false, globalBudgetTotalPrice);
+    public void updatePriceColumnByRecharge(String clientType) {
         globalBudgetTotalPrice = 0;
 
-        for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
-            Product product = productModel.getOneProduct(productModel.getProductID(budgetCreateView.getPreviewStringTableValueAt(i, 1)));
-            double individualPrice = (clientType.equals("Particular")) ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
-            budgetCreateView.setPreviewStringTableValueAt(i, 5, String.valueOf(individualPrice));
-            double totalPrice = individualPrice * Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(i, 2));
-            updateTextArea(true, totalPrice);
+        if(productsRowCountOnPreviewTable != 0){
+            thereAreProductsInPreviewTable = true;
+        } else {
+            thereAreProductsInPreviewTable = false;
+        }
+
+        if(thereAreProductsInPreviewTable){
+            for (int i = 1; i <= productsRowCountOnPreviewTable; i++) {
+                Product product = productModel.getOneProduct(productModel.getProductID(budgetCreateView.getPreviewStringTableValueAt(i, 1)));
+                double individualPrice = (clientType.equals("Client")) ? product.calculateRealTimePrice().getValue0() : product.calculateRealTimePrice().getValue1();
+                budgetCreateView.setPreviewStringTableValueAt(i, 5, String.valueOf(individualPrice));
+                double totalPrice = individualPrice * Integer.parseInt(budgetCreateView.getPreviewStringTableValueAt(i, 2));
+                updateTextArea(true, totalPrice);
+            }
         }
     }
 
