@@ -2,13 +2,16 @@ package views.workbudget.stages;
 
 import lombok.Getter;
 import org.javatuples.Pair;
+import utils.AlignValueToTopCellRenderer;
 import utils.NumberInputVerifier;
+import utils.WorkBudgetTablesCellRenderer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultEditorKit;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTable;
@@ -27,6 +30,7 @@ public class ClientSideInfoStage extends JPanel {
 				new Object[]{"Descripción", "Total"}, 0
 		);
 		itemsTable.setModel(model);
+        addCellRendererToTable();
 		((AbstractDocument) totalTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
 		applyTabKeyStrokeSettingsToTable(itemsTable);
@@ -50,6 +54,17 @@ public class ClientSideInfoStage extends JPanel {
 	public JTextArea getDescriptionTextArea () {
 		return descriptionTextArea;
 	}
+
+    public void addCellRendererToTable(){
+        itemsTable.setIntercellSpacing(new Dimension(0, 0));
+        itemsTable.setShowGrid(false);
+        itemsTable.getColumnModel()
+                .getColumn(0)
+                .setCellRenderer(new WorkBudgetTablesCellRenderer());
+        itemsTable.getColumnModel()
+                .getColumn(1)
+                .setCellRenderer(new AlignValueToTopCellRenderer());
+    }
 
 	public String getTextContentByName(ContentListReferences name) {
 		return switch (name) {

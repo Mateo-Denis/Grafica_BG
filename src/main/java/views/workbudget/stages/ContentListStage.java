@@ -2,6 +2,7 @@ package views.workbudget.stages;
 
 import lombok.Getter;
 import org.javatuples.Pair;
+import utils.AlignValueToTopCellRenderer;
 import utils.NumberInputVerifier;
 import utils.WorkBudgetTablesCellRenderer;
 
@@ -65,6 +66,9 @@ public class ContentListStage extends JPanel {
         materialsTable.getColumnModel()
                 .getColumn(0)
                 .setCellRenderer(new WorkBudgetTablesCellRenderer());
+        materialsTable.getColumnModel()
+                .getColumn(1)
+                .setCellRenderer(new AlignValueToTopCellRenderer());
     }
 
 	public JTextField getTextFieldByName(ContentListReferences name) {

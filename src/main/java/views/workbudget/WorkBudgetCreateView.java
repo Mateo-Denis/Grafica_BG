@@ -22,275 +22,275 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 import static views.workbudget.stages.ContentListReferences.MATERIAL;
 
 public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
-	private JPanel containerPanel;
-	private JLabel budgetNumberLabel;
-	private JButton backButton;
-	private JButton nextButton;
-	private JPanel clientStageContainer;
-	private JPanel finalPriceStageContainer;
-	private JPanel contentListStageContainer;
-	private JPanel clientSideInfoStageContainer;
-	@Getter
-	private ContentListStage contentListStage;
-	@Getter
-	private ClientSearchingStage clientSearchingStage;
-	@Getter
-	private FinalPriceStage finalPriceStage;
-	@Getter
-	private ClientSideInfoStage clientSideInfoStage;
-	private WorkBudgetCreatePresenter workBudgetCreatePresenter;
-	@Setter
-	private boolean isBeingModified  = false;
+    private JPanel containerPanel;
+    private JLabel budgetNumberLabel;
+    private JButton backButton;
+    private JButton nextButton;
+    private JPanel clientStageContainer;
+    private JPanel finalPriceStageContainer;
+    private JPanel contentListStageContainer;
+    private JPanel clientSideInfoStageContainer;
+    @Getter
+    private ContentListStage contentListStage;
+    @Getter
+    private ClientSearchingStage clientSearchingStage;
+    @Getter
+    private FinalPriceStage finalPriceStage;
+    @Getter
+    private ClientSideInfoStage clientSideInfoStage;
+    private WorkBudgetCreatePresenter workBudgetCreatePresenter;
+    @Setter
+    private boolean isBeingModified  = false;
 
 
-	public WorkBudgetCreateView(){
-		windowFrame = new JFrame("Crear Presupuesto de Trabajo");
-		windowFrame.setContentPane(containerPanel);
-		windowFrame.pack();
-		windowFrame.setLocationRelativeTo(null);
-		windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
-		windowFrame.setResizable(true);
+    public WorkBudgetCreateView(){
+        windowFrame = new JFrame("Crear Presupuesto de Trabajo");
+        windowFrame.setContentPane(containerPanel);
+        windowFrame.pack();
+        windowFrame.setLocationRelativeTo(null);
+        windowFrame.setIconImage(new ImageIcon("src/main/resources/BGLogo.png").getImage());
+        windowFrame.setResizable(true);
 
-		contentListStageContainer.setVisible(false);
-		finalPriceStageContainer.setVisible(false);
-		clientSideInfoStageContainer.setVisible(false);
-		backButton.setEnabled(false);
+        contentListStageContainer.setVisible(false);
+        finalPriceStageContainer.setVisible(false);
+        clientSideInfoStageContainer.setVisible(false);
+        backButton.setEnabled(false);
 
-		cambiarTamanioFuente(containerPanel, 14);
-		windowFrame.setSize(550, 588);
+        cambiarTamanioFuente(containerPanel, 14);
+        windowFrame.setSize(550, 588);
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (screenSize.width - windowFrame.getWidth()) / 2;    // Centered horizontally
-		int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - windowFrame.getWidth()) / 2;    // Centered horizontally
+        int y = (screenSize.height - windowFrame.getHeight()) / 2;  // Centered vertically
 
-		// Set the location of the frame
-		windowFrame.setLocation(x, y);
-	}
+        // Set the location of the frame
+        windowFrame.setLocation(x, y);
+    }
 
-	@Override
-	public void start(){
-		super.start();
-		clientSearchingStage.setClientsTableModel();
-	}
+    @Override
+    public void start(){
+        super.start();
+        clientSearchingStage.setClientsTableModel();
+    }
 
-	@Override
-	protected void wrapContainer() { containerPanelWrapper = containerPanel; }
+    @Override
+    protected void wrapContainer() { containerPanelWrapper = containerPanel; }
 
-	@Override
-	protected void initListeners() {
-		backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
-		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage));
+    @Override
+    protected void initListeners() {
+        backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
+        nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage));
 
-		contentListStage.getTextAreaByName(MATERIAL).getActionMap().put("submit", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
-			}
-		});
-		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
-		contentListStage.getMaterialsTable().addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				if (isRightMouseButton(evt)) {
-					workBudgetCreatePresenter.onTableRightClicked(evt, contentListStage.getMaterialsTable(), "material");
-				}
-			}
-		});
+        contentListStage.getTextAreaByName(MATERIAL).getActionMap().put("submit", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
+            }
+        });
+        contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
+        contentListStage.getMaterialsTable().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (isRightMouseButton(evt)) {
+                    workBudgetCreatePresenter.onTableRightClicked(evt, contentListStage.getMaterialsTable(), "material");
+                }
+            }
+        });
 
-		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
-		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
-		clientSearchingStage.getClientResultTable().addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				if (evt.getClickCount() == 2) {
-					workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage);
-				}
-			}
-		});
+        clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
+        clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
+        clientSearchingStage.getClientResultTable().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage);
+                }
+            }
+        });
 
-		ArrayList<JTextField> textFields = new ArrayList<>();
+        ArrayList<JTextField> textFields = new ArrayList<>();
 
-		clientSideInfoStage.getDescriptionTextArea().getActionMap().put("submit", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
-			}
-		});
-		clientSideInfoStage.getTotalTextField().addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
-		clientSideInfoStage.getItemsTable().addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				if (isRightMouseButton(evt)) {
-					workBudgetCreatePresenter.onTableRightClicked(evt, clientSideInfoStage.getItemsTable(), "descripción");
-				}
-			}
-		});
-
-
+        clientSideInfoStage.getDescriptionTextArea().getActionMap().put("submit", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
+            }
+        });
+        clientSideInfoStage.getTotalTextField().addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
+        clientSideInfoStage.getItemsTable().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (isRightMouseButton(evt)) {
+                    workBudgetCreatePresenter.onTableRightClicked(evt, clientSideInfoStage.getItemsTable(), "descripción");
+                }
+            }
+        });
 
 
-		textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
 
-		for (JTextField textField : textFields) {
-			textField.getDocument().addDocumentListener(new DocumentListener() {
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onProfitMarginChanged();
-				}
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onProfitMarginChanged();
-				}
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onProfitMarginChanged();
-				}
-			});
-		}
 
-		finalPriceStage.getTextFieldByName(FinalPriceReferences.DEPOSIT).getDocument().addDocumentListener(new DocumentListener() {
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onDepositChanged(true);
-				}
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onDepositChanged(true);
-				}
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					workBudgetCreatePresenter.onDepositChanged(true);
-				}
-			});
+        textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
 
-		finalPriceStage.getTextFieldByName(FinalPriceReferences.BALANCE_TO_PAY).getDocument().addDocumentListener(new DocumentListener() {
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.onDepositChanged(false);
-			}
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.onDepositChanged(false);
-			}
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				workBudgetCreatePresenter.onDepositChanged(false);
-			}
-		});
-	}
+        for (JTextField textField : textFields) {
+            textField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    workBudgetCreatePresenter.onProfitMarginChanged();
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    workBudgetCreatePresenter.onProfitMarginChanged();
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    workBudgetCreatePresenter.onProfitMarginChanged();
+                }
+            });
+        }
 
-	@Override
-	public void clearView() {
-		workBudgetCreatePresenter.setStage(WorkBudgetCreationStage.CLIENT_SELECTION);
-		clientStageContainer.setVisible(true);
-		contentListStageContainer.setVisible(false);
-		finalPriceStageContainer.setVisible(false);
-		clientSideInfoStageContainer.setVisible(false);
-		isBeingModified = false;
-		clientSearchingStage.clearView();
-		contentListStage.clearView();
-		finalPriceStage.clearView();
-		clientSideInfoStage.clearView();
-		backButton.setEnabled(false);
-		nextButton.setText("Siguiente");
-	}
+        finalPriceStage.getTextFieldByName(FinalPriceReferences.DEPOSIT).getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(true);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(true);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(true);
+            }
+        });
 
-	@Override
-	public void setPresenter(StandardPresenter standardPresenter) {
-		this.workBudgetCreatePresenter = (WorkBudgetCreatePresenter) standardPresenter;
-	}
+        finalPriceStage.getTextFieldByName(FinalPriceReferences.BALANCE_TO_PAY).getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(false);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(false);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                workBudgetCreatePresenter.onDepositChanged(false);
+            }
+        });
+    }
 
-	public void loadExistingBudget(int budgetId){
-		isBeingModified = true;
-		workBudgetCreatePresenter.loadExistingBudget(budgetId);
-	}
+    @Override
+    public void clearView() {
+        workBudgetCreatePresenter.setStage(WorkBudgetCreationStage.CLIENT_SELECTION);
+        clientStageContainer.setVisible(true);
+        contentListStageContainer.setVisible(false);
+        finalPriceStageContainer.setVisible(false);
+        clientSideInfoStageContainer.setVisible(false);
+        isBeingModified = false;
+        clientSearchingStage.clearView();
+        contentListStage.clearView();
+        finalPriceStage.clearView();
+        clientSideInfoStage.clearView();
+        backButton.setEnabled(false);
+        nextButton.setText("Siguiente");
+    }
 
-	public void setLogisticsData(String description, String cost){
-		contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION, description);
-		contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_COST, cost);
-	}
+    @Override
+    public void setPresenter(StandardPresenter standardPresenter) {
+        this.workBudgetCreatePresenter = (WorkBudgetCreatePresenter) standardPresenter;
+    }
 
-	public void setPlacingData(String placer, String cost){
-		contentListStage.setTextContentByName(ContentListReferences.PLACER, placer);
-		contentListStage.setTextContentByName(ContentListReferences.PLACING_COST, cost);
-	}
+    public void loadExistingBudget(int budgetId){
+        isBeingModified = true;
+        workBudgetCreatePresenter.loadExistingBudget(budgetId);
+    }
 
-	public void setProfitMargin(String profitMargin){
-		finalPriceStage.setTextContentByName(FinalPriceReferences.PROFIT_MARGIN, profitMargin);
-	}
+    public void setLogisticsData(String description, String cost){
+        contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION, description);
+        contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_COST, cost);
+    }
 
-	public void setBackButton( boolean enabled ){
-		backButton.setEnabled( enabled );
-	}
+    public void setPlacingData(String placer, String cost){
+        contentListStage.setTextContentByName(ContentListReferences.PLACER, placer);
+        contentListStage.setTextContentByName(ContentListReferences.PLACING_COST, cost);
+    }
 
-	public void changeButtonToGenPDF(){
-		nextButton.setText("Generar PDFs");
-	}
+    public void setProfitMargin(String profitMargin){
+        finalPriceStage.setTextContentByName(FinalPriceReferences.PROFIT_MARGIN, profitMargin);
+    }
 
-	public void changeButtonToNext(){
-		nextButton.setText("Siguiente");
-	}
+    public void setBackButton( boolean enabled ){
+        backButton.setEnabled( enabled );
+    }
 
-	public void showClientSelectionStage(){
-		clientStageContainer.setVisible(true);
-		contentListStageContainer.setVisible(false);
-	}
+    public void changeButtonToGenPDF(){
+        nextButton.setText("Generar PDFs");
+    }
 
-	public void showContentListStage(){
-		clientStageContainer.setVisible(false);
-		contentListStageContainer.setVisible(true);
-		finalPriceStageContainer.setVisible(false);
-	}
+    public void changeButtonToNext(){
+        nextButton.setText("Siguiente");
+    }
 
-	public void showFinalPriceStage(){
-		contentListStageContainer.setVisible(false);
-		finalPriceStageContainer.setVisible(true);
-		clientSideInfoStageContainer.setVisible(false);
-	}
+    public void showClientSelectionStage(){
+        clientStageContainer.setVisible(true);
+        contentListStageContainer.setVisible(false);
+    }
 
-	public void showClientSideInfoStage(){
-		finalPriceStageContainer.setVisible(false);
-		clientSideInfoStageContainer.setVisible(true);
-	}
+    public void showContentListStage(){
+        clientStageContainer.setVisible(false);
+        contentListStageContainer.setVisible(true);
+        finalPriceStageContainer.setVisible(false);
+    }
 
-	public int getSelectedClientId(){
-		return clientSearchingStage.getSelectedClientID();
-	}
+    public void showFinalPriceStage(){
+        contentListStageContainer.setVisible(false);
+        finalPriceStageContainer.setVisible(true);
+        clientSideInfoStageContainer.setVisible(false);
+    }
 
-	public ArrayList<Pair<String, String>> getMaterialsList(){
-		return contentListStage.getMaterialsListFromTable();
-	}
+    public void showClientSideInfoStage(){
+        finalPriceStageContainer.setVisible(false);
+        clientSideInfoStageContainer.setVisible(true);
+    }
 
-	public Pair<String, String> getLogisticsData(){
-		String logisticsCostText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
-		String logisticsDescriptionText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION);
-		if (logisticsCostText == null || logisticsCostText.isEmpty()) {
-			return new Pair<>(logisticsDescriptionText, "0.00");
-		}
-		return new Pair<>(logisticsDescriptionText, logisticsCostText);
-	}
+    public int getSelectedClientId(){
+        return clientSearchingStage.getSelectedClientID();
+    }
 
-	public Pair<String, String> getPlacingData(){
-		String placingCostText = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
-		String placerText = contentListStage.getTextContentByName(ContentListReferences.PLACER);
-		if (placingCostText == null || placingCostText.isEmpty()) {
-			return new Pair<>(placerText, "0.0");
-		}
-		return new Pair<>(placerText, placingCostText);
-	}
+    public ArrayList<Pair<String, String>> getMaterialsList(){
+        return contentListStage.getMaterialsListFromTable();
+    }
 
-	public String getProfitMargin() {
-		return finalPriceStage.getTextContentByName(FinalPriceReferences.PROFIT_MARGIN);
-	}
+    public Pair<String, String> getLogisticsData(){
+        String logisticsCostText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
+        String logisticsDescriptionText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION);
+        if (logisticsCostText == null || logisticsCostText.isEmpty()) {
+            return new Pair<>(logisticsDescriptionText, "0.00");
+        }
+        return new Pair<>(logisticsDescriptionText, logisticsCostText);
+    }
 
-	public String getFinalPrice() {
-		return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
-	}
+    public Pair<String, String> getPlacingData(){
+        String placingCostText = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
+        String placerText = contentListStage.getTextContentByName(ContentListReferences.PLACER);
+        if (placingCostText == null || placingCostText.isEmpty()) {
+            return new Pair<>(placerText, "0.0");
+        }
+        return new Pair<>(placerText, placingCostText);
+    }
 
-	public String getDeposit() {
-		return finalPriceStage.getTextContentByName(FinalPriceReferences.DEPOSIT);
-	}
+    public String getProfitMargin() {
+        return finalPriceStage.getTextContentByName(FinalPriceReferences.PROFIT_MARGIN);
+    }
 
-	public String getBalanceToPay() {
-		return finalPriceStage.getTextContentByName(FinalPriceReferences.BALANCE_TO_PAY);
-	}
+    public String getFinalPrice() {
+        return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
+    }
+
+    public String getDeposit() {
+        return finalPriceStage.getTextContentByName(FinalPriceReferences.DEPOSIT);
+    }
+
+    public String getBalanceToPay() {
+        return finalPriceStage.getTextContentByName(FinalPriceReferences.BALANCE_TO_PAY);
+    }
 
     public String getTotalPrice() {
         return finalPriceStage.getTextContentByName(FinalPriceReferences.FINAL_PRICE);
@@ -300,25 +300,25 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         return finalPriceStage.getTextContentByName(FinalPriceReferences.TOTAL_COSTS);
     }
 
-	public ArrayList<Pair<String, String>> getClientInfoItems(){
-		return clientSideInfoStage.getItemsListFromTable();
-	}
+    public ArrayList<Pair<String, String>> getClientInfoItems(){
+        return clientSideInfoStage.getItemsListFromTable();
+    }
 
-	public void setBudgetNumberLabelText(String text){
-		budgetNumberLabel.setText(text);
-	}
+    public void setBudgetNumberLabelText(String text){
+        budgetNumberLabel.setText(text);
+    }
 
-	public int getBudgetNumberLabelValue(){
-		String labelText = budgetNumberLabel.getText();
-		String[] parts = labelText.split(":");
-		if (parts.length > 1) {
-			try {
-				return Integer.parseInt(parts[1].trim());
-			} catch (NumberFormatException e) {
-				return -1;
-			}
-		}
-		return -1;
-	}
+    public int getBudgetNumberLabelValue(){
+        String labelText = budgetNumberLabel.getText();
+        String[] parts = labelText.split(":");
+        if (parts.length > 1) {
+            try {
+                return Integer.parseInt(parts[1].trim());
+            } catch (NumberFormatException e) {
+                return -1;
+            }
+        }
+        return -1;
+    }
 
 }
