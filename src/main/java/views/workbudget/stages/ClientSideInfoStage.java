@@ -7,18 +7,20 @@ import utils.NumberInputVerifier;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.DefaultEditorKit;
 
 import java.util.ArrayList;
 
 import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTable;
+import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTextArea;
 
 public class ClientSideInfoStage extends JPanel {
 	private JPanel root;
 	private JPanel dataPanel;
-	private JTextField descriptionTextField;
 	private JTextField totalTextField;
 	@Getter
 	private JTable itemsTable;
+	private JTextArea descriptionTextArea;
 
 	public ClientSideInfoStage() {
 		DefaultTableModel model = new DefaultTableModel(
@@ -28,19 +30,30 @@ public class ClientSideInfoStage extends JPanel {
 		((AbstractDocument) totalTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
 		applyTabKeyStrokeSettingsToTable(itemsTable);
+		applyTabKeyStrokeSettingsToTextArea(descriptionTextArea);
+
+		descriptionTextArea.setLineWrap(true);
+		descriptionTextArea.setWrapStyleWord(true);
+
+		descriptionTextArea.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "submit");
+
+		descriptionTextArea.getInputMap().put(
+				KeyStroke.getKeyStroke("shift ENTER"),
+				DefaultEditorKit.insertBreakAction
+		);
 	}
 
-	public JTextField getTextFieldByName(ClientSideInfoReferences name) {
-		return switch (name) {
-			case DESCRIPTION -> descriptionTextField;
-			case TOTAL -> totalTextField;
-			default -> null;
-		};
+	public JTextField getTotalTextField() {
+		return totalTextField;
+	}
+
+	public JTextArea getDescriptionTextArea () {
+		return descriptionTextArea;
 	}
 
 	public String getTextContentByName(ContentListReferences name) {
 		return switch (name) {
-			case MATERIAL -> descriptionTextField.getText();
+			case MATERIAL -> descriptionTextArea.getText();
 			case MATERIAL_PRICE -> totalTextField.getText();
 			default -> null;
 		};
@@ -52,12 +65,12 @@ public class ClientSideInfoStage extends JPanel {
 	}
 
 	public void clearMaterialInputFields() {
-		descriptionTextField.setText("");
+		descriptionTextArea.setText("");
 		totalTextField.setText("");
 	}
 
 	public void setFocusToMaterialField() {
-		descriptionTextField.requestFocusInWindow();
+		descriptionTextArea.requestFocusInWindow();
 	}
 
 	public ArrayList<Pair<String, String>> getItemsListFromTable() {
@@ -75,7 +88,7 @@ public class ClientSideInfoStage extends JPanel {
 	}
 
 	public void clearView() {
-		descriptionTextField.setText("");
+		descriptionTextArea.setText("");
 		totalTextField.setText("");
 		DefaultTableModel model = (DefaultTableModel) itemsTable.getModel();
 		model.setRowCount(0);

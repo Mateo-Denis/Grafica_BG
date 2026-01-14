@@ -87,7 +87,6 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 				workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
 			}
 		});
-		//contentListStage.getTextFieldByName(MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getMaterialsTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
@@ -101,8 +100,13 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
 		ArrayList<JTextField> textFields = new ArrayList<>();
 
-		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.DESCRIPTION).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
-		clientSideInfoStage.getTextFieldByName(ClientSideInfoReferences.TOTAL).addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
+		clientSideInfoStage.getDescriptionTextArea().getActionMap().put("submit", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
+			}
+		});
+		clientSideInfoStage.getTotalTextField().addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
 		clientSideInfoStage.getItemsTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				if (isRightMouseButton(evt)) {
