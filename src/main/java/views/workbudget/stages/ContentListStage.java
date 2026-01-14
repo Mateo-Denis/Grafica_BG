@@ -37,9 +37,13 @@ public class ContentListStage extends JPanel {
 		DefaultTableModel model = new DefaultTableModel(
 				new Object[]{"Material", "Precio"}, 0
 		);
-
+        DefaultTableModel placersModel = new DefaultTableModel(
+                new Object[]{"Nombre del colocador", "Precio"}, 0
+        );
 		materialsTable.setModel(model);
-        addCellRendererToTable();
+        placersTable.setModel(placersModel);
+        addCellRendererToTable(materialsTable);
+        addCellRendererToTable(placersTable);
 
 		((AbstractDocument) materialPriceTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		((AbstractDocument) logisticsCostTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
@@ -48,6 +52,7 @@ public class ContentListStage extends JPanel {
 		applyTabKeyStrokeSettingsToTextArea(materialTextArea);
 		applyTabKeyStrokeSettingsToTextArea(logisticsTextArea);
 		applyTabKeyStrokeSettingsToTable(materialsTable);
+        applyTabKeyStrokeSettingsToTable(placersTable);
 
 		materialTextArea.setLineWrap(true);
 		materialTextArea.setWrapStyleWord(true);
@@ -58,17 +63,15 @@ public class ContentListStage extends JPanel {
 				KeyStroke.getKeyStroke("shift ENTER"),
 				DefaultEditorKit.insertBreakAction
 		);
-
-
 	}
 
-    public void addCellRendererToTable(){
-        materialsTable.setIntercellSpacing(new Dimension(0, 0));
-        materialsTable.setShowGrid(false);
-        materialsTable.getColumnModel()
+    public void addCellRendererToTable(JTable table) {
+        table.setIntercellSpacing(new Dimension(0, 0));
+        table.setShowGrid(false);
+        table.getColumnModel()
                 .getColumn(0)
                 .setCellRenderer(new WorkBudgetTablesCellRenderer());
-        materialsTable.getColumnModel()
+        table.getColumnModel()
                 .getColumn(1)
                 .setCellRenderer(new AlignValueToTopCellRenderer());
     }
@@ -114,17 +117,31 @@ public class ContentListStage extends JPanel {
 		}
 	}
 
-	public void addMaterialToTable(String name, String price) {
-		DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
-		model.addRow(new Object[]{ name, price });
+	public void addItemToTable(String name, String price, boolean isPlacerTable) {
+        if(isPlacerTable) {
+            DefaultTableModel placerModel = (DefaultTableModel) placersTable.getModel();
+            placerModel.addRow(new Object[]{ name, price });
+        }else {
+		    DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
+		    model.addRow(new Object[]{ name, price });
+        }
 	}
 
-	public void clearMaterialInputFields() {
+	public void clearInputFields(boolean isPlacerField) {
+        if(isPlacerField) {
+            placerTextField.setText("");
+            placingCostTextField.setText("");
+            return;
+        }
 		materialTextArea.setText("");
 		materialPriceTextField.setText("");
 	}
 
-	public void setFocusToMaterialField() {
+	public void setFocusToField(boolean isPlacerField) {
+        if(isPlacerField) {
+            placerTextField.requestFocusInWindow();
+            return;
+        }
 		materialTextArea.requestFocusInWindow();
 	}
 
@@ -140,6 +157,19 @@ public class ContentListStage extends JPanel {
 		}
 		return materials;
 	}
+
+    public ArrayList<Pair<String, String>> getPlacersListFromTable() {
+        ArrayList<Pair<String, String>> placers = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) placersTable.getModel();
+        for (int row = 0; row < model.getRowCount(); row++) {
+            String placerName = (String) model.getValueAt(row, 0);
+            String placerPriceString = (String) model.getValueAt(row, 1);
+            if (placerName != null && !placerName.isEmpty()) {
+                placers.add(new Pair<>(placerName, placerPriceString));
+            }
+        }
+        return placers;
+    }
 
 	public void clearView() {
 		logisticsTextArea.setText("");

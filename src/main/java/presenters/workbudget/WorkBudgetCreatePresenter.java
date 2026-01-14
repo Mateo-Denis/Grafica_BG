@@ -100,7 +100,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 					stage = WorkBudgetCreationStage.CONTENT_LIST;
 					workBudgetCreateView.setBackButton(true);
 					workBudgetCreateView.showContentListStage();
-					contentListStage.setFocusToMaterialField();
+					contentListStage.setFocusToField(false);
 				}else {
 					workBudgetCreateView.showMessage(CLIENT_NOT_SELECTED);
 				}
@@ -202,21 +202,26 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	}
 
 	private void calculateFinalPrice() {
-		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
-		DefaultTableModel materialsTableModel = (DefaultTableModel) contentListStage.getMaterialsTable().getModel();
-		double materialsCost = 0.0;
-		String value;
-		// Calculate total materials cost
-		for (int i = 0; i < materialsTableModel.getRowCount(); i++) {
-			value = (String) materialsTableModel.getValueAt(i, 1);
-			materialsCost += (value.isEmpty() ? 0.0 : Double.parseDouble(value));
-		}
+        ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
+        DefaultTableModel materialsTableModel = (DefaultTableModel) contentListStage.getMaterialsTable().getModel();
+        double materialsCost = 0.0;
+        String value;
+        // Calculate total materials cost
+        for (int i = 0; i < materialsTableModel.getRowCount(); i++) {
+            value = (String) materialsTableModel.getValueAt(i, 1);
+            materialsCost += (value.isEmpty() ? 0.0 : Double.parseDouble(value));
+        }
 
-		String logisticsCostStr = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
-		String placingCostStr = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
+        String logisticsCostStr = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
+        double logisticsCost = logisticsCostStr.isEmpty() ? 0.0 : Double.parseDouble(logisticsCostStr);
 
-		double logisticsCost = logisticsCostStr.isEmpty() ? 0.0 : Double.parseDouble(logisticsCostStr);
-		double placingCost = placingCostStr.isEmpty() ? 0.0 : Double.parseDouble(placingCostStr);
+        double placingCost = 0.0;
+        String name;
+        DefaultTableModel placersTableModel = (DefaultTableModel) contentListStage.getPlacersTable().getModel();
+        for (int i = 0; i < placersTableModel.getRowCount(); i++) {
+            name = (String) placersTableModel.getValueAt(i, 1);
+            placingCost += (name.isEmpty() ? 0.0 : Double.parseDouble(name));
+        }
 
 		double totalCosts = materialsCost + logisticsCost + placingCost;
 
@@ -281,11 +286,23 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 			workBudgetCreateView.showMessage(INCOMPLETE_MATERIAL_FIELDS);
 		}else {
 
-			contentListStage.addMaterialToTable(material, materialPrice);
-			contentListStage.clearMaterialInputFields();
-			contentListStage.setFocusToMaterialField();
+			contentListStage.addItemToTable(material, materialPrice, false);
+			contentListStage.clearInputFields(false);
+			contentListStage.setFocusToField(false);
 		}
 	}
+
+    public void onPlacenEnterPressed(ContentListStage contentListStage) {
+        String placer = contentListStage.getTextContentByName(ContentListReferences.PLACER);
+        String placingPrice = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
+        if(placer.isEmpty() || placingPrice.isEmpty()){
+            workBudgetCreateView.showMessage(INCOMPLETE_MATERIAL_FIELDS);
+        }else {
+            contentListStage.addItemToTable(placer, placingPrice, true);
+            contentListStage.clearInputFields(true);
+            contentListStage.setFocusToField(true);
+        }
+    }
 
 	public void onInfoItemEnterPressed(ClientSideInfoStage clientSideInfoStage) {
 		String description = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL);
@@ -359,7 +376,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
 		for (Pair<String, String> material : data.getMaterials()) {
-			contentListStage.addMaterialToTable(material.getValue0(), material.getValue1());
+			contentListStage.addItemToTable(material.getValue0(), material.getValue1(), false);
 		}
 
 		ClientSideInfoStage clientSideInfoStage = workBudgetCreateView.getClientSideInfoStage();

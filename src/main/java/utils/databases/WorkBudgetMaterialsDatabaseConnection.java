@@ -11,18 +11,25 @@ public class WorkBudgetMaterialsDatabaseConnection extends DatabaseConnection{
 				"ID_PRESUPUESTO INT NOT NULL," +
 				"NOMBRE_MATERIAL TEXT NOT NULL," +
 				"PRECIO_MATERIAL TEXT NOT NULL," +
-				"FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(ID) ON DELETE CASCADE" +
+				"FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(Numero_presupuesto) ON DELETE CASCADE" +
 				");";
 		String budgetDescriptionSQL = "CREATE TABLE IF NOT EXISTS PRESUPUESTO_DESCRIPCION(" +
 				"ID_PRESUPUESTO INT NOT NULL," +
 				"DESCRIPCION_MATERIAL TEXT NOT NULL," +
 				"PRECIO TEXT NOT NULL," +
-				"FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(ID) ON DELETE CASCADE" +
+				"FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(Numero_presupuesto) ON DELETE CASCADE" +
 				");";
+        String budgetPlacerSQL = "CREATE TABLE IF NOT EXISTS PRESUPUESTO_COLOCADOR(" +
+                "ID_PRESUPUESTO INT NOT NULL," +
+                "NOMBRE TEXT NOT NULL," +
+                "PRECIO TEXT NOT NULL," +
+                "FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(Numero_presupuesto) ON DELETE CASCADE" +
+                ");";
 		try (Statement stmt = connection.createStatement()) {
 			stmt.setQueryTimeout(QUERY_TIMEOUT);
 			stmt.execute(budgetMaterialsSQL);
 			stmt.execute(budgetDescriptionSQL);
+            stmt.execute(budgetPlacerSQL);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

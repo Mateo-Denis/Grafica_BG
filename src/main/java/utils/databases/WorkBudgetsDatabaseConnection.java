@@ -18,8 +18,6 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 				"Numero_presupuesto INTEGER NOT NULL," +
 				"Desc_logistica TEXT NOT NULL," +
 				"Precio_logistica TEXT NOT NULL," +
-				"Colocador TEXT NOT NULL," +
-				"Precio_colocacion TEXT NOT NULL," +
 				"Ganancia TEXT NOT NULL," +
 				"Precio_Total TEXT NOT NULL" +
 				")";
@@ -92,6 +90,22 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 	}
 
+    public void insertPlacers(ArrayList<Pair<String, String>> placerList, int budgetID) throws SQLException {
+        String sql = "INSERT INTO PRESUPUESTO_COLOCADOR(ID_PRESUPUESTO, NOMBRE, PRECIO) " +
+                "VALUES(?, ?, ?)";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        for (Pair<String, String> palcer : placerList) {
+            pstmt.setInt(1, budgetID);
+            pstmt.setString(2, palcer.getValue0());
+            pstmt.setString(3, palcer.getValue1());
+            pstmt.executeUpdate();
+        }
+        pstmt.close();
+        conn.close();
+    }
+
 	public int getNextBudgetNumber() {
 		int bnumber = 1;
 		String sql = "SELECT MAX(Numero_presupuesto) FROM Presupuestos_Trabajo";
@@ -112,10 +126,12 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 	public boolean checkFailedInserts(int id){
 		String sqlMaterials = "SELECT COUNT(*) AS count FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
 		String sqlDescriptions = "SELECT COUNT(*) AS count FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
+        String sqlPlacers = "SELECT COUNT(*) AS count FROM PRESUPUESTO_COLOCADOR WHERE ID_PRESUPUESTO = ?";
 
-		try (Connection conn = connect();
+        try (Connection conn = connect();
 			 PreparedStatement pstmtMaterials = conn.prepareStatement(sqlMaterials);
-			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions)) {
+			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions);
+             PreparedStatement pstmtPlacers = conn.prepareStatement(sqlPlacers)){
 
 			pstmtMaterials.setInt(1, id);
 			ResultSet rsMaterials = pstmtMaterials.executeQuery();
@@ -125,7 +141,11 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			ResultSet rsDescriptions = pstmtDescriptions.executeQuery();
 			int descriptionsCount = rsDescriptions.getInt("count");
 
-			return materialsCount == 0 || descriptionsCount == 0;
+            pstmtPlacers.setInt(1, id);
+            ResultSet rsPlacers = pstmtPlacers.executeQuery();
+            int placersCount = rsPlacers.getInt("count");
+
+			return materialsCount == 0 || descriptionsCount == 0 || placersCount == 0;
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -139,10 +159,12 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		String sqlWorkBudget = "DELETE FROM Presupuestos_Trabajo WHERE Numero_presupuesto = ?";
 		String sqlMaterials = "DELETE FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
 		String sqlDescriptions = "DELETE FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
+        String sqlPlacers = "DELETE FROM PRESUPUESTO_COLOCADOR WHERE ID_PRESUPUESTO = ?";
 		try (Connection conn = connect();
 			 PreparedStatement pstmtWorkBudget = conn.prepareStatement(sqlWorkBudget);
 			 PreparedStatement pstmtMaterials = conn.prepareStatement(sqlMaterials);
-			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions)) {
+			 PreparedStatement pstmtDescriptions = conn.prepareStatement(sqlDescriptions);
+             PreparedStatement pstmtPlacers = conn.prepareStatement(sqlPlacers)){
 
 			pstmtWorkBudget.setInt(1, id);
 			pstmtWorkBudget.executeUpdate();
@@ -227,19 +249,17 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			String date,
 			String logistics,
 			String logisticsPrice,
-			String placer,
-			String placingCost,
 			String profit,
 			String total,
 			ArrayList<Pair<String, String>> materials,
-			ArrayList<Pair<String, String>> descriptions
+			ArrayList<Pair<String, String>> descriptions,
+            ArrayList<Pair<String, String>> placers
 	) throws SQLException {
 
 		String sqlUpdate =
 				"UPDATE Presupuestos_Trabajo SET " +
 						"ID_Cliente = ?, Fecha = ?, Desc_logistica = ?, Precio_logistica = ?, " +
-						"Colocador = ?, Precio_colocacion = ?, Ganancia = ?, Precio_Total = ? " +
-						"WHERE Numero_presupuesto = ?";
+						"Ganancia = ?, Precio_Total = ? " + "WHERE Numero_presupuesto = ?";
 
 		String sqlDeleteMaterials =
 				"DELETE FROM PRESUPUESTO_MATERIAL WHERE ID_PRESUPUESTO = ?";
@@ -247,11 +267,17 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		String sqlDeleteDescriptions =
 				"DELETE FROM PRESUPUESTO_DESCRIPCION WHERE ID_PRESUPUESTO = ?";
 
+        String sqlDeletePlacers =
+                "DELETE FROM PRESUPUESTO_COLOCADOR WHERE ID_PRESUPUESTO = ?";
+
 		String sqlInsertMaterial =
 				"INSERT INTO PRESUPUESTO_MATERIAL(ID_PRESUPUESTO, NOMBRE_MATERIAL, PRECIO_MATERIAL) VALUES(?, ?, ?)";
 
 		String sqlInsertDescription =
 				"INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL, PRECIO) VALUES(?, ?, ?)";
+
+        String sqlInsertPlacer =
+                "INSERT INTO PRESUPUESTO_COLOCADOR(ID_PRESUPUESTO, NOMBRE, PRECIO) VALUES(?, ?, ?)";
 
 		Connection conn = connect();
 		conn.setAutoCommit(false); // ---- BEGIN TRANSACTION ----
@@ -260,8 +286,10 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 				PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
 				PreparedStatement pstmtDeleteMat = conn.prepareStatement(sqlDeleteMaterials);
 				PreparedStatement pstmtDeleteDesc = conn.prepareStatement(sqlDeleteDescriptions);
+                PreparedStatement pstmtDeletePlac = conn.prepareStatement(sqlDeletePlacers);
 				PreparedStatement pstmtInsertMat = conn.prepareStatement(sqlInsertMaterial);
-				PreparedStatement pstmtInsertDesc = conn.prepareStatement(sqlInsertDescription)
+				PreparedStatement pstmtInsertDesc = conn.prepareStatement(sqlInsertDescription);
+                PreparedStatement pstmtInsertPlac = conn.prepareStatement(sqlInsertPlacer);
 		) {
 
 			// --- Update main budget ---
@@ -269,11 +297,9 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			pstmtUpdate.setString(2, date);
 			pstmtUpdate.setString(3, logistics);
 			pstmtUpdate.setString(4, logisticsPrice);
-			pstmtUpdate.setString(5, placer);
-			pstmtUpdate.setString(6, placingCost);
-			pstmtUpdate.setString(7, profit);
-			pstmtUpdate.setString(8, total);
-			pstmtUpdate.setInt(9, budgetId);
+			pstmtUpdate.setString(5, profit);
+			pstmtUpdate.setString(6, total);
+			pstmtUpdate.setInt(7, budgetId);
 			pstmtUpdate.executeUpdate();
 
 			// --- Clear previous materials/descriptions ---
@@ -282,6 +308,9 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 			pstmtDeleteDesc.setInt(1, budgetId);
 			pstmtDeleteDesc.executeUpdate();
+
+            pstmtDeletePlac.setInt(1, budgetId);
+            pstmtDeletePlac.executeUpdate();
 
 			// --- Reinsert materials ---
 			for (Pair<String, String> material : materials) {
@@ -298,6 +327,14 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 				pstmtInsertDesc.setString(3, desc.getValue1());
 				pstmtInsertDesc.executeUpdate();
 			}
+
+            // --- Reinsert placers ---
+            for (Pair<String, String> plac : placers) {
+                pstmtInsertPlac.setInt(1, budgetId);
+                pstmtInsertPlac.setString(2, plac.getValue0());
+                pstmtInsertPlac.setString(3, plac.getValue1());
+                pstmtInsertPlac.executeUpdate();
+            }
 
 			conn.commit(); // ---- SUCCESS ----
 		} catch (SQLException e) {

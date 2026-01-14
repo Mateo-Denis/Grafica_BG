@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
-import static views.workbudget.stages.ContentListReferences.MATERIAL;
+import static views.workbudget.stages.ContentListReferences.*;
 
 public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
     private JPanel containerPanel;
@@ -95,6 +95,8 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
                 }
             }
         });
+        contentListStage.getTextFieldByName(PLACER).addActionListener(e -> workBudgetCreatePresenter.onPlacenEnterPressed(contentListStage));
+        contentListStage.getTextFieldByName(PLACING_COST).addActionListener(e -> workBudgetCreatePresenter.onPlacenEnterPressed(contentListStage));
 
         clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
         clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
@@ -122,9 +124,6 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
                 }
             }
         });
-
-
-
 
         textFields.add(finalPriceStage.getTextFieldByName(FinalPriceReferences.PROFIT_MARGIN));
 
@@ -267,13 +266,8 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         return new Pair<>(logisticsDescriptionText, logisticsCostText);
     }
 
-    public Pair<String, String> getPlacingData(){
-        String placingCostText = contentListStage.getTextContentByName(ContentListReferences.PLACING_COST);
-        String placerText = contentListStage.getTextContentByName(ContentListReferences.PLACER);
-        if (placingCostText == null || placingCostText.isEmpty()) {
-            return new Pair<>(placerText, "0.0");
-        }
-        return new Pair<>(placerText, placingCostText);
+    public ArrayList<Pair<String, String>> getPlacingData(){
+        return contentListStage.getPlacersListFromTable();
     }
 
     public String getProfitMargin() {

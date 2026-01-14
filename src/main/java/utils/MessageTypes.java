@@ -12,6 +12,9 @@ public enum MessageTypes {
     INCOMPLETE_MATERIAL_FIELDS("Campo de material incompletos"
             , "Por favor, complete el campo de material antes de agregarlo a la lista."
             , JOptionPane.ERROR_MESSAGE),
+    INCOMPLETE_PLACER_FIELDS("Campo de colocación incompletos"
+            , "Por favor, complete el campo de colocación antes de agregarlo a la lista."
+            , JOptionPane.ERROR_MESSAGE),
     NO_ROW_SELECTED_FOR_DELETION("Error al eliminar fila"
             , "Por favor seleccione una fila de la tabla correspondiente antes de presionar el botón de eliminar."
             , JOptionPane.ERROR_MESSAGE),

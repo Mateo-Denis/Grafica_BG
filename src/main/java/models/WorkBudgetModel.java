@@ -103,6 +103,7 @@ public class WorkBudgetModel {
 
 			budgetsDBConnection.insertMaterials(materialsList, newNumber);
 			budgetsDBConnection.insertDescriptions(clientInfoItems, newNumber);
+            budgetsDBConnection.insertPlacers(placingData, newNumber);
 
 			notifyBudgetCreationSuccess();
 		} catch (Exception e) {
@@ -118,7 +119,8 @@ public class WorkBudgetModel {
 			String profit,
 			String total,
 			ArrayList<Pair<String, String>> materials,
-			ArrayList<Pair<String, String>> descriptions
+			ArrayList<Pair<String, String>> descriptions,
+            ArrayList<Pair<String, String>> placers
 	){
 		try {
 			LocalDate fechaActual = LocalDate.now();
@@ -130,12 +132,11 @@ public class WorkBudgetModel {
 					fechaActual.format(formato),
 					logisticsData.getValue0(),
 					logisticsData.getValue1(),
-					placingData.getValue0(),
-					placingData.getValue1(),
 					profit,
 					total,
 					materials,
-					descriptions
+					descriptions,
+                    placers
 			);
 			notifyBudgetUpdateSuccess();
 		}catch (SQLException e){
