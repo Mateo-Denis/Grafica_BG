@@ -32,10 +32,10 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 	}
 
 	public int insertWorkBudget(String clientID, String date, String logistics, String logisticsPrice,
-								 String placer, String placingCost, String profit, String total) throws SQLException {
+                                String profit, String total) throws SQLException {
 		String sql = "INSERT INTO Presupuestos_Trabajo(ID_Cliente, Fecha, Numero_presupuesto, Desc_logistica, Precio_logistica," +
-				"Colocador, Precio_colocacion, Ganancia, Precio_Total) " +
-				"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				"Ganancia, Precio_Total) " +
+				"VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -45,10 +45,8 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		pstmt.setString(3, budgetNumber);
 		pstmt.setString(4, logistics);
 		pstmt.setString(5, logisticsPrice);
-		pstmt.setString(6, placer);
-		pstmt.setString(7, placingCost);
-		pstmt.setString(8, profit);
-		pstmt.setString(9, total);
+		pstmt.setString(6, profit);
+		pstmt.setString(7, total);
 
 
 		pstmt.executeUpdate();
@@ -154,6 +152,9 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 			pstmtDescriptions.setInt(1, id);
 			pstmtDescriptions.executeUpdate();
+
+            pstmtPlacers.setInt(1, id);
+            pstmtPlacers.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

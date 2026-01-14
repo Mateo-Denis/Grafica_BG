@@ -121,11 +121,11 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 					workBudgetModel.updateWorkBudget(workBudgetCreateView.getBudgetNumberLabelValue(),
 							Integer.toString(workBudgetCreateView.getSelectedClientId()),
 							workBudgetCreateView.getLogisticsData(),
-							workBudgetCreateView.getPlacingData(),
 							workBudgetCreateView.getProfitMargin(),
 							workBudgetCreateView.getFinalPrice(),
 							workBudgetCreateView.getMaterialsList(),
-							workBudgetCreateView.getClientInfoItems()
+							workBudgetCreateView.getClientInfoItems(),
+                            workBudgetCreateView.getPlacingData()
 					);
 				}else {
                     workBudgetModel.saveWorkBudget(
@@ -159,6 +159,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		} catch (Exception e) {
 			workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
 			System.err.println("Error generating PDF: " + e.getMessage());
+            e.printStackTrace();
 		}
 	}
 

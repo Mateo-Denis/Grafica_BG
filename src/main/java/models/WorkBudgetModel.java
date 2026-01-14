@@ -92,20 +92,21 @@ public class WorkBudgetModel {
 	}
 
 	public void saveWorkBudget(int selectedClientId, ArrayList<Pair<String, String>> materialsList,
-							   Pair<String, String> logisticsData, Pair<String, String> placingData,
+							   Pair<String, String> logisticsData, ArrayList<Pair<String, String>> placingData,
 							   String profitMargin, String finalPrice, ArrayList<Pair<String, String>> clientInfoItems) {
 		try {
 			LocalDate fechaActual = LocalDate.now();
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			fechaActual.format(formato);
-			int newNumber = budgetsDBConnection.insertWorkBudget(Integer.toString(selectedClientId), fechaActual.format(formato), logisticsData.getValue0(), logisticsData.getValue1()
-					, placingData.getValue0(), placingData.getValue1(), profitMargin, finalPrice);
+			int newNumber = budgetsDBConnection.insertWorkBudget(Integer.toString(selectedClientId), fechaActual.format(formato),
+                                                logisticsData.getValue0(), logisticsData.getValue1(), profitMargin, finalPrice);
 
 			budgetsDBConnection.insertMaterials(materialsList, newNumber);
 			budgetsDBConnection.insertDescriptions(clientInfoItems, newNumber);
 
 			notifyBudgetCreationSuccess();
 		} catch (Exception e) {
+            e.printStackTrace();
 			notifyBudgetCreationFailure();
 		}
 	}
@@ -114,7 +115,6 @@ public class WorkBudgetModel {
 			int budgetId,
 			String clientID,
 			Pair<String, String> logisticsData,
-			Pair<String, String> placingData,
 			String profit,
 			String total,
 			ArrayList<Pair<String, String>> materials,

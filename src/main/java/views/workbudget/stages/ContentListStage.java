@@ -30,8 +30,10 @@ public class ContentListStage extends JPanel {
 	@Getter
 	private JTable materialsTable;
 	private JTextArea materialTextArea;
+    @Getter
+    private JTable placersTable;
 
-	public ContentListStage() {
+    public ContentListStage() {
 		DefaultTableModel model = new DefaultTableModel(
 				new Object[]{"Material", "Precio"}, 0
 		);

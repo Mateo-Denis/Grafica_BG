@@ -60,7 +60,7 @@ public class WorkBudgetPDFConverter {
         return clientsDB.getClientNameByID(clientID);
     }
 
-    public void generateWorkBill(boolean modified, int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, Pair<String,String> placing,
+    public void generateWorkBill(boolean modified, int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, ArrayList<Pair<String,String>> placers,
                                         String deposit, String balance, String budgetCost, String finalCost) throws IOException {
         initFonts();
 
@@ -195,7 +195,7 @@ public class WorkBudgetPDFConverter {
         doc.add(espacio());
 
         // ================= COLOCACIÓN =================
-        doc.add(bloqueColocacion(placing.getValue0(), Double.parseDouble(placing.getValue1())));
+        doc.add(bloqueColocacion(placers));
         doc.add(espacio());
 
         // ================= PAGOS =================
@@ -405,7 +405,7 @@ public class WorkBudgetPDFConverter {
         return new Paragraph("").setMarginBottom(10);
     }
 
-    private static Table bloqueColocacion(String colocatorName, double price) {
+    private static Table bloqueColocacion(ArrayList<Pair<String,String>> placers) {
         // 1. Tabla contenedora
         Table t = new Table(1);
         t.setWidth(UnitValue.createPercentValue(100));
@@ -427,30 +427,34 @@ public class WorkBudgetPDFConverter {
         Table fila = new Table(UnitValue.createPercentArray(new float[]{3, 2}));
         fila.setWidth(UnitValue.createPercentValue(100));
 
-        // Celda: Colocador
-        Paragraph pColocador = new Paragraph()
-                .add(new Text("Colocador: ").setBold())
-                .add(new Text(colocatorName))
-                .setFontSize(10);
+        for(Pair<String, String> placer : placers){
+            String colocatorName = placer.getValue0();
+            double price = Double.parseDouble(placer.getValue1());
 
-        fila.addCell(new Cell()
-                .add(pColocador)
-                .setBorder(Border.NO_BORDER));
+            // Celda: Colocador
+            Paragraph pColocador = new Paragraph()
+                    .add(new Text("Colocador: ").setBold())
+                    .add(new Text(colocatorName))
+                    .setFontSize(10);
 
-        // Celda: Precio
-        Paragraph pPrecio = new Paragraph()
-                .add(new Text("Precio: ").setBold())
-                .add(new Text("$" + String.format("%.2f", price)))
-                .setFontSize(10);
+            fila.addCell(new Cell()
+                    .add(pColocador)
+                    .setBorder(Border.NO_BORDER));
 
-        fila.addCell(new Cell()
-                .add(pPrecio)
-                .setTextAlignment(TextAlignment.RIGHT) // Alineación a la derecha para legibilidad
-                .setBorder(Border.NO_BORDER));
+            // Celda: Precio
+            Paragraph pPrecio = new Paragraph()
+                    .add(new Text("Precio: ").setBold())
+                    .add(new Text("$" + String.format("%.2f", price)))
+                    .setFontSize(10);
+
+            fila.addCell(new Cell()
+                    .add(pPrecio)
+                    .setTextAlignment(TextAlignment.RIGHT) // Alineación a la derecha para legibilidad
+                    .setBorder(Border.NO_BORDER));
+        }
 
         // Espaciado opcional antes de la fila (reemplaza el Paragraph vacío con setHeight)
         fila.setMarginTop(10);
-
         bloque.add(fila);
         t.addCell(bloque);
 

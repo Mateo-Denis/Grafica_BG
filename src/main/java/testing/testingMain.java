@@ -17,10 +17,17 @@ public class testingMain {
 
     public static void main(String[] args) {
         ArrayList<Pair<String, String>> testList = new ArrayList<>();
-        testList.add(new Pair<>("Item 1", "2000"));
+        testList.add(new Pair<>("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPpAAAA", "5000"));
         testList.add(new Pair<>("Item 2", "200"));
         testList.add(new Pair<>("Item 3", "300"));
         testList.add(new Pair<>("Item 4", "400"));
+
+        ArrayList<Pair<String, String>> tetoList = new ArrayList<>();
+        tetoList.add(new Pair<>("Juan", "2000"));
+        tetoList.add(new Pair<>("Item 2", "200"));
+        tetoList.add(new Pair<>("Item 3", "300"));
+        tetoList.add(new Pair<>("Item 4", "400"));
+
 
         Pair<String, String> logistics = new Pair<>("\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"", "2000");
         Pair<String, String> placing = new Pair<>("Placing item", "1500");
@@ -35,7 +42,7 @@ public class testingMain {
 
 
         try {
-            jobBudgetPDFConverter.generateWorkBill(
+/*            jobBudgetPDFConverter.generateWorkBill(
                     false,
                     3,
                     27,
@@ -46,13 +53,13 @@ public class testingMain {
                     balanceValue,
                     budgetCost,
                     totalCost
-            );
+            );*/
 
             jobBudgetClientPDFConverter.generateBill(
                     false,
                     client,
                     5,
-                    testList,
+                    tetoList,
                     totalCost
 
             );
