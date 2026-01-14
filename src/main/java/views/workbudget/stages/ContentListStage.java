@@ -3,11 +3,13 @@ package views.workbudget.stages;
 import lombok.Getter;
 import org.javatuples.Pair;
 import utils.NumberInputVerifier;
+import utils.WorkBudgetTablesCellRenderer;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static utils.TabKeyStrokeSetting.applyTabKeyStrokeSettingsToTable;
@@ -31,7 +33,10 @@ public class ContentListStage extends JPanel {
 		DefaultTableModel model = new DefaultTableModel(
 				new Object[]{"Material", "Precio"}, 0
 		);
+
 		materialsTable.setModel(model);
+        addCellRendererToTable();
+
 		((AbstractDocument) materialPriceTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		((AbstractDocument) logisticsCostTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		((AbstractDocument) placingCostTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
@@ -39,6 +44,14 @@ public class ContentListStage extends JPanel {
 		applyTabKeyStrokeSettingsToTextArea(logisticsTextArea);
 		applyTabKeyStrokeSettingsToTable(materialsTable);
 	}
+
+    public void addCellRendererToTable(){
+        materialsTable.setIntercellSpacing(new Dimension(0, 0));
+        materialsTable.setShowGrid(false);
+        materialsTable.getColumnModel()
+                .getColumn(0)
+                .setCellRenderer(new WorkBudgetTablesCellRenderer());
+    }
 
 	public JTextField getTextFieldByName(ContentListReferences name) {
 		return switch (name) {
