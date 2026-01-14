@@ -11,6 +11,7 @@ import static utils.TableSettings.adjustColumnWidthsToHeader;
 public class ClientSearchingStage extends JPanel {
 	private JPanel clientResultContainer;
 	private JScrollPane clientResultScrollPanel;
+	@Getter
 	private JTable clientResultTable;
 	private DefaultTableModel clientsTableModel;
 	private JPanel nameAndCityContainer;

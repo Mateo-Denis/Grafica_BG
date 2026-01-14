@@ -98,6 +98,14 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 
 		clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
 		clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
+		clientSearchingStage.getClientResultTable().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				if (evt.getClickCount() == 2) {
+					workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage);
+				}
+			}
+		});
+
 		ArrayList<JTextField> textFields = new ArrayList<>();
 
 		clientSideInfoStage.getDescriptionTextArea().getActionMap().put("submit", new AbstractAction() {

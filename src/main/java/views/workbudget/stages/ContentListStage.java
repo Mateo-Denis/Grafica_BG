@@ -56,6 +56,7 @@ public class ContentListStage extends JPanel {
 				DefaultEditorKit.insertBreakAction
 		);
 
+
 	}
 
     public void addCellRendererToTable(){

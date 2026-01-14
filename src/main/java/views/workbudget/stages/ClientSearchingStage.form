@@ -29,6 +29,7 @@
                   <doubleBuffered value="false"/>
                   <editingColumn value="-1"/>
                   <editingRow value="-1"/>
+                  <focusable value="false"/>
                 </properties>
               </component>
             </children>

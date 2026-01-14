@@ -49,7 +49,9 @@
             <children>
               <component id="18500" class="javax.swing.JTable" binding="itemsTable">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <focusable value="false"/>
+                </properties>
               </component>
             </children>
           </scrollpane>
