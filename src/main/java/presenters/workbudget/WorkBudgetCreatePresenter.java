@@ -203,10 +203,11 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
 		DefaultTableModel materialsTableModel = (DefaultTableModel) contentListStage.getMaterialsTable().getModel();
 		double materialsCost = 0.0;
-
+		String value;
 		// Calculate total materials cost
 		for (int i = 0; i < materialsTableModel.getRowCount(); i++) {
-			materialsCost += Double.parseDouble((String) materialsTableModel.getValueAt(i, 1));
+			value = (String) materialsTableModel.getValueAt(i, 1);
+			materialsCost += (value.isEmpty() ? 0.0 : Double.parseDouble(value));
 		}
 
 		String logisticsCostStr = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
@@ -274,7 +275,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	public void onMaterialEnterPressed(ContentListStage contentListStage) {
 		String material = contentListStage.getTextContentByName(ContentListReferences.MATERIAL);
 		String materialPrice = contentListStage.getTextContentByName(ContentListReferences.MATERIAL_PRICE);
-		if( material.isEmpty() || materialPrice.isEmpty()){
+		if(material.isEmpty()){
 			workBudgetCreateView.showMessage(INCOMPLETE_MATERIAL_FIELDS);
 		}else {
 

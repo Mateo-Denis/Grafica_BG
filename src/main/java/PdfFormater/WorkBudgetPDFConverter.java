@@ -325,12 +325,20 @@ public class WorkBudgetPDFConverter {
                     .setFont(TAHOMA_FONT)
                     .setBorder(Border.NO_BORDER));
 
-            materialesTable.addCell(new Cell()
-                    .add(new Paragraph("$" + String.format("%.2f", row.getTotal()))
-                            .setFontSize(10)
-                            .setTextAlignment(TextAlignment.RIGHT))
-                    .setFont(TAHOMA_FONT)
-                    .setBorder(Border.NO_BORDER));
+            if(row.getTotal().isEmpty()){
+                materialesTable.addCell(new Cell()
+                        .add(new Paragraph(""))
+                        .setFont(TAHOMA_FONT)
+                        .setBorder(Border.NO_BORDER));
+            }else {
+                materialesTable.addCell(new Cell()
+                        .add(new Paragraph("$" + String.format("%.2f",Double.parseDouble(row.getTotal())))
+                                .setFontSize(10)
+                                .setTextAlignment(TextAlignment.RIGHT))
+                        .setFont(TAHOMA_FONT)
+                        .setBorder(Border.NO_BORDER));
+            }
+
         }
 
         bloque.add(materialesTable);

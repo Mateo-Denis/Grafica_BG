@@ -10,9 +10,9 @@ import java.util.ArrayList;
 @Setter
 public class NewRow {
     private String productDescription;
-    private double total;
+    private String total;
 
-    public NewRow(String productDescription, double total){
+    public NewRow(String productDescription, String total){
         this.productDescription = productDescription;
         this.total = total;
     }

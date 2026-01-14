@@ -93,8 +93,7 @@ public class ContentListStage extends JPanel {
 		for (int row = 0; row < model.getRowCount(); row++) {
 			String materialName = (String) model.getValueAt(row, 0);
 			String materialPriceString = (String) model.getValueAt(row, 1);
-			if (materialName != null && !materialName.isEmpty() &&
-					materialPriceString != null && !materialPriceString.isEmpty()) {
+			if (materialName != null && !materialName.isEmpty()) {
 				materials.add(new Pair<>(materialName, materialPriceString));
 			}
 		}

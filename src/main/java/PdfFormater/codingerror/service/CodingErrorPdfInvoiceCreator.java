@@ -50,7 +50,7 @@ public class CodingErrorPdfInvoiceCreator {
     public List<NewProduct> formatNewProductsToProductsList(ArrayList<NewRow> nRows){
         List<NewProduct> productList = new ArrayList<>();
         for(NewRow nRow:nRows){
-            productList.add(new NewProduct(nRow.getProductDescription(), nRow.getTotal()));
+            productList.add(new NewProduct(nRow.getProductDescription(),Double.parseDouble(nRow.getTotal())));
         }
         return productList;
     }

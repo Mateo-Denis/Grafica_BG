@@ -9,8 +9,8 @@ public enum MessageTypes {
     INCOMPLETE_INFO_FIELDS("Campos incompletos"
             , "Por favor, complete todos los campos obligatorios antes de continuar."
             , JOptionPane.ERROR_MESSAGE),
-    INCOMPLETE_MATERIAL_FIELDS("Campos de material incompletos"
-            , "Por favor, complete ambos campos relacionados al material antes de agregarlo a la lista."
+    INCOMPLETE_MATERIAL_FIELDS("Campo de material incompletos"
+            , "Por favor, complete el campo de material antes de agregarlo a la lista."
             , JOptionPane.ERROR_MESSAGE),
     NO_ROW_SELECTED_FOR_DELETION("Error al eliminar fila"
             , "Por favor seleccione una fila de la tabla correspondiente antes de presionar el botón de eliminar."
