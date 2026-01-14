@@ -97,6 +97,13 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         });
         contentListStage.getTextFieldByName(PLACER).addActionListener(e -> workBudgetCreatePresenter.onPlacenEnterPressed(contentListStage));
         contentListStage.getTextFieldByName(PLACING_COST).addActionListener(e -> workBudgetCreatePresenter.onPlacenEnterPressed(contentListStage));
+        contentListStage.getPlacersTable().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (isRightMouseButton(evt)) {
+                    workBudgetCreatePresenter.onTableRightClicked(evt, contentListStage.getPlacersTable(), "colocador");
+                }
+            }
+        });
 
         clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
         clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
