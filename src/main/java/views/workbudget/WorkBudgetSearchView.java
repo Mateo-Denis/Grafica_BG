@@ -90,6 +90,7 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
 				}
 			}
 		});
+		searchField.addActionListener(e -> workBudgetSearchPresenter.onSearchButtonClicked());
 	}
 
 	@Override
