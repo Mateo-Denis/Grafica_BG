@@ -93,13 +93,14 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		}
 	}
 
-	public void onNextButtonPressed(boolean isBeingModified) {
+	public void onNextButtonPressed(boolean isBeingModified, ContentListStage contentListStage) {
 		switch (stage) {
 			case CLIENT_SELECTION -> {
 				if(workBudgetCreateView.getClientSearchingStage().isTableSelected()){
 					stage = WorkBudgetCreationStage.CONTENT_LIST;
 					workBudgetCreateView.setBackButton(true);
 					workBudgetCreateView.showContentListStage();
+					contentListStage.setFocusToMaterialField();
 				}else {
 					workBudgetCreateView.showMessage(CLIENT_NOT_SELECTED);
 				}

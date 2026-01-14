@@ -8,6 +8,7 @@ import utils.WorkBudgetTablesCellRenderer;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.DefaultEditorKit;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class ContentListStage extends JPanel {
 	private JTextField logisticsCostTextField;
 	private JTextField placerTextField;
 	private JTextField placingCostTextField;
-	private JTextField materialTextField;
 	private JTextField materialPriceTextField;
 	private JPanel root;
 	private JPanel placingPanel;
@@ -28,6 +28,7 @@ public class ContentListStage extends JPanel {
 	private JPanel materialsPanel;
 	@Getter
 	private JTable materialsTable;
+	private JTextArea materialTextArea;
 
 	public ContentListStage() {
 		DefaultTableModel model = new DefaultTableModel(
@@ -41,8 +42,20 @@ public class ContentListStage extends JPanel {
 		((AbstractDocument) logisticsCostTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 		((AbstractDocument) placingCostTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
 
+		applyTabKeyStrokeSettingsToTextArea(materialTextArea);
 		applyTabKeyStrokeSettingsToTextArea(logisticsTextArea);
 		applyTabKeyStrokeSettingsToTable(materialsTable);
+
+		materialTextArea.setLineWrap(true);
+		materialTextArea.setWrapStyleWord(true);
+
+		materialTextArea.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "submit");
+
+		materialTextArea.getInputMap().put(
+				KeyStroke.getKeyStroke("shift ENTER"),
+				DefaultEditorKit.insertBreakAction
+		);
+
 	}
 
     public void addCellRendererToTable(){
@@ -55,7 +68,6 @@ public class ContentListStage extends JPanel {
 
 	public JTextField getTextFieldByName(ContentListReferences name) {
 		return switch (name) {
-			case MATERIAL -> materialTextField;
 			case MATERIAL_PRICE -> materialPriceTextField;
 			case LOGISTICS_COST -> logisticsCostTextField;
 			case PLACER -> placerTextField;
@@ -64,9 +76,17 @@ public class ContentListStage extends JPanel {
 		};
 	}
 
+	public JTextArea getTextAreaByName(ContentListReferences name) {
+		return switch (name) {
+			case MATERIAL -> materialTextArea;
+			case LOGISTICS_DESCRIPTION -> logisticsTextArea;
+			default -> null;
+		};
+	}
+
 	public String getTextContentByName(ContentListReferences name) {
 		return switch (name) {
-			case MATERIAL -> materialTextField.getText();
+			case MATERIAL -> materialTextArea.getText();
 			case MATERIAL_PRICE -> materialPriceTextField.getText();
 			case LOGISTICS_DESCRIPTION -> logisticsTextArea.getText();
 			case LOGISTICS_COST -> logisticsCostTextField.getText();
@@ -78,7 +98,7 @@ public class ContentListStage extends JPanel {
 
 	public void setTextContentByName(ContentListReferences name, String text) {
 		switch (name) {
-			case MATERIAL -> materialTextField.setText(text);
+			case MATERIAL -> materialTextArea.setText(text);
 			case MATERIAL_PRICE -> materialPriceTextField.setText(text);
 			case LOGISTICS_COST -> logisticsCostTextField.setText(text);
 			case PLACER -> placerTextField.setText(text);
@@ -92,12 +112,12 @@ public class ContentListStage extends JPanel {
 	}
 
 	public void clearMaterialInputFields() {
-		materialTextField.setText("");
+		materialTextArea.setText("");
 		materialPriceTextField.setText("");
 	}
 
 	public void setFocusToMaterialField() {
-		materialTextField.requestFocusInWindow();
+		materialTextArea.requestFocusInWindow();
 	}
 
 	public ArrayList<Pair<String, String>> getMaterialsListFromTable() {
@@ -118,7 +138,7 @@ public class ContentListStage extends JPanel {
 		logisticsCostTextField.setText("");
 		placerTextField.setText("");
 		placingCostTextField.setText("");
-		materialTextField.setText("");
+		materialTextArea.setText("");
 		materialPriceTextField.setText("");
 		DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
 		model.setRowCount(0);

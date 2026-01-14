@@ -13,11 +13,13 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
+import static views.workbudget.stages.ContentListReferences.MATERIAL;
 
 public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
 	private JPanel containerPanel;
@@ -77,9 +79,15 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
 	@Override
 	protected void initListeners() {
 		backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
-		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified));
+		nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage));
 
-		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
+		contentListStage.getTextAreaByName(MATERIAL).getActionMap().put("submit", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
+			}
+		});
+		//contentListStage.getTextFieldByName(MATERIAL).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getTextFieldByName(ContentListReferences.MATERIAL_PRICE).addActionListener(e -> workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage));
 		contentListStage.getMaterialsTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
