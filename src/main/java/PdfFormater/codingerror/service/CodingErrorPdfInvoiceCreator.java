@@ -176,7 +176,7 @@ public class CodingErrorPdfInvoiceCreator {
                 .setBackgroundColor(DeviceGray.BLACK, 0.7f));
 
         for(NewProduct product : productList) {
-            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription())).setBorder(Border.NO_BORDER));
+            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription()).setMaxWidth(300)).setBorder(Border.NO_BORDER));
             productsTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
         }
 

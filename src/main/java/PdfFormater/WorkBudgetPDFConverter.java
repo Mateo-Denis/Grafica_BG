@@ -306,6 +306,7 @@ public class WorkBudgetPDFConverter {
 
         Cell bloque = new Cell()
                 .setMinHeight(20)
+                .setMaxWidth(400)
                 .setBorder(new SolidBorder(1))
                 .setPadding(6);
 
@@ -321,6 +322,7 @@ public class WorkBudgetPDFConverter {
         for (NewRow row : materials) {
             materialesTable.addCell(new Cell()
                     .add(new Paragraph(row.getProductDescription())
+                            .setMaxWidth(300)
                             .setFontSize(10))
                     .setFont(TAHOMA_FONT)
                     .setBorder(Border.NO_BORDER));
