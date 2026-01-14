@@ -105,6 +105,7 @@ public class ContentListStage extends JPanel {
 		switch (name) {
 			case MATERIAL -> materialTextArea.setText(text);
 			case MATERIAL_PRICE -> materialPriceTextField.setText(text);
+			case LOGISTICS_DESCRIPTION -> logisticsTextArea.setText(text);
 			case LOGISTICS_COST -> logisticsCostTextField.setText(text);
 			case PLACER -> placerTextField.setText(text);
 			case PLACING_COST -> placingCostTextField.setText(text);
