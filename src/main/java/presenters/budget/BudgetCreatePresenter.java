@@ -445,9 +445,9 @@ public class BudgetCreatePresenter extends StandardPresenter {
                 totalPrice = Double.parseDouble(truncateAndRound(String.valueOf(productPrice * Integer.parseInt(oneProduct.get(1)) * productMeasures)));
                 productName = product.getName();
             } else {
-                totalPrice = Double.parseDouble(oneProduct.get(4));
+                productPrice = Double.parseDouble(oneProduct.get(4));
                 productName = oneProduct.get(0);
-                productPrice = totalPrice;
+                totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
             }
 
             row = new Row(productName, Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
@@ -484,10 +484,8 @@ public class BudgetCreatePresenter extends StandardPresenter {
         budgetCreateView.getProductsResultTable().clearSelection();
         JTable budgetResultTable = budgetCreateView.getPreviewTable();
         int selectedRow = budgetResultTable.getSelectedRow();
-
+        boolean isCuttingService;
         double totalSelectedPrice = 0.0;
-
-
         if (selectedRow != -1) {
             if (productsRowCountOnPreviewTable >= 1) {
                 if(budgetResultTable.getValueAt(selectedRow,1) != null && !budgetResultTable.getValueAt(selectedRow, 1).toString().isEmpty()){
