@@ -10,6 +10,7 @@ public interface ICuttingServiceFormView extends IToggleableView {
     public double getLinealMeters();
     public double getProfit();
     public void setSubTotal(double subTotal);
+    public double getSubTotal();
     public void setFinalText(String total);
     public int getAmount();
     public String getDescription();

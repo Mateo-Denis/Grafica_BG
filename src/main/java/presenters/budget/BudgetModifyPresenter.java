@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import views.budget.cuttingService.ICuttingServiceFormView;
 import views.budget.modify.IBudgetModifyView;
 
+import static utils.TextUtils.truncateAndRound;
 import static utils.databases.SettingsTableNames.GENERAL;
 import static utils.MessageTypes.*;
 
@@ -272,8 +273,8 @@ public class BudgetModifyPresenter extends StandardPresenter {
         budgetModifyView.setPreviewStringTableValueAt(row, 2, productAmountStr); //INSERTA EN LA COLUMNA DE CANTIDAD
         budgetModifyView.setPreviewStringTableValueAt(row, 3, productMeasures); //INSERTA EN LA COLUMNA DE MEDIDAS
         budgetModifyView.setPreviewStringTableValueAt(row, 4, productObservations); //INSERTA EN LA COLUMNA DE OBSERVACIONES
-        budgetModifyView.setPreviewStringTableValueAt(row, 5, String.valueOf(settingPrice)); //INSERTA EN LA COLUMNA DE PRECIO
-        updateTextArea(true, false, totalItemsPrice);
+        budgetModifyView.setPreviewStringTableValueAt(row, 5, truncateAndRound(String.valueOf(settingPrice))); //INSERTA EN LA COLUMNA DE PRECIO
+        updateTextArea(true, false, Double.parseDouble(truncateAndRound(String.valueOf(totalItemsPrice))));
     }
 
 

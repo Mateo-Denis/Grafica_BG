@@ -35,9 +35,10 @@ public class CuttingServiceFormPresenter extends StandardPresenter {
     public double calculateCuttingService() {
         double materialCost = cuttingServiceView.getMaterialCost();
         double linealMeters = cuttingServiceView.getLinealMeters();
+        double amount = cuttingServiceView.getAmount();
         double profit = cuttingServiceView.getProfit();
 
-        double subTotal = Double.parseDouble(truncateAndRound(String.valueOf(materialCost * linealMeters)));
+        double subTotal = Double.parseDouble(truncateAndRound(String.valueOf(materialCost * amount * linealMeters)));
         cuttingServiceView.setSubTotal(subTotal);
 
         double total = Double.parseDouble(truncateAndRound(String.valueOf(subTotal + (subTotal * (profit / 100)))));
@@ -70,6 +71,7 @@ public class CuttingServiceFormPresenter extends StandardPresenter {
                 cuttingServiceView.getLinealMeters(),
                 cuttingServiceView.getProfit(),
                 cuttingServiceView.getAmount(),
+                cuttingServiceView.getSubTotal(),
                 total
         );
     }

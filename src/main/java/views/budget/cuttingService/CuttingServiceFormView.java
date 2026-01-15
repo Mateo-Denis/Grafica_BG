@@ -191,6 +191,14 @@ public class CuttingServiceFormView extends ToggleableView implements ICuttingSe
         }
     }
 
+    public double getSubTotal() {
+        try {
+            return Double.parseDouble(subTotalTextField.getText());
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
+
     public int getAmount() {
         try {
             return Integer.parseInt(amountTextField.getText());

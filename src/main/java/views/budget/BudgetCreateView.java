@@ -537,7 +537,7 @@ public class BudgetCreateView extends ToggleableView implements IBudgetCreateVie
         setPreviewStringTableValueAt(nextRow, 2, String.valueOf(cuttingService.getAmount()));
         setPreviewStringTableValueAt(nextRow, 3, String.valueOf(cuttingService.getLinealMeters()));
         setPreviewStringTableValueAt(nextRow, 4, cuttingService.getDescription());
-        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getTotal()));
+        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getSubTotal()));
 
         budgetCreatePresenter.updateTextArea(true, cuttingService.getTotal());
         budgetCreatePresenter.increaseRowCountOnPreviewTable();
