@@ -165,11 +165,17 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	private void generateClientPDF(){
 		try {
+            Pair<String, String> depositAndBalance = new Pair<>(
+                    workBudgetCreateView.getDeposit(),
+                    workBudgetCreateView.getBalanceToPay()
+            );
+
 			workBudgetClientPDFConverter.generateBill(
 					workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
 					workBudgetCreateView.getBudgetNumberLabelValue(),
 					workBudgetCreateView.getClientInfoItems(),
-					workBudgetCreateView.getFinalPrice()
+					workBudgetCreateView.getFinalPrice(),
+                    depositAndBalance
 			);
 		} catch (Exception e) {
 			workBudgetCreateView.showMessage(WORK_BUDGET_PDF_CREATION_FAILURE);
@@ -305,11 +311,10 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	public void onInfoItemEnterPressed(ClientSideInfoStage clientSideInfoStage) {
 		String description = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL);
-		String price = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL_PRICE);
 		if( description.isEmpty()){
 			workBudgetCreateView.showMessage(INCOMPLETE_INFO_FIELDS);
 		}else {
-			clientSideInfoStage.addInfoItemToTable(description, price);
+			clientSideInfoStage.addInfoItemToTable(description);
 			clientSideInfoStage.clearMaterialInputFields();
 			clientSideInfoStage.setFocusToMaterialField();
 		}
@@ -381,8 +386,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
         }
 
 		ClientSideInfoStage clientSideInfoStage = workBudgetCreateView.getClientSideInfoStage();
-		for (Pair<String, String> description : data.getDescriptions()) {
-			clientSideInfoStage.addInfoItemToTable(description.getValue0(), description.getValue1());
+		for (String description : data.getDescriptions()) {
+			clientSideInfoStage.addInfoItemToTable(description);
 		}
 	}
 

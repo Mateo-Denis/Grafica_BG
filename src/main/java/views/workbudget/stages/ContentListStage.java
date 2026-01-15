@@ -182,6 +182,11 @@ public class ContentListStage extends JPanel {
         }
     }
 
+    private void cleanPlacersTable(){
+        DefaultTableModel model = (DefaultTableModel) placersTable.getModel();
+        model.setRowCount(0);
+    }
+
     public void clearView() {
         logisticsTextArea.setText("");
         logisticsCostTextField.setText("");
@@ -191,6 +196,7 @@ public class ContentListStage extends JPanel {
         materialPriceTextField.setText("");
         DefaultTableModel model = (DefaultTableModel) materialsTable.getModel();
         model.setRowCount(0);
+        cleanPlacersTable();
     }
 
 }

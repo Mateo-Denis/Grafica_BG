@@ -15,7 +15,7 @@ public class WorkBudgetData {
 	@Getter
 	private ArrayList<Pair<String, String>> materials;
 	@Getter
-	private ArrayList<Pair<String, String>> descriptions;
+	private ArrayList<String> descriptions;
 	@Getter
 	private String logistics;
 	@Getter
@@ -30,7 +30,7 @@ public class WorkBudgetData {
 			int budgetNumber,
 			int clientID,
 			ArrayList<Pair<String, String>> materials,
-			ArrayList<Pair<String, String>> descriptions,
+			ArrayList<String> descriptions,
 			String logistics,
 			String logisticsCost,
             ArrayList<Pair<String, String>> placers,

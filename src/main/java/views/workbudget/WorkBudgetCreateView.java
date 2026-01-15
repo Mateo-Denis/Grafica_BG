@@ -134,7 +134,6 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
                 workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage);
             }
         });
-        clientSideInfoStage.getTotalTextField().addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
         clientSideInfoStage.getItemsTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 if (isRightMouseButton(evt)) {
@@ -318,7 +317,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         return finalPriceStage.getTextContentByName(FinalPriceReferences.TOTAL_COSTS);
     }
 
-    public ArrayList<Pair<String, String>> getClientInfoItems() {
+    public ArrayList<String> getClientInfoItems() {
         return clientSideInfoStage.getItemsListFromTable();
     }
 

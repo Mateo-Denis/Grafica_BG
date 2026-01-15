@@ -93,7 +93,7 @@ public class WorkBudgetModel {
 
 	public void saveWorkBudget(int selectedClientId, ArrayList<Pair<String, String>> materialsList,
 							   Pair<String, String> logisticsData, ArrayList<Pair<String, String>> placingData,
-							   String profitMargin, String finalPrice, ArrayList<Pair<String, String>> clientInfoItems) {
+							   String profitMargin, String finalPrice, ArrayList<String> clientInfoItems) {
 		try {
 			LocalDate fechaActual = LocalDate.now();
 			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -119,7 +119,7 @@ public class WorkBudgetModel {
 			String profit,
 			String total,
 			ArrayList<Pair<String, String>> materials,
-			ArrayList<Pair<String, String>> descriptions,
+			ArrayList<String> descriptions,
             ArrayList<Pair<String, String>> placers
 	){
 		try {

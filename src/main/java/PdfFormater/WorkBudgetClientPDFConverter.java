@@ -30,7 +30,7 @@ public class WorkBudgetClientPDFConverter {
     String pdfName = "job_budget_client.pdf";
 */
 
-    public void generateBill(Client client, int billNumber, ArrayList<Pair<String, String>> baseTableContent, String budgetTotal) throws FileNotFoundException {
+    public void generateBill(Client client, int billNumber, ArrayList<String> baseTableContent, String budgetTotal, Pair<String, String> depositAndBalance) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -77,15 +77,16 @@ public class WorkBudgetClientPDFConverter {
         //Address end
 
         //Product Start
-        ArrayList<NewRow> tableContent = textUtils.toTableRow(baseTableContent);
-        List<NewProduct> productList = cepdf.formatNewProductsToProductsList(tableContent);
         double total = Double.parseDouble(truncateAndRound(budgetTotal));
-        cepdf.createNewProduct(productList, total);
+        cepdf.createNewProduct(baseTableContent, total);
         //Product End
 
         //Term and Condition Start
+        String deposit = depositAndBalance.getValue0();
+        String balance = depositAndBalance.getValue1();
+
         Paragraph tncLine1 = new Paragraph("Presupuesto válido por 48 hs. \n ").setItalic();
-        Paragraph tncLine2 = new Paragraph("Modalidad de pago: 50% al confirmar y 50% al finalizar. \n ").setItalic();
+        Paragraph tncLine2 = new Paragraph("Modalidad de pago: 50% al confirmar ($" + deposit + ") y 50% al finalizar ($" + balance + "). \n ").setItalic();
         Paragraph tncLine3 = new Paragraph("En caso de necesitar factura, al precio se le agregará el IVA. \n").setBold();
         Paragraph tncLine4 = new Paragraph("\n Por cualquier consulta, no dude en comunicarse con nosotros. \n ").setUnderline();
         List<Paragraph> TncList=new ArrayList<>();

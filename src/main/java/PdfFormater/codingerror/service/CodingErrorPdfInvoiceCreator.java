@@ -162,24 +162,14 @@ public class CodingErrorPdfInvoiceCreator {
         document.add(getDividerTable(fullwidth).setBorder(new SolidBorder(new DeviceGray(0.75f),1)).setMarginBottom(15f));
     }
 
-    public void createNewProduct(List<NewProduct> productList, double totalPrice) {
+    public void createNewProduct(ArrayList<String> descriptionsList, double totalPrice) {
         Table productsTable = new Table(new float[]{newthreecol * 2});
 
         productsTable.addCell(new Cell().add(new Paragraph("Descripcion"))
                 .setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
 
-/*        productsTable.addCell(new Cell().add(new Paragraph("Precio"))
-                .setBorder(Border.NO_BORDER)
-                .setBold()
-                .setFontColor(DeviceGray.WHITE)
-                .setTextAlignment(TextAlignment.CENTER)
-                .setBackgroundColor(DeviceGray.BLACK, 0.7f));*/
-
-        for(NewProduct product : productList) {
-            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription()).setMaxWidth(500)).setBorder(Border.NO_BORDER));
-/*
-            productsTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
-*/
+        for(String description : descriptionsList) {
+            productsTable.addCell(new Cell().add(new Paragraph(description).setMaxWidth(500)).setBorder(Border.NO_BORDER));
         }
 
         document.add(productsTable);

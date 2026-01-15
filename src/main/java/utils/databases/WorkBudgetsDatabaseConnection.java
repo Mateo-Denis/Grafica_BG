@@ -72,16 +72,15 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 
 	}
 
-	public void insertDescriptions(ArrayList<Pair<String, String>> descriptionsList, int budgetID) throws SQLException {
-		String sql = "INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL, PRECIO) " +
-				"VALUES(?, ?, ?)";
+	public void insertDescriptions(ArrayList<String> descriptionsList, int budgetID) throws SQLException {
+		String sql = "INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL) " +
+				"VALUES(?, ?)";
 		Connection conn = connect();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-		for (Pair<String, String> material : descriptionsList) {
+		for (String material : descriptionsList) {
 			pstmt.setInt(1, budgetID);
-			pstmt.setString(2, material.getValue0());
-			pstmt.setString(3, material.getValue1());
+			pstmt.setString(2, material);
 			pstmt.executeUpdate();
 		}
 
@@ -252,7 +251,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			String profit,
 			String total,
 			ArrayList<Pair<String, String>> materials,
-			ArrayList<Pair<String, String>> descriptions,
+			ArrayList<String> descriptions,
             ArrayList<Pair<String, String>> placers
 	) throws SQLException {
 
@@ -274,7 +273,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 				"INSERT INTO PRESUPUESTO_MATERIAL(ID_PRESUPUESTO, NOMBRE_MATERIAL, PRECIO_MATERIAL) VALUES(?, ?, ?)";
 
 		String sqlInsertDescription =
-				"INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL, PRECIO) VALUES(?, ?, ?)";
+				"INSERT INTO PRESUPUESTO_DESCRIPCION(ID_PRESUPUESTO, DESCRIPCION_MATERIAL) VALUES(?, ?)";
 
         String sqlInsertPlacer =
                 "INSERT INTO PRESUPUESTO_COLOCADOR(ID_PRESUPUESTO, NOMBRE, PRECIO) VALUES(?, ?, ?)";
@@ -321,10 +320,9 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			}
 
 			// --- Reinsert descriptions ---
-			for (Pair<String, String> desc : descriptions) {
+			for (String desc : descriptions) {
 				pstmtInsertDesc.setInt(1, budgetId);
-				pstmtInsertDesc.setString(2, desc.getValue0());
-				pstmtInsertDesc.setString(3, desc.getValue1());
+				pstmtInsertDesc.setString(2, desc);
 				pstmtInsertDesc.executeUpdate();
 			}
 
@@ -365,7 +363,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
     """;
 
 		String sqlDescriptions = """
-        SELECT DESCRIPCION_MATERIAL, PRECIO
+        SELECT DESCRIPCION_MATERIAL
         FROM PRESUPUESTO_DESCRIPCION
         WHERE ID_PRESUPUESTO = ?
     """;
@@ -409,15 +407,14 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			}
 
 			// ---- Descriptions ----
-			ArrayList<Pair<String, String>> descriptions = new ArrayList<>();
+			ArrayList<String> descriptions = new ArrayList<>();
 			pstmtDesc.setInt(1, budgetId);
 			ResultSet rsDesc = pstmtDesc.executeQuery();
 
 			while (rsDesc.next()) {
-				descriptions.add(new Pair<>(
-						rsDesc.getString("DESCRIPCION_MATERIAL"),
-						rsDesc.getString("PRECIO")
-				));
+				descriptions.add(
+                        rsDesc.getString("DESCRIPCION_MATERIAL")
+                );
 			}
 
             // ---- Placers ----
