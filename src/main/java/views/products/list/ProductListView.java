@@ -1,11 +1,15 @@
 package views.products.list;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ProductListView extends ToggleableView implements IProductListView {
 

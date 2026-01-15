@@ -29,7 +29,9 @@
               <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <enabled value="true"/>
               <text value="Total"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="45a0f" class="javax.swing.JTextField" binding="totalTextField">
@@ -38,7 +40,10 @@
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <enabled value="true"/>
+              <visible value="false"/>
+            </properties>
           </component>
           <scrollpane id="2d124">
             <constraints>
@@ -60,7 +65,9 @@
               <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <enabled value="true"/>
               <orientation value="1"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="a788e" class="javax.swing.JLabel">
@@ -68,7 +75,9 @@
               <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <enabled value="true"/>
               <text value="$"/>
+              <visible value="false"/>
             </properties>
           </component>
           <scrollpane id="32cc8">

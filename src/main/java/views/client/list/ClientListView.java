@@ -1,11 +1,15 @@
 package views.client.list;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import presenters.StandardPresenter;
 import presenters.client.ClientListPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ClientListView extends ToggleableView implements IClientListView {
     private DefaultTableModel tableModel;

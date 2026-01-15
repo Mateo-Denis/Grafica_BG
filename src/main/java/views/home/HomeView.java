@@ -1,5 +1,8 @@
 package views.home;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import presenters.budget.BudgetCreatePresenter;
 import presenters.budget.BudgetSearchPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
@@ -16,7 +19,11 @@ import presenters.workbudget.WorkBudgetSearchPresenter;
 import views.workbudget.WorkBudgetSearchView;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.util.Locale;
 
 public class HomeView extends JFrame implements IHomeView {
 

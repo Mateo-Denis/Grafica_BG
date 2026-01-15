@@ -1,5 +1,8 @@
 package views.client;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import models.BudgetHistoryModel;
 import presenters.StandardPresenter;
@@ -10,7 +13,9 @@ import views.ToggleableView;
 import utils.PopupMenu;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ClientSearchView extends ToggleableView implements IClientSearchView {
     private JPanel containerPanel;
@@ -81,7 +86,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
 
         try {
             int selectedRow = clientResultTable.getSelectedRow();
-            if(selectedRow != -1 && clientResultTable.getValueAt(selectedRow, 0) != null) {
+            if (selectedRow != -1 && clientResultTable.getValueAt(selectedRow, 0) != null) {
                 clientID = clientSearchPresenter.getOneClientID(selectedRow);
             }
         } catch (NumberFormatException e) {

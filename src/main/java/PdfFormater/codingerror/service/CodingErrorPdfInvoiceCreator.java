@@ -50,7 +50,7 @@ public class CodingErrorPdfInvoiceCreator {
     public List<NewProduct> formatNewProductsToProductsList(ArrayList<NewRow> nRows){
         List<NewProduct> productList = new ArrayList<>();
         for(NewRow nRow:nRows){
-            productList.add(new NewProduct(nRow.getProductDescription(),Double.parseDouble(nRow.getTotal())));
+            productList.add(new NewProduct(nRow.getProductDescription(), 0));
         }
         return productList;
     }
@@ -163,21 +163,23 @@ public class CodingErrorPdfInvoiceCreator {
     }
 
     public void createNewProduct(List<NewProduct> productList, double totalPrice) {
-        Table productsTable = new Table(newThreeColumnWidth);
+        Table productsTable = new Table(new float[]{newthreecol * 2});
 
         productsTable.addCell(new Cell().add(new Paragraph("Descripcion"))
                 .setBorder(Border.NO_BORDER).setBold().setFontColor(DeviceGray.WHITE).setBackgroundColor(DeviceGray.BLACK, 0.7f));
 
-        productsTable.addCell(new Cell().add(new Paragraph("Precio"))
+/*        productsTable.addCell(new Cell().add(new Paragraph("Precio"))
                 .setBorder(Border.NO_BORDER)
                 .setBold()
                 .setFontColor(DeviceGray.WHITE)
                 .setTextAlignment(TextAlignment.CENTER)
-                .setBackgroundColor(DeviceGray.BLACK, 0.7f));
+                .setBackgroundColor(DeviceGray.BLACK, 0.7f));*/
 
         for(NewProduct product : productList) {
-            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription()).setMaxWidth(300)).setBorder(Border.NO_BORDER));
+            productsTable.addCell(new Cell().add(new Paragraph(product.getDescription()).setMaxWidth(500)).setBorder(Border.NO_BORDER));
+/*
             productsTable.addCell(new Cell().add(new Paragraph("$ " + String.valueOf(product.getTotal()))).setBorder(Border.NO_BORDER).setTextAlignment(TextAlignment.RIGHT));
+*/
         }
 
         document.add(productsTable);

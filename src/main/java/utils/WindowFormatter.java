@@ -17,6 +17,18 @@ public class WindowFormatter {
         windowFrame.setLocation(x, y);
     }
 
+    public static void resetDefaultSizeAndCenter(JFrame windowFrame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        int width = (int) (screenSize.width * 0.6);
+        int height = (int) (screenSize.height * 0.6);
+        windowFrame.setSize(width, height);
+
+        int x = (screenSize.width - width) / 2;
+        int y = (screenSize.height - height) / 2;
+        windowFrame.setLocation(x, y);
+    }
+
     public static void topSizeAndCenter(JFrame windowFrame, double w, double h) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 

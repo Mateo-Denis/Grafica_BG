@@ -1,11 +1,14 @@
 package views.budget.list;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class BudgetListView extends ToggleableView implements IBudgetListView {
     private JPanel containerPanel;

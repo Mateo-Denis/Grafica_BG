@@ -21,9 +21,7 @@ public class WorkBudgetData {
 	@Getter
 	private String logisticsCost;
 	@Getter
-	private String placer;
-	@Getter
-	private String placingCost;
+	private ArrayList<Pair<String, String>> placers;
 	@Getter
 	private String profit;
 
@@ -35,8 +33,7 @@ public class WorkBudgetData {
 			ArrayList<Pair<String, String>> descriptions,
 			String logistics,
 			String logisticsCost,
-			String placer,
-			String placingCost,
+            ArrayList<Pair<String, String>> placers,
 			String profit
 	) {
 		this.id = id;
@@ -46,8 +43,7 @@ public class WorkBudgetData {
 		this.descriptions = descriptions;
 		this.logistics = logistics;
 		this.logisticsCost = logisticsCost;
-		this.placer = placer;
-		this.placingCost = placingCost;
+        this.placers = placers;
 		this.profit = profit;
 	}
 }

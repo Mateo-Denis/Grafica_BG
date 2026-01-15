@@ -1,5 +1,7 @@
 package views.client;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
@@ -8,6 +10,8 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
+
+import java.awt.*;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 

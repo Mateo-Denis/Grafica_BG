@@ -1,5 +1,7 @@
 package views.settings;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import org.javatuples.Pair;
 import presenters.StandardPresenter;
 import presenters.settings.SettingsPresenter;
@@ -8,6 +10,7 @@ import utils.databases.SettingsTableNames;
 import views.ToggleableView;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;

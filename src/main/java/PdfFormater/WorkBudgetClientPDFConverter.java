@@ -30,7 +30,7 @@ public class WorkBudgetClientPDFConverter {
     String pdfName = "job_budget_client.pdf";
 */
 
-    public void generateBill(boolean isModification, Client client, int billNumber, ArrayList<Pair<String, String>> baseTableContent, String budgetTotal) throws FileNotFoundException {
+    public void generateBill(Client client, int billNumber, ArrayList<Pair<String, String>> baseTableContent, String budgetTotal) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

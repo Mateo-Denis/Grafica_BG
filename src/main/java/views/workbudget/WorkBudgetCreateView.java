@@ -1,5 +1,7 @@
 package views.workbudget;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.javatuples.Pair;
@@ -19,9 +21,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import static javax.swing.SwingUtilities.isRightMouseButton;
+import static utils.WindowFormatter.relativeSizeAndCenter;
+import static utils.WindowFormatter.resetDefaultSizeAndCenter;
 import static views.workbudget.stages.ContentListReferences.*;
 
-public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView{
+public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetCreateView {
     private JPanel containerPanel;
     private JLabel budgetNumberLabel;
     private JButton backButton;
@@ -40,10 +44,10 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
     private ClientSideInfoStage clientSideInfoStage;
     private WorkBudgetCreatePresenter workBudgetCreatePresenter;
     @Setter
-    private boolean isBeingModified  = false;
+    private boolean isBeingModified = false;
 
 
-    public WorkBudgetCreateView(){
+    public WorkBudgetCreateView() {
         windowFrame = new JFrame("Crear Presupuesto de Trabajo");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
@@ -57,6 +61,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         backButton.setEnabled(false);
 
         cambiarTamanioFuente(containerPanel, 14);
+
+        setWindowSize();
+    }
+
+    private void setWindowSize() {
         windowFrame.setSize(550, 588);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -68,18 +77,20 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
     }
 
     @Override
-    public void start(){
+    public void start() {
         super.start();
         clientSearchingStage.setClientsTableModel();
     }
 
     @Override
-    protected void wrapContainer() { containerPanelWrapper = containerPanel; }
+    protected void wrapContainer() {
+        containerPanelWrapper = containerPanel;
+    }
 
     @Override
     protected void initListeners() {
-        backButton.addActionListener( e -> workBudgetCreatePresenter.onBackButtonPressed() );
-        nextButton.addActionListener( e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage));
+        backButton.addActionListener(e -> workBudgetCreatePresenter.onBackButtonPressed());
+        nextButton.addActionListener(e -> workBudgetCreatePresenter.onNextButtonPressed(isBeingModified, contentListStage));
 
         contentListStage.getTextAreaByName(MATERIAL).getActionMap().put("submit", new AbstractAction() {
             @Override
@@ -105,7 +116,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
             }
         });
 
-        clientSearchingStage.getSearchButton().addActionListener( e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage) );
+        clientSearchingStage.getSearchButton().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
         clientSearchingStage.getClientTextField().addActionListener(e -> workBudgetCreatePresenter.onSearchClientButtonClicked(clientSearchingStage));
         clientSearchingStage.getClientResultTable().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -120,7 +131,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         clientSideInfoStage.getDescriptionTextArea().getActionMap().put("submit", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                workBudgetCreatePresenter.onMaterialEnterPressed(contentListStage);
+                workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage);
             }
         });
         clientSideInfoStage.getTotalTextField().addActionListener(e -> workBudgetCreatePresenter.onInfoItemEnterPressed(clientSideInfoStage));
@@ -140,10 +151,12 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
                 public void insertUpdate(DocumentEvent e) {
                     workBudgetCreatePresenter.onProfitMarginChanged();
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     workBudgetCreatePresenter.onProfitMarginChanged();
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     workBudgetCreatePresenter.onProfitMarginChanged();
@@ -156,10 +169,12 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
             public void insertUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(true);
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(true);
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(true);
@@ -171,10 +186,12 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
             public void insertUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(false);
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(false);
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 workBudgetCreatePresenter.onDepositChanged(false);
@@ -203,68 +220,68 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         this.workBudgetCreatePresenter = (WorkBudgetCreatePresenter) standardPresenter;
     }
 
-    public void loadExistingBudget(int budgetId){
+    public void loadExistingBudget(int budgetId) {
         isBeingModified = true;
         workBudgetCreatePresenter.loadExistingBudget(budgetId);
     }
 
-    public void setLogisticsData(String description, String cost){
+    public void setLogisticsData(String description, String cost) {
         contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION, description);
         contentListStage.setTextContentByName(ContentListReferences.LOGISTICS_COST, cost);
     }
 
-    public void setPlacingData(String placer, String cost){
-        contentListStage.setTextContentByName(ContentListReferences.PLACER, placer);
-        contentListStage.setTextContentByName(ContentListReferences.PLACING_COST, cost);
-    }
-
-    public void setProfitMargin(String profitMargin){
+    public void setProfitMargin(String profitMargin) {
         finalPriceStage.setTextContentByName(FinalPriceReferences.PROFIT_MARGIN, profitMargin);
     }
 
-    public void setBackButton( boolean enabled ){
-        backButton.setEnabled( enabled );
+    public void setBackButton(boolean enabled) {
+        backButton.setEnabled(enabled);
     }
 
-    public void changeButtonToGenPDF(){
+    public void changeButtonToGenPDF() {
         nextButton.setText("Generar PDFs");
     }
 
-    public void changeButtonToNext(){
+    public void changeButtonToNext() {
         nextButton.setText("Siguiente");
     }
 
-    public void showClientSelectionStage(){
+    public void showClientSelectionStage() {
+        setWindowSize();
         clientStageContainer.setVisible(true);
         contentListStageContainer.setVisible(false);
+
     }
 
-    public void showContentListStage(){
+    public void showContentListStage() {
+        relativeSizeAndCenter(windowFrame, 0.55, 0.9);
         clientStageContainer.setVisible(false);
         contentListStageContainer.setVisible(true);
         finalPriceStageContainer.setVisible(false);
     }
 
-    public void showFinalPriceStage(){
+    public void showFinalPriceStage() {
+        setWindowSize();
         contentListStageContainer.setVisible(false);
         finalPriceStageContainer.setVisible(true);
         clientSideInfoStageContainer.setVisible(false);
     }
 
-    public void showClientSideInfoStage(){
+    public void showClientSideInfoStage() {
+        setWindowSize();
         finalPriceStageContainer.setVisible(false);
         clientSideInfoStageContainer.setVisible(true);
     }
 
-    public int getSelectedClientId(){
+    public int getSelectedClientId() {
         return clientSearchingStage.getSelectedClientID();
     }
 
-    public ArrayList<Pair<String, String>> getMaterialsList(){
+    public ArrayList<Pair<String, String>> getMaterialsList() {
         return contentListStage.getMaterialsListFromTable();
     }
 
-    public Pair<String, String> getLogisticsData(){
+    public Pair<String, String> getLogisticsData() {
         String logisticsCostText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_COST);
         String logisticsDescriptionText = contentListStage.getTextContentByName(ContentListReferences.LOGISTICS_DESCRIPTION);
         if (logisticsCostText == null || logisticsCostText.isEmpty()) {
@@ -273,7 +290,7 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         return new Pair<>(logisticsDescriptionText, logisticsCostText);
     }
 
-    public ArrayList<Pair<String, String>> getPlacingData(){
+    public ArrayList<Pair<String, String>> getPlacingData() {
         return contentListStage.getPlacersListFromTable();
     }
 
@@ -301,15 +318,15 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
         return finalPriceStage.getTextContentByName(FinalPriceReferences.TOTAL_COSTS);
     }
 
-    public ArrayList<Pair<String, String>> getClientInfoItems(){
+    public ArrayList<Pair<String, String>> getClientInfoItems() {
         return clientSideInfoStage.getItemsListFromTable();
     }
 
-    public void setBudgetNumberLabelText(String text){
+    public void setBudgetNumberLabelText(String text) {
         budgetNumberLabel.setText(text);
     }
 
-    public int getBudgetNumberLabelValue(){
+    public int getBudgetNumberLabelValue() {
         String labelText = budgetNumberLabel.getText();
         String[] parts = labelText.split(":");
         if (parts.length > 1) {

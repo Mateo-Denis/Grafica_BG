@@ -55,14 +55,14 @@ public class testingMain {
                     totalCost
             );*/
 
-            jobBudgetClientPDFConverter.generateBill(
+/*            jobBudgetClientPDFConverter.generateBill(
                     false,
                     client,
                     5,
                     tetoList,
                     totalCost
 
-            );
+            );*/
         } catch (Exception e) {
             e.printStackTrace();
         }

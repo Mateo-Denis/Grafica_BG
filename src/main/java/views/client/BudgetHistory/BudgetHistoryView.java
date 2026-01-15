@@ -1,5 +1,7 @@
 package views.client.BudgetHistory;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Getter;
 import org.jdesktop.swingx.JXFormattedTextField;
 import presenters.StandardPresenter;
@@ -8,6 +10,9 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BudgetHistoryView extends ToggleableView implements IBudgetHistoryView {
     @Getter
@@ -44,8 +49,8 @@ public class BudgetHistoryView extends ToggleableView implements IBudgetHistoryV
 
     @Override
     protected void initListeners() {
-        budgetHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        budgetHistoryTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     budgetHistoryPresenter.onDoubleClickBudget();
                 }
@@ -90,4 +95,5 @@ public class BudgetHistoryView extends ToggleableView implements IBudgetHistoryV
         super.start();
         setHistoryTable();
     }
+
 }

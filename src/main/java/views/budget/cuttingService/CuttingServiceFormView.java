@@ -1,5 +1,7 @@
 package views.budget.cuttingService;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 import presenters.StandardPresenter;
 import presenters.budget.CuttingServiceFormPresenter;
 import utils.MessageTypes;

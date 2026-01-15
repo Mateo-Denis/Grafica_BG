@@ -1,5 +1,8 @@
 package views.budget.modify;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetModifyPresenter;
@@ -11,8 +14,10 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
@@ -21,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 
@@ -183,7 +189,6 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         budgetModifyPresenter.updateTextArea(true, false, cuttingService.getTotal());
         budgetModifyPresenter.increaseRowCountOnPreviewTable();
     }
-
 
 
     private void SetProductTableListener() {

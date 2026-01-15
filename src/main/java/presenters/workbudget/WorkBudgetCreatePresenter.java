@@ -166,7 +166,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	private void generateClientPDF(){
 		try {
 			workBudgetClientPDFConverter.generateBill(
-					false,
 					workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
 					workBudgetCreateView.getBudgetNumberLabelValue(),
 					workBudgetCreateView.getClientInfoItems(),
@@ -307,7 +306,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	public void onInfoItemEnterPressed(ClientSideInfoStage clientSideInfoStage) {
 		String description = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL);
 		String price = clientSideInfoStage.getTextContentByName(ContentListReferences.MATERIAL_PRICE);
-		if( description.isEmpty() || price.isEmpty()){
+		if( description.isEmpty()){
 			workBudgetCreateView.showMessage(INCOMPLETE_INFO_FIELDS);
 		}else {
 			clientSideInfoStage.addInfoItemToTable(description, price);
@@ -371,13 +370,15 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		clientSearchingStage.selectRow(0);
 
 		workBudgetCreateView.setLogisticsData(data.getLogistics(), data.getLogisticsCost());
-		workBudgetCreateView.setPlacingData(data.getPlacer(), data.getPlacingCost());
 		workBudgetCreateView.setProfitMargin(data.getProfit());
 
 		ContentListStage contentListStage = workBudgetCreateView.getContentListStage();
 		for (Pair<String, String> material : data.getMaterials()) {
 			contentListStage.addItemToTable(material.getValue0(), material.getValue1(), false);
 		}
+        for(Pair<String, String> placer : data.getPlacers()) {
+            contentListStage.addItemToTable(placer.getValue0(), placer.getValue1(), true);
+        }
 
 		ClientSideInfoStage clientSideInfoStage = workBudgetCreateView.getClientSideInfoStage();
 		for (Pair<String, String> description : data.getDescriptions()) {

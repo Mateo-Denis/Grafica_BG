@@ -1,5 +1,8 @@
 package views.products;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import models.CategoryModel;
 import presenters.StandardPresenter;

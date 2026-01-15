@@ -8,7 +8,7 @@ group = "org.example"
 version = "1.0-SNAPSHOT"
 
 application {
-    mainClass.set("main.Main")
+    mainClass = "main.Main"
 }
 
 repositories {
@@ -23,7 +23,7 @@ java {
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation ("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.intellij:forms_rt:7.0.3")
     implementation("org.xerial:sqlite-jdbc:3.46.0.0")

@@ -1,5 +1,8 @@
 package views.products;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.product.ProductListPresenter;
@@ -12,6 +15,7 @@ import views.ToggleableView;
 import views.products.modular.IModularCategoryView;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

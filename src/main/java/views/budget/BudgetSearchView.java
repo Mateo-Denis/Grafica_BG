@@ -1,6 +1,9 @@
 package views.budget;
 
 import PdfFormater.Row;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import presenters.StandardPresenter;
 import presenters.budget.BudgetListPresenter;
 import presenters.budget.BudgetModifyPresenter;
@@ -8,7 +11,9 @@ import presenters.budget.BudgetSearchPresenter;
 import views.ToggleableView;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 

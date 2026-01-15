@@ -353,8 +353,6 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
         	   ID_Cliente,
                Desc_logistica,
                Precio_logistica,
-               Colocador,
-               Precio_colocacion,
                Ganancia
         FROM Presupuestos_Trabajo
         WHERE Numero_presupuesto = ?
@@ -372,10 +370,17 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
         WHERE ID_PRESUPUESTO = ?
     """;
 
+        String sqlPlacers = """
+        SELECT NOMBRE, PRECIO
+        FROM PRESUPUESTO_COLOCADOR
+        WHERE ID_PRESUPUESTO = ?
+    """;
+
 		try (Connection conn = connect();
 			 PreparedStatement pstmtMain = conn.prepareStatement(sqlMain);
 			 PreparedStatement pstmtMat = conn.prepareStatement(sqlMaterials);
-			 PreparedStatement pstmtDesc = conn.prepareStatement(sqlDescriptions)) {
+			 PreparedStatement pstmtDesc = conn.prepareStatement(sqlDescriptions);
+             PreparedStatement pstmtPlac = conn.prepareStatement(sqlPlacers)) {
 
 			// ---- Main Budget Row ----
 			pstmtMain.setInt(1, budgetId);
@@ -389,8 +394,6 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 			int clientID = rsMain.getInt("ID_Cliente");
 			String logistics = rsMain.getString("Desc_logistica");
 			String logisticsCost = rsMain.getString("Precio_logistica");
-			String placer = rsMain.getString("Colocador");
-			String placingCost = rsMain.getString("Precio_colocacion");
 			String profit = rsMain.getString("Ganancia");
 
 			// ---- Materials ----
@@ -417,6 +420,18 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 				));
 			}
 
+            // ---- Placers ----
+            ArrayList<Pair<String, String>> placers = new ArrayList<>();
+            pstmtPlac.setInt(1, budgetId);
+            ResultSet rsPlac = pstmtPlac.executeQuery();
+
+            while (rsPlac.next()) {
+                placers.add(new Pair<>(
+                        rsPlac.getString("NOMBRE"),
+                        rsPlac.getString("PRECIO")
+                ));
+            }
+
 			return new WorkBudgetData(
 					budgetId,
 					budgetNumber,
@@ -425,8 +440,7 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 					descriptions,
 					logistics,
 					logisticsCost,
-					placer,
-					placingCost,
+                    placers,
 					profit
 			);
 		}
