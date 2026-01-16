@@ -41,7 +41,7 @@ public class PDFOpener {
         File pdfFile;
 
         //Search for copies (fileNames containing COPIA 1, COPIA 2, etc.)
-        String regex = "presupuesto_interno_" + "_" + clientName + "_" + date + "_" + billNumber + "( - COPIA \\d+)?\\.pdf";
+        String regex = "presupuesto_interno_" + clientName + "_" + date + "_" + billNumber + "( - COPIA \\d+)?\\.pdf";
         File dir = new File(fileDir);
         System.out.println("Searching in directory: " + fileDir);
         File[] matchingFiles = dir.listFiles((d, name) -> name.matches(regex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
