@@ -10,6 +10,7 @@ import utils.WorkBudgetTablesCellRenderer;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultEditorKit;
@@ -66,17 +67,28 @@ public class ContentListStage extends JPanel {
                 KeyStroke.getKeyStroke("shift ENTER"),
                 DefaultEditorKit.insertBreakAction
         );
+
+
     }
+
+
 
     public void addCellRendererToTable(JTable table) {
         table.setIntercellSpacing(new Dimension(0, 0));
         table.setShowGrid(false);
+
+        // Column 0: normal renderer (left, multiline, etc.)
         table.getColumnModel()
                 .getColumn(0)
                 .setCellRenderer(new WorkBudgetTablesCellRenderer());
+
+        // Column 1: RIGHT aligned
+        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+
         table.getColumnModel()
                 .getColumn(1)
-                .setCellRenderer(new AlignValueToTopCellRenderer());
+                .setCellRenderer(rightRenderer);
     }
 
     public JTextField getTextFieldByName(ContentListReferences name) {
