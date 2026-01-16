@@ -184,7 +184,7 @@ public class BudgetModifyView extends ToggleableView implements IBudgetModifyVie
         setPreviewStringTableValueAt(nextRow, 2, String.valueOf(cuttingService.getAmount()));
         setPreviewStringTableValueAt(nextRow, 3, String.valueOf(cuttingService.getLinealMeters()));
         setPreviewStringTableValueAt(nextRow, 4, cuttingService.getDescription());
-        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getSubTotal()));
+        setPreviewStringTableValueAt(nextRow, 5, String.valueOf(cuttingService.getTotal() / cuttingService.getAmount()));
 
         budgetModifyPresenter.updateTextArea(true, false, cuttingService.getTotal());
         budgetModifyPresenter.increaseRowCountOnPreviewTable();

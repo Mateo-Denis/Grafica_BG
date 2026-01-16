@@ -562,9 +562,9 @@ public class BudgetModifyPresenter extends StandardPresenter {
                 totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
                 productName = product.getName();
             } else {
-                totalPrice = Double.parseDouble(oneProduct.get(4));
+                productPrice = Double.parseDouble(oneProduct.get(4));
                 productName = oneProduct.get(0);
-                productPrice = totalPrice;
+                totalPrice = productPrice * Integer.parseInt(oneProduct.get(1));
             }
 
             row = new Row(productName, Integer.parseInt(oneProduct.get(1)), oneProduct.get(2), oneProduct.get(3), productPrice, totalPrice);
