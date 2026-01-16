@@ -64,16 +64,7 @@ public class CodingErrorPdfInvoiceCreator {
             pdfsFolder.mkdirs();
         }
 
-        String outputPath = actualDir + folderDir + "presupuesto_cliente_"+ clientName + "_" + fechaActual + "_" + billNumber + ".pdf";
-        boolean isFirstFile = !new File(outputPath).exists();
-
-        final String copiesRegex = "presupuesto_cliente_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA (\\d+)\\.pdf";
-
-        if(!isFirstFile) {
-            int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
-            outputPath = actualDir + folderDir + "presupuesto_cliente_" + clientName + "_" + fechaActual + "_" + billNumber + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
-        }
-
+        String outputPath = actualDir + folderDir + "p_cliente_"+ billNumber + "_" + clientName + "_" + fechaActual + ".pdf";
         PdfWriter pdfWriter = new PdfWriter(outputPath); // Crea el PdfWriter con la ruta final única
         pdfDocument = new PdfDocument(pdfWriter); // Crea el PdfDocument
         pdfDocument.setDefaultPageSize(PageSize.A4);

@@ -79,15 +79,6 @@ public class WorkBudgetPDFConverter {
         }
 
         String outputPath = actualDir + folderDir + "p_interno_" + billNumber + "_" + clientName + "_" + fechaActualYankee + ".pdf";
-        boolean isFirstFile = !new File(outputPath).exists();
-
-        final String copiesRegex = "p_interno_" + billNumber + "_" + clientName + "_" + fechaActualYankee + " - COPIA (\\d+)\\.pdf";
-
-        if (!isFirstFile) {
-            int maxCopyNumber = pdfOpener.getMaxCopyNumber(folderDir, copiesRegex);
-            outputPath = actualDir + folderDir + "p_interno_" + billNumber + "_" + clientName + "_" + fechaActualYankee + " - COPIA " + (maxCopyNumber + 1) + ".pdf";
-        }
-
 
         PdfWriter writer = new PdfWriter(outputPath);
         PdfDocument pdf = new PdfDocument(writer);

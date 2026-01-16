@@ -38,8 +38,6 @@ public class PDFOpener {
         String finalPath = fileDir + fileName;
         System.out.println("Final path del wero: " + finalPath);
 
-        File pdfFile;
-
         //Search for copies (fileNames containing COPIA 1, COPIA 2, etc.)
         String regex = "p_interno_" + billNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
         File dir = new File(fileDir);
@@ -61,6 +59,9 @@ public class PDFOpener {
         }
 
         System.out.println("PDF file path: " + finalPath);
+
+        File pdfFile = new File(finalPath);
+
         return pdfFile;
     }
 
@@ -74,7 +75,7 @@ public class PDFOpener {
             regex = budgetNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
         } else {
             fileName = "p_cliente_" + budgetNumber + "_" + clientName + "_" + date + ".pdf";
-            regex = "p_cliente_" + budgetNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
+
         }
 
         String finalPath = fileDir + fileName;
@@ -83,7 +84,7 @@ public class PDFOpener {
 
         //Search for copies (fileNames containing COPIA 1, COPIA 2, etc)
         File dir = new File(fileDir);
-        System.out.println("Searching in directory: " + fileDir);
+        System.out.println("Searching in directory of clients: " + fileDir);
         String finalRegex = regex;
         File[] matchingFiles = dir.listFiles((d, name) -> name.matches(finalRegex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
 
@@ -98,6 +99,7 @@ public class PDFOpener {
             }
             pdfFile = latestFile;
         } else {
+            System.out.println("No matching files found. Using original file name: " + finalPath);
             pdfFile = new File(finalPath);
         }
 
