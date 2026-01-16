@@ -36,30 +36,6 @@ public class PDFOpener {
         String fileDir = System.getProperty("user.dir") + folderDir;
         String fileName = "p_interno_" + billNumber + "_" + clientName + "_" + date + ".pdf";
         String finalPath = fileDir + fileName;
-        System.out.println("Final path del wero: " + finalPath);
-
-        //Search for copies (fileNames containing COPIA 1, COPIA 2, etc.)
-        String regex = "p_interno_" + billNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
-        File dir = new File(fileDir);
-        System.out.println("Searching in directory: " + fileDir);
-        File[] matchingFiles = dir.listFiles((d, name) -> name.matches(regex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
-
-        if (matchingFiles != null && matchingFiles.length > 0) {
-            System.out.println("Found " + matchingFiles.length + " matching files.");
-            //Analyze matching files to find the latest copy
-            File latestFile = matchingFiles[0];
-            for (File file : matchingFiles) {
-                if (file.lastModified() > latestFile.lastModified()) {
-                    latestFile = file;
-                }
-            }
-            pdfFile = latestFile;
-        } else {
-            pdfFile = new File(finalPath);
-        }
-
-        System.out.println("PDF file path: " + finalPath);
-
         File pdfFile = new File(finalPath);
 
         return pdfFile;
@@ -105,42 +81,5 @@ public class PDFOpener {
 
         System.out.println("PDF file path: " + pdfFile.getAbsolutePath());
         return pdfFile;
-    }
-
-    public int getMaxCopyNumber(String folderDir, String copiesRegex) {
-        int copyCounter = -1;
-        // Itera en busca del archivo original o sus copias, buscando la copia con el número más alto. Puede estar intercalado con otros archivos.
-        File dir = new File(System.getProperty("user.dir") + folderDir);
-        System.out.println("Searching in directory for copies: " + dir.getAbsolutePath());
-        File[] matchingFiles = dir.listFiles((d, name) -> name.matches(copiesRegex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
-        System.out.println("Found " + (matchingFiles != null ? matchingFiles.length : 0) + " matching files for copies.");
-        if (matchingFiles != null && matchingFiles.length > 0) {
-            for (File file : matchingFiles) {
-                String fileName = file.getName();
-                if (fileName.contains(" - COPIA ")) {
-                    String[] parts = fileName.split(" - COPIA ");
-                    if (parts.length == 2) {
-                        String copyPart = parts[1].replace(".pdf", "").trim();
-                        try {
-                            int copyNumber = Integer.parseInt(copyPart);
-                            if (copyNumber > copyCounter) {
-                                copyCounter = copyNumber;
-                            }
-                        } catch (NumberFormatException e) {
-                            // No es un número válido, ignorar
-                        }
-                    }
-                } else {
-                    // Archivo original sin "COPIA"
-                    if (copyCounter < 0) {
-                        copyCounter = 0;
-                    }
-                }
-            }
-        } else {
-            copyCounter = 0; // No se encontraron archivos, por lo que no hay copias.
-        }
-
-        return copyCounter;
     }
 }
