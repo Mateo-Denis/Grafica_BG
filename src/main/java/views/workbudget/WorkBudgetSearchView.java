@@ -38,7 +38,7 @@ public class WorkBudgetSearchView extends ToggleableView implements IWorkBudgetS
     private WorkBudgetSearchPresenter workBudgetSearchPresenter;
 
     public WorkBudgetSearchView() {
-        windowFrame = new JFrame("Crear Presupuesto de Trabajo");
+        windowFrame = new JFrame("Buscar Presupuesto de Trabajo");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
         windowFrame.setLocationRelativeTo(null);
