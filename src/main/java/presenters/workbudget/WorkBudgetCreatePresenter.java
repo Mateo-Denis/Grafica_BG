@@ -40,7 +40,6 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		view = workBudgetCreateView;
 		workBudgetCreateView.setBackButton(false);
 		loadCities();
-		workBudgetCreateView.setBudgetNumberLabelText("Presupuesto N°: " + workBudgetModel.getNextBudgetNumber());
 	}
 
 	@Override
@@ -280,6 +279,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 
 	public void onHomeCreateWorkBudgetButtonClicked() {
 		view.showView();
+        workBudgetCreateView.setBudgetNumberLabelText("Presupuesto N°: " + workBudgetModel.getNextBudgetNumber());
 		stage = CLIENT_SELECTION;
 		workBudgetCreateView.setBeingModified(false);
 	}
