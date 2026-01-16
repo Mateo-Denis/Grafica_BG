@@ -16,7 +16,6 @@ public class WorkBudgetMaterialsDatabaseConnection extends DatabaseConnection{
 		String budgetDescriptionSQL = "CREATE TABLE IF NOT EXISTS PRESUPUESTO_DESCRIPCION(" +
 				"ID_PRESUPUESTO INT NOT NULL," +
 				"DESCRIPCION_MATERIAL TEXT NOT NULL," +
-				"PRECIO TEXT NOT NULL," +
 				"FOREIGN KEY (ID_PRESUPUESTO) REFERENCES Presupuestos_Trabajo(Numero_presupuesto) ON DELETE CASCADE" +
 				");";
         String budgetPlacerSQL = "CREATE TABLE IF NOT EXISTS PRESUPUESTO_COLOCADOR(" +

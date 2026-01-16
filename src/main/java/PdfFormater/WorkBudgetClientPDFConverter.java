@@ -39,7 +39,7 @@ public class WorkBudgetClientPDFConverter {
         String formattedDate = ld.format(formatter);
         String fileFormattedDate = ld.format(fileFormatter);
 
-        String pdfName = "presupuesto_cliente_" + client.getName() +"_"+ fileFormattedDate + "_" + billNumber + ".pdf";
+        String pdfName = "p_cliente_" + billNumber + "_" + client.getName() +"_"+ fileFormattedDate + ".pdf";
 
         String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);

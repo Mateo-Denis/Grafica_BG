@@ -34,14 +34,14 @@ public class PDFOpener {
 
     public File workPdfSearch(String folderDir, int billNumber, String clientName, String date) {
         String fileDir = System.getProperty("user.dir") + folderDir;
-        String fileName = "presupuesto_interno_" + clientName + "_" + date + "_" + billNumber + ".pdf";
+        String fileName = "p_interno_" + billNumber + "_" + clientName + "_" + date + ".pdf";
         String finalPath = fileDir + fileName;
         System.out.println("Final path del wero: " + finalPath);
 
         File pdfFile;
 
         //Search for copies (fileNames containing COPIA 1, COPIA 2, etc.)
-        String regex = "presupuesto_interno_" + clientName + "_" + date + "_" + billNumber + "( - COPIA \\d+)?\\.pdf";
+        String regex = "p_interno_" + billNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
         File dir = new File(fileDir);
         System.out.println("Searching in directory: " + fileDir);
         File[] matchingFiles = dir.listFiles((d, name) -> name.matches(regex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
@@ -70,11 +70,11 @@ public class PDFOpener {
         String regex = "";
 
         if (!isClientWorkBudget) {
-            fileName = clientName + "_" + date + "_" + budgetNumber + ".pdf";
-            regex = clientName + "_" + date + "_" + budgetNumber + "( - COPIA \\d+)?\\.pdf";
+            fileName = budgetNumber + "_" + clientName + "_" + date +  ".pdf";
+            regex = budgetNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
         } else {
-            fileName = "presupuesto_cliente_" + clientName + "_" + date + "_" + budgetNumber + ".pdf";
-            regex = "presupuesto_cliente_" + clientName + "_" + date + "_" + budgetNumber + "( - COPIA \\d+)?\\.pdf";
+            fileName = "p_cliente_" + budgetNumber + "_" + clientName + "_" + date + ".pdf";
+            regex = "p_cliente_" + budgetNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
         }
 
         String finalPath = fileDir + fileName;
