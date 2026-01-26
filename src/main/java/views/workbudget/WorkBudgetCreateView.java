@@ -294,7 +294,11 @@ public class WorkBudgetCreateView extends ToggleableView implements IWorkBudgetC
     }
 
     public String getProfitMargin() {
-        return finalPriceStage.getTextContentByName(FinalPriceReferences.PROFIT_MARGIN);
+        String profitMargin = finalPriceStage.getTextContentByName(FinalPriceReferences.PROFIT_MARGIN);
+        if (profitMargin == null || profitMargin.isEmpty()) {
+            profitMargin = "0.00";
+        }
+        return profitMargin;
     }
 
     public String getFinalPrice() {

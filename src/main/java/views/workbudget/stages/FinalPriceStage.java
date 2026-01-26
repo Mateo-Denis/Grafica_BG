@@ -25,7 +25,7 @@ public class FinalPriceStage extends JPanel {
     private JTextField placingTextField;
 
     public FinalPriceStage() {
-        profitTextField.setText("100");
+        profitTextField.setText("0.00");
         ((AbstractDocument) profitTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) depositTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
         ((AbstractDocument) balanceTextField.getDocument()).setDocumentFilter(new NumberInputVerifier());
@@ -77,7 +77,7 @@ public class FinalPriceStage extends JPanel {
         logisticsTextField.setText("");
         placingTextField.setText("");
         totalCostsTextField.setText("");
-        profitTextField.setText("100");
+        profitTextField.setText("0.00");
         finalPriceTextField.setText("");
         depositTextField.setText("");
         balanceTextField.setText("");

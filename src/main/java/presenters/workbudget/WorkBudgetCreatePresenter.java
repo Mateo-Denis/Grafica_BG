@@ -253,20 +253,24 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	}
 
 	private void setDepositAndBalance(boolean defaultValue, boolean depositModified){
-		FinalPriceStage finalPriceStage = workBudgetCreateView.getFinalPriceStage();
-		double finalPrice = Double.parseDouble(finalPriceStage.getTextContentByName(FINAL_PRICE));
+        FinalPriceStage finalPriceStage = workBudgetCreateView.getFinalPriceStage();
+        String finalPriceStr = finalPriceStage.getTextContentByName(FINAL_PRICE);
+        double finalPrice = safeParseDouble(finalPriceStr, 0.0);
 		double deposit;
 		double balance;
-		if(defaultValue){
-			deposit = finalPrice * 0.5;
-			balance = finalPrice * 0.5;
-		}else if(depositModified) {
-			deposit = Double.parseDouble(finalPriceStage.getTextContentByName(DEPOSIT));
-			balance = finalPrice - deposit;
-		}else{
-			balance = Double.parseDouble(finalPriceStage.getTextContentByName(BALANCE_TO_PAY));
-			deposit = finalPrice - balance;
-		}
+
+        if (defaultValue){
+            deposit = finalPrice * 0.5;
+            balance = finalPrice * 0.5;
+        } else if (depositModified) {
+            String depositStr = finalPriceStage.getTextContentByName(DEPOSIT);
+            deposit = safeParseDouble(depositStr, finalPrice * 0.5);
+            balance = finalPrice - deposit;
+        } else {
+            String balanceStr = finalPriceStage.getTextContentByName(BALANCE_TO_PAY);
+            balance = safeParseDouble(balanceStr, finalPrice * 0.5);
+            deposit = finalPrice - balance;
+        }
 
 
 		finalPriceStage.setTextContentByName(
@@ -410,5 +414,16 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		popup.add(deleteItem);
 		popup.show(table, evt.getX(), evt.getY());
 	}
+
+    private double safeParseDouble(String s, double defaultValue) {
+        if (s == null) return defaultValue;
+        s = s.trim();
+        if (s.isEmpty()) return defaultValue;
+        try {
+            return Double.parseDouble(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
 
 }
