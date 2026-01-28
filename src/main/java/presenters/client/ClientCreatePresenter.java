@@ -71,7 +71,7 @@ public class ClientCreatePresenter extends StandardPresenter {
                             city,
                             clientCreateView.getPhoneText(),
                             clientCreateView.isClientSelected());
-
+                    clientModel.queryClients("", "");
                     clientCreateView.clearView();
                     clientCreateView.hideView();
 

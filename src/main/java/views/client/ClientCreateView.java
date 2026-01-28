@@ -9,6 +9,7 @@ import views.ToggleableView;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 
+import java.awt.*;
 import static utils.WindowFormatter.relativeSizeAndCenter;
 
 public class ClientCreateView extends ToggleableView implements IClientCreateView {
@@ -145,11 +146,14 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
     public boolean isEditMode() {
         return isEditMode;
     }
+
     @Override
-    public int getEditingClientID(){
+    public int getEditingClientID() {
         return editingClientID;
     }
+
     public int getClientIDByName(String name) {
         return clientCreatePresenter.getClientIDByName(name);
     }
+
 }
