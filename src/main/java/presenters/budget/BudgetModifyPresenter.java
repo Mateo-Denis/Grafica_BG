@@ -597,7 +597,7 @@ public class BudgetModifyPresenter extends StandardPresenter {
 
     public void GeneratePDF(Client client, ArrayList<Row> tableContent, int budgetNumber) {
         try {
-            pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+            pdfConverter.generateBill( false, "", client, budgetNumber, tableContent, globalBudgetTotalPrice);
         } catch (Exception e) {
             LOGGER.log(java.util.logging.Level.SEVERE, "Error generating PDF: " + e.getMessage(), e);
         }

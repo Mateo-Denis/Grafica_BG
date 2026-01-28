@@ -19,17 +19,19 @@ import java.util.List;
 public class PdfConverter implements IPdfConverter{
     public PdfConverter(){}
     @Override
-    public void generateBill(boolean isPreview, Client client, int billNumber, ArrayList<Row> tableContent, double total) throws FileNotFoundException {
+    public void generateBill(boolean isClientEditing, String clientEditingDate, Client client, int billNumber, ArrayList<Row> tableContent, double total) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate ld = LocalDate.now();
         String formattedDate = ld.format(formatter);
         LocalDate parsedDate = LocalDate.parse(formattedDate, formatter);
+        DateTimeFormatter pdfWritedDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         String pdfName;
 
         // Generate PDF file name
-        if(isPreview){
-            pdfName = "temp_preview.pdf";
+        if(isClientEditing){
+            pdfName = client.getName() +"_"+ clientEditingDate + "_" + billNumber + ".pdf";
+
         }else {
             pdfName = client.getName() +"_"+ parsedDate + "_" + billNumber + ".pdf";
         }
@@ -39,10 +41,11 @@ public class PdfConverter implements IPdfConverter{
         CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
         String finalPath = cepdf.createDocument();
 
+
         //Create Header start
         HeaderDetails header=new HeaderDetails();
         header.setInvoiceNo(billNumber+""). // Set invoice number
-                setInvoiceDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+                setInvoiceDate(isClientEditing ? clientEditingDate : parsedDate.format(pdfWritedDate)) // Set invoice date
                 .setInvoiceTitle("")
                 .setInvoiceNoText("N° presupuesto")
                 .setInvoiceDateText("Fecha:")
@@ -91,7 +94,7 @@ public class PdfConverter implements IPdfConverter{
 
         try {
             File pdf = new File(finalPath);
-            if (pdf.exists()) {
+            if (pdf.exists() && !isClientEditing) {
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(pdf); // Opens with system default viewer
             } else {

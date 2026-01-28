@@ -71,7 +71,7 @@ public class BudgetSearchPresenter extends StandardPresenter {
         }
 
         try {
-            pdfConverter.generateBill( false, client, budgetNumber, tableContent, globalBudgetTotalPrice);
+            pdfConverter.generateBill( false, "", client, budgetNumber, tableContent, globalBudgetTotalPrice);
             budgetSearchView.showMessage(PDF_GENERATION_SUCCESS);
         } catch (Exception e) {
             LOGGER.log(null, "ERROR GENERATING BILL");

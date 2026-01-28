@@ -9,6 +9,8 @@ import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
 import utils.Client;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface IClientModel {

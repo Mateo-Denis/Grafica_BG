@@ -4,9 +4,12 @@ import models.IClientModel;
 import presenters.StandardPresenter;
 import utils.Client;
 import views.client.IClientCreateView;
+import utils.ClientUpdateService;
 
 import javax.swing.*;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static utils.MessageTypes.*;
@@ -14,11 +17,13 @@ import static utils.MessageTypes.*;
 public class ClientCreatePresenter extends StandardPresenter {
     private final IClientCreateView clientCreateView;
     private final IClientModel clientModel;
+    private final ClientUpdateService clientUpdateService;
 
-    public ClientCreatePresenter(IClientCreateView clientCreateView, IClientModel clientModel) {
+    public ClientCreatePresenter(IClientCreateView clientCreateView, IClientModel clientModel, ClientUpdateService clientUpdateService) {
         this.clientCreateView = clientCreateView;
         view = clientCreateView;
         this.clientModel = clientModel;
+        this.clientUpdateService = clientUpdateService;
 
     }
 
@@ -65,6 +70,10 @@ public class ClientCreatePresenter extends StandardPresenter {
                 if(clientCreateView.isEditMode()){
                     city = clientCreateView.getComboBoxSelectedCity();
 
+                    int oldClientID = clientCreateView.getEditingClientID();
+                    Client oldClient = clientModel.getClientByID(String.valueOf(oldClientID));
+                    String oldClientName = oldClient.getName();
+
                     clientModel.updateClient(clientCreateView.getEditingClientID(),
                             clientCreateView.getClientText(),
                             clientCreateView.getAddressText(),
@@ -72,6 +81,11 @@ public class ClientCreatePresenter extends StandardPresenter {
                             clientCreateView.getPhoneText(),
                             clientCreateView.isClientSelected());
                     clientModel.queryClients("", "");
+
+                    Client newClient = clientModel.getClientByID(String.valueOf(oldClientID));
+
+                    clientUpdateService.registrarCambioDeNombre(newClient, oldClientName, clientCreateView.getClientText());
+
                     clientCreateView.clearView();
                     clientCreateView.hideView();
 
@@ -116,6 +130,14 @@ public class ClientCreatePresenter extends StandardPresenter {
             }
             clientCreateView.getCityComboBox().setSelectedItem(toLoad.getCity());
             clientCreateView.getPhoneTextField().setText(toLoad.getPhone());
+        }
+
+        public String getIsClientTypeSelected() {
+            if (clientCreateView.isClientSelected()) {
+                return "Cliente";
+            } else {
+                return "Particular";
+            }
         }
 
         public int getClientIDByName(String clientName) {

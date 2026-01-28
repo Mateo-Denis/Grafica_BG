@@ -1,5 +1,6 @@
 package main;
 
+import PdfFormater.PdfConverter;
 import com.formdev.flatlaf.FlatLightLaf;
 import models.*;
 import models.settings.ISettingsModel;
@@ -20,6 +21,8 @@ import presenters.product.ProductSearchPresenter;
 import presenters.settings.SettingsPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import presenters.workbudget.WorkBudgetSearchPresenter;
+import utils.ClientUpdateService;
+import utils.EditPdfFileName;
 import utils.databases.*;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
@@ -66,7 +69,7 @@ public class Main {
         BudgetProductsDatabaseConnection budgetProductsDB = new BudgetProductsDatabaseConnection();
         budgetProductsDB.loadDatabase();
 
-        IClientModel clientModel = new ClientModel(clientsDB);
+        IClientModel clientModel = new ClientModel(clientsDB, budgetsDB);
         IProductModel productModel = new ProductModel(productsDB, attributesDB, categoriesDB);
         IBudgetModel budgetModel = new BudgetModel(budgetsDB, productsDB, clientsDB);
         ICategoryModel categoryModel = new CategoryModel(categoriesDB);
@@ -93,7 +96,7 @@ public class Main {
 
 
 
-        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel);
+        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel, new ClientUpdateService(budgetsDB, new PdfConverter(), new EditPdfFileName()));
         ClientListPresenter clientListPresenter = new ClientListPresenter(clientListView, clientListModel);
         ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel, settingsModel);
         ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);

@@ -26,4 +26,6 @@ public interface IClientCreateView extends IToggleableView {
     boolean isEditMode();
 
     int getEditingClientID();
+
+    String isClient();
 }

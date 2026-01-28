@@ -116,8 +116,8 @@ public class PDFOpener {
         String fileDir = System.getProperty("user.dir") + folderDir;
         String fileName = "";
         String regex = "";
-        fileName = budgetNumber + "_" + clientName + "_" + date +  ".pdf";
-        regex = budgetNumber + "_" + clientName + "_" + date + "( - COPIA \\d+)?\\.pdf";
+        fileName = clientName + "_" + date + "_" + budgetNumber +  ".pdf";
+        regex = clientName + "_" + date + "_" + budgetNumber + "( - COPIA \\d+)?\\.pdf";
 
 
         String finalPath = fileDir + fileName;

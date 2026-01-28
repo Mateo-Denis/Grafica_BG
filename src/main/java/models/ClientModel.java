@@ -9,8 +9,11 @@ import models.listeners.successful.CitiesFetchingSuccessListener;
 import models.listeners.successful.ClientCreationSuccessListener;
 import models.listeners.failed.ClientCreationEmptyFieldListener;
 import utils.Client;
+import utils.databases.BudgetsDatabaseConnection;
 import utils.databases.ClientsDatabaseConnection;
+import utils.ModifiedClientCreatePDF;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,11 +22,13 @@ import java.util.List;
 public class ClientModel implements IClientModel{
 
 	private final ClientsDatabaseConnection dbConnection;
+	private final BudgetsDatabaseConnection budgetsDbConnection;
 	private final List<ClientCreationSuccessListener> clientCreationSuccessListeners;
 	private final List<ClientCreationFailureListener> clientCreationFailureListeners;
 	private final List<ClientSearchSuccessListener> clientSearchSuccessListeners;
 	private final List<ClientSearchFailureListener> clientSearchFailureListeners;
 	private final List<ClientCreationEmptyFieldListener> clientCreationEmptyFieldListeners;
+	private static ModifiedClientCreatePDF modifiedClientCreatePDF;
 
 
 	private final List<CitiesFetchingSuccessListener> citiesFetchingSuccessListeners;
@@ -34,8 +39,9 @@ public class ClientModel implements IClientModel{
 	@Getter
     private String lastCityAdded;
 
-	public ClientModel(ClientsDatabaseConnection dbConnection) {
+	public ClientModel(ClientsDatabaseConnection dbConnection, BudgetsDatabaseConnection budgetsDbConnection) {
 		this.dbConnection = dbConnection;
+		this.budgetsDbConnection = budgetsDbConnection;
 		clients = new ArrayList<>();
 
 		this.clientCreationSuccessListeners = new LinkedList<>();
@@ -186,5 +192,4 @@ public class ClientModel implements IClientModel{
 	public Client getClientByID(String clientID) {
 		return dbConnection.getOneClient(Integer.parseInt(clientID));
 	}
-
 }

@@ -83,6 +83,14 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
         return clientRadioButton.isSelected();
     }
 
+    public String isClient() {
+        if(clientRadioButton.isSelected()) {
+            return "Cliente";
+        } else {
+            return "Particular";
+        }
+    }
+
     @Override
     public void toggleToClientRadioButton() {
         clientRadioButton.setSelected(true);

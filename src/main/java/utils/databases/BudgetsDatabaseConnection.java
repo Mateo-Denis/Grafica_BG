@@ -25,6 +25,22 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         }
     }
 
+    public ArrayList<String> getBudgetDatesByClientName(String clientName) throws SQLException {
+        ArrayList<String> budgetDates = new ArrayList<>();
+        String sql = "SELECT Fecha FROM Presupuestos WHERE Nombre_Cliente = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, clientName);
+        ResultSet resultSet = pstmt.executeQuery();
+        while (resultSet.next()) {
+            String budgetDate = resultSet.getString("Fecha");
+            budgetDates.add(budgetDate);
+        }
+        pstmt.close();
+        conn.close();
+        return budgetDates;
+    }
+
     public void insertBudget(String budgetClientName, String budgetDate, String budgetClientType, int budgetNumber, double finalPrice) throws SQLException{
         String sql = "INSERT INTO Presupuestos(Nombre_Cliente, Fecha, Tipo_Cliente, Numero_presupuesto, Precio_Total) VALUES(?, ?, ?, ?, ?)";
         Connection conn = connect();
@@ -365,5 +381,34 @@ public class BudgetsDatabaseConnection extends DatabaseConnection{
         pstmt.close();
         conn.close();
         return budget;
+    }
+
+    public ArrayList<Integer> getBudgetNumbersByClientName(String clientName) throws SQLException {
+        String sql = "SELECT Numero_presupuesto FROM Presupuestos WHERE Nombre_Cliente = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, clientName);
+        ResultSet resultSet = pstmt.executeQuery();
+        ArrayList<Integer> budgetNumbers = new ArrayList<>();
+
+        while (resultSet.next()) {
+            budgetNumbers.add(resultSet.getInt("Numero_presupuesto"));
+        }
+
+        pstmt.close();
+        conn.close();
+        return budgetNumbers;
+    }
+
+    public void updateClientNameOnBudgets(String oldName, String newName) {
+        String sql = "UPDATE Presupuestos SET Nombre_Cliente = ? WHERE Nombre_Cliente = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newName);
+            pstmt.setString(2, oldName);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
