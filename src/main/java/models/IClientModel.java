@@ -21,6 +21,8 @@ public interface IClientModel {
 	void addClientSearchSuccessListener(ClientSearchSuccessListener listener);
 	void addClientSearchFailureListener(ClientSearchFailureListener listener);
 
+	void updateClient(int clientID, String clientName, String clientAddress, String clientCity, String clientPhone, boolean isClient);
+
 	void queryClients(String searchedName, String searchedAddress);
 
 	ArrayList<Client> getLastClientsQuery();
@@ -38,4 +40,6 @@ public interface IClientModel {
 	void deleteOneClient(int clientID);
 
 	int getClientID(String clientName, String clientType);
+
+	Client getClientByID(String clientID);
 }

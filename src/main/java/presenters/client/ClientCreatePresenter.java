@@ -2,6 +2,7 @@ package presenters.client;
 
 import models.IClientModel;
 import presenters.StandardPresenter;
+import utils.Client;
 import views.client.IClientCreateView;
 
 import javax.swing.*;
@@ -57,29 +58,40 @@ public class ClientCreatePresenter extends StandardPresenter {
             //test
             boolean anyEmpty = onEmptyFields(clientCreateView.getClientTextField(), clientCreateView.getCityTextField(), clientCreateView.getCityComboBox());
 
-            if(anyEmpty)
-            {
+            if(anyEmpty) {
                 clientCreateView.showMessage(ANY_CREATION_EMPTY_FIELDS);
             } else {
 
-                if(clientCreateView.getComboBoxSelectedCity().equals("Nueva localidad"))
-                {
-                    city = clientCreateView.getCityText();
-                }
-                else
-                {
+                if(clientCreateView.isEditMode()){
                     city = clientCreateView.getComboBoxSelectedCity();
+
+                    clientModel.updateClient(clientCreateView.getEditingClientID(),
+                            clientCreateView.getClientText(),
+                            clientCreateView.getAddressText(),
+                            city,
+                            clientCreateView.getPhoneText(),
+                            clientCreateView.isClientSelected());
+
+                    clientCreateView.clearView();
+                    clientCreateView.hideView();
+
+                }else {
+                    if(clientCreateView.getComboBoxSelectedCity().equals("Nueva localidad")){
+                        city = clientCreateView.getCityText();
+                    } else {
+                        city = clientCreateView.getComboBoxSelectedCity();
+                    }
+
+                    clientModel.createClient(clientCreateView.getClientText(),
+                            clientCreateView.getAddressText(),
+                            city,
+                            clientCreateView.getPhoneText(),
+                            clientCreateView.isClientSelected());
+
+                    clientCreateView.clearView();
+
                 }
 
-
-                clientModel.createClient(clientCreateView.getClientText(),
-                        clientCreateView.getAddressText(),
-                        city,
-                        clientCreateView.getPhoneText(),
-                        clientCreateView.isClientSelected());
-
-
-                clientCreateView.clearView();
             }
             clientCreateView.setWaitingStatus();
         }
@@ -91,5 +103,26 @@ public class ClientCreatePresenter extends StandardPresenter {
                 clientCreateView.getCityTextField().setText("");
                 clientCreateView.getCityTextField().setEnabled(false);
             }
+        }
+
+        public void loadClientToEdit(String clientID) {
+            Client toLoad = clientModel.getClientByID(clientID);
+            clientCreateView.getClientTextField().setText(toLoad.getName());
+            clientCreateView.getAddressTextField().setText(toLoad.getAddress());
+            if (toLoad.isClient()) {
+                clientCreateView.toggleToClientRadioButton();
+            } else {
+                clientCreateView.toggleToParticularRadioButton();
+            }
+            clientCreateView.getCityComboBox().setSelectedItem(toLoad.getCity());
+            clientCreateView.getPhoneTextField().setText(toLoad.getPhone());
+        }
+
+        public int getClientIDByName(String clientName) {
+            int id = clientModel.getClientID(clientName, "Cliente");
+            if(id == 0){
+                id = clientModel.getClientID(clientName, "Particular");
+            }
+            return id;
         }
     }

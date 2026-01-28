@@ -1,6 +1,7 @@
 package utils;
 
 import presenters.client.BudgetHistoryPresenter;
+import views.client.ClientCreateView;
 import views.client.IClientSearchView;
 
 import java.awt.event.MouseAdapter;
@@ -12,9 +13,11 @@ import javax.swing.SwingUtilities;
 
 public class PopupMenu {
     private final IClientSearchView clientSearchView;
+    private final ClientCreateView clientCreateView;
 
-    public PopupMenu(IClientSearchView clientSearchView) {
+    public PopupMenu(IClientSearchView clientSearchView, ClientCreateView clientCreateView) {
         this.clientSearchView = clientSearchView;
+        this.clientCreateView = clientCreateView;
     }
 
     public void createPopupMenu(JTable table) {
@@ -23,6 +26,7 @@ public class PopupMenu {
 
         // Create menu items
         JMenuItem viewBudgetHistoryItem = new JMenuItem("Ver historial de presupuestos");
+        JMenuItem editClientItem = new JMenuItem("Editar cliente");
 
         // Add ActionListeners to the menu items
         viewBudgetHistoryItem.addActionListener(e -> {
@@ -32,8 +36,17 @@ public class PopupMenu {
             }
         });
 
+        editClientItem.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                clientCreateView.loadClientToEdit(clientCreateView.getClientIDByName((String) table.getValueAt(selectedRow, 0)));
+                clientCreateView.showView();
+            }
+        });
+
         // Add menu items to the popup menu
         popupMenu.add(viewBudgetHistoryItem);
+        popupMenu.add(editClientItem);
 
         // 2. Add a MouseListener to the table
         table.addMouseListener(new MouseAdapter() {

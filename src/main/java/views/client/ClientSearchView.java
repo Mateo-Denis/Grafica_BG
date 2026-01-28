@@ -33,9 +33,9 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
     private JButton deleteButton;
     private ClientSearchPresenter clientSearchPresenter;
     private final ClientListPresenter clientListPresenter;
-    private final PopupMenu popupMenu = new PopupMenu(this);
+    private final PopupMenu popupMenu;
 
-    public ClientSearchView(ClientListPresenter clientListPresenter) {
+    public ClientSearchView(ClientListPresenter clientListPresenter, ClientCreateView clientCreateView) {
         windowFrame = new JFrame("Buscar Cliente");
         windowFrame.setContentPane(containerPanel);
         windowFrame.pack();
@@ -46,6 +46,7 @@ public class ClientSearchView extends ToggleableView implements IClientSearchVie
         cambiarTamanioFuente(containerPanel, 14);
         windowFrame.setSize(470, 560);
         windowFrame.setResizable(false);
+        popupMenu = new PopupMenu(this, clientCreateView);
     }
 
     @Override

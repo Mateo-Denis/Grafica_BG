@@ -12,7 +12,18 @@ public interface IClientCreateView extends IToggleableView {
     void addCityToComboBox(String city);
     String getComboBoxSelectedCity();
     JTextField getClientTextField();
+    JTextField getAddressTextField();
+    JTextField getPhoneTextField();
     JTextField getCityTextField();
     JComboBox<String> getCityComboBox();
+
+    void toggleToClientRadioButton();
+
+    void toggleToParticularRadioButton();
+
     void clearView();
+
+    boolean isEditMode();
+
+    int getEditingClientID();
 }

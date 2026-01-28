@@ -44,6 +44,23 @@ public class ClientsDatabaseConnection extends DatabaseConnection {
         conn.close();
     }
 
+    public void updateClient(int clientID, String name, String address, String city, String phone, String clientType) throws SQLException {
+        String sql = "UPDATE Clientes SET Nombre = ?, Direccion = ?, Localidad = ?, Telefono = ?, TipoCliente = ? WHERE ID = ?";
+        Connection conn = connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1, name);
+        pstmt.setString(2, address);
+        pstmt.setString(3, city);
+        pstmt.setString(4, phone);
+        pstmt.setString(5, clientType);
+        pstmt.setInt(6, clientID);
+        pstmt.executeUpdate();
+
+        pstmt.close();
+        conn.close();
+    }
+
     public String getClientNameByID(int clientID) {
         String sql = "SELECT Nombre FROM Clientes WHERE ID = ?";
         try (Connection conn = connect();

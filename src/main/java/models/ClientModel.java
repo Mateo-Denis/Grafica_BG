@@ -63,6 +63,20 @@ public class ClientModel implements IClientModel{
 			notifyClientCreationFailure();
 		}
 	}
+ 	@Override
+	public void updateClient(int clientID, String clientName, String clientAddress, String clientCity, String clientPhone, boolean isClient) {
+		try {
+			if(isClient){
+				dbConnection.updateClient(clientID, clientName, clientAddress, clientCity, clientPhone, "Cliente");
+			}else {
+				dbConnection.updateClient(clientID, clientName, clientAddress, clientCity, clientPhone, "Particular");
+			}
+			lastCityAdded = clientCity;
+			notifyClientCreationSuccess();
+		} catch (Exception e) {
+			notifyClientCreationFailure();
+		}
+	}
 
 	public void queryClients(String clientName, String clientCity) {
 		try {
@@ -166,6 +180,11 @@ public class ClientModel implements IClientModel{
 	@Override
 	public int getClientID(String clientName, String clientType) {
 		return dbConnection.getClientID(clientName, clientType);
+	}
+
+	@Override
+	public Client getClientByID(String clientID) {
+		return dbConnection.getOneClient(Integer.parseInt(clientID));
 	}
 
 }

@@ -1,7 +1,5 @@
 package views.client;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import lombok.Getter;
 import presenters.StandardPresenter;
 import presenters.client.ClientCreatePresenter;
@@ -10,8 +8,6 @@ import views.ToggleableView;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
-
-import java.awt.*;
 
 import static utils.WindowFormatter.relativeSizeAndCenter;
 
@@ -23,6 +19,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
     private JTextField clientTextField;
     private JLabel clientLabel;
     private JPanel addressContainer;
+    @Getter
     private JTextField addressTextField;
     private JPanel cityContainer;
     private JLabel cityLabel;
@@ -30,6 +27,7 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
     private JTextField cityTextField;
     private JPanel phoneContainer;
     private JLabel phoneLabel;
+    @Getter
     private JTextField phoneTextField;
     private JRadioButton clientRadioButton;
     private JRadioButton particularRadioButton;
@@ -39,6 +37,9 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
     @Getter
     private JComboBox<String> cityComboBox;
     private ClientCreatePresenter clientCreatePresenter;
+
+    private boolean isEditMode = false;
+    private int editingClientID = -1;
 
     public ClientCreateView() {
         windowFrame = new JFrame("Crear Cliente");
@@ -81,6 +82,17 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
         return clientRadioButton.isSelected();
     }
 
+    @Override
+    public void toggleToClientRadioButton() {
+        clientRadioButton.setSelected(true);
+        particularRadioButton.setSelected(false);
+    }
+
+    @Override
+    public void toggleToParticularRadioButton() {
+        particularRadioButton.setSelected(true);
+        clientRadioButton.setSelected(false);
+    }
 
     @Override
     public void setPresenter(StandardPresenter clientCreatePresenter) {
@@ -106,6 +118,11 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
         phoneTextField.setText("");
         clientRadioButton.setSelected(true);
         particularRadioButton.setSelected(false);
+        isEditMode = false;
+        editingClientID = -1;
+        createButton.setText("Crear cliente");
+        windowFrame.setTitle("Crear cliente");
+
     }
 
     protected void wrapContainer() {
@@ -116,4 +133,23 @@ public class ClientCreateView extends ToggleableView implements IClientCreateVie
         cityComboBox.addItem(city);
     }
 
+    public void loadClientToEdit(int clientID) {
+        isEditMode = true;
+        editingClientID = clientID;
+        createButton.setText("Guardar cambios");
+        windowFrame.setTitle("Editar cliente");
+        clientCreatePresenter.loadClientToEdit(String.valueOf(clientID));
+    }
+
+    @Override
+    public boolean isEditMode() {
+        return isEditMode;
+    }
+    @Override
+    public int getEditingClientID(){
+        return editingClientID;
+    }
+    public int getClientIDByName(String name) {
+        return clientCreatePresenter.getClientIDByName(name);
+    }
 }
