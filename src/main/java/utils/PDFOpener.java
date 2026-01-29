@@ -148,4 +148,30 @@ public class PDFOpener {
         System.out.println("PDF file path: " + pdfFile.getAbsolutePath());
         return pdfFile;
     }
+
+    public void clientUpdateDeletePDFS(String folderDir, String clientName) {
+        String fileDir = System.getProperty("user.dir") + folderDir;
+
+        //Regex para buscar una copia con cualquier fecha y cualquier budget number
+        String regex = clientName + "_" + "\\d{4}-\\d{2}-\\d{2}_" + "\\d+" + ".pdf";
+         //Search for copies (fileNames containing different dates)
+        File dir = new File(fileDir);
+        System.out.println("Searching in directory of clients for deletion: " + fileDir);
+        String finalRegex = regex;
+        File[] matchingFiles = dir.listFiles((d, name) -> name.matches(finalRegex)); // Filter files matching the regex. "d" is the directory, "name" is the file name.
+
+        if (matchingFiles != null && matchingFiles.length > 0) {
+            System.out.println("Found " + matchingFiles.length + " matching files for deletion.");
+            for (File file : matchingFiles) {
+                if (file.delete()) {
+                    System.out.println("Deleted file: " + file.getName());
+                } else {
+                    System.out.println("Failed to delete file: " + file.getName());
+                }
+            }
+        } else {
+            System.out.println("No matching files found for deletion.");
+        }
+
+    }
 }

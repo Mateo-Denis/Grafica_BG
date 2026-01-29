@@ -11,22 +11,21 @@ import java.util.ArrayList;
 public class ClientUpdateService {
     private final BudgetsDatabaseConnection budgetDb;
     private final PdfConverter pdfConverter;
-    private final EditPdfFileName editPdfFileName;
+    private static final PDFOpener pdfOpener = new PDFOpener();
 
-    public ClientUpdateService(BudgetsDatabaseConnection budgetDb, PdfConverter pdfConverter, EditPdfFileName editPdfFileName) {
+    public ClientUpdateService(BudgetsDatabaseConnection budgetDb, PdfConverter pdfConverter) {
         this.budgetDb = budgetDb;
         this.pdfConverter = pdfConverter;
-        this.editPdfFileName = editPdfFileName;
     }
 
     public void registrarCambioDeNombre(Client client, String oldName, String newName) {
         // 1. Actualizar la DB de Presupuestos (Operación de base de datos)
         budgetDb.updateClientNameOnBudgets(oldName, newName);
-
+        pdfOpener.clientUpdateDeletePDFS("/PresupuestosPDF/", oldName);
         modifyClientNameOnBudgets(client, newName);
     }
 
-    public void modifyClientNameOnBudgets(Client client, String newName) {
+    private void modifyClientNameOnBudgets(Client client, String newName) {
         ArrayList<Integer> budgetNumbers = null;
         ArrayList<String> budgetDates = null;
 
@@ -46,7 +45,7 @@ public class ClientUpdateService {
         }
     }
 
-    public void GenerateModifiedPDF(String budgetDate, Client client, int budgetNumber) {
+    private void GenerateModifiedPDF(String budgetDate, Client client, int budgetNumber) {
         double total = 0.0;
         ArrayList<Row>  budgetData = getBudgetData(client.getName(), budgetNumber);
 
@@ -61,13 +60,14 @@ public class ClientUpdateService {
         }
     }
 
-    public ArrayList<Row> getBudgetData(String clientName, int budgetNumber) {
-        ArrayList<Row> budgetDateAndNumberFromFileName = new ArrayList<>();
+    private ArrayList<Row> getBudgetData(String clientName, int budgetNumber) {
         ArrayList<String> productObservations = null;
         ArrayList<Double> productPrices = null;
         ArrayList<String> productNames = null;
         ArrayList<Integer> productAmounts = null;
         ArrayList<String> productMeasures = null;
+
+        ArrayList<Row> budgetData = null;
 
         try {
             productMeasures = budgetDb.getProductMeasures(clientName, budgetNumber);
@@ -78,6 +78,17 @@ public class ClientUpdateService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return createBudgetDataList(productNames, productAmounts, productMeasures,
+                productObservations, productPrices);
+
+    }
+
+    private ArrayList<Row> createBudgetDataList(ArrayList<String> productNames, ArrayList<Integer> productAmounts,
+                                                ArrayList<String> productMeasures, ArrayList<String> productObservations,
+                                                ArrayList<Double> productPrices) {
+
+        ArrayList<Row> budgetData = new ArrayList<>();
 
         String productName = "";
         int productAmount = 0;
@@ -96,9 +107,9 @@ public class ClientUpdateService {
             totalPrice = productAmount * productPrice;
 
             row = new Row(productName, productAmount, productMeasure, productObservation, productPrice, totalPrice);
-            budgetDateAndNumberFromFileName.add(row);
+            budgetData.add(row);
         }
 
-        return budgetDateAndNumberFromFileName;
+        return budgetData;
     }
 }

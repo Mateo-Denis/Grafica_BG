@@ -22,7 +22,6 @@ import presenters.settings.SettingsPresenter;
 import presenters.workbudget.WorkBudgetCreatePresenter;
 import presenters.workbudget.WorkBudgetSearchPresenter;
 import utils.ClientUpdateService;
-import utils.EditPdfFileName;
 import utils.databases.*;
 import views.budget.BudgetCreateView;
 import views.budget.BudgetSearchView;
@@ -96,7 +95,7 @@ public class Main {
 
 
 
-        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel, new ClientUpdateService(budgetsDB, new PdfConverter(), new EditPdfFileName()));
+        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel, new ClientUpdateService(budgetsDB, new PdfConverter()));
         ClientListPresenter clientListPresenter = new ClientListPresenter(clientListView, clientListModel);
         ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel, settingsModel);
         ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);
