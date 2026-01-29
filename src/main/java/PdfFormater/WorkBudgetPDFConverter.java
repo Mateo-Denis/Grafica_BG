@@ -60,7 +60,7 @@ public class WorkBudgetPDFConverter {
         return clientsDB.getClientNameByID(clientID);
     }
 
-    public void generateWorkBill(boolean modified, int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, ArrayList<Pair<String,String>> placers,
+    public void generateWorkBill(boolean isClientEditing, String budgetDate, int billNumber,  int clientID, ArrayList<Pair<String,String>> strMaterials, Pair<String,String> logistics, ArrayList<Pair<String,String>> placers,
                                         String deposit, String balance, String budgetCost, String finalCost) throws IOException {
         initFonts();
 
@@ -73,12 +73,21 @@ public class WorkBudgetPDFConverter {
         String fechaActualYankee = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String fechaActualArg = LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
+        String fechaToUse;
+        if(isClientEditing){
+            fechaToUse = budgetDate;
+            String fechaToUseArg = LocalDate.parse(budgetDate).format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            fechaActualArg = fechaToUseArg;
+        }else {
+            fechaToUse = fechaActualYankee;
+        }
+
         File pdfsFolder = new File(actualDir + folderDir);
         if (!pdfsFolder.exists()) {
             pdfsFolder.mkdir();
         }
 
-        String outputPath = actualDir + folderDir + "p_interno_" + billNumber + "_" + clientName + "_" + fechaActualYankee + ".pdf";
+        String outputPath = actualDir + folderDir + "p_interno_" + billNumber + "_" + clientName + "_" + fechaToUse + ".pdf";
 
         PdfWriter writer = new PdfWriter(outputPath);
         PdfDocument pdf = new PdfDocument(writer);

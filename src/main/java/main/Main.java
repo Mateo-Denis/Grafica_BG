@@ -95,7 +95,7 @@ public class Main {
 
 
 
-        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel, new ClientUpdateService(budgetsDB, new PdfConverter()));
+        ClientCreatePresenter clientCreatePresenter = new ClientCreatePresenter(clientCreateView, clientModel, new ClientUpdateService(budgetsDB, workBudgetsDB));
         ClientListPresenter clientListPresenter = new ClientListPresenter(clientListView, clientListModel);
         ProductCreatePresenter productCreatePresenter = new ProductCreatePresenter(productCreateView, productModel, categoryModel, settingsModel);
         ProductListPresenter productListPresenter = new ProductListPresenter(productListView, productListModel);

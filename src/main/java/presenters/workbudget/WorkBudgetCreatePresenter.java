@@ -46,7 +46,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 	protected void initListeners() {
 		workBudgetModel.addBudgetCreationSuccessListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_CREATION_SUCCESS);
-			generateDataPDF(false);
+			generateDataPDF(false, "");
 			generateClientPDF();
 			view.hideView();
 			workBudgetCreateView.clearView();
@@ -57,7 +57,7 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		});
 		workBudgetModel.addBudgetUpdateSuccessListener(() -> {
 			workBudgetCreateView.showMessage(WORK_BUDGET_UPDATE_SUCCESS);
-			generateDataPDF(true);
+			generateDataPDF(false, "");
 			generateClientPDF();
 			view.hideView();
 			workBudgetCreateView.clearView();
@@ -141,10 +141,11 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
 		}
 	}
 
-	private void generateDataPDF(boolean isBeingModified) {
+	private void generateDataPDF(boolean isClientEditing, String workBudgetDate) {
 		try {
 			workBudgetPDFConverter.generateWorkBill(
-					isBeingModified,
+					isClientEditing,
+					workBudgetDate,
 					workBudgetCreateView.getBudgetNumberLabelValue(),
 					workBudgetCreateView.getSelectedClientId(),
 					workBudgetCreateView.getMaterialsList(),

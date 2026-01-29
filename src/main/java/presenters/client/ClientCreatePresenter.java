@@ -83,8 +83,10 @@ public class ClientCreatePresenter extends StandardPresenter {
                     clientModel.queryClients("", "");
 
                     Client newClient = clientModel.getClientByID(String.valueOf(oldClientID));
+                    int newClientID = clientModel.getClientID(newClient.getName(), clientCreateView.isClient());
 
                     clientUpdateService.registrarCambioDeNombre(newClient, oldClientName, clientCreateView.getClientText());
+                    clientUpdateService.registrarCambioDeNombreEnWorkBudgets(oldClientID, newClientID, oldClientName);
 
                     clientCreateView.clearView();
                     clientCreateView.hideView();

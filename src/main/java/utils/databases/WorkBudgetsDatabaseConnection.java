@@ -443,5 +443,85 @@ public class WorkBudgetsDatabaseConnection extends DatabaseConnection{
 		}
 	}
 
+	public WorkBudget getWorkBudget(int workBudgetID) throws SQLException {
+		String sql = """
+		SELECT PT.ID,
+			   PT.ID_Cliente,
+			   C.Nombre AS ClientName,
+			   PT.Fecha,
+			   PT.Precio_Total,
+			   PT.Numero_presupuesto
+		FROM Presupuestos_Trabajo PT
+		JOIN Clientes C ON PT.ID_Cliente = C.ID
+		WHERE PT.Numero_presupuesto = ?
+	""";
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, workBudgetID);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				return new WorkBudget(
+						rs.getInt("ID"),
+						rs.getInt("ID_Cliente"),
+						rs.getString("ClientName"),
+						rs.getString("Fecha"),
+						rs.getString("Precio_Total"),
+						rs.getInt("Numero_presupuesto")
+				);
+			} else {
+				return null; // or throw if you prefer strict behavior
+			}
+		}
+	}
+
+	public ArrayList<Integer> getWorkBudgetIDsByClientID(int clientID) throws SQLException {
+		ArrayList<Integer> budgetIDs = new ArrayList<>();
+		String sql = "SELECT Numero_presupuesto FROM Presupuestos_Trabajo WHERE ID_Cliente = ?";
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, clientID);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				budgetIDs.add(rs.getInt("Numero_presupuesto"));
+			}
+		}
+		return budgetIDs;
+	}
+
+	public ArrayList<String> getWorkBudgetDatesByClientID(int clientID) throws SQLException {
+		ArrayList<String> budgetDates = new ArrayList<>();
+		String sql = "SELECT Fecha FROM Presupuestos_Trabajo WHERE ID_Cliente = ?";
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, clientID);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				budgetDates.add(rs.getString("Fecha"));
+			}
+		}
+		return budgetDates;
+	}
+
+	public void updateClientIDOnWorkBudgets(int oldClientID, int newClientID) throws SQLException {
+		String sql = "UPDATE Presupuestos_Trabajo SET ID_Cliente = ? WHERE ID_Cliente = ?";
+
+		try (Connection conn = connect();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			pstmt.setInt(1, newClientID);
+			pstmt.setInt(2, oldClientID);
+			pstmt.executeUpdate();
+		}
+	}
+
 
 }
