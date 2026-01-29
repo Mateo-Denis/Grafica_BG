@@ -217,7 +217,9 @@ public class WorkBudgetPDFConverter {
         doc.close();
 
         //GeneratePDF
-        pdfOpener.openPDF(false, false, folderDir, billNumber, clientName, fechaActualYankee);
+        if(!isClientEditing){
+            pdfOpener.openPDF(false, false, folderDir, billNumber, clientName, fechaActualYankee);
+        }
     }
 
     // ================= UTILIDADES =================

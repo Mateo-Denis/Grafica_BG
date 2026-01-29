@@ -115,6 +115,8 @@ public class WorkBudgetClientPDFConverter {
         // Term and condition end
 
         String folderDir = "/Presupuestos_Trabajo_Clientes_PDF/";
-        pdfOpener.openPDF(false, true, folderDir, billNumber, client.getName(), fileFormattedDate);
+        if(!isClientEditing){
+            pdfOpener.openPDF(false, true, folderDir, billNumber, client.getName(), fileFormattedDate);
+        }
     }
 }
