@@ -171,6 +171,8 @@ public class WorkBudgetCreatePresenter extends StandardPresenter {
             );
 
 			workBudgetClientPDFConverter.generateBill(
+					false,
+					"",
 					workBudgetModel.getClientByID(workBudgetCreateView.getSelectedClientId()),
 					workBudgetCreateView.getBudgetNumberLabelValue(),
 					workBudgetCreateView.getClientInfoItems(),

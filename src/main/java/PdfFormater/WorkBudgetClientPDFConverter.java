@@ -30,7 +30,7 @@ public class WorkBudgetClientPDFConverter {
     String pdfName = "job_budget_client.pdf";
 */
 
-    public void generateBill(Client client, int billNumber, ArrayList<String> baseTableContent, String budgetTotal, Pair<String, String> depositAndBalance) throws FileNotFoundException {
+    public void generateBill(boolean isClientEditing, String budgetDate, Client client, int billNumber, ArrayList<String> baseTableContent, String budgetTotal, Pair<String, String> depositAndBalance) throws FileNotFoundException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         DateTimeFormatter fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -42,7 +42,24 @@ public class WorkBudgetClientPDFConverter {
         String pdfName = "p_cliente_" + billNumber + "_" + client.getName() +"_"+ fileFormattedDate + ".pdf";
 
         String imagePath="src/main/resources/BGLogo.png"; // Path to your logo image
-        CodingErrorPdfInvoiceCreator cepdf =new CodingErrorPdfInvoiceCreator(pdfName);
+        CodingErrorPdfInvoiceCreator cepdf = new CodingErrorPdfInvoiceCreator(pdfName);
+
+        if(isClientEditing && budgetDate != null && !budgetDate.isBlank()){
+            // Intentar primero ISO (yyyy-MM-dd) y si falla, usar dd-MM-yyyy
+            LocalDate budgetLd;
+            try {
+                budgetLd = LocalDate.parse(budgetDate, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (java.time.format.DateTimeParseException ex) {
+                budgetLd = LocalDate.parse(budgetDate, formatter);
+            }
+            formattedDate = budgetLd.format(formatter);
+            fileFormattedDate = budgetLd.format(fileFormatter);
+
+            // actualizar nombre de pdf si la fecha cambió
+            pdfName = "p_cliente_" + billNumber + "_" + client.getName() +"_"+ fileFormattedDate + ".pdf";
+            cepdf = new CodingErrorPdfInvoiceCreator(pdfName);
+        }
+
         cepdf.createClientWorkDocument(client.getName(), fileFormattedDate, billNumber);
 
         //Create Header start

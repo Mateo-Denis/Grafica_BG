@@ -2,6 +2,7 @@ package utils;
 
 import PdfFormater.PdfConverter;
 import PdfFormater.Row;
+import PdfFormater.WorkBudgetClientPDFConverter;
 import PdfFormater.WorkBudgetPDFConverter;
 import org.javatuples.Pair;
 import utils.databases.BudgetsDatabaseConnection;
@@ -19,6 +20,7 @@ public class ClientUpdateService {
     private static final PdfConverter pdfConverter = new PdfConverter();
     private static final WorkBudgetPDFConverter workBudgetPDFConverter = new WorkBudgetPDFConverter();
     private static final PDFOpener pdfOpener = new PDFOpener();
+    private static final WorkBudgetClientPDFConverter workBudgetClientPDFConverter = new WorkBudgetClientPDFConverter();
 
     public ClientUpdateService(BudgetsDatabaseConnection budgetDb, WorkBudgetsDatabaseConnection workBudgetDb) {
         this.budgetDb = budgetDb;
@@ -32,14 +34,15 @@ public class ClientUpdateService {
         modifyClientNameOnBudgets(client, newName);
     }
 
-    public void registrarCambioDeNombreEnWorkBudgets(int oldClientID, int newClientID, String oldClientName) {
+    public void registrarCambioDeNombreEnWorkBudgets(Client newClient, int oldClientID, int newClientID, String oldClientName) {
         try {
             workBudgetDb.updateClientIDOnWorkBudgets(oldClientID, newClientID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         pdfOpener.clientUpdateDeleteWorkPDFS("/Presupuestos_Trabajo_Internos_PDF/", oldClientName);
-        modifyClientNameOnWorkBudgets(newClientID);
+        pdfOpener.clientUpdateDeleteClientWorkPDFs("/Presupuestos_Trabajo_Clientes_PDF/", oldClientName);
+        modifyClientNameOnWorkBudgets(newClientID, newClient);
     }
 
     private void modifyClientNameOnBudgets(Client client, String newName) {
@@ -62,7 +65,7 @@ public class ClientUpdateService {
         }
     }
 
-    private void modifyClientNameOnWorkBudgets(int clientID) {
+    private void modifyClientNameOnWorkBudgets(int clientID, Client client) {
         ArrayList<Integer> workBudgetIDs = null;
         ArrayList<String> workBudgetDates = null;
 
@@ -77,7 +80,7 @@ public class ClientUpdateService {
             int workBudgetID = workBudgetIDs.get(i);
             String workBudgetDate = workBudgetDates.get(i);
             System.out.println("Testing modified PDF generation for work budget ID: " + workBudgetID);
-            GenerateWorkBudgetModifiedPDF(workBudgetID, workBudgetDate);
+            GenerateWorkBudgetModifiedPDF(client, workBudgetID, workBudgetDate);
         }
     }
 
@@ -96,7 +99,7 @@ public class ClientUpdateService {
         }
     }
 
-    private void GenerateWorkBudgetModifiedPDF(int workBudgetID, String workBudgetDate) {
+    private void GenerateWorkBudgetModifiedPDF(Client client, int workBudgetID, String workBudgetDate) {
         WorkBudgetData workBudgetData = getWorkBudgetData(workBudgetID);
         WorkBudget workBudget = getWorkBudget(workBudgetID);
         double finalPrice = Double.parseDouble(workBudget.getFinalPrice());
@@ -112,6 +115,8 @@ public class ClientUpdateService {
             workBudgetPDFConverter.generateWorkBill(true, workBudgetDate, workBudgetData.getBudgetNumber(), workBudgetData.getClientID(),
                     workBudgetData.getMaterials(), logistics, workBudgetData.getPlacers(), String.valueOf(deposit), String.valueOf(balance),
                     String.valueOf(budgetCost), String.valueOf(finalPrice));
+            workBudgetClientPDFConverter.generateBill(true, workBudgetDate, client, workBudgetID, workBudgetData.getDescriptions(),
+                    String.valueOf(finalPrice), new Pair<>(String.valueOf(deposit), String.valueOf(balance)));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
